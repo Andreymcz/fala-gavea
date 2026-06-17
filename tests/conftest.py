@@ -108,3 +108,21 @@ def agent_headers(db_session, client) -> dict:
     resp = client.post("/auth/token", data={"username": "agent@test.com", "password": "agentpass"})
     token = resp.json()["access_token"]
     return {"Authorization": f"Bearer {token}"}
+
+
+@pytest.fixture
+def admin_headers(db_session, client) -> dict:
+    """Create an admin user directly in DB and return JWT headers."""
+    ps = PasswordService()
+    user = User(
+        id=str(uuid.uuid4()),
+        email="admin@test.com",
+        password_hash=ps.hash_password("adminpass"),
+        name="Test Admin",
+        role=UserRole.admin,
+        created_at=datetime.now(UTC),
+    )
+    SQLAlchemyUserRepository(db_session).save(user)
+    resp = client.post("/auth/token", data={"username": "admin@test.com", "password": "adminpass"})
+    token = resp.json()["access_token"]
+    return {"Authorization": f"Bearer {token}"}

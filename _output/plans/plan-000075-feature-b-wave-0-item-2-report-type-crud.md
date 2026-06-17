@@ -1,4 +1,4 @@
-# Plan 000075 | FEATURE-B fala-gavea | 2026-06-17 21:39 UTC | wave-0-item-2-report-type-crud | Review: light
+# DONE | 2026-06-17 22:38 UTC | Plan 000075 | FEATURE-B fala-gavea | 2026-06-17 21:39 UTC | wave-0-item-2-report-type-crud | Review: light
 plan_format_version: 1
 
 source: roadmap-000071 -- Wave 0, Item 2: ReportType CRUD (admin endpoints + public GET + seed script)
@@ -79,7 +79,7 @@ def name_length(cls, v: str) -> str:
 - **Interface**: Exports `ReportTypeCreate`, `ReportTypeUpdate`, `ReportTypeResponse`
 - **Verify**: `uv run python -c "from fala_gavea.presentation.schemas.report_type import ReportTypeCreate, ReportTypeUpdate, ReportTypeResponse"` succeeds
 - **Tests**: Covered by Step 5 (integration tests exercise schemas via HTTP)
-- [ ] Done
+- [x] Done
 
 ---
 
@@ -127,7 +127,7 @@ Create `__init__.py` (empty).
 - **Interface**: Exports `CreateReportType`, `UpdateReportType`, `DeleteReportType` (each with `.execute()` method)
 - **Verify**: `uv run python -c "from fala_gavea.application.use_cases.report_types.create_report_type import CreateReportType"` succeeds
 - **Tests**: Covered by Step 5 (integration tests exercise use cases via HTTP)
-- [ ] Done
+- [x] Done
 
 ---
 
@@ -203,7 +203,7 @@ app.include_router(report_types_router.router, prefix="/report_types", tags=["re
 - **Interface**: Mounts at `/report_types`; 4 endpoints (GET public, POST/PATCH/DELETE admin)
 - **Verify**: `uv run uvicorn fala_gavea.presentation.api.main:app` starts without import errors; `curl http://localhost:8000/openapi.json | python -m json.tool | grep report_types` shows the new routes
 - **Tests**: Covered by Step 5
-- [ ] Done
+- [x] Done
 
 ---
 
@@ -245,7 +245,7 @@ The script uses only stdlib (`urllib.request`, `json`, `os`, `sys`) -- no httpx 
 - **Interface**: N/A (standalone script)
 - **Verify**: With server running and admin user created, `uv run python scripts/seed_report_types.py` exits 0 and `curl http://localhost:8000/report_types` returns 8 items
 - **Tests**: N/A (script is integration tooling, not tested in pytest suite)
-- [ ] Done
+- [x] Done
 
 ---
 
@@ -277,7 +277,7 @@ Create `tests/test_report_types.py` with the following test cases:
 - **Interface**: N/A
 - **Verify**: `uv run pytest tests/test_report_types.py -v` all 10 tests pass; `uv run pytest` (full suite) still green
 - **Tests**: This step IS the tests
-- [ ] Done
+- [x] Done
 
 ---
 
@@ -296,3 +296,20 @@ Perspectives applied (Essential tier for light review):
 Deferred:
 - **PERF**: N/A for PoC scale; `find_all_active` has no pagination. Deferred -- acceptable for initial implementation.
 - **DATA**: ReportType names are not PII; no sensitive data concerns in this feature.
+
+---
+
+## Implementation Summary
+
+- **Steps completed**: 5/5
+- **Tests**: 10 new tests in `tests/test_report_types.py`, all passing. Full suite: 25/25 green.
+- **Key files created**:
+  - `src/fala_gavea/presentation/schemas/report_type.py`
+  - `src/fala_gavea/application/use_cases/report_types/` (3 use cases + `__init__.py`)
+  - `src/fala_gavea/presentation/api/routers/report_types.py`
+  - `scripts/seed_report_types.py`
+  - `tests/test_report_types.py`
+- **Key files modified**:
+  - `src/fala_gavea/presentation/api/main.py` (router registered at `/report_types`)
+  - `tests/conftest.py` (`admin_headers` fixture added)
+- **Completed**: 2026-06-17 22:38 UTC

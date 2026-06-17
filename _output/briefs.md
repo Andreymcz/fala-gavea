@@ -1,5 +1,9 @@
 # Briefs Log
 
+STARTED | 2026-06-17 22:33 UTC | plan | roadmap 1 item 3
+
+STARTED | 2026-06-17 22:32 UTC | implement | plan-000075
+
 DONE | 2026-06-17 21:43 UTC | STARTED | 2026-06-17 21:39 UTC | plan | roadmap 1 item 2 | PLAN | 000075
 
 DONE | 2026-06-17 21:42 UTC | STARTED | 2026-06-17 21:37 UTC | research | add external data support via NL query using Overpass API
