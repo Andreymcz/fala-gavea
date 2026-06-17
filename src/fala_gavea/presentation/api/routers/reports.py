@@ -2,16 +2,19 @@ from __future__ import annotations
 
 from fastapi import APIRouter, Depends, HTTPException, status
 
-from fala_gavea.application.use_cases.create_report import CreateReport, CreateReportInput
-from fala_gavea.application.use_cases.delete_report import DeleteReport
-from fala_gavea.application.use_cases.get_report import GetReport
-from fala_gavea.application.use_cases.list_reports import ListReports
-from fala_gavea.domain.exceptions import ReportNotFoundError, InvalidInputError
-from fala_gavea.infrastructure.repositories.sqlalchemy_report_repository import (
-    SQLAlchemyReportRepository,
+from fala_gavea.application.use_cases.reports.create_report import CreateReport
+from fala_gavea.application.use_cases.reports.get_report import GetReport
+from fala_gavea.application.use_cases.reports.list_reports_geojson import ListReportsGeoJSON
+from fala_gavea.domain.entities.report import ReportStatus, Urgency
+from fala_gavea.domain.entities.user import User
+from fala_gavea.domain.exceptions import InvalidInputError, ReportNotFoundError, ReportTypeNotFoundError
+from fala_gavea.domain.repositories.report_repository import ReportFilters
+from fala_gavea.presentation.api.dependencies import (
+    get_current_user,
+    get_report_repo,
+    get_report_type_repo,
 )
-from fala_gavea.presentation.api.dependencies import get_report_repo
-from fala_gavea.presentation.schemas.report_schemas import ReportCreate, ReportResponse
+from fala_gavea.presentation.schemas.report import ReportCreate, ReportFiltersQuery, ReportResponse
 
 router = APIRouter()
 
@@ -19,50 +22,83 @@ router = APIRouter()
 @router.post("/", response_model=ReportResponse, status_code=status.HTTP_201_CREATED)
 def create_report(
     body: ReportCreate,
-    repo: SQLAlchemyReportRepository = Depends(get_report_repo),
+    current_user: User = Depends(get_current_user),
+    report_repo=Depends(get_report_repo),
+    report_type_repo=Depends(get_report_type_repo),
 ) -> ReportResponse:
     try:
-        entity = CreateReport(repo).execute(
-            CreateReportInput(
-                text=body.text,
-                territory_level=body.territory_level,
-                territory_name=body.territory_name,
-                author_id=body.author_id,
-            )
+        report = CreateReport(report_repo, report_type_repo).execute(
+            text=body.text,
+            lat=body.lat,
+            lon=body.lon,
+            urgency=body.urgency,
+            report_type_id=body.report_type_id,
+            author_id=current_user.id,
+            photo_url=body.photo_url,
         )
-        return ReportResponse(**entity.__dict__)
-    except InvalidInputError as e:
+        return ReportResponse(
+            id=report.id,
+            text=report.text,
+            lat=report.lat,
+            lon=report.lon,
+            urgency=report.urgency.value,
+            status=report.status.value,
+            report_type_id=report.report_type_id,
+            author_id=report.author_id,
+            photo_url=report.photo_url,
+            created_at=report.created_at,
+        )
+    except (InvalidInputError, ReportTypeNotFoundError) as e:
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e))
 
 
-@router.get("/", response_model=list[ReportResponse])
-def list_reports(
-    limit: int = 50,
-    offset: int = 0,
-    repo: SQLAlchemyReportRepository = Depends(get_report_repo),
-) -> list[ReportResponse]:
-    entities = ListReports(repo).execute(limit=limit, offset=offset)
-    return [ReportResponse(**e.__dict__) for e in entities]
+@router.get("/geojson")
+def list_reports_geojson(
+    q: ReportFiltersQuery = Depends(),
+    report_repo=Depends(get_report_repo),
+) -> dict:
+    bbox = None
+    if q.bbox:
+        try:
+            parts = [float(x) for x in q.bbox.split(",")]
+            if len(parts) != 4:
+                raise ValueError
+            bbox = tuple(parts)
+        except ValueError:
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail="bbox must be 'minLat,minLon,maxLat,maxLon'",
+            )
+    filters = ReportFilters(
+        report_type_id=q.type_id,
+        urgency=Urgency(q.urgency) if q.urgency else None,
+        status=ReportStatus(q.status) if q.status else None,
+        since=q.since,
+        until=q.until,
+        bbox=bbox,
+    )
+    return ListReportsGeoJSON(report_repo).execute(filters)
 
 
 @router.get("/{id}", response_model=ReportResponse)
 def get_report(
     id: str,
-    repo: SQLAlchemyReportRepository = Depends(get_report_repo),
+    current_user: User = Depends(get_current_user),
+    report_repo=Depends(get_report_repo),
 ) -> ReportResponse:
     try:
-        entity = GetReport(repo).execute(id)
-        return ReportResponse(**entity.__dict__)
-    except ReportNotFoundError as e:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
-
-
-@router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_report(
-    id: str,
-    repo: SQLAlchemyReportRepository = Depends(get_report_repo),
-) -> None:
-    try:
-        DeleteReport(repo).execute(id)
+        report = GetReport(report_repo).execute(id)
+        return ReportResponse(
+            id=report.id,
+            text=report.text,
+            lat=report.lat,
+            lon=report.lon,
+            urgency=report.urgency.value,
+            status=report.status.value,
+            report_type_id=report.report_type_id,
+            author_id=report.author_id,
+            photo_url=report.photo_url,
+            created_at=report.created_at,
+        )
     except ReportNotFoundError as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
