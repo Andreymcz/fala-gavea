@@ -5,7 +5,7 @@
 
 | Date | Skill | Brief | Status | Plan | Head SHA | Generated |
 |------|-------|-------|--------|------|----------|-----------|
-| 2026-06-17 21:39 UTC | plan | roadmap 1 item 2 | STARTED |  |  |  |
+| 2026-06-17 21:39 UTC | plan | roadmap 1 item 2 | DONE | 000075 |  |  |
 | 2026-06-17 21:37 UTC | research | add external data support via NL query using Overpass API | DONE |  |  |  |
 | 2026-06-17 20:41 UTC | implement | plan-000073 | DONE | 000073 |  |  |
 | 2026-06-17 20:17 UTC | plan | roadmap 1 item 1 complete | DONE | plan-000073 |  |  |

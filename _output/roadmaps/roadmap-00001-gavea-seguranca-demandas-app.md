@@ -1,5 +1,5 @@
 # Roadmap 000071 | 2026-06-17 11:55 UTC | gavea-seguranca-demandas-app
-spawned: plan-000072
+spawned: plan-000072, plan-000075
 
 supersedes: roadmap-000070 (scope ampliado demais; este roadmap foca no fluxo descrito)
 
@@ -110,7 +110,7 @@ ForwardingReport   (join table: forwarding_id, report_id)
 | # | ID | Title | Scope | Type | Plan | Status |
 |---|-----|-------|-------|------|------|--------|
 | 1 | scaffold | python-scaffold: estrutura FastAPI + dominio + auth JWT | backend | technical | plan-TBD | pending |
-| 2 | report-types | ReportType CRUD (admin): POST/GET/PATCH/DELETE /report_types | backend | technical | plan-TBD | pending |
+| 2 | report-types | ReportType CRUD (admin): POST/GET/PATCH/DELETE /report_types | backend | technical | plan-000075 | pending |
 
 **Item 1 -- Scaffold + SEJA + dominio + auth:**
 
