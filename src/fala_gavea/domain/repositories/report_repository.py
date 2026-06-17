@@ -1,19 +1,28 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+from dataclasses import dataclass, field
+from datetime import datetime
 
-from ..entities.report import Report
+from fala_gavea.domain.entities.report import Report, Urgency, ReportStatus
 
 
-class ReportRepository(ABC):
+@dataclass
+class ReportFilters:
+    report_type_id: str | None = None
+    urgency: Urgency | None = None
+    status: ReportStatus | None = None
+    since: datetime | None = None
+    until: datetime | None = None
+    bbox: tuple[float, float, float, float] | None = None  # (minLat, minLon, maxLat, maxLon)
+
+
+class IReportRepository(ABC):
     @abstractmethod
-    def save(self, entity: Report) -> Report: ...
+    def save(self, report: Report) -> Report: ...
 
     @abstractmethod
     def find_by_id(self, id: str) -> Report | None: ...
 
     @abstractmethod
-    def find_all(self, limit: int = 50, offset: int = 0) -> list[Report]: ...
-
-    @abstractmethod
-    def delete(self, id: str) -> bool: ...
+    def find_all(self, filters: ReportFilters) -> list[Report]: ...
