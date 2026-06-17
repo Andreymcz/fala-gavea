@@ -1,0 +1,111 @@
+{
+  "generated": "2026-05-03T17:09:45Z",
+  "count": 15,
+  "skills": [
+    {
+      "name": "check",
+      "description": "Run quality checks: validation, code review, smoke tests, preflight, or harness health.",
+      "argument_hint": "<validate | review | smoke | preflight | health | test-plan | docs | freshness | telemetry | semiotic-inspection> [--depth <light|standard|deep>] [--source <path>] [scope]",
+      "category": "analysis",
+      "version": "1.0.0"
+    },
+    {
+      "name": "communicate",
+      "description": "Generate tailored communication material for a specific audience segment.",
+      "argument_hint": "<audience> [--format md|html|both] [--all] [--source <advisory-file>]",
+      "category": "utility",
+      "version": "1.1.0"
+    },
+    {
+      "name": "design",
+      "description": "Define or update project design — stack, conventions, domain model, conceptual design, and standards. Use when user mentions 'design', 'design project', 'configure project', 'update design', or 'project setup'.",
+      "argument_hint": "[--mode interview] [--generate-spec] [--add-docs] [spec-file-path]",
+      "category": "planning",
+      "version": "1.0.8"
+    },
+    {
+      "name": "document",
+      "description": "Generate or update project documentation based on plan Docs: fields, auto-detection, or explicit type selection.",
+      "argument_hint": "<scope> [--plan <id>] [--auto-detect] [--type <readme|contextual-help|api-reference|drr|help-center|changelog>] [--since <ref>] [--full-history]",
+      "category": "utility",
+      "version": "1.0.0"
+    },
+    {
+      "name": "explain",
+      "description": "Explains behavior, code, data model, architecture, or spec drift with visual diagrams and analogies.",
+      "argument_hint": "<architecture|behavior|behavior-evolution|code|data-model|spec-drift> [brief]",
+      "category": "analysis",
+      "version": "1.1.0"
+    },
+    {
+      "name": "help",
+      "description": "Show contextual help, browse skills by category, or get details on a specific skill.",
+      "argument_hint": "[skill-name | --browse]",
+      "category": "utility",
+      "version": "1.0.0"
+    },
+    {
+      "name": "implement",
+      "description": "Execute a previously generated plan to add a feature, fix a bug, or refactor code. Use when user mentions \"implement\", \"execute plan\", or \"run plan\".",
+      "argument_hint": "<planned-item-id> [--manual] [--roadmap <roadmap-id>] [--pending] [--checkpoint wave|plan|none] [--max-iterations N] [--dry-run] [--skip-checks] [--skip-docs]",
+      "category": "planning",
+      "version": "1.0.0"
+    },
+    {
+      "name": "onboard",
+      "description": "Generate a tailored onboarding plan for a new team member based on their role and expertise level.",
+      "argument_hint": "<role-family> <expertise-level> [name] [--area <focus-area>] [--format md|html|both] [--all] [--all-levels <role>] [--all-roles <level>] [--batch <spec-list>]",
+      "category": "utility",
+      "version": "1.0.0"
+    },
+    {
+      "name": "pending",
+      "description": "List and address outstanding human actions from the pending ledger: verify implementations, flip status markers, run periodic curation, manage deferred work.",
+      "argument_hint": "[list|address <id>|add|done|snooze|dismiss] [args]",
+      "category": "utility",
+      "version": "1.0.0"
+    },
+    {
+      "name": "plan",
+      "description": "Make a plan to add a feature, fix a bug, or refactor code. Supports metacomm framing for design-intent briefs.",
+      "argument_hint": "<brief> [--review <light|standard|deep>] [--framing metacomm] [--light] [--plan | --roadmap [--from-spec <path>] [--auto] [--only-unimplemented]]",
+      "category": "planning",
+      "version": "1.0.0"
+    },
+    {
+      "name": "publish",
+      "description": "Publish a tagged release to the public SEJA repository via the automated publish pipeline.",
+      "argument_hint": "[version] [--dry-run] [--yes]",
+      "category": "utility",
+      "version": "1.0.0"
+    },
+    {
+      "name": "qa-log",
+      "description": "Log the entire current Q&A session into a file for future reference.",
+      "argument_hint": "brief or topic",
+      "category": "utility",
+      "version": "1.0.0"
+    },
+    {
+      "name": "reflect",
+      "description": "On-demand reflection anchored on specific plans, research reports, or other artifacts. I summarize the artifacts you choose, ask what stands out, and record your reflection.",
+      "argument_hint": "[--telemetry [--since 30d] [--skill <name>] [--dry-run]] | [--deep [scope] [--since 30d]]",
+      "category": "analysis",
+      "version": "2.0.0"
+    },
+    {
+      "name": "research",
+      "description": "Answer questions about the codebase, architecture, or design decisions, logging Q&A pairs. With --inventory, catalog codebase elements matching a pattern.",
+      "argument_hint": "<question or topic> [--inventory <pattern>] [--deep]",
+      "category": "analysis",
+      "version": "1.2.0"
+    },
+    {
+      "name": "seja-setup",
+      "description": "Manage the SEJA harness in this project: install into a new or existing codebase, finalise an in-place download, create a companion workspace, bootstrap a demo project, or upgrade harness files to the latest release. State-driven dispatch routes each invocation to the right action, preserving project-specific configuration.",
+      "argument_hint": "[<target-directory>] [--here | --workspace | --demo | --upgrade] [--version <tag>] [--dry-run]",
+      "category": "utility",
+      "version": "3.5.0"
+    }
+  ]
+}
