@@ -14,7 +14,9 @@ designer_description: "I'm the as-coded mirror of what actually shipped in fala-
 
 Implemented as a FastAPI REST API. Entry point: `src/fala_gavea/presentation/api/main.py`.
 Auth: JWT Bearer (PyJWT, HS256, 24h expiry). DB: SQLite via SQLAlchemy synchronous ORM.
-Five endpoints live: POST /auth/register, POST /auth/token, POST /reports, GET /reports/geojson, GET /reports/{id}.
+Nine endpoints live: POST /auth/register, POST /auth/token, POST /reports, GET /reports/geojson, GET /reports/{id},
+GET /report_types (public), POST /report_types (admin), PATCH /report_types/{id} (admin), DELETE /report_types/{id} (admin, soft-delete).
+Seed script: `scripts/seed_report_types.py` bootstraps 8 initial types via the HTTP API.
 
 ### 2. Entity Hierarchy
 
@@ -37,7 +39,9 @@ SQLAlchemy models in `infrastructure/database/models.py`. FK enforcement via PRA
 
 ### 3. Domain-Specific Concepts
 
-ReportType is dynamic (table-managed, not hardcoded Enum). No admin CRUD endpoints yet (Item 2).
+ReportType is dynamic (table-managed, not hardcoded Enum). Full admin CRUD implemented (Item 2):
+`CreateReportType`, `UpdateReportType`, `DeleteReportType` use cases in `application/use_cases/report_types/`.
+DELETE is soft-delete (sets active=False); GET /report_types returns only active types.
 Forwarding stub entity created; no CRUD API yet (Item 3).
 AI assistance (ChromaDB/Ollama) not yet implemented (Items 5-7).
 
@@ -45,9 +49,10 @@ AI assistance (ChromaDB/Ollama) not yet implemented (Items 5-7).
 
 JWT Bearer via PyJWT. Roles: citizen, agent, admin (UserRole enum).
 `get_current_user` and `require_role` in `presentation/api/dependencies.py`.
-Public endpoints: GET /reports/geojson, POST /auth/register, POST /auth/token.
+Public endpoints: GET /reports/geojson, POST /auth/register, POST /auth/token, GET /report_types.
 Auth-required endpoints: POST /reports (any authenticated user), GET /reports/{id} (any authenticated user).
-Admin/agent endpoints: not yet wired (Items 2 and 3).
+Admin-only endpoints: POST /report_types, PATCH /report_types/{id}, DELETE /report_types/{id}.
+Agent endpoints: not yet wired (Forwarding, Item 3).
 
 ### 5. Content Authoring & Attribution
 
@@ -80,6 +85,7 @@ Enforced at both Pydantic schema layer AND use-case layer:
 - JWT access token expiry: 24h (JWT_EXPIRY_HOURS env var, default 24)
 - Report.urgency: alta | media | baixa
 - Report.status: pendente | em_analise | encaminhado | resolvido (default: pendente)
+- ReportType.name: 3-100 chars (trimmed; enforced in both `ReportTypeCreate` schema and `CreateReportType`/`UpdateReportType` use cases)
 
 ---
 
@@ -146,3 +152,12 @@ _N/A -- nenhuma divergencia de intencao identificada._
 - **Added**: Journey Maps delta updated -- JM-TB-001 partially implemented (backend only)
 - **Source**: agent (post-skill)
 - **Plan**: plan-000073
+
+#### v3 -- 2026-06-17
+
+- **Updated**: §1 Platform Purpose -- 9 endpoints live; seed script added
+- **Updated**: §3 Domain-Specific Concepts -- ReportType CRUD implemented (use cases, router)
+- **Updated**: §4 Permission Model -- admin endpoints wired; GET /report_types public
+- **Updated**: §10 Validation Constants -- ReportType.name 3-100 chars added
+- **Source**: agent (post-skill)
+- **Plan**: plan-000075
