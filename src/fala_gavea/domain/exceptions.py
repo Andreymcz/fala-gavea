@@ -10,3 +10,31 @@ class ReportNotFoundError(DomainError):
 
 class InvalidInputError(DomainError):
     pass
+
+
+class UserNotFoundError(DomainError):
+    def __init__(self, id: str) -> None:
+        super().__init__(f"User not found: {id}")
+        self.id = id
+
+
+class UserAlreadyExistsError(DomainError):
+    def __init__(self, email: str) -> None:
+        super().__init__(f"User already exists: {email}")
+        self.email = email
+
+
+class ReportTypeNotFoundError(DomainError):
+    def __init__(self, id: str) -> None:
+        super().__init__(f"ReportType not found: {id}")
+        self.id = id
+
+
+class InvalidCredentialsError(DomainError):
+    def __init__(self) -> None:
+        super().__init__("Invalid credentials")
+
+
+class PermissionDeniedError(DomainError):
+    def __init__(self, message: str = "Permission denied") -> None:
+        super().__init__(message)

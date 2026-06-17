@@ -1,42 +1,56 @@
 from __future__ import annotations
 
 import uuid
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import UTC, datetime
 from enum import Enum
 
 
-class TerritoryLevel(str, Enum):
-    NEIGHBORHOOD = "neighborhood"
-    DISTRICT = "district"
-    CITY = "city"
+class Urgency(str, Enum):
+    alta = "alta"
+    media = "media"
+    baixa = "baixa"
+
+
+class ReportStatus(str, Enum):
+    pendente = "pendente"
+    em_analise = "em_analise"
+    encaminhado = "encaminhado"
+    resolvido = "resolvido"
 
 
 @dataclass
 class Report:
     id: str
     text: str
-    territory_level: TerritoryLevel
-    territory_name: str
+    lat: float
+    lon: float
+    urgency: Urgency
+    photo_url: str | None
+    report_type_id: str
     author_id: str
+    status: ReportStatus
     created_at: datetime
-    # AI-enrichment extension points (populated by pipeline, not by human input)
-    ai_labels: list[str] = field(default_factory=list)
-    label_feedback: dict[str, bool] = field(default_factory=dict)
-    likes_count: int = 0
 
     @staticmethod
     def create(
         text: str,
-        territory_level: TerritoryLevel,
-        territory_name: str,
+        lat: float,
+        lon: float,
+        urgency: Urgency,
+        report_type_id: str,
         author_id: str,
+        photo_url: str | None = None,
     ) -> Report:
         return Report(
             id=str(uuid.uuid4()),
             text=text,
-            territory_level=territory_level,
-            territory_name=territory_name,
+            lat=lat,
+            lon=lon,
+            urgency=urgency,
+            photo_url=photo_url,
+            report_type_id=report_type_id,
             author_id=author_id,
+            status=ReportStatus.pendente,
             created_at=datetime.now(UTC),
         )
