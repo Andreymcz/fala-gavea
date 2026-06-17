@@ -1,68 +1,84 @@
 from __future__ import annotations
 
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from ...domain.entities.report import Report, TerritoryLevel
-from ...domain.repositories.report_repository import ReportRepository
-from ..database.models import ReportModel
+from fala_gavea.domain.entities.report import Report, Urgency, ReportStatus
+from fala_gavea.domain.repositories.report_repository import IReportRepository, ReportFilters
+from fala_gavea.infrastructure.database.models import ReportModel
 
 
-class SQLAlchemyReportRepository(ReportRepository):
+class SQLAlchemyReportRepository(IReportRepository):
     def __init__(self, session: Session) -> None:
         self._session = session
 
-    def save(self, entity: Report) -> Report:
-        model = self._to_model(entity)
-        self._session.merge(model)
+    def save(self, report: Report) -> Report:
+        model = self._session.get(ReportModel, report.id)
+        if model is None:
+            model = self._to_model(report)
+            self._session.add(model)
+        else:
+            # update existing
+            model.text = report.text
+            model.lat = report.lat
+            model.lon = report.lon
+            model.urgency = report.urgency.value
+            model.photo_url = report.photo_url
+            model.status = report.status.value
         self._session.commit()
-        return entity
+        self._session.refresh(model)
+        return self._to_entity(model)
 
     def find_by_id(self, id: str) -> Report | None:
         model = self._session.get(ReportModel, id)
         return self._to_entity(model) if model else None
 
-    def find_all(self, limit: int = 50, offset: int = 0) -> list[Report]:
-        models = (
-            self._session.query(ReportModel)
-            .order_by(ReportModel.created_at.desc())
-            .offset(offset)
-            .limit(limit)
-            .all()
+    def find_all(self, filters: ReportFilters) -> list[Report]:
+        stmt = select(ReportModel)
+        if filters.report_type_id is not None:
+            stmt = stmt.where(ReportModel.report_type_id == filters.report_type_id)
+        if filters.urgency is not None:
+            stmt = stmt.where(ReportModel.urgency == filters.urgency.value)
+        if filters.status is not None:
+            stmt = stmt.where(ReportModel.status == filters.status.value)
+        if filters.since is not None:
+            stmt = stmt.where(ReportModel.created_at >= filters.since)
+        if filters.until is not None:
+            stmt = stmt.where(ReportModel.created_at <= filters.until)
+        if filters.bbox is not None:
+            min_lat, min_lon, max_lat, max_lon = filters.bbox
+            stmt = stmt.where(
+                ReportModel.lat >= min_lat,
+                ReportModel.lat <= max_lat,
+                ReportModel.lon >= min_lon,
+                ReportModel.lon <= max_lon,
+            )
+        return [self._to_entity(m) for m in self._session.scalars(stmt).all()]
+
+    def _to_model(self, report: Report) -> ReportModel:
+        return ReportModel(
+            id=report.id,
+            text=report.text,
+            lat=report.lat,
+            lon=report.lon,
+            urgency=report.urgency.value,
+            photo_url=report.photo_url,
+            report_type_id=report.report_type_id,
+            author_id=report.author_id,
+            status=report.status.value,
+            created_at=report.created_at,
         )
-        return [self._to_entity(m) for m in models]
 
-    def delete(self, id: str) -> bool:
-        model = self._session.get(ReportModel, id)
-        if model is None:
-            return False
-        self._session.delete(model)
-        self._session.commit()
-        return True
-
-    @staticmethod
-    def _to_entity(model: ReportModel) -> Report:
+    def _to_entity(self, model: ReportModel) -> Report:
         return Report(
             id=model.id,
             text=model.text,
-            territory_level=TerritoryLevel(model.territory_level),
-            territory_name=model.territory_name,
+            lat=model.lat,
+            lon=model.lon,
+            urgency=Urgency(model.urgency),
+            photo_url=model.photo_url,
+            report_type_id=model.report_type_id,
             author_id=model.author_id,
+            status=ReportStatus(model.status),
             created_at=model.created_at,
-            ai_labels=model.ai_labels or [],
-            label_feedback=model.label_feedback or {},
-            likes_count=model.likes_count or 0,
-        )
-
-    @staticmethod
-    def _to_model(entity: Report) -> ReportModel:
-        return ReportModel(
-            id=entity.id,
-            text=entity.text,
-            territory_level=entity.territory_level,
-            territory_name=entity.territory_name,
-            author_id=entity.author_id,
-            created_at=entity.created_at,
-            ai_labels=entity.ai_labels,
-            label_feedback=entity.label_feedback,
-            likes_count=entity.likes_count,
         )
