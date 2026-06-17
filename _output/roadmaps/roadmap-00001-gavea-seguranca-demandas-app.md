@@ -1,5 +1,5 @@
 # Roadmap 000071 | 2026-06-17 11:55 UTC | gavea-seguranca-demandas-app
-spawned: plan-000072, plan-000075
+spawned: plan-000072, plan-000075, plan-000079
 
 supersedes: roadmap-000070 (scope ampliado demais; este roadmap foca no fluxo descrito)
 
@@ -183,7 +183,7 @@ Testes: CRUD completo; DELETE nao remove fisicamente; GET retorna apenas active=
 
 | # | ID | Title | Scope | Type | Plan | Depends on | Status |
 |---|-----|-------|-------|------|------|-----------|--------|
-| 3 | forwarding | Forwarding CRUD: criar encaminhamento a partir de relatos selecionados | backend | technical | plan-TBD | scaffold | pending |
+| 3 | forwarding | Forwarding CRUD: criar encaminhamento a partir de relatos selecionados | backend | technical | plan-000079 | scaffold | pending |
 | 4 | agent-ui | Frontend: mapa de relatos + painel de encaminhamentos para agente | frontend | technical | plan-TBD | forwarding | pending |
 
 **Item 3 -- Forwarding CRUD:**
