@@ -23,9 +23,9 @@ class LoginUser:
     def execute(self, email: str, password: str) -> str:
         user = self._user_repo.find_by_email(email)
         if user is None:
-            raise InvalidCredentialsError("Invalid credentials")
+            raise InvalidCredentialsError()
         if not self._password_service.verify_password(password, user.password_hash):
-            raise InvalidCredentialsError("Invalid credentials")
+            raise InvalidCredentialsError()
         return self._jwt_service.create_access_token(
             user.id,
             user.role.value,
