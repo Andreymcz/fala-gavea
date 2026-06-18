@@ -1,5 +1,7 @@
 # Briefs Log
 
+DONE | 2026-06-18 20:49 UTC | STARTED | 2026-06-18 20:04 UTC | plan | roadmap 1 wave 2: preparar o sistema para operacoes em espaco semantico (busca de similares, RAG, clusterizacao); modelos diferentes por aplicacao (BERTopic para topicos, embeddings para similaridade/RAG); ao criar relato adicionar aos espacos semanticos
+
 DONE | 2026-06-18 19:40 UTC | STARTED | 2026-06-18 19:28 UTC | reflect | estado atual implementado no sistema, frente ao roadmap. o que falta ?
 
 DONE | 2026-06-18 17:36 UTC | STARTED | 2026-06-18 17:29 UTC | implement | 85 | PLAN | 000085
