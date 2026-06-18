@@ -1,5 +1,7 @@
 # Briefs Log
 
+DONE | 2026-06-18 16:58 UTC | STARTED | 2026-06-18 16:52 UTC | plan | default users seed scripts admin, citzen01, agente . senha igual ao nome. | PLAN | 000084
+
 DONE | 2026-06-18 16:17 UTC | STARTED | 2026-06-18 14:23 UTC | implement | 82 | PLAN | 000082
 
 DONE | 2026-06-18 14:19 UTC | STARTED | 2026-06-18 14:04 UTC | plan | roadmap 71 item 4: frontend com tecnologias modernas (fugir de paginas estaticas, visual mais fluido e moderno) | PLAN | 000082
