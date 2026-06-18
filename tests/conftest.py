@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import os
+import uuid
+from datetime import UTC, datetime
 
 # Must be set before any fala_gavea imports that instantiate JWTService
 os.environ.setdefault("JWT_SECRET_KEY", "test-secret-key-for-testing")
@@ -9,7 +11,7 @@ os.environ.setdefault("DATABASE_URL", "sqlite:///:memory:")
 import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
-from sqlalchemy.orm import Session, sessionmaker
+from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
 
 import fala_gavea.infrastructure.database.session as _db_mod
@@ -35,9 +37,6 @@ from fala_gavea.presentation.api.main import create_app  # noqa: E402
 from fala_gavea.domain.entities.report_type import ReportType  # noqa: E402
 from fala_gavea.domain.entities.user import User, UserRole  # noqa: E402
 from fala_gavea.infrastructure.auth.password_service import PasswordService  # noqa: E402
-
-import uuid
-from datetime import datetime, UTC
 
 
 @pytest.fixture(autouse=True)
