@@ -18,7 +18,7 @@ Fourteen endpoints live: POST /auth/register, POST /auth/token, POST /reports, G
 GET /report_types (public), POST /report_types (admin), PATCH /report_types/{id} (admin), DELETE /report_types/{id} (admin, soft-delete),
 POST /forwardings (agent+admin), GET /forwardings (agent+admin), GET /forwardings/{id} (agent+admin),
 PATCH /forwardings/{id} (agent+admin), PATCH /forwardings/{id}/status (agent+admin).
-Seed script: `scripts/seed_report_types.py` bootstraps 8 initial types via the HTTP API.
+Seed scripts: `scripts/seed_report_types.py` bootstraps 8 initial types via HTTP API; `scripts/seed_users.py` inserts 3 dev users (admin/citizen01/agente) directly via SQLAlchemy (bypasses API role restriction); `scripts/seed_relatos.py` ingests CSV scenario files or built-in templates and replicates corpus with lat/lon+date jitter to reach `--count` (default 10 000) reports spanning the past 365 days, inserted directly into SQLite. CSV schema documented in `seeds/relatos/SCHEMA.md`.
 
 ### 2. Entity Hierarchy
 
@@ -195,3 +195,9 @@ _N/A -- nenhuma divergencia de intencao identificada._
 - **Updated**: §8 User Experience Patterns -- SPA implemented (React+Vite+TS, 4 screens, journeys JM-TB-001 + JM-TB-002 complete)
 - **Source**: agent (post-skill)
 - **Plan**: plan-000082
+
+#### v6 -- 2026-06-18
+
+- **Updated**: §1 Platform Purpose -- seed scripts expanded: seed_users.py (direct-DB user seeding for admin/agent roles) and seed_relatos.py (CSV + synthetic corpus replication, 10k reports, 1-year date spread)
+- **Source**: agent (post-skill)
+- **Plan**: plan-000085

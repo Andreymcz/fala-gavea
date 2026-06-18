@@ -1,6 +1,6 @@
 # Briefs Log
 
-STARTED | 2026-06-18 17:29 UTC | implement | 85
+DONE | 2026-06-18 17:36 UTC | STARTED | 2026-06-18 17:29 UTC | implement | 85 | PLAN | 000085
 
 DONE | 2026-06-18 17:08 UTC | STARTED | 2026-06-18 17:03 UTC | plan | seed relatos. quero criar um seed grande, com invervalo de 1 ano de dados. (a api permite entra com data ? ) se n permitir temos que criar diretamente no banco. | PLAN | 000085
 
