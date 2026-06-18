@@ -4,6 +4,8 @@ import "leaflet/dist/leaflet.css";
 import type { MapFilters } from "./FiltersSidebar";
 import { FiltersSidebar } from "./FiltersSidebar";
 import { ReportMarkers } from "./ReportMarkers";
+import { SelectionBar } from "./SelectionBar";
+import { CreateForwardingDialog } from "./CreateForwardingDialog";
 import { useReports } from "@/hooks/useReports";
 import { useReportTypes } from "@/hooks/useReportTypes";
 import { useAuth } from "@/auth/AuthContext";
@@ -28,6 +30,7 @@ export function MapPage() {
 
   const [mapFilters, setMapFilters] = useState<MapFilters>({});
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [showCreateDialog, setShowCreateDialog] = useState(false);
 
   const apiFilters = filtersToApiFilters(mapFilters);
   const { data: geojson, isLoading } = useReports(apiFilters);
@@ -46,6 +49,10 @@ export function MapPage() {
       }
       return next;
     });
+  }
+
+  function clearSelection() {
+    setSelectedIds(new Set());
   }
 
   return (
@@ -90,6 +97,15 @@ export function MapPage() {
           />
         </MapContainer>
 
+        {/* Agent selection bar */}
+        {isAgent && (
+          <SelectionBar
+            count={selectedIds.size}
+            onCreateForwarding={() => setShowCreateDialog(true)}
+            onClear={clearSelection}
+          />
+        )}
+
         {/* Wave-2 placeholder: chat affordance */}
         <div
           className="absolute bottom-4 left-4 z-[1000] opacity-50 cursor-not-allowed"
@@ -100,6 +116,16 @@ export function MapPage() {
           </div>
         </div>
       </div>
+
+      {/* Create forwarding dialog */}
+      {isAgent && (
+        <CreateForwardingDialog
+          open={showCreateDialog}
+          selectedIds={Array.from(selectedIds)}
+          onSuccess={clearSelection}
+          onClose={() => setShowCreateDialog(false)}
+        />
+      )}
     </div>
   );
 }
