@@ -25,3 +25,11 @@ Append-only cross-iteration learnings. Each subagent reads this file at the star
 - UserResponse schema had role field: yes (already present as `role: str` in `presentation/schemas/auth.py`)
 - Pre-existing bug fixed: `jwt_service.py` was calling `InvalidCredentialsError("Token expired")` / `InvalidCredentialsError("Invalid token")` but `InvalidCredentialsError.__init__()` takes no arguments. Fixed to `InvalidCredentialsError()`. This bug was latent and exposed by the new `test_me_invalid_token` test.
 - 11 tests pass (6 pre-existing + 3 new /auth/me tests + 2 new SPA tests); ruff clean.
+
+## Step 2 (Vite Scaffold)
+- STATUS: SUCCESS
+- npm install: success (408 packages, warnings about deprecated deps — not blocking)
+- npm run build: success, static/ created: yes (static/index.html + static/assets/)
+- First npm install attempt failed with EBUSY on esbuild.exe (Windows file lock from partial install); second attempt succeeded without intervention
+- Tailwind warning "No utility classes detected" is expected for placeholder src files — not an error
+- node_modules/ and static/ correctly gitignored via .gitignore additions

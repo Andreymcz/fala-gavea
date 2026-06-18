@@ -151,7 +151,7 @@ there. **Confirm the exact depth during implementation** by printing `STATIC_DIR
 - **Verify**: `uv run pytest tests/test_auth.py tests/test_static_spa.py -v` green; `uv run ruff check src/ tests/` clean
 - **Tests**: `GET /auth/me` returns the registered user's email+role with a valid token; returns 401 without/with bad token. SPA fallback test creates a temp `static/index.html`, reloads app, asserts unknown path returns the index HTML while `/auth/me` still 401s (API precedence). If patching `STATIC_DIR` at runtime is awkward, assert the helper no-ops when dir absent and unit-test the resolution logic.
 - **Traces**: JM-TB-002, US-002
-- [ ] Done
+- [x] Done
 
 ---
 
@@ -194,7 +194,7 @@ Tailwind config scans `./index.html` and `./src/**/*.{ts,tsx}`. Add `.gitignore`
 - **Verify**: `cd frontend && npm install && npm run build` produces `static/index.html` + `static/assets/`; `npm run lint` clean
 - **Tests**: N/A (tooling/config only)
 - **Docs**: covered in Step 11 (README build/run section)
-- [ ] Done
+- [x] Done
 
 ---
 
