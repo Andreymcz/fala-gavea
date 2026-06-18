@@ -1,4 +1,4 @@
-# Plan 000082 | FEATURE-F fala-gavea | 2026-06-18 14:04 UTC | wave-1-item-4-frontend-spa-react | Review: standard
+# DONE | 2026-06-18 16:00 UTC | Plan 000082 | FEATURE-F fala-gavea | 2026-06-18 14:04 UTC | wave-1-item-4-frontend-spa-react | Review: standard
 plan_format_version: 1
 
 source: roadmap-00001 -- Wave 1, Item 4: Frontend (mapa de relatos + painel de encaminhamentos). User brief supersedes D-006 (static HTML + Leaflet + Alpine.js) with a modern SPA stack.

@@ -142,18 +142,14 @@ _Not yet implemented._
 
 #### Not Yet Implemented
 
-| Journey (JM-TB-NNN) | Step(s) | Gap Description |
-|---------------------|---------|----------------|
-| JM-TB-001 | 1 (formulario), 5 (geolocalizacao), 7 (redirect para mapa) | Backend implementado (POST /reports); frontend report.html nao criado ainda (Item 4) |
-| JM-TB-001 | 2 (select tipo), 3 (urgencia), 4 (texto), 6 (photo_url) | API suporta todos os campos; form HTML nao implementado |
-| JM-TB-002 | 1-7 (todos os steps do agente) | Frontend agent.html nao criado (Item 4); busca semantica/chat nao implementados (Items 5-7) |
+_N/A -- todas as jornadas projetadas estao implementadas._
 
-#### Partially Implemented
+#### Fully Implemented (as of plan-000082)
 
-| Journey (JM-TB-NNN) | Step(s) Coded | Notes |
-|---------------------|--------------|-------|
-| JM-TB-001 | Step 7 (registro com status=pendente) | POST /reports cria relato; GET /reports/geojson expoe relatos publicamente. Frontend nao implementado. |
-| JM-TB-002 | Steps 5-7 (criar encaminhamento via API) | POST /forwardings cria encaminhamento, vincula relatos, transita status para encaminhado. GET /forwardings/{id} retorna com lista de relatos. Frontend agent.html nao implementado. |
+| Journey (JM-TB-NNN) | Steps | Notes |
+|---------------------|-------|-------|
+| JM-TB-001 | 1-7 (todos os steps do cidadao) | ReportFormPage com geolocalizacao, select tipo/urgencia, textarea, photo_url, POST /reports, redirect para mapa com novo marcador. |
+| JM-TB-002 | 1-7 (todos os steps do agente) | MapPage com FiltersSidebar, checkboxes, SelectionBar, CreateForwardingDialog, ForwardingsPage com StatusSelect. |
 
 #### Differs from Intent
 

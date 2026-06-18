@@ -3,7 +3,6 @@ from __future__ import annotations
 import uuid
 from datetime import UTC, datetime
 
-import pytest
 
 from fala_gavea.domain.entities.report_type import ReportType
 from fala_gavea.infrastructure.repositories.sqlalchemy_report_type_repository import (
