@@ -38,3 +38,9 @@ class InvalidCredentialsError(DomainError):
 class PermissionDeniedError(DomainError):
     def __init__(self, message: str = "Permission denied") -> None:
         super().__init__(message)
+
+
+class ForwardingNotFoundError(DomainError):
+    def __init__(self, id: str) -> None:
+        super().__init__(f"Forwarding not found: {id}")
+        self.id = id

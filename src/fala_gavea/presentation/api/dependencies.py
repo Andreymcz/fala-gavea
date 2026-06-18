@@ -8,6 +8,7 @@ from sqlalchemy.orm import Session
 
 from fala_gavea.domain.entities.user import User
 from fala_gavea.domain.exceptions import InvalidCredentialsError
+from fala_gavea.domain.repositories.forwarding_repository import IForwardingRepository
 from fala_gavea.domain.repositories.report_repository import IReportRepository
 from fala_gavea.domain.repositories.report_type_repository import IReportTypeRepository
 from fala_gavea.domain.repositories.user_repository import IUserRepository
@@ -79,6 +80,23 @@ def require_role(role: str):
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail=f"Role '{role}' required",
+            )
+        return current_user
+    return _check
+
+
+def get_forwarding_repo(db: Session = Depends(get_db)) -> IForwardingRepository:
+    from fala_gavea.infrastructure.repositories.sqlalchemy_forwarding_repository import SQLAlchemyForwardingRepository
+    return SQLAlchemyForwardingRepository(db)
+
+
+def require_any_role(*roles: str):
+    """Returns a dependency that raises 403 if current_user.role not in roles."""
+    def _check(current_user: User = Depends(get_current_user)) -> User:
+        if current_user.role.value not in roles:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail=f"One of the following roles required: {', '.join(roles)}",
             )
         return current_user
     return _check
