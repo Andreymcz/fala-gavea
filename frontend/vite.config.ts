@@ -5,6 +5,11 @@ import path from "path";
 export default defineConfig({
   plugins: [react()],
   build: { outDir: "../static", emptyOutDir: true },
+  test: {
+    environment: "jsdom",
+    globals: true,
+    setupFiles: [],
+  },
   server: {
     port: 5173,
     proxy: Object.fromEntries(

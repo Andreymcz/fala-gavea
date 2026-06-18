@@ -218,7 +218,7 @@ and WCAG AA contrast.
 - **Interface**: Exports UI primitives from `@/components/ui/*` and `cn` from `@/lib/utils`; `useToast()` hook + `<Toaster/>` mount point
 - **Verify**: `npm run build` succeeds; a temporary render of `<Button>`/`<Badge>` shows palette colors
 - **Tests**: covered by component tests in later steps (Badge variants asserted in Step 9 StatusSelect test context)
-- [ ] Done
+- [x] Done
 
 ---
 
@@ -254,7 +254,7 @@ attaches `Authorization: Bearer <token>` from `localStorage["fala_gavea_token"]`
 - **Interface**: Exports `api` object (typed methods above), `ApiError`, the `QueryClient` instance, and all shared TS types
 - **Verify**: `npm run test -- api` passes; `npm run build` typechecks clean
 - **Tests**: when `api.login` is called, it sends a urlencoded body with `username`/`password` and stores nothing itself (storage is AuthContext's job); when a request gets 401, `ApiError` is thrown and the `auth:unauthorized` event fires (assert via mocked `fetch` + event listener)
-- [ ] Done
+- [x] Done
 
 ---
 

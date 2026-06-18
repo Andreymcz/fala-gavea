@@ -33,3 +33,18 @@ Append-only cross-iteration learnings. Each subagent reads this file at the star
 - First npm install attempt failed with EBUSY on esbuild.exe (Windows file lock from partial install); second attempt succeeded without intervention
 - Tailwind warning "No utility classes detected" is expected for placeholder src files — not an error
 - node_modules/ and static/ correctly gitignored via .gitignore additions
+
+## Step 3 (UI Primitives)
+- STATUS: SUCCESS
+- Components created: button.tsx, input.tsx, textarea.tsx, label.tsx, select.tsx, dialog.tsx, toast.tsx, toaster.tsx, card.tsx, table.tsx, badge.tsx
+- Also created: src/lib/utils.ts (cn helper), updated src/index.css (Tailwind @layer base)
+- Build succeeded: yes (30 modules transformed, 142.62 kB JS + 15.79 kB CSS)
+- Toast approach: custom store (not Radix) for simpler test integration
+
+## Step 4 (API client)
+- STATUS: SUCCESS
+- Tests passed: yes (4/4)
+- Build typecheck: clean (30 modules, 142.62 kB JS)
+- Key API patterns: login uses URLSearchParams (OAuth2PasswordRequestForm), 401 dispatches auth:unauthorized event
+- Fix applied: added `frontend/src/vite-env.d.ts` with `/// <reference types="vite/client" />` — was missing, causing `ImportMeta.env` TS error
+- vite.config.ts updated with `test: { environment: "jsdom" }` so localStorage/window are available in vitest
