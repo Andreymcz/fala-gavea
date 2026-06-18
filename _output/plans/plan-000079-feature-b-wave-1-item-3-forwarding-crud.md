@@ -1,4 +1,4 @@
-# Plan 000079 | FEATURE-B fala-gavea | 2026-06-17 22:33 UTC | wave-1-item-3-forwarding-crud | Review: light
+# DONE | 2026-06-18 13:42 UTC | Plan 000079 | FEATURE-B fala-gavea | 2026-06-17 22:33 UTC | wave-1-item-3-forwarding-crud | Review: light
 plan_format_version: 1
 
 source: roadmap-000071 -- Wave 1, Item 3: Forwarding CRUD (agent creates encaminhamento from selected reports)
@@ -121,7 +121,7 @@ def require_any_role(*roles: str):
 - **Interface**: Exports `ForwardingFilters`, `IForwardingRepository` (domain); `ForwardingNotFoundError` (exceptions); `get_forwarding_repo`, `require_any_role` (dependencies)
 - **Verify**: `uv run python -c "from fala_gavea.domain.repositories.forwarding_repository import IForwardingRepository, ForwardingFilters; from fala_gavea.domain.exceptions import ForwardingNotFoundError"` succeeds
 - **Tests**: Covered by Step 5
-- [ ] Done
+- [x] Done
 
 ---
 
@@ -200,7 +200,7 @@ Note: `ForwardingStatus` is `str, Enum` so `f.status.value == f.status` -- eithe
 - **Interface**: Exports `SQLAlchemyForwardingRepository` implementing `IForwardingRepository`
 - **Verify**: `uv run python -c "from fala_gavea.infrastructure.repositories.sqlalchemy_forwarding_repository import SQLAlchemyForwardingRepository"` succeeds
 - **Tests**: Covered by Step 5
-- [ ] Done
+- [x] Done
 
 ---
 
@@ -284,7 +284,7 @@ class ForwardingResponse(BaseModel):
 - **Interface**: Exports `ForwardingCreate`, `ForwardingUpdate`, `ForwardingStatusUpdate`, `ReportSummary`, `ForwardingResponse`
 - **Verify**: `uv run python -c "from fala_gavea.presentation.schemas.forwarding import ForwardingCreate, ForwardingResponse"` succeeds
 - **Tests**: Covered by Step 5
-- [ ] Done
+- [x] Done
 
 ---
 
@@ -353,7 +353,7 @@ execute(id, status_str) -> Forwarding:
 - **Interface**: Exports `CreateForwarding`, `GetForwarding`, `ListForwardings`, `UpdateForwarding`, `UpdateForwardingStatus` (each with `.execute()`)
 - **Verify**: `uv run python -c "from fala_gavea.application.use_cases.forwardings.create_forwarding import CreateForwarding"` succeeds
 - **Tests**: Covered by Step 5
-- [ ] Done
+- [x] Done
 
 ---
 
@@ -451,7 +451,7 @@ references it without re-adding it. Run `/implement plan-000075` before implemen
 - **Interface**: Mounts at `/forwardings`; 5 endpoints (all agent+admin)
 - **Verify**: `uv run pytest tests/test_forwardings.py -v` all 13 tests pass; full suite green
 - **Tests**: This step IS the tests
-- [ ] Done
+- [x] Done
 
 ---
 
