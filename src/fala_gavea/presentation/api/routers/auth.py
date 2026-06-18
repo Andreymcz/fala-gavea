@@ -5,8 +5,10 @@ from fastapi.security import OAuth2PasswordRequestForm
 
 from fala_gavea.application.use_cases.auth.login_user import LoginUser
 from fala_gavea.application.use_cases.auth.register_user import RegisterUser
+from fala_gavea.domain.entities.user import User
 from fala_gavea.domain.exceptions import InvalidCredentialsError, UserAlreadyExistsError
 from fala_gavea.presentation.api.dependencies import (
+    get_current_user,
     get_jwt_service,
     get_password_service,
     get_user_repo,
@@ -55,3 +57,14 @@ def login(
             detail=str(e),
             headers={"WWW-Authenticate": "Bearer"},
         )
+
+
+@router.get("/me", response_model=UserResponse)
+def me(current_user: User = Depends(get_current_user)) -> UserResponse:
+    return UserResponse(
+        id=current_user.id,
+        email=current_user.email,
+        name=current_user.name,
+        role=current_user.role.value,
+        created_at=current_user.created_at,
+    )

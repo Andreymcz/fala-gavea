@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import pytest
 from fastapi.testclient import TestClient
 
 
@@ -50,4 +49,32 @@ def test_login_wrong_password(client: TestClient) -> None:
 
 def test_login_unknown_email(client: TestClient) -> None:
     resp = client.post("/auth/token", data={"username": "nobody@example.com", "password": "pass"})
+    assert resp.status_code == 401
+
+
+def test_me_success(client: TestClient) -> None:
+    client.post(
+        "/auth/register",
+        json={"email": "me@example.com", "password": "password1", "name": "Me User"},
+    )
+    token_resp = client.post(
+        "/auth/token", data={"username": "me@example.com", "password": "password1"}
+    )
+    token = token_resp.json()["access_token"]
+    resp = client.get("/auth/me", headers={"Authorization": f"Bearer {token}"})
+    assert resp.status_code == 200
+    data = resp.json()
+    assert data["email"] == "me@example.com"
+    assert data["role"] == "citizen"
+    assert "id" in data
+    assert "password_hash" not in data
+
+
+def test_me_no_token(client: TestClient) -> None:
+    resp = client.get("/auth/me")
+    assert resp.status_code == 401
+
+
+def test_me_invalid_token(client: TestClient) -> None:
+    resp = client.get("/auth/me", headers={"Authorization": "Bearer invalidtoken"})
     assert resp.status_code == 401

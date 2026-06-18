@@ -27,6 +27,6 @@ class JWTService:
         try:
             return jwt.decode(token, self._secret, algorithms=[self._algorithm])
         except jwt.ExpiredSignatureError:
-            raise InvalidCredentialsError("Token expired")
+            raise InvalidCredentialsError()
         except jwt.InvalidTokenError:
-            raise InvalidCredentialsError("Invalid token")
+            raise InvalidCredentialsError()
