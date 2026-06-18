@@ -1,6 +1,14 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api";
-import type { CreateForwardingBody, ForwardingStatus } from "@/lib/types";
+import type { CreateForwardingBody, ForwardingStatus, ForwardingFilters } from "@/lib/types";
+
+export function useForwardings(filters: ForwardingFilters = {}) {
+  return useQuery({
+    queryKey: ["forwardings", filters],
+    queryFn: () => api.getForwardings(filters),
+    staleTime: 30_000,
+  });
+}
 
 export function useCreateForwarding() {
   const qc = useQueryClient();
