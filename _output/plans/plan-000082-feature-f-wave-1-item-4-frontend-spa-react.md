@@ -283,7 +283,7 @@ Novo relato (citizen+), Encaminhamentos (agent/admin), Entrar/Sair. `AppLayout.t
 - **Verify**: `npm run build` succeeds; app boots to MapPage at `/`; visiting `/agent` while logged out redirects to `/login`
 - **Tests**: when a stored token is present, AuthContext hydrates `user` from a mocked `api.me()`; when `me()` rejects, it logs out and clears localStorage; the `auth:unauthorized` event triggers logout (BrowserRouter wrapped in test)
 - **Traces**: REQ-MC-001, JM-TB-001, JM-TB-002
-- [ ] Done
+- [x] Done
 
 ---
 
@@ -302,7 +302,7 @@ in and redirects to `/`. On 409 shows "Este email ja esta cadastrado."
 - **Verify**: manual -- login with seeded agent credentials lands on the map with agent nav visible; bad password shows the error toast
 - **Tests**: N/A (thin form wrappers; auth logic covered in Step 5). Add a smoke render test only if time permits.
 - **Traces**: US-001
-- [ ] Done
+- [x] Done
 
 ---
 
@@ -333,7 +333,7 @@ markers for everyone).
 - **Verify**: `npm run build` ok; with the dev API seeded, markers render colored by urgency and the type filter narrows results
 - **Tests**: when a status filter is selected in `FiltersSidebar`, the `onChange`/query-params callback fires with the chosen value (RTL); urgency->color mapping unit-tested in `markerIcons`
 - **Traces**: US-003, JM-TB-001, JM-TB-002
-- [ ] Done
+- [x] Done
 
 ---
 
@@ -362,7 +362,7 @@ Non-agents never see selection UI (markers stay read-only). Enforcement remains 
 - **Verify**: manual -- as an agent, select >=1 marker, the floating button shows the count, the dialog creates a forwarding, a success toast shows, and the selected reports' status becomes `encaminhado` on refetch
 - **Tests**: `CreateForwardingDialog` blocks submit and shows a field error when `proposed_solution` < 20 chars (RTL); the create mutation calls `api.createForwarding` with the selected ids (mocked)
 - **Traces**: US-002, JM-TB-002
-- [ ] Done
+- [x] Done
 
 ---
 
@@ -383,7 +383,7 @@ invalidate), showing a toast on success/failure. Empty state: "Nenhum encaminham
 - **Verify**: manual -- agent sees created forwardings; changing status in the inline select persists (reload confirms) and shows a toast
 - **Tests**: when a new status is chosen in `StatusSelect`, `api.updateForwardingStatus` is called with the row id and chosen value (RTL + mocked api); status->Badge variant mapping asserted
 - **Traces**: US-002, JM-TB-002
-- [ ] Done
+- [x] Done
 
 ---
 
@@ -405,7 +405,7 @@ after refetch). Client validation mirrors backend §10 (text length, lat [-90,90
 - **Verify**: manual -- citizen submits a report, sees the success toast, lands on the map with the new marker; "Usar minha localizacao" fills lat/lon
 - **Tests**: submit is blocked with a validation message when `text` < 10 chars (RTL); geolocation success path sets lat/lon (mock `navigator.geolocation`)
 - **Traces**: US-001, JM-TB-001
-- [ ] Done
+- [x] Done
 
 ---
 
@@ -443,7 +443,7 @@ Make the SPA runnable end-to-end and bring the design docs in line with the new 
 - **Verify**: `git grep -n "Alpine"` shows only historical/changelog references; `apply_marker.py` reports D-007 appended; docs build/read consistently
 - **Tests**: N/A (docs/config)
 - **Docs**: this step IS the docs update
-- [ ] Done
+- [x] Done
 
 ---
 

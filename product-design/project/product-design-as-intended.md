@@ -472,6 +472,16 @@ _N/A — projeto greenfield._
 
 ---
 
+### D-007: Frontend SPA React+Vite+TS+Tailwind supersedes D-006
+
+**Context**: O plano wave-1-item-4 recebeu feedback do usuário para usar tecnologias frontend mais modernas ("fugir das páginas estáticas e ficar com um visual mais fluido e moderno"). A decisão D-006 havia especificado HTML estático + Alpine.js + Leaflet.
+
+**Decision**: SPA React 18 + Vite + TypeScript com Tailwind CSS + shadcn-style (Radix primitives) + react-leaflet. Build para `static/` servido pelo FastAPI StaticFiles (mesmo modelo de servir da D-006, mantido). CORS intencionalmente ausente: dev usa proxy Vite, prod é same-origin. Toolchain npm adicionado (`frontend/`).
+
+**Consequences**: Passo de build introduzido (`npm run build`). Interação mais fluida (SPA, sem reload entre páginas). Vitest + RTL para testes frontend. D-006 supersedida.
+
+---
+
 ## CHANGELOG
 
 2026-06-17 | D-001 | added | - | Decisao de novo projeto independente via python-scaffold (roadmap-000071 D-A)
@@ -480,3 +490,4 @@ _N/A — projeto greenfield._
 2026-06-17 | D-004 | added | - | Forwarding como agregacao many-to-many (roadmap-000071 D-D)
 2026-06-17 | D-005 | added | - | IA como assistencia, nao automacao (roadmap-000071 D-E)
 2026-06-17 | D-006 | added | - | Frontend HTML estatico + Leaflet (roadmap-000071 D-F)
+2026-06-18 | D-007 | added | - | Frontend SPA React+Vite+TS+Tailwind supersede D-006 (plan-000082)

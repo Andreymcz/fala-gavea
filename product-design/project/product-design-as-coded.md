@@ -76,7 +76,15 @@ Monolingual pt-BR by design (PoC). Error messages in English (FastAPI default); 
 
 ### 8. User Experience Patterns (Domain-Driven)
 
-_Not yet implemented (no frontend). See `product-design/project/product-design-as-intended.md §8`._
+Implemented as a React 18 + Vite + TypeScript SPA (`frontend/`). Built to `static/` and served by FastAPI StaticFiles.
+
+Screens:
+- `/` — MapPage: Leaflet map centered on Gávea, urgency-colored DivIcon markers, FiltersSidebar (type/urgency/status/date), empty state message. Agent/admin users see multi-select checkboxes and SelectionBar → CreateForwardingDialog. Wave-2 placeholders: disabled semantic search input + chat affordance.
+- `/report` — ReportFormPage: report-type Select, urgency Select (color-coded), text Textarea (10–2000 chars), geolocation button (`navigator.geolocation`), lat/lon inputs, optional photo_url. RequireAuth guard.
+- `/agent` — ForwardingsPage: table of forwardings with expandable rows (linked reports), inline StatusSelect, status filter. RequireAuth roles=[agent,admin].
+- `/login`, `/register` — Auth forms; JWT stored in localStorage.
+
+All journey steps JM-TB-001 and JM-TB-002 are now implemented end-to-end (frontend + backend).
 
 ### 9. Administrative Domain
 
@@ -185,3 +193,9 @@ _N/A -- nenhuma divergencia de intencao identificada._
 - **Updated**: Journey Maps -- JM-TB-002 partially implemented (backend); Partially Implemented table updated
 - **Source**: agent (post-skill)
 - **Plan**: plan-000079
+
+#### v5 -- 2026-06-18
+
+- **Updated**: §8 User Experience Patterns -- SPA implemented (React+Vite+TS, 4 screens, journeys JM-TB-001 + JM-TB-002 complete)
+- **Source**: agent (post-skill)
+- **Plan**: plan-000082

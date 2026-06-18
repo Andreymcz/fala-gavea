@@ -13,7 +13,7 @@ Sistema de demandas de cidadaos para seguranca urbana na Gavea: cidadao registra
 - **Auth:** JWT Bearer (PyJWT) com roles citizen/agent/admin
 - **Semantic search:** ChromaDB + sentence-transformers
 - **LLM:** Ollama (local, `qwen3:8b` por padrao)
-- **Frontend:** HTML estatico + Leaflet (servido pelo FastAPI StaticFiles)
+- **Frontend:** React 18 + Vite + TypeScript + Tailwind CSS + shadcn-style (react-leaflet), servido pelo FastAPI StaticFiles
 - **Testing:** pytest
 
 ## Build & Run
@@ -24,6 +24,23 @@ uv sync --extra dev
 
 # Run API server
 uv run uvicorn fala_gavea.presentation.api.main:app --reload
+
+### Frontend (SPA)
+
+```bash
+# Install frontend dependencies (first time)
+cd frontend && npm install
+
+# Development (Vite proxy to FastAPI on :8000)
+cd frontend && npm run dev
+
+# Build SPA for production (outputs to static/)
+cd frontend && npm run build
+# Then serve via FastAPI: uv run uvicorn fala_gavea.presentation.api.main:app
+
+# Run frontend tests
+cd frontend && npm run test
+```
 
 # Run tests
 uv run pytest

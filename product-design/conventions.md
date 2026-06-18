@@ -120,7 +120,7 @@
 
 | Variable | Value | Description |
 |----------|-------|-------------|
-| `ARCHITECTURE_DESCRIPTION` | FastAPI REST API com arquitetura limpa (domain/application/infrastructure/presentation). SQLite via SQLAlchemy para persistencia. JWT Bearer (PyJWT) para autenticacao com roles citizen/agent/admin. ChromaDB + sentence-transformers para busca semantica de relatos. OllamaClient para chat NL como assistente de exploracao. Frontend: HTML estatico + Leaflet servido pelo FastAPI StaticFiles. | High-level architecture description |
+| `ARCHITECTURE_DESCRIPTION` | FastAPI REST API com arquitetura limpa (domain/application/infrastructure/presentation). SQLite via SQLAlchemy para persistencia. JWT Bearer (PyJWT) para autenticacao com roles citizen/agent/admin. ChromaDB + sentence-transformers para busca semantica de relatos. OllamaClient para chat NL como assistente de exploracao. Frontend: React + Vite SPA (TypeScript, Tailwind, react-leaflet) servido pelo FastAPI StaticFiles. | High-level architecture description |
 | `ARCHITECTURE_PATTERN` | Clean architecture (domain / application / infrastructure / presentation) com FastAPI + SQLite + SQLAlchemy | Architecture pattern |
 | `CONVENTION_1` | Todas as chamadas LLM e buscas semanticas passam pelo `infrastructure/` (ChromaClient, OllamaClient) — nenhum acesso direto a ChromaDB ou Ollama em use cases ou routers | Key project convention #1 |
 | `CONVENTION_2` | Autenticacao e middleware — nenhum router acessa JWT diretamente; use `dependencies.py` (get_current_user, require_role) | Key project convention #2 |

@@ -14,6 +14,8 @@ designer_description: "UX and visual-design conventions for fala-gavea — map-c
 
 O app tem dois modos de uso: cidadão (formulário de registro + mapa público) e agente/admin (mapa interativo + painel de encaminhamentos). A interface primária é o mapa — não uma lista ou sidebar tradicional.
 
+> **Implementation stack (as of D-007):** React 18 + Vite + TypeScript SPA. Tailwind CSS with the palette below as theme tokens. Radix UI primitives for accessible components. Built to `static/` via `npm run build`; served by FastAPI StaticFiles.
+
 ---
 
 ### 2. Navigation Patterns

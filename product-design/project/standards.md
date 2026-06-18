@@ -130,32 +130,57 @@ src/fala_gavea/
 ### 1. Structure
 
 ```
-static/
-├── index.html    # Mapa publico + interface do agente
-├── report.html   # Formulario de novo relato (cidadao autenticado)
-├── agent.html    # Painel de encaminhamentos (agente)
-└── login.html    # Formulario de login
+frontend/
+├── src/
+│   ├── main.tsx               # App entry point
+│   ├── App.tsx                # Router + providers
+│   ├── index.css              # Tailwind layers + base styles
+│   ├── auth/
+│   │   ├── AuthContext.tsx    # Global auth state (token, user, login, logout)
+│   │   ├── useAuth.ts         # Re-export
+│   │   └── RequireAuth.tsx    # Route guard (optional role check)
+│   ├── components/
+│   │   ├── ui/                # shadcn-style headless components (Radix + cva)
+│   │   └── layout/            # Header, AppLayout
+│   ├── features/
+│   │   ├── map/               # MapPage, ReportMarkers, FiltersSidebar, SelectionBar, CreateForwardingDialog
+│   │   ├── report/            # ReportFormPage
+│   │   ├── forwardings/       # ForwardingsPage, ForwardingRow, StatusSelect
+│   │   └── auth/              # LoginPage, RegisterPage
+│   ├── hooks/                 # useReports, useReportTypes, useForwardings
+│   ├── lib/                   # api.ts, types.ts, queryClient.ts, utils.ts
+│   └── test/                  # setup.ts
+├── index.html
+├── vite.config.ts             # Build → ../static; dev proxy → :8000
+├── tailwind.config.ts         # Design-standard palette tokens
+├── tsconfig.json
+└── package.json
 ```
+
+Build output: `static/` (repo root) — served by FastAPI StaticFiles in production.
 
 ### 2. Stack
 
-- HTML5 semantico. Sem framework de build (sem npm, webpack, etc.).
-- Leaflet 1.9+ para mapas (CDN).
-- Alpine.js 3+ para reatividade (CDN) — checkboxes, modais, filtros, estado de login.
-- CSS inline ou `<style>` embarcado — sem Tailwind, sem CSS frameworks no PoC.
+- **Framework:** React 18 + Vite + TypeScript
+- **Routing:** react-router-dom v6 (BrowserRouter, lazy code-splitting per page)
+- **Server state:** TanStack Query v5 (cache, invalidation, mutations)
+- **Map:** react-leaflet v4 + Leaflet 1.9 (OpenStreetMap tiles; urgency-colored DivIcons)
+- **UI kit:** Radix UI primitives + class-variance-authority + Tailwind CSS
+- **Build:** `npm run build` → `../static`; dev: `npm run dev` (Vite proxy `/auth,/reports,/report_types,/forwardings` → `:8000`)
 
 ### 3. Auth State
 
-- JWT armazenado em `localStorage['fala_gavea_token']`.
-- Cada pagina verifica token ao carregar; se ausente/expirado, redireciona para login.html.
-- Requests autenticados: `Authorization: Bearer <token>` header.
+- JWT stored in `localStorage["fala_gavea_token"]`.
+- `AuthContext` hydrates `user` (with role) from `GET /auth/me` on mount.
+- `RequireAuth` redirects to `/login` if unauthenticated; optional `roles` prop checks role.
+- All requests attach `Authorization: Bearer <token>`; 401 dispatches `auth:unauthorized` → auto-logout.
 
 ### 4. Map Conventions
 
-- Centro padrao: Gavea (-22.9731, -43.2272), zoom 15.
-- Marcadores coloridos por urgencia: vermelho (alta), laranja (media), azul (baixa).
-- Layer separado (roxo) para resultados de busca semantica.
-- Clustering de marcadores proximos via leaflet.markercluster.
+- Center: Gávea (`[-22.9731, -43.2272]`), zoom 15.
+- Urgency DivIcons: alta=#E53E3E, media=#DD6B20, baixa=#3182CE (reserved: search=#805AD5 for Wave 2).
+- Agent/admin see report checkboxes for multi-select → floating `SelectionBar` → `CreateForwardingDialog`.
+- Wave-2 placeholders: disabled semantic-search input + minimized chat affordance (no behavior wired).
 
 ---
 
@@ -204,6 +229,14 @@ def test_client(db_session):
         yield client
     app.dependency_overrides.clear()
 ```
+
+### 5. Frontend Testing
+
+- **Framework:** Vitest + React Testing Library (jsdom)
+- **Setup:** `frontend/src/test/setup.ts` loads `@testing-library/jest-dom`
+- **Run:** `cd frontend && npm run test`
+- **Patterns:** mock `fetch` via `vi.stubGlobal`; mock Radix components for Select/Dialog in tests; wrap components with `QueryClientProvider + MemoryRouter`
+- **Coverage areas:** API client (urlencoded login, 401 event), AuthContext hydration/logout, FiltersSidebar, StatusSelect, CreateForwardingDialog validation, ReportFormPage validation/geolocation
 
 ---
 
