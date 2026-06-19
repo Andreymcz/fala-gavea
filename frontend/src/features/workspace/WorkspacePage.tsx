@@ -1,14 +1,24 @@
-import { lazy, Suspense, useEffect } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import { useAuth } from '@/auth/AuthContext'
 import { useWorkspaceStore, defaultViewsForRole } from '@/store/workspaceStore'
 import { FilterPanel } from './FilterPanel'
 import { ViewToggleBar } from './ViewToggleBar'
+import { SelectionBar } from '@/features/map/SelectionBar'
+import { CreateForwardingDialog } from '@/features/map/CreateForwardingDialog'
 
 const MapView = lazy(() => import('./views/MapView').then((m) => ({ default: m.MapView })))
+const TableView = lazy(() => import('./views/TableView').then((m) => ({ default: m.TableView })))
 
 export function WorkspacePage() {
   const { user } = useAuth()
   const { activeViews } = useWorkspaceStore()
+  const { selectedIds, clearSelection } = useWorkspaceStore((s) => ({
+    selectedIds: s.selectedIds,
+    clearSelection: s.clearSelection,
+  }))
+  const [showCreateDialog, setShowCreateDialog] = useState(false)
+
+  const isAgent = user?.role === 'agent' || user?.role === 'admin'
 
   // Initialize views for role on mount (only once per role change)
   useEffect(() => {
@@ -44,6 +54,19 @@ export function WorkspacePage() {
                 </div>
               )
             }
+            if (viewId === 'table') {
+              return (
+                <div key={viewId} className="flex-1 min-h-[300px]">
+                  <Suspense
+                    fallback={
+                      <div className="flex-1 min-h-[300px] bg-gray-100 animate-pulse rounded" />
+                    }
+                  >
+                    <TableView />
+                  </Suspense>
+                </div>
+              )
+            }
             // Placeholder for views added in later steps
             return (
               <div
@@ -55,6 +78,22 @@ export function WorkspacePage() {
             )
           })}
         </div>
+        {/* SelectionBar and CreateForwardingDialog — agents only */}
+        {isAgent && (
+          <>
+            <SelectionBar
+              count={selectedIds.size}
+              onCreateForwarding={() => setShowCreateDialog(true)}
+              onClear={clearSelection}
+            />
+            <CreateForwardingDialog
+              open={showCreateDialog}
+              selectedIds={Array.from(selectedIds)}
+              onSuccess={clearSelection}
+              onClose={() => setShowCreateDialog(false)}
+            />
+          </>
+        )}
       </div>
     </div>
   )
