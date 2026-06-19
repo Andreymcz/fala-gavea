@@ -76,6 +76,40 @@ uv run uvicorn fala_gavea.presentation.api.main:app
 # Acesse http://localhost:8000
 ```
 
+### Docker (build local e re-execução)
+
+```bash
+# Build da imagem (necessário apenas na primeira vez ou após mudanças no código)
+docker build -t fala-gavea .
+
+# Rodar o container com volume persistente para banco e ChromaDB
+docker run -p 8000:8000 \
+  -v "$(pwd)/local-data:/data" \
+  -e DATABASE_URL=sqlite:////data/fala_gavea.db \
+  -e CHROMA_DATA_DIR=/data/chromadb \
+  -e JWT_SECRET=local-dev-secret \
+  fala-gavea
+# Acesse http://localhost:8000 — SPA + API servidos juntos
+
+# Re-executar sem rebuild (dados persistem em local-data/)
+docker run -p 8000:8000 \
+  -v "$(pwd)/local-data:/data" \
+  -e DATABASE_URL=sqlite:////data/fala_gavea.db \
+  -e CHROMA_DATA_DIR=/data/chromadb \
+  -e JWT_SECRET=local-dev-secret \
+  fala-gavea
+
+# Parar e remover o container (dados em local-data/ não são apagados)
+docker ps                        # encontrar o CONTAINER ID
+docker stop <CONTAINER ID>
+docker rm <CONTAINER ID>
+
+# Rebuild forçado (limpa cache de layers)
+docker build --no-cache -t fala-gavea .
+```
+
+> **Nota Windows:** substitua `$(pwd)` pelo caminho absoluto, ex: `C:/Users/seu-usuario/fala-gavea/local-data:/data`.
+
 ### Popular tipos de problema (seed inicial)
 
 ```bash
