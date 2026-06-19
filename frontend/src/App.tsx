@@ -8,7 +8,8 @@ import { RequireAuth } from "@/auth/RequireAuth";
 // Lazy imports for code splitting (avoids leaflet loading everywhere)
 import { lazy, Suspense } from "react";
 
-const MapPage = lazy(() => import("@/features/map/MapPage").then(m => ({ default: m.MapPage })));
+// const MapPage = lazy(() => import("@/features/map/MapPage").then(m => ({ default: m.MapPage })));
+const WorkspacePage = lazy(() => import("@/features/workspace/WorkspacePage").then(m => ({ default: m.WorkspacePage })));
 const ReportFormPage = lazy(() => import("@/features/report/ReportFormPage").then(m => ({ default: m.ReportFormPage })));
 const ForwardingsPage = lazy(() => import("@/features/forwardings/ForwardingsPage").then(m => ({ default: m.ForwardingsPage })));
 const LoginPage = lazy(() => import("@/features/auth/LoginPage").then(m => ({ default: m.LoginPage })));
@@ -33,7 +34,7 @@ export default function App() {
                 path="/"
                 element={
                   <Suspense fallback={<LoadingFallback />}>
-                    <MapPage />
+                    <WorkspacePage />
                   </Suspense>
                 }
               />
