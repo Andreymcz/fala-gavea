@@ -18,7 +18,7 @@ export function SimilarsView() {
       <p className="text-xs text-gray-400 italic">Similares em toda a base, fora do filtro</p>
       {!similarSeedId && (
         <div role="status" className="text-xs text-gray-400">
-          Clique em &quot;Ver similares&quot; em um relato para explorar relatos parecidos.
+          Clique em &quot;Similares&quot; na linha de um relato da Tabela para explorar relatos parecidos.
         </div>
       )}
       {similarSeedId && isLoading && (

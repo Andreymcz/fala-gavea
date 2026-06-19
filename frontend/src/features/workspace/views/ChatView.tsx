@@ -19,6 +19,7 @@ export function ChatView() {
   const [input, setInput] = useState('')
   const [messages, setMessages] = useState<Message[]>([])
   const [error503, setError503] = useState(false)
+  const [liveAnnouncement, setLiveAnnouncement] = useState('')
   const bottomRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -42,10 +43,12 @@ export function ChatView() {
             ...prev,
             { role: 'assistant', text: data.response, cited: data.cited_report_ids },
           ])
+          setLiveAnnouncement(data.response)
         },
         onError: (err) => {
           if (err instanceof ApiError && err.status === 503) {
             setError503(true)
+            setLiveAnnouncement('Assistente indisponível.')
           }
         },
       },
@@ -54,10 +57,11 @@ export function ChatView() {
 
   return (
     <div className="flex flex-col h-full min-h-[300px]">
+      {/* Hidden live region: only the latest assistant message is announced */}
+      <div className="sr-only" aria-live="polite" aria-atomic="true">{liveAnnouncement}</div>
       <h3 className="text-sm font-semibold text-gray-700 p-3 border-b">Chat</h3>
       <div
         className="flex-1 overflow-auto p-3 space-y-3"
-        aria-live="polite"
         aria-label="Conversa"
       >
         {messages.map((m, i) => (

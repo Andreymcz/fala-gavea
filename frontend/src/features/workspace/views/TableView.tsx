@@ -1,6 +1,7 @@
 import { useFilteredReports } from '@/hooks/useFilteredReports'
 import { useWorkspaceStore } from '@/store/workspaceStore'
 import { useReportTypes } from '@/hooks/useReportTypes'
+import { Button } from '@/components/ui/button'
 import {
   Table,
   TableBody,
@@ -28,9 +29,10 @@ function statusLabel(s: string): string {
 
 export function TableView() {
   const { features, isLoading } = useFilteredReports()
-  const { selectedIds, toggleSelect } = useWorkspaceStore((s) => ({
+  const { selectedIds, toggleSelect, setSimilarSeed } = useWorkspaceStore((s) => ({
     selectedIds: s.selectedIds,
     toggleSelect: s.toggleSelect,
+    setSimilarSeed: s.setSimilarSeed,
   }))
   const { data: reportTypes = [] } = useReportTypes()
   const typeMap = new Map(reportTypes.map((rt) => [rt.id, rt.name]))
@@ -56,6 +58,7 @@ export function TableView() {
             <TableHead>Urgência</TableHead>
             <TableHead>Status</TableHead>
             <TableHead>Data</TableHead>
+            <TableHead><span className="sr-only">Ações</span></TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -67,7 +70,10 @@ export function TableView() {
                 key={p.id}
                 className={isSelected ? 'bg-blue-50' : ''}
                 onClick={() => toggleSelect(p.id)}
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleSelect(p.id) } }}
+                tabIndex={0}
                 style={{ cursor: 'pointer' }}
+                aria-selected={isSelected}
               >
                 <TableCell>
                   <input
@@ -75,7 +81,7 @@ export function TableView() {
                     checked={isSelected}
                     onChange={() => toggleSelect(p.id)}
                     onClick={(e) => e.stopPropagation()}
-                    aria-label="Selecionar relato"
+                    aria-label={`Selecionar relato ${p.id.slice(0, 8)}`}
                   />
                 </TableCell>
                 <TableCell className="max-w-xs truncate">
@@ -87,13 +93,24 @@ export function TableView() {
                 <TableCell className="text-xs">
                   {new Date(p.created_at).toLocaleDateString('pt-BR')}
                 </TableCell>
+                <TableCell>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    className="text-xs h-7 px-2"
+                    onClick={(e) => { e.stopPropagation(); setSimilarSeed(p.id) }}
+                    aria-label={`Ver relatos similares a ${p.id.slice(0, 8)}`}
+                  >
+                    Similares
+                  </Button>
+                </TableCell>
               </TableRow>
             )
           })}
           {features.length === 0 && (
             <TableRow>
               <TableCell
-                colSpan={6}
+                colSpan={7}
                 className="text-center text-sm text-gray-400"
               >
                 Nenhum relato encontrado.
