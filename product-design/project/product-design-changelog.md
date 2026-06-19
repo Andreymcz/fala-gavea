@@ -19,3 +19,9 @@
 - **Added**: RAG chat NL assistant (Wave 2): ILLMClient domain port; infrastructure/llm/ package (OllamaAdapter, AnthropicClient, factory); AnswerWithRag use case with pt-BR system prompt and semantic context injection; POST /nl/chat (agent+admin); get_llm_client() dependency; anthropic>=0.50; FALA_GAVEA_LLM_PROVIDER / ANTHROPIC_API_KEY / FALA_GAVEA_ANTHROPIC_MODEL env vars
 - **Source**: agent (post-skill)
 - **Plan**: plan-000100
+
+### v5 -- 2026-06-19
+- **Changed**: §8 User Experience Patterns — `/` route refactored from MapPage (map-centric) to WorkspacePage (workspace grid pattern): Zustand workspaceStore, FilterPanel (live semantic query + aria-live count), ViewToggleBar (aria-pressed + focus mgmt), MapView (clustered markers, bbox draw), TableView (keyboard-accessible rows, Similares button), TopicsView (BERTopic, agent+admin, 503-resilient), SimilarsView (full-base, persistent caption), ChatView (RAG, cited_report_ids as focusable buttons). Cross-filter: in-memory intersection of geojson × semantic search ordered by score.
+- **Added**: Journey Maps — JM-TB-003 implemented (exploration/analysis journey, plan-000104)
+- **Source**: agent (post-skill)
+- **Plan**: plan-000104

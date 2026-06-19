@@ -1,8 +1,10 @@
 # Briefs Log
 
+DONE | 2026-06-19 22:35 UTC | STARTED | 2026-06-19 22:32 UTC | document | --plan 000104 | SHA | HEAD | GENERATED | drr,contextual-help
+
 DONE | 2026-06-19 21:55 UTC | STARTED | 2026-06-19 21:53 UTC | plan | create a api entrypoint to receive a csv with seed relatos. then the use case will bulk insert | PLAN | 000105
 
-STARTED | 2026-06-19 21:46 UTC | implement | plan-000104
+DONE | 2026-06-19 22:25 UTC | STARTED | 2026-06-19 21:46 UTC | implement | plan-000104 | PLAN | 000104
 
 DONE | 2026-06-19 21:44 UTC | STARTED | 2026-06-19 21:31 UTC | plan | the 1st frontend iteration — grid/workspace shell + Zustand filter/selection store + lift filter out of MapPage + Mapa/Tabela with cross-filter + wire Tópicos (GET /reports/topics), similares, and RAG chat (POST /chat) to the done backends. Pass source: research-000092 | PLAN | 000104
 

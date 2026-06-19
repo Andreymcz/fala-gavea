@@ -84,13 +84,15 @@ Monolingual pt-BR by design (PoC). Error messages in English (FastAPI default); 
 
 Implemented as a React 18 + Vite + TypeScript SPA (`frontend/`). Built to `static/` and served by FastAPI StaticFiles.
 
+**Workspace grid pattern (plan-000104):** The `/` route now renders `WorkspacePage` — a left-rail filter panel + swappable center views (Mapa, Tabela, Tópicos, Similares, Chat). Filter state is managed by a Zustand store (`workspaceStore.ts`); react-query owns server cache. Views are toggled via `ViewToggleBar` (aria-pressed chips). Citizen/anonymous sees Mapa+Tabela; agent/admin sees all five. Cross-filter is in-memory: `useFilteredReports` intersects geojson features with semantic search results ordered by score.
+
 Screens:
-- `/` — MapPage: Leaflet map centered on Gávea, urgency-colored DivIcon markers, FiltersSidebar (type/urgency/status/date), empty state message. Agent/admin users see multi-select checkboxes and SelectionBar → CreateForwardingDialog. Wave-2 placeholders: disabled semantic search input + chat affordance.
+- `/` — WorkspacePage: FilterPanel (left rail: type/urgency/status/date + live semantic query), ViewToggleBar, view grid. Views: MapView (clustered markers via react-leaflet-cluster, bbox draw → store), TableView (selectable rows with keyboard nav, "Similares" button → setSimilarSeed), TopicsView (BERTopic — agent+admin only, 503-resilient), SimilarsView (full-base search, persistent "fora do filtro" caption), ChatView (RAG, cited_report_ids as focusable buttons → setSimilarSeed). SelectionBar + CreateForwardingDialog rendered in workspace shell (isAgent gate).
 - `/report` — ReportFormPage: report-type Select, urgency Select (color-coded), text Textarea (10–2000 chars), geolocation button (`navigator.geolocation`), lat/lon inputs, optional photo_url. RequireAuth guard.
 - `/agent` — ForwardingsPage: table of forwardings with expandable rows (linked reports), inline StatusSelect, status filter. RequireAuth roles=[agent,admin].
 - `/login`, `/register` — Auth forms; JWT stored in localStorage.
 
-All journey steps JM-TB-001 and JM-TB-002 are now implemented end-to-end (frontend + backend).
+All journey steps JM-TB-001, JM-TB-002, and JM-TB-003 are now implemented end-to-end (frontend + backend).
 
 ### 9. Administrative Domain
 
@@ -150,9 +152,21 @@ _Not yet implemented._
 
 ### 4. Per-Feature Metacommunication Log
 
-_Not yet implemented._
+#### Workspace Grid (plan-000104)
+
+**Designer Intent**: I give you a workspace where *you* decide how to read the relatos — the filter is yours and singular, and each view (map, table, topics, similars, chat) looks at the same set from different angles. The AI appears as just another lens of exploration, always citing where it drew its answers from — assistance, not decision.
+
+**Implementation Status**: Implemented
+
+**Last Updated**: 2026-06-19 | source: agent (post-skill)
 
 ### 5. Changelog
+
+#### v3 — 2026-06-19
+- **Added**: §4 Per-Feature Metacommunication Log — Workspace Grid entry (plan-000104)
+- **Updated**: §4 Implementation Status → Implemented
+- **Source**: agent (post-skill)
+- **Plan**: plan-000104
 
 #### v2 — 2026-06-19
 - **Added**: §11 Deployment & Infrastructure — Dockerfile (multi-stage), `railway.json`, `/health` endpoint, `CHROMA_DATA_DIR` env var, Ollama graceful degradation (`OllamaUnavailableError` → 503)
@@ -174,12 +188,13 @@ _Not yet implemented._
 
 _N/A -- todas as jornadas projetadas estao implementadas._
 
-#### Fully Implemented (as of plan-000082)
+#### Fully Implemented
 
 | Journey (JM-TB-NNN) | Steps | Notes |
 |---------------------|-------|-------|
 | JM-TB-001 | 1-7 (todos os steps do cidadao) | ReportFormPage com geolocalizacao, select tipo/urgencia, textarea, photo_url, POST /reports, redirect para mapa com novo marcador. |
-| JM-TB-002 | 1-7 (todos os steps do agente) | MapPage com FiltersSidebar, checkboxes, SelectionBar, CreateForwardingDialog, ForwardingsPage com StatusSelect. |
+| JM-TB-002 | 1-7 (todos os steps do agente) | WorkspacePage → TableView checkboxes, SelectionBar, CreateForwardingDialog, ForwardingsPage com StatusSelect. (plan-000082: MapPage original; plan-000104: migrado para workspace com seleção via store) |
+| JM-TB-003 | 1-8 (jornada de exploração/análise) | WorkspacePage: FilterPanel (cross-filter, busca semântica), MapView (clustered, bbox draw), TableView (seleção, similares), TopicsView (BERTopic), SimilarsView (fora do filtro), ChatView (RAG + cited_report_ids). (plan-000104) |
 
 #### Differs from Intent
 

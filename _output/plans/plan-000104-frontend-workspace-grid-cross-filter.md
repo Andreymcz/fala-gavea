@@ -1,4 +1,4 @@
-# Plan 000104 | fala-gavea/workspace-grid | 2026-06-19 21:31 UTC | Frontend iteration 1: workspace grid + cross-filter + IA widgets | Review: standard
+# DONE | 2026-06-19 22:20 UTC | Plan 000104 | fala-gavea/workspace-grid | 2026-06-19 21:31 UTC | Frontend iteration 1: workspace grid + cross-filter + IA widgets | Review: standard
 plan_format_version: 1
 source: research-000092
 
@@ -266,3 +266,25 @@ locais), TEST (testes de store/FilterPanel/TableView; gap do helper de interseç
 - **UX/escopo:** linha de corte explícita (A+B = MVP; C deferível por-visão); preservar gate `isAgent` e manter
   Dialog prop-driven (Steps 7, 12, Escopo).
 Sem conflitos inter-perspectiva. Nenhum achado exigiu re-plano estrutural.
+
+## Implementation Summary
+
+**Completed**: 12/12 steps | **Iterations**: 9 subagent calls | **Partial/Failed**: 0
+
+### Steps completed
+- [x] Step 1: zustand + react-leaflet-cluster@2.1.0 (React 18 compat) + 6 new types in types.ts
+- [x] Step 2: api.ts — getTopics, getSimilarReports, searchReports (n=50), chat
+- [x] Step 3: workspaceStore.ts (Zustand) — filters, selectedIds, activeViews, similarSeedId + structuredFilters() selector; 4 unit tests
+- [x] Step 4: WorkspacePage shell + FilterPanel (store-backed) + ViewToggleBar (aria-pressed + focus mgmt) + App.tsx routing
+- [x] Step 5: useFilteredReports + useSemanticSearch + intersectByScore (named export); 4 unit tests
+- [x] Step 6: MapView widget — MarkerClusterGroup + bbox draw via useMapEvents (2-click rectangle)
+- [x] Step 7: TableView (▲/●/▼ urgency) + shared selection via store + SelectionBar/Dialog in WorkspacePage (isAgent gate)
+- [x] Steps 8-10: TopicsView + SimilarsView (persistent caption) + ChatView (cited_report_ids as buttons → setSimilarSeed) — all 503-resilient
+- [x] Step 11: FilterPanel a11y — sr-only aria-live count + visible count + semanticTruncated banner
+- [x] Step 12: Removed MapPage.tsx + FiltersSidebar.tsx + FiltersSidebar.test.tsx; added FilterPanel.test.tsx; 28/28 tests green
+
+### Key learnings
+- react-leaflet-cluster@4 requires React 19 — used v2.1.0 (React 18 compatible)
+- hooks-before-guard rule: TopicsView/ChatView initially violated rules-of-hooks by placing hooks after role guard; fixed in same iteration
+- FilterPanel.test.tsx: useWorkspaceStore called without selector (returns full state) — mock must return state directly, not via selector invocation
+- `keepPreviousData` (react-query v5) applied to both geojson and semantic search queries to prevent flicker
