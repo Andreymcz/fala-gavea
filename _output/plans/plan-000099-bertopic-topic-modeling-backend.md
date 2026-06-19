@@ -1,4 +1,4 @@
-# Plan 000099 | feat/bertopic-topics | 2026-06-19 18:33 UTC | BERTopic topic modeling backend | Review: standard
+# DONE | 2026-06-19 18:50 UTC | Plan 000099 | feat/bertopic-topics | 2026-06-19 18:33 UTC | BERTopic topic modeling backend | Review: standard
 plan_format_version: 1
 
 ## User Brief
@@ -68,14 +68,14 @@ Isso torna a exploração temática dinâmica e contextual.
 
 ## Steps
 
-- [ ] **Step 1 — Estender ITopicModelPort com `infer_topics()`**
+- [x] **Step 1 — Estender ITopicModelPort com `infer_topics()`**
   - Files: `src/fala_gavea/domain/repositories/semantic_ports.py`
   - Interface: Adiciona método abstrato `infer_topics(reports: list[Report]) -> list[dict]` à
     `ITopicModelPort`. Cada dict: `{"topic_id": int, "terms": list[str], "count": int}`.
   - Tests: N/A (interface pura; sem comportamento próprio)
   - Verify: `pyright src/` sem erros adicionais
 
-- [ ] **Step 2 — `infrastructure/topics/bertopic_client.py`**
+- [x] **Step 2 — `infrastructure/topics/bertopic_client.py`**
   - Files: `src/fala_gavea/infrastructure/topics/__init__.py`,
     `src/fala_gavea/infrastructure/topics/bertopic_client.py`
   - References: `src/fala_gavea/infrastructure/embeddings/registry.py` (SemanticConfig)
@@ -89,7 +89,7 @@ Isso torna a exploração temática dinâmica e contextual.
   - Tests: N/A para esta step (testado em Step 8)
   - Verify: arquivo criado; `ruff check` sem erros
 
-- [ ] **Step 3 — Use case `GetTopicsForReports`**
+- [x] **Step 3 — Use case `GetTopicsForReports`**
   - Files: `src/fala_gavea/application/use_cases/topics/__init__.py`,
     `src/fala_gavea/application/use_cases/topics/get_topics_for_reports.py`
   - Interface: `class GetTopicsForReports:` com `execute(reports: list[Report]) -> list[dict]`.
@@ -98,7 +98,7 @@ Isso torna a exploração temática dinâmica e contextual.
   - Tests: N/A para esta step (testado em Step 8)
   - Verify: importável sem erros
 
-- [ ] **Step 4 — Schema de resposta `TopicItem` + `TopicListResponse`**
+- [x] **Step 4 — Schema de resposta `TopicItem` + `TopicListResponse`**
   - Files: `src/fala_gavea/presentation/schemas/topic.py`
   - Interface:
     ```python
@@ -114,7 +114,7 @@ Isso torna a exploração temática dinâmica e contextual.
   - Tests: N/A
   - Verify: `pyright` sem erros no arquivo
 
-- [ ] **Step 5 — Dependency provider `get_topic_model_port()`**
+- [x] **Step 5 — Dependency provider `get_topic_model_port()`**
   - Files: `src/fala_gavea/presentation/api/dependencies.py`
   - Interface: Função `get_topic_model_port() -> ITopicModelPort | None` — instancia
     `BERTopicClient(SemanticConfig())` com lazy init + singleton (mesmo padrão de `get_report_indexer`);
@@ -122,7 +122,7 @@ Isso torna a exploração temática dinâmica e contextual.
   - Tests: N/A
   - Verify: `get_topic_model_port()` importável; singleton lazy funciona
 
-- [ ] **Step 6 — Endpoint `GET /reports/topics`**
+- [x] **Step 6 — Endpoint `GET /reports/topics`**
   - Files: `src/fala_gavea/presentation/api/routers/reports.py`
   - Interface: Novo endpoint **antes** de `GET /{id}` na ordem de registro:
     ```
@@ -134,7 +134,7 @@ Isso torna a exploração temática dinâmica e contextual.
   - Tests: N/A para esta step (testado em Step 7)
   - Verify: `uv run uvicorn … &` + `curl /reports/topics` retorna 200 (com auth)
 
-- [ ] **Step 7 — Testes unitários**
+- [x] **Step 7 — Testes unitários**
   - Files: `tests/test_topic_modeling.py`
   - Tests:
     - "quando infer_topics recebe lista vazia, retorna lista vazia" — mock ITopicModelPort
@@ -188,3 +188,33 @@ regressão, nenhuma violação de standard — é uma limitação documentada.
 **PERF note (documented deferral)**: BERTopic fit_transform é O(n·d) em CPU; para subconjuntos de
 até ~500 relatos o tempo estimado é <10 s no hardware típico de PoC. Caching por filtro hash e
 BackgroundTasks são evolution paths documentados mas fora de escopo do plano atual.
+
+---
+
+## Implementation Summary — 2026-06-19 18:50 UTC
+
+**Steps completed**: 7/7 | **Iterations**: 2 subagents | **Commits**: eb33216, 750d1a2, 62dc2be
+
+### Key findings
+- `bertopic>=0.17` was already in `pyproject.toml`; no `uv add` needed
+- `BERTopic.get_topic()` returns `False | list[tuple[str, float]]` — isinstance-guard required before iterating
+- `ReportStatus.open` does not exist; correct enum value is `ReportStatus.pendente` (found during test writing)
+- Route ordering: `/topics` correctly placed before `/{id}` in reports router
+
+### Files created
+- `src/fala_gavea/infrastructure/topics/__init__.py`
+- `src/fala_gavea/infrastructure/topics/bertopic_client.py`
+- `src/fala_gavea/application/use_cases/topics/__init__.py`
+- `src/fala_gavea/application/use_cases/topics/get_topics_for_reports.py`
+- `src/fala_gavea/presentation/schemas/topic.py`
+- `tests/test_topic_modeling.py`
+
+### Files modified
+- `src/fala_gavea/domain/repositories/semantic_ports.py` — `infer_topics()` added to `ITopicModelPort`
+- `src/fala_gavea/presentation/api/routers/reports.py` — `GET /reports/topics` endpoint; `Query(ge=1,le=100)` on `min_docs`
+- `src/fala_gavea/presentation/api/dependencies.py` — `get_topic_model_port()` lazy singleton
+
+### Deferred
+- PERF: `fit_transform` blocks event loop (documented in plan)
+- TEST: missing happy-path HTTP test with populated topics
+- ARCH: `ITopicModelPort` partially implemented (3 stubs reserved for batch mode)

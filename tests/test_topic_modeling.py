@@ -3,7 +3,6 @@ from __future__ import annotations
 import uuid
 from datetime import UTC, datetime
 
-import pytest
 from fastapi.testclient import TestClient
 
 from fala_gavea.application.use_cases.topics.get_topics_for_reports import GetTopicsForReports
