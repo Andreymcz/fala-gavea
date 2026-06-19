@@ -1,5 +1,9 @@
 # Briefs Log
 
+STARTED | 2026-06-19 12:39 UTC | research | put fala-Gavea app into a open web url server. what are the hosts that allow a dockerfile to be deployed ? maybe we need to create a docker compose structure ?
+
+DONE | 2026-06-19 12:38 UTC | STARTED | 2026-06-19 12:34 UTC | plan | roadmap 2 wave 0 | PLAN | 000089
+
 DONE | 2026-06-18 20:49 UTC | STARTED | 2026-06-18 20:04 UTC | plan | roadmap 1 wave 2: preparar o sistema para operacoes em espaco semantico (busca de similares, RAG, clusterizacao); modelos diferentes por aplicacao (BERTopic para topicos, embeddings para similaridade/RAG); ao criar relato adicionar aos espacos semanticos
 
 DONE | 2026-06-18 19:40 UTC | STARTED | 2026-06-18 19:28 UTC | reflect | estado atual implementado no sistema, frente ao roadmap. o que falta ?

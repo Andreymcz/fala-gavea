@@ -17,3 +17,5 @@
 {"closed_at": "2026-06-18T16:17:35Z", "id": "pa-000013", "status": "done"}
 {"created_at": "2026-06-18T16:18:25Z", "description": "Review product-design/product-design-as-coded.md against the real implementation of plan-000082", "id": "pa-000014", "last_reminded_at": null, "snooze_until": null, "source": "plan-000082", "status": "pending", "type": "verify-as-coded"}
 {"created_at": "2026-06-18T16:58:40Z", "description": "Execute plan-000084 default users seed", "id": "pa-000015", "last_reminded_at": null, "snooze_until": null, "source": "plan-000084", "status": "pending", "type": "implement"}
+{"created_at": "2026-06-19T12:38:45Z", "description": "Execute plan-000089 semantic-infra deps embeddings portas chroma", "id": "pa-000016", "last_reminded_at": null, "snooze_until": null, "source": "plan-000089", "status": "pending", "type": "implement"}
+{"created_at": "2026-06-19T12:38:46Z", "description": "Execute plan-000090 ingestion pipeline indexacao relatos backfill", "id": "pa-000017", "last_reminded_at": null, "snooze_until": null, "source": "plan-000090", "status": "pending", "type": "implement"}

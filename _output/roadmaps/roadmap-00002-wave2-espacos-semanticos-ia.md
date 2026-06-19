@@ -1,4 +1,5 @@
 # Roadmap 000088 | 2026-06-18 20:04 UTC | wave2 espacos semanticos IA
+spawned: plan-000089, plan-000090
 
 refina: roadmap-000071 Wave 2 (itens 5 semantic-search, 6 similar-reports, 7 chat-assistant)
 
@@ -132,8 +133,8 @@ application/use_cases/
 
 | # | ID | Title | Scope | Type | Plan | Depends on | Status |
 |---|-----|-------|-------|------|------|-----------|--------|
-| 1 | semantic-infra | Deps de IA + EmbeddingProviderRegistry + ChromaClient + portas de dominio + config env | backend | technical | plan-TBD | -- | pending |
-| 2 | ingestion-pipeline | Hook de indexacao em CreateReport (porta IReportIndexer) + backfill dos ~10k relatos | backend | technical | plan-TBD | semantic-infra | pending |
+| 1 | semantic-infra | Deps de IA + EmbeddingProviderRegistry + ChromaClient + portas de dominio + config env | backend | technical | plan-000089 | -- | pending |
+| 2 | ingestion-pipeline | Hook de indexacao em CreateReport (porta IReportIndexer) + backfill dos ~10k relatos | backend | technical | plan-000090 | semantic-infra | pending |
 
 **Item 1 -- semantic-infra:**
 Adiciona ao `pyproject.toml`: `chromadb`, `sentence-transformers`, `bertopic`, e cliente Ollama
