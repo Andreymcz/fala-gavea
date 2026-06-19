@@ -1,6 +1,6 @@
 IMAGE   := fala-gavea
 PORT    := 8000
-DATA    := $(PWD)/local-data
+DATA    := $(CURDIR)/local-data
 SECRET  := local-dev-secret
 
 .PHONY: build run stop rm restart logs shell clean help
@@ -9,7 +9,7 @@ build:
 	docker build -t $(IMAGE) .
 
 run:
-	mkdir -p $(DATA)
+	powershell -Command "New-Item -ItemType Directory -Force '$(DATA)' | Out-Null"
 	docker run -d --name $(IMAGE) -p $(PORT):$(PORT) \
 		-v "$(DATA):/data" \
 		-e DATABASE_URL=sqlite:////data/fala_gavea.db \
