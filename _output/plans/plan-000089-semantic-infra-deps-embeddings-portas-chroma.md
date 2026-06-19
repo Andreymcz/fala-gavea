@@ -1,4 +1,5 @@
 # Plan 000089 | FEATURE -B | 2026-06-19 12:34 | semantic-infra deps embeddings portas chroma | Review: standard
+# DONE | 2026-06-19 12:55 UTC |
 plan_format_version: 1
 
 source: roadmap-000088 -- Wave 0 item 1 (fundacao semantica: deps, registry, chromaclient, portas)
@@ -69,7 +70,7 @@ Nota: o registry nao instancia o modelo de embedding -- isso fica para o ChromaS
 - **Interface**: exports `SemanticConfig` (dataclass com campos `embed_model_search`, `embed_model_topics`, `vectorstore_path`); `EmbeddingProviderRegistry` com `__init__(config: SemanticConfig)` e `get_model_name(purpose: str) -> str`
 - **Verify**: `uv sync` sem erros; `from fala_gavea.infrastructure.embeddings.registry import EmbeddingProviderRegistry` importa sem erro; `EmbeddingProviderRegistry(SemanticConfig()).get_model_name("search")` retorna `"intfloat/multilingual-e5-base"`
 - **Tests**: Coberto pelo Step 4 (unit tests do registry)
-- [ ] Done
+- [x] Done
 
 ### Step 2: Criar portas de dominio semanticas
 
@@ -109,7 +110,7 @@ Retorno de `search` e `similar` e `list[tuple[str, float]]` onde o primeiro elem
 - **Interface**: exports `IReportIndexer`, `ISemanticSearchPort`, `ITopicModelPort`
 - **Verify**: `from fala_gavea.domain.repositories.semantic_ports import IReportIndexer, ISemanticSearchPort, ITopicModelPort` importa sem erro; nenhum import de chromadb ou sentence-transformers no modulo
 - **Tests**: N/A (ABCs sem logica implementada)
-- [ ] Done
+- [x] Done
 
 ### Step 3: Criar ChromaSearchClient implementando IReportIndexer e ISemanticSearchPort
 
@@ -134,7 +135,7 @@ Nota de prefixo multilingual-e5: o modelo `intfloat/multilingual-e5-base` espera
 - **Interface**: exports `ChromaSearchClient(config: SemanticConfig)` implementando `IReportIndexer` + `ISemanticSearchPort`
 - **Verify**: importa sem erro; `ChromaSearchClient` e subclasse de ambas as ABCs (`issubclass(ChromaSearchClient, IReportIndexer)` True)
 - **Tests**: Coberto pelo Step 4 (unit com mock de SentenceTransformer e chromadb)
-- [ ] Done
+- [x] Done
 
 ### Step 4: Testes unitarios (registry + ChromaSearchClient com mocks)
 
@@ -156,7 +157,7 @@ Criar `tests/unit/infrastructure/test_chroma_search_client.py` usando `unittest.
 - **Depends on**: Step 1, Step 2, Step 3
 - **Verify**: `uv run pytest tests/unit/infrastructure/ -v` passa sem erros; sem download de modelos reais (mocks garantem isolamento)
 - **Tests**: N/A (este step eh o teste)
-- [ ] Done
+- [x] Done
 
 ---
 
@@ -174,3 +175,12 @@ Wave 0 item 1 of roadmap-000088: foundation for semantic spaces.
 
 Plan: plan-000089
 ```
+
+## Summary
+
+Steps completed: 4/4. Iterations: 1 (manual inline). All steps succeeded.
+
+- **Step 1**: `pyproject.toml` updated with chromadb, sentence-transformers, bertopic; `SemanticConfig` dataclass + `EmbeddingProviderRegistry` created.
+- **Step 2**: Domain ports `IReportIndexer`, `ISemanticSearchPort`, `ITopicModelPort` created in `domain/repositories/semantic_ports.py` with no infrastructure imports.
+- **Step 3**: `ChromaSearchClient` created implementing both indexer and search ports; uses `"passage: "` / `"query: "` prefixes for multilingual-e5-base.
+- **Step 4**: 7 unit tests, all passing (mocked chromadb + SentenceTransformer, no real model downloads).

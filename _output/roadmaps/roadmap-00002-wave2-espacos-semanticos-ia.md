@@ -133,7 +133,7 @@ application/use_cases/
 
 | # | ID | Title | Scope | Type | Plan | Depends on | Status |
 |---|-----|-------|-------|------|------|-----------|--------|
-| 1 | semantic-infra | Deps de IA + EmbeddingProviderRegistry + ChromaClient + portas de dominio + config env | backend | technical | plan-000089 | -- | pending |
+| 1 | semantic-infra | Deps de IA + EmbeddingProviderRegistry + ChromaClient + portas de dominio + config env | backend | technical | plan-000089 | -- | done |
 | 2 | ingestion-pipeline | Hook de indexacao em CreateReport (porta IReportIndexer) + backfill dos ~10k relatos | backend | technical | plan-000090 | semantic-infra | pending |
 
 **Item 1 -- semantic-infra:**

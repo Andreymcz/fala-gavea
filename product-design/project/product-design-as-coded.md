@@ -50,7 +50,7 @@ Forwarding CRUD fully implemented (Item 3): `CreateForwarding`, `GetForwarding`,
 `CreateForwarding` atomically links reports and transitions their status to `encaminhado`.
 `require_any_role("agent","admin")` guards all forwarding endpoints.
 A report can belong to multiple Forwardings (many-to-many via ForwardingReport, per D-D).
-AI assistance (ChromaDB/Ollama) not yet implemented (Items 5-7).
+AI semantic layer foundation (Wave 0, plan-000089): `chromadb`, `sentence-transformers`, `bertopic` added to `pyproject.toml`. Domain ports `IReportIndexer`, `ISemanticSearchPort`, `ITopicModelPort` in `domain/repositories/semantic_ports.py`. `EmbeddingProviderRegistry` in `infrastructure/embeddings/registry.py` (env-var configurable per purpose). `ChromaSearchClient` in `infrastructure/chromadb/chroma_search_client.py` implementing both indexer and search ports. Indexing (ingestion hook, plan-000090) and search endpoints (Wave 1) not yet implemented.
 
 ### 4. Permission Model
 
