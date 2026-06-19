@@ -1,5 +1,7 @@
 # Briefs Log
 
+DONE | 2026-06-19 18:37 UTC | STARTED | 2026-06-19 18:31 UTC | plan | roadmap 2 wave 2. Input on BERTopic: criar espaço semantico para os reports usando o modelo. faz a inferência de topicos a partir de um conjunto de reports, ou seja, retorna os topicos a partir de um conjunto (permite usuario filtrar reports e ver os topicos extraidos dos mesmos) | PLAN | 000099
+
 DONE | 2026-06-19 18:25 UTC | STARTED | 2026-06-19 18:22 UTC | reflect | some IA features are implemented, however in the frontend says Busca semantica (em breve)
 
 DONE | 2026-06-19 17:14 UTC | STARTED | 2026-06-19 17:11 UTC | plan | folowing research 91 lets create a dockerfile to install and run the app locally, preparing to publish the app into Railway. create a mappiong to the db storage to local file | PLAN | 000096
