@@ -308,7 +308,7 @@ A IA está presente para ajudar você a explorar os dados — não para tomar de
 | Mapa público de relatos | Eu torno os problemas visíveis para você e para toda a comunidade porque transparência é pré-requisito para pressão cívica | P0 | human | 2026-06-17 20:07 UTC |
 | Seleção múltipla no mapa para encaminhamento | Eu torno o agrupamento de demandas natural para você, agente, porque encaminhar problema por problema é ineficiente | P0 | human | 2026-06-17 20:07 UTC |
 | Busca semântica de relatos | Eu ajudo você a encontrar relatos similares mesmo quando descritos em palavras diferentes, porque cidadãos não usam vocabulário padronizado | P1 | human | 2026-06-17 20:07 UTC |
-| Chat NL assistente | Eu respondo suas perguntas sobre as demandas em linguagem natural para você, agente, porque explorar um banco de dados por filtros é lento para padrões emergentes | P1 | human | 2026-06-17 20:07 UTC |
+| Chat NL assistente | Eu respondo suas perguntas sobre as demandas em linguagem natural para você, agente, porque explorar um banco de dados por filtros é lento para padrões emergentes | P1 | human | 2026-06-17 20:07 UTC | <!-- STATUS: implemented | plan-000100 | 2026-06-19 --> |
 
 ---
 
@@ -396,7 +396,7 @@ _N/A._
 | Mapa público de relatos | REQ-MC-001 | P0 |
 | Seleção múltipla para encaminhamento | REQ-MC-001 | P0 |
 | Busca semântica de relatos | REQ-MC-001 | P1 |
-| Chat NL assistente | REQ-MC-001 | P1 |
+| Chat NL assistente | REQ-MC-001 | P1 | <!-- STATUS: implemented | plan-000100 | 2026-06-19 --> |
 
 ### Changed Intentions / Deprecated Intentions
 

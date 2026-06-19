@@ -14,11 +14,12 @@ designer_description: "I'm the as-coded mirror of what actually shipped in fala-
 
 Implemented as a FastAPI REST API. Entry point: `src/fala_gavea/presentation/api/main.py`.
 Auth: JWT Bearer (PyJWT, HS256, 24h expiry). DB: SQLite via SQLAlchemy synchronous ORM.
-Sixteen endpoints live: POST /auth/register, POST /auth/token, POST /reports, GET /reports/geojson, GET /reports/search (public),
-GET /reports/{id}/similar (public), GET /reports/{id},
+Seventeen endpoints live: POST /auth/register, POST /auth/token, POST /reports, GET /reports/geojson, GET /reports/search (public),
+GET /reports/{id}/similar (public), GET /reports/topics (auth-required, on-demand BERTopic), GET /reports/{id},
 GET /report_types (public), POST /report_types (admin), PATCH /report_types/{id} (admin), DELETE /report_types/{id} (admin, soft-delete),
 POST /forwardings (agent+admin), GET /forwardings (agent+admin), GET /forwardings/{id} (agent+admin),
-PATCH /forwardings/{id} (agent+admin), PATCH /forwardings/{id}/status (agent+admin).
+PATCH /forwardings/{id} (agent+admin), PATCH /forwardings/{id}/status (agent+admin),
+POST /nl/chat (agent+admin, RAG-backed NL assistant).
 Seed scripts: `scripts/seed_report_types.py` bootstraps 8 initial types via HTTP API; `scripts/seed_users.py` inserts 3 dev users (admin/citizen01/agente) directly via SQLAlchemy (bypasses API role restriction); `scripts/seed_relatos.py` ingests CSV scenario files or built-in templates and replicates corpus with lat/lon+date jitter to reach `--count` (default 10 000) reports spanning the past 365 days, inserted directly into SQLite. CSV schema documented in `seeds/relatos/SCHEMA.md`.
 
 ### 2. Entity Hierarchy
@@ -54,15 +55,17 @@ A report can belong to multiple Forwardings (many-to-many via ForwardingReport, 
 AI semantic layer foundation (Wave 0, plan-000089): `chromadb`, `sentence-transformers`, `bertopic` added to `pyproject.toml`. Domain ports `IReportIndexer`, `ISemanticSearchPort`, `ITopicModelPort` in `domain/repositories/semantic_ports.py`. `EmbeddingProviderRegistry` in `infrastructure/embeddings/registry.py` (env-var configurable per purpose). `ChromaSearchClient` in `infrastructure/chromadb/chroma_search_client.py` implementing both indexer and search ports.
 Ingestion hook (Wave 0, plan-000090): `CreateReport` use case accepts optional `IReportIndexer` (injected via `dependencies.py → get_report_indexer()`). After `report_repo.save()`, calls `indexer.index(report)` inside a try/except — failures log WARNING and do not abort report creation. `get_report_indexer()` is a module-level singleton that lazily initialises `ChromaSearchClient(SemanticConfig())`; returns `None` on ChromaDB failure so the server stays up. `scripts/backfill_semantic.py` indexes existing reports idempotently (`--force` re-indexes; `--batch-size` controls throughput).
 Search endpoints (Wave 1, plan-000094): public `GET /reports/search?q=&n=` (use case `SearchReports`) and public `GET /reports/{id}/similar?n=` (use case `FindSimilarReports`). Both inject `ISemanticSearchPort` via `dependencies.py → get_semantic_search_port()`, which reuses the `get_report_indexer()` `ChromaSearchClient` singleton (embedding model loaded once). Use cases query the port for `(report_id, score)` tuples, hydrate each `Report` by id via `IReportRepository` (skipping vectorstore ids absent in SQLite), and return `ReportSearchResult` (ReportResponse + `score`). `/search` returns 422 on empty `q`; `/{id}/similar` returns 404 if the base report is missing (port self-excludes the base); both return 503 when ChromaDB is unavailable; `n` clamped to [1,50]. No direct ChromaDB access outside `infrastructure/` (CONVENTION_1).
+BERTopic topic modeling (Wave 2, plan-000099): `GET /reports/topics?type_id=&urgency=&status=&since=&until=&bbox=&min_docs=3` accepts the same filter params as `GET /reports/geojson`. Requires authentication. Returns `TopicListResponse{topics: list[TopicItem{topic_id, terms, count}], total_reports}`. If corpus < `min_docs` (default 3), returns empty topics list (200). Returns 503 if BERTopicClient unavailable. `BERTopicClient` in `infrastructure/topics/bertopic_client.py`: lazy-imports `bertopic`, runs `fit_transform` on-demand per request (stateless), excludes outlier topic -1, catches all exceptions and returns `[]`. `GetTopicsForReports` use case in `application/use_cases/topics/`. `ITopicModelPort.infer_topics()` is the abstraction. `get_topic_model_port()` lazy singleton in `dependencies.py`. CONVENTION_1: no `bertopic` import outside `infrastructure/topics/`.
+RAG chat NL assistant (Wave 2, plan-000100): `ILLMClient` ABC added to `domain/repositories/semantic_ports.py`. `infrastructure/llm/` package with `OllamaAdapter` (wraps existing `OllamaClient`), `AnthropicClient` (Anthropic SDK), and `factory.py` (dispatches via `FALA_GAVEA_LLM_PROVIDER` env var, default `ollama`). `AnswerWithRag` use case in `application/use_cases/chat/`: retrieves top-5 semantic hits via `ISemanticSearchPort`, hydrates report text via `IReportRepository`, builds pt-BR context system prompt, calls `ILLMClient.complete()`, returns `RagAnswer(response, cited_report_ids)`. `POST /nl/chat` router (agent+admin) wires the use case via FastAPI dependency injection; returns 503 when LLM or semantic search is unavailable. `anthropic>=0.50` added to `pyproject.toml` (only loaded when provider=anthropic). Privacy: `FALA_GAVEA_LLM_PROVIDER=ollama` (default) keeps report text local; `anthropic` sends retrieved snippets to Anthropic API.
 
 ### 4. Permission Model
 
 JWT Bearer via PyJWT. Roles: citizen, agent, admin (UserRole enum).
 `get_current_user` and `require_role` in `presentation/api/dependencies.py`.
 Public endpoints: GET /reports/geojson, GET /reports/search, GET /reports/{id}/similar, POST /auth/register, POST /auth/token, GET /report_types.
-Auth-required endpoints: POST /reports (any authenticated user), GET /reports/{id} (any authenticated user).
+Auth-required endpoints: POST /reports (any authenticated user), GET /reports/{id} (any authenticated user), GET /reports/topics (any authenticated user).
 Admin-only endpoints: POST /report_types, PATCH /report_types/{id}, DELETE /report_types/{id}.
-Agent+admin endpoints (via `require_any_role`): POST /forwardings, GET /forwardings, GET /forwardings/{id}, PATCH /forwardings/{id}, PATCH /forwardings/{id}/status.
+Agent+admin endpoints (via `require_any_role`): POST /forwardings, GET /forwardings, GET /forwardings/{id}, PATCH /forwardings/{id}, PATCH /forwardings/{id}/status, POST /nl/chat.
 `get_forwarding_repo` and `require_any_role` added to `presentation/api/dependencies.py`.
 
 ### 5. Content Authoring & Attribution
@@ -102,6 +105,9 @@ Runtime configuration is fully env-var driven:
 - `CHROMA_DATA_DIR` — ChromaDB persistence dir (checked before `FALA_GAVEA_VECTORSTORE_PATH`; default `./chroma_data`)
 - `JWT_SECRET` — HMAC signing key
 - `FALA_GAVEA_OLLAMA_URL` / `FALA_GAVEA_OLLAMA_MODEL` — optional; unset disables NL chat (returns 503)
+- `FALA_GAVEA_LLM_PROVIDER` — `ollama` (default) or `anthropic`; selects `ILLMClient` implementation at startup
+- `ANTHROPIC_API_KEY` — required when `FALA_GAVEA_LLM_PROVIDER=anthropic`; raises `EnvironmentError` on startup if unset
+- `FALA_GAVEA_ANTHROPIC_MODEL` — Anthropic model id (default `claude-haiku-4-5-20251001`)
 
 `GET /health` (unauthenticated, excluded from OpenAPI schema) returns `{"status": "ok"}` — used by Railway health checks.
 

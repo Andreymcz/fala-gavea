@@ -1,5 +1,11 @@
 # Briefs Log
 
+DONE | 2026-06-19 18:50 UTC | STARTED | 2026-06-19 18:42 UTC | implement | 100 | PLAN | 000100
+
+DONE | 2026-06-19 | STARTED | 2026-06-19 | plan | roadmap 2 wave 2 item 6 rag-chat | PLAN | 000100
+
+DONE | 2026-06-19 18:51 UTC | STARTED | 2026-06-19 18:39 UTC | implement | 000099 | PLAN | 000099
+
 DONE | 2026-06-19 18:37 UTC | STARTED | 2026-06-19 18:31 UTC | plan | roadmap 2 wave 2. Input on BERTopic: criar espaço semantico para os reports usando o modelo. faz a inferência de topicos a partir de um conjunto de reports, ou seja, retorna os topicos a partir de um conjunto (permite usuario filtrar reports e ver os topicos extraidos dos mesmos) | PLAN | 000099
 
 DONE | 2026-06-19 18:25 UTC | STARTED | 2026-06-19 18:22 UTC | reflect | some IA features are implemented, however in the frontend says Busca semantica (em breve)
