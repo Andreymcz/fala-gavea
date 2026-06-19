@@ -166,3 +166,16 @@ frontend/src/
 | GET | `/forwardings/{id}` | agent/admin | Detalhe do encaminhamento |
 | PATCH | `/forwardings/{id}` | agent/admin | Atualizar encaminhamento |
 | PATCH | `/forwardings/{id}/status` | agent/admin | Atualizar status |
+
+---
+
+## Deploy to Railway
+
+1. Create a new Railway project and link this repo.
+2. Add a **Volume** in the service settings, mounted at `/data`.
+3. Set **Variables** in the Railway dashboard:
+   - `DATABASE_URL=sqlite:////data/fala_gavea.db`
+   - `CHROMA_DATA_DIR=/data/chromadb`
+   - `JWT_SECRET=<strong random string>`
+   - (Optional) `FALA_GAVEA_OLLAMA_URL` — omit to disable NL chat
+4. Deploy. The `/health` endpoint is used for health checks.
