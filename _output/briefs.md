@@ -1,5 +1,7 @@
 # Briefs Log
 
+DONE | 2026-06-19 21:26 UTC | STARTED | 2026-06-19 21:05 UTC | design | formalize JM-TB-003 (explore/filter/analyze journey) in §15 and update §8 UX Patterns with left-rail-filter + swappable-center-views model
+
 DONE | 2026-06-19 21:03 UTC | STARTED | 2026-06-19 20:50 UTC | reflect | 99, 100, 2. Use research log 92 to plan a frontend journey in order to create a relatos filter and visualization amplified with IA tools implemented on backend
 
 DONE | 2026-06-19 18:50 UTC | STARTED | 2026-06-19 18:42 UTC | implement | 100 | PLAN | 000100

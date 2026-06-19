@@ -171,7 +171,11 @@ Moradores da Gávea (Rio de Janeiro) e servidores públicos da Prefeitura do Rio
 
 ### Mapa como Interface Principal
 
-O mapa Leaflet centrado na Gávea é o ponto de entrada para cidadãos e agentes. Relatos são visualizados como marcadores coloridos por urgência (vermelho=alta, laranja=média, azul=baixa). Essa escolha reforça a dimensão geoespacial do problema: segurança urbana tem localização.
+O mapa Leaflet centrado na Gávea é o ponto de entrada para cidadãos e agentes. Relatos são visualizados como marcadores coloridos por urgência (vermelho=alta, laranja=média, azul=baixa). Essa escolha reforça a dimensão geoespacial do problema: segurança urbana tem localização. A partir de D-008, o mapa é uma das visões intercambiáveis do workspace (ver abaixo), não mais a interface única.
+
+### Workspace em Grid com Filtro Lateral e Visões Intercambiáveis
+
+A rota `/` é um **workspace**: um painel lateral esquerdo fixo concentra o **estado do filtro** dos relatos (tipo, urgência, status, intervalo de data e um campo de **busca por texto semântico**), e o centro da aplicação exibe o **resultado desse filtro** em uma ou mais **visões intercambiáveis** sobre o mesmo conjunto: mapa georreferenciado (que também pode aplicar um filtro de `bbox` ao desenhar uma área), lista descritiva dos relatos, gráficos agregados, tópicos/clusters semânticos inferidos (BERTopic), busca por relatos semanticamente similares (operando **fora** do filtro central, a partir de um relato-semente), e um chat RAG com os relatos no contexto. Todas as visões compartilham um único filtro central (linked views / cross-filtering): interagir com uma refiltra as demais, com cada mudança anunciada por `aria-live`. O mapa deixa de ser *a* interface e passa a ser *uma* visão. A **visibilidade inicial** das visões é definida pelo papel — cidadão: Mapa + Lista; agente/admin: as visões analíticas e de IA também — preservando um painel único para ambas as audiências (ver D-008).
 
 ### Formulário de Relato Geolocalizado
 
@@ -364,6 +368,32 @@ Forwarding criado com status `aguardando_solucao`. Todos os Reports incluídos t
 
 ---
 
+### JM-TB-003: Explorar, filtrar e analisar relatos no workspace
+
+- **Persona:** R-P-001 (Cidadão) e R-P-002 (Agente público)
+- **Solution Scenario:** US-003
+- **Goal:** Filtrar o conjunto de relatos e lê-lo por múltiplas visões (mapa, lista, gráficos, tópicos, similares, chat RAG)
+- **Pre-conditions:** Usuário autenticado; relatos indexados nos espaços semânticos (roadmap-00002); endpoints `GET /reports/geojson`, `GET /reports/topics` e `POST /chat` disponíveis.
+
+#### Steps
+
+| # | Action | Touchpoint | User Emotion | Pain Point | Opportunity |
+| - | ------ | ---------- | ------------ | ---------- | ----------- |
+| 1 | Acessa `/` e vê o workspace: filtro à esquerda, visões ao centro | Workspace | Orientado | "Não é pra mim" se parecer dashboard de analista | Defaults por papel: cidadão vê Mapa+Lista; agente vê as visões analíticas |
+| 2 | Aplica filtros (tipo/urgência/status/data) e busca por texto semântico no painel esquerdo | FilterPanel lateral | Analítico | — | Contagem viva ("142 relatos") em `aria-live` |
+| 3 | Liga/desliga visões no centro | Toggle de visões | No controle | Não saber o que cada visão faz | Rótulo + 1 linha de auto-explicação por visão |
+| 4 | Desenha uma área no mapa para filtrar por `bbox` | Mapa Leaflet | Curioso | Arraste é gesto hostil a teclado/a11y | Caminho alternativo por botão/teclado; alvos ≥44px |
+| 5 | Lê padrões nos gráficos e nos tópicos inferidos do subconjunto filtrado | Gráficos + Tópicos | Perspicaz | IA pode ser imprecisa | Deixar claro que IA é assistência, não verdade |
+| 6 | Seleciona um relato e busca similares **ignorando o filtro atual** | Painel de Similares | Investigativo | Confundir "similares" com "filtrados" | Rótulo explícito: "Similares em toda a base, fora do filtro" |
+| 7 | (Agente) pergunta em linguagem natural ao chat RAG sobre os relatos | Chat RAG | Deliberativo | Saber quais relatos a IA usou | Respostas citam `cited_report_ids` clicáveis |
+| 8 | (Agente) seleciona relatos no mapa ou na lista e cria encaminhamento | Map/Lista → CreateForwardingDialog | Decisivo | Seleção presa só ao mapa hoje | `selectedIds` no store compartilhado → SelectionBar única |
+
+#### Post-conditions / Outcomes
+
+O usuário compreende padrões no subconjunto filtrado por múltiplas visões. O agente pode partir da exploração para um encaminhamento (transição para JM-TB-002). O chat RAG (passo 7) e o encaminhamento (passo 8) são restritos a agente/admin; cidadão acessa as visões de transparência (Mapa, Lista, Gráficos).
+
+---
+
 ## 16. Conceptual Design Delta
 
 ### New (in as-intended but not in as-coded)
@@ -374,7 +404,9 @@ Forwarding criado com status `aguardando_solucao`. Todos os Reports incluídos t
 | §2 Entities | User, ReportType, Report, Forwarding, ForwardingReport | Todas as entidades definidas no design intent, nenhuma implementada ainda |
 | §4 Permission Model | citizen/agent/admin roles | Modelo de roles definido, não implementado |
 | §8 UX Patterns | Mapa, geolocalização, seleção múltipla, chat NL | Padrões UX definidos, frontend não implementado |
+| §8 UX Patterns | Workspace em grid (filtro lateral + visões intercambiáveis) | Padrão definido (research-000092, D-008), frontend não implementado |
 | §15 Journeys | JM-TB-001, JM-TB-002 | Journeys definidas, sistema não implementado |
+| §15 Journeys | JM-TB-003 | Jornada de exploração/análise em workspace definida (research-000092); backends `/reports/topics` e `/chat` prontos, frontend não implementado |
 
 ### Changed (differs between as-coded and as-intended)
 
@@ -502,3 +534,4 @@ _N/A — projeto greenfield._
 2026-06-17 | D-005 | added | - | IA como assistencia, nao automacao (roadmap-000071 D-E)
 2026-06-17 | D-006 | added | - | Frontend HTML estatico + Leaflet (roadmap-000071 D-F)
 2026-06-18 | D-007 | added | - | Frontend SPA React+Vite+TS+Tailwind supersede D-006 (plan-000082)
+2026-06-19 | JM-TB-003 | added | §15 | Jornada de exploração/análise em workspace; §8 ganha padrão de filtro lateral + visões intercambiáveis (research-000092, D-008)
