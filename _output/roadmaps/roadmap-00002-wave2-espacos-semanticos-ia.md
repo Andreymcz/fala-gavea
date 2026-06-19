@@ -1,5 +1,5 @@
 # Roadmap 000088 | 2026-06-18 20:04 UTC | wave2 espacos semanticos IA
-spawned: plan-000089, plan-000090, plan-000090, plan-000094
+spawned: plan-000089, plan-000090, plan-000090, plan-000094, plan-000094
 
 refina: roadmap-000071 Wave 2 (itens 5 semantic-search, 6 similar-reports, 7 chat-assistant)
 
@@ -156,8 +156,8 @@ nao impede a criacao; backfill pula ids ja indexados.
 
 | # | ID | Title | Scope | Type | Plan | Depends on | Status |
 |---|-----|-------|-------|------|------|-----------|--------|
-| 3 | semantic-search | GET /reports/search?q=&n= -- busca semantica com score | backend | technical | plan-TBD | ingestion-pipeline | pending |
-| 4 | similar-reports | GET /reports/{id}/similar?n= -- vizinhos semanticos de um relato | backend | technical | plan-TBD | ingestion-pipeline | pending |
+| 3 | semantic-search | GET /reports/search?q=&n= -- busca semantica com score | backend | technical | plan-000094 | ingestion-pipeline | done |
+| 4 | similar-reports | GET /reports/{id}/similar?n= -- vizinhos semanticos de um relato | backend | technical | plan-000094 | ingestion-pipeline | done |
 
 **Item 3 -- semantic-search:**
 Use case `SearchReports` + endpoint `GET /reports/search?q=<texto>&n=10`; consulta `ISemanticSearchPort`,

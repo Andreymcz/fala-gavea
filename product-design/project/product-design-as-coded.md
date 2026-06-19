@@ -14,7 +14,8 @@ designer_description: "I'm the as-coded mirror of what actually shipped in fala-
 
 Implemented as a FastAPI REST API. Entry point: `src/fala_gavea/presentation/api/main.py`.
 Auth: JWT Bearer (PyJWT, HS256, 24h expiry). DB: SQLite via SQLAlchemy synchronous ORM.
-Fourteen endpoints live: POST /auth/register, POST /auth/token, POST /reports, GET /reports/geojson, GET /reports/{id},
+Sixteen endpoints live: POST /auth/register, POST /auth/token, POST /reports, GET /reports/geojson, GET /reports/search (public),
+GET /reports/{id}/similar (public), GET /reports/{id},
 GET /report_types (public), POST /report_types (admin), PATCH /report_types/{id} (admin), DELETE /report_types/{id} (admin, soft-delete),
 POST /forwardings (agent+admin), GET /forwardings (agent+admin), GET /forwardings/{id} (agent+admin),
 PATCH /forwardings/{id} (agent+admin), PATCH /forwardings/{id}/status (agent+admin).
@@ -51,13 +52,14 @@ Forwarding CRUD fully implemented (Item 3): `CreateForwarding`, `GetForwarding`,
 `require_any_role("agent","admin")` guards all forwarding endpoints.
 A report can belong to multiple Forwardings (many-to-many via ForwardingReport, per D-D).
 AI semantic layer foundation (Wave 0, plan-000089): `chromadb`, `sentence-transformers`, `bertopic` added to `pyproject.toml`. Domain ports `IReportIndexer`, `ISemanticSearchPort`, `ITopicModelPort` in `domain/repositories/semantic_ports.py`. `EmbeddingProviderRegistry` in `infrastructure/embeddings/registry.py` (env-var configurable per purpose). `ChromaSearchClient` in `infrastructure/chromadb/chroma_search_client.py` implementing both indexer and search ports.
-Ingestion hook (Wave 0, plan-000090): `CreateReport` use case accepts optional `IReportIndexer` (injected via `dependencies.py → get_report_indexer()`). After `report_repo.save()`, calls `indexer.index(report)` inside a try/except — failures log WARNING and do not abort report creation. `get_report_indexer()` is a module-level singleton that lazily initialises `ChromaSearchClient(SemanticConfig())`; returns `None` on ChromaDB failure so the server stays up. `scripts/backfill_semantic.py` indexes existing reports idempotently (`--force` re-indexes; `--batch-size` controls throughput). Search endpoints (Wave 1) not yet implemented.
+Ingestion hook (Wave 0, plan-000090): `CreateReport` use case accepts optional `IReportIndexer` (injected via `dependencies.py → get_report_indexer()`). After `report_repo.save()`, calls `indexer.index(report)` inside a try/except — failures log WARNING and do not abort report creation. `get_report_indexer()` is a module-level singleton that lazily initialises `ChromaSearchClient(SemanticConfig())`; returns `None` on ChromaDB failure so the server stays up. `scripts/backfill_semantic.py` indexes existing reports idempotently (`--force` re-indexes; `--batch-size` controls throughput).
+Search endpoints (Wave 1, plan-000094): public `GET /reports/search?q=&n=` (use case `SearchReports`) and public `GET /reports/{id}/similar?n=` (use case `FindSimilarReports`). Both inject `ISemanticSearchPort` via `dependencies.py → get_semantic_search_port()`, which reuses the `get_report_indexer()` `ChromaSearchClient` singleton (embedding model loaded once). Use cases query the port for `(report_id, score)` tuples, hydrate each `Report` by id via `IReportRepository` (skipping vectorstore ids absent in SQLite), and return `ReportSearchResult` (ReportResponse + `score`). `/search` returns 422 on empty `q`; `/{id}/similar` returns 404 if the base report is missing (port self-excludes the base); both return 503 when ChromaDB is unavailable; `n` clamped to [1,50]. No direct ChromaDB access outside `infrastructure/` (CONVENTION_1).
 
 ### 4. Permission Model
 
 JWT Bearer via PyJWT. Roles: citizen, agent, admin (UserRole enum).
 `get_current_user` and `require_role` in `presentation/api/dependencies.py`.
-Public endpoints: GET /reports/geojson, POST /auth/register, POST /auth/token, GET /report_types.
+Public endpoints: GET /reports/geojson, GET /reports/search, GET /reports/{id}/similar, POST /auth/register, POST /auth/token, GET /report_types.
 Auth-required endpoints: POST /reports (any authenticated user), GET /reports/{id} (any authenticated user).
 Admin-only endpoints: POST /report_types, PATCH /report_types/{id}, DELETE /report_types/{id}.
 Agent+admin endpoints (via `require_any_role`): POST /forwardings, GET /forwardings, GET /forwardings/{id}, PATCH /forwardings/{id}, PATCH /forwardings/{id}/status.

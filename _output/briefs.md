@@ -1,5 +1,7 @@
 # Briefs Log
 
+DONE | 2026-06-19 15:04 UTC | STARTED | 2026-06-19 14:50 UTC | implement | plan-000094 | PLAN | 000094
+
 DONE | 2026-06-19 14:02 UTC | STARTED | 2026-06-19 13:25 UTC | check | validate
 
 DONE | 2026-06-19 14:14 UTC | STARTED | 2026-06-19 13:27 UTC | research | criar jornada de visualizacao, busca e analise dos relatos. ao inves do mapa ser o centro da visualizacao, ele eh apenas mais uma forma. o painel central da aplicacao eh um grid, que pode conter diversas ferramentas para visualizar os relatos filtrados. pensar educacionalmente nos dois projetos: (1) Canal Digital Comunitario para Seguranca Urbana (Waze comunitario); (2) Mapa Colaborativo de Dados para Seguranca e Planejamento do Bairro.

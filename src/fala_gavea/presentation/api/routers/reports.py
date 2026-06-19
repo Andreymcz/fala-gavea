@@ -3,20 +3,28 @@ from __future__ import annotations
 from fastapi import APIRouter, Depends, HTTPException, status
 
 from fala_gavea.application.use_cases.reports.create_report import CreateReport
+from fala_gavea.application.use_cases.reports.find_similar_reports import FindSimilarReports
 from fala_gavea.application.use_cases.reports.get_report import GetReport
 from fala_gavea.application.use_cases.reports.list_reports_geojson import ListReportsGeoJSON
-from fala_gavea.domain.entities.report import ReportStatus, Urgency
+from fala_gavea.application.use_cases.reports.search_reports import SearchReports
+from fala_gavea.domain.entities.report import Report, ReportStatus, Urgency
 from fala_gavea.domain.entities.user import User
 from fala_gavea.domain.exceptions import InvalidInputError, ReportNotFoundError, ReportTypeNotFoundError
 from fala_gavea.domain.repositories.report_repository import ReportFilters
-from fala_gavea.domain.repositories.semantic_ports import IReportIndexer
+from fala_gavea.domain.repositories.semantic_ports import IReportIndexer, ISemanticSearchPort
 from fala_gavea.presentation.api.dependencies import (
     get_current_user,
     get_report_indexer,
     get_report_repo,
     get_report_type_repo,
+    get_semantic_search_port,
 )
-from fala_gavea.presentation.schemas.report import ReportCreate, ReportFiltersQuery, ReportResponse
+from fala_gavea.presentation.schemas.report import (
+    ReportCreate,
+    ReportFiltersQuery,
+    ReportResponse,
+    ReportSearchResult,
+)
 
 router = APIRouter()
 
@@ -81,6 +89,62 @@ def list_reports_geojson(
         bbox=bbox,
     )
     return ListReportsGeoJSON(report_repo).execute(filters)
+
+
+def _to_search_result(report: Report, score: float) -> ReportSearchResult:
+    return ReportSearchResult(
+        id=report.id,
+        text=report.text,
+        lat=report.lat,
+        lon=report.lon,
+        urgency=report.urgency.value,
+        status=report.status.value,
+        report_type_id=report.report_type_id,
+        author_id=report.author_id,
+        photo_url=report.photo_url,
+        created_at=report.created_at,
+        score=score,
+    )
+
+
+# Registered before GET /{id} so FastAPI does not match "/search" against "/{id}".
+@router.get("/search", response_model=list[ReportSearchResult])
+def search_reports(
+    q: str,
+    n: int = 10,
+    report_repo=Depends(get_report_repo),
+    search_port: ISemanticSearchPort | None = Depends(get_semantic_search_port),
+) -> list[ReportSearchResult]:
+    if not q.strip():
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="q must not be empty"
+        )
+    if search_port is None:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="Semantic search unavailable"
+        )
+    n = max(1, min(n, 50))
+    results = SearchReports(report_repo, search_port).execute(q, n)
+    return [_to_search_result(report, score) for report, score in results]
+
+
+@router.get("/{id}/similar", response_model=list[ReportSearchResult])
+def similar_reports(
+    id: str,
+    n: int = 5,
+    report_repo=Depends(get_report_repo),
+    search_port: ISemanticSearchPort | None = Depends(get_semantic_search_port),
+) -> list[ReportSearchResult]:
+    if search_port is None:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="Semantic search unavailable"
+        )
+    n = max(1, min(n, 50))
+    try:
+        results = FindSimilarReports(report_repo, search_port).execute(id, n)
+    except ReportNotFoundError as e:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
+    return [_to_search_result(report, score) for report, score in results]
 
 
 @router.get("/{id}", response_model=ReportResponse)

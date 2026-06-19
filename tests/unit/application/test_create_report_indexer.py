@@ -3,7 +3,6 @@ from __future__ import annotations
 from datetime import datetime, timezone
 from unittest.mock import MagicMock
 
-import pytest
 
 from fala_gavea.application.use_cases.reports.create_report import CreateReport
 from fala_gavea.domain.entities.report import Report, ReportStatus, Urgency

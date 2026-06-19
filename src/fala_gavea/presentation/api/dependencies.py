@@ -12,7 +12,7 @@ from fala_gavea.domain.exceptions import InvalidCredentialsError
 from fala_gavea.domain.repositories.forwarding_repository import IForwardingRepository
 from fala_gavea.domain.repositories.report_repository import IReportRepository
 from fala_gavea.domain.repositories.report_type_repository import IReportTypeRepository
-from fala_gavea.domain.repositories.semantic_ports import IReportIndexer
+from fala_gavea.domain.repositories.semantic_ports import IReportIndexer, ISemanticSearchPort
 from fala_gavea.domain.repositories.user_repository import IUserRepository
 from fala_gavea.infrastructure.auth.jwt_service import JWTService
 from fala_gavea.infrastructure.auth.password_service import PasswordService
@@ -100,6 +100,13 @@ def get_report_indexer() -> IReportIndexer | None:
         except Exception as exc:
             _log.warning("ChromaSearchClient unavailable: %s", exc)
     return _indexer_instance
+
+
+def get_semantic_search_port() -> ISemanticSearchPort | None:
+    # ChromaSearchClient implementa IReportIndexer e ISemanticSearchPort;
+    # reaproveita o singleton de get_report_indexer (modelo carregado uma vez).
+    client = get_report_indexer()
+    return client  # type: ignore[return-value]
 
 
 def get_forwarding_repo(db: Session = Depends(get_db)) -> IForwardingRepository:

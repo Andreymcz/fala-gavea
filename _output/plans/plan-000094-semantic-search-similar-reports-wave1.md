@@ -1,4 +1,4 @@
-# PLANNED | 2026-06-19 14:27 UTC | Plan 000094 | FEATURE -B | 2026-06-19 14:27 | semantic-search + similar-reports endpoints (roadmap2 wave1) | Review: light
+# DONE | 2026-06-19 15:02 UTC | Plan 000094 | FEATURE -B | 2026-06-19 14:27 | semantic-search + similar-reports endpoints (roadmap2 wave1) | Review: light
 plan_format_version: 1
 
 source: roadmap-000088 -- Wave 1 (item 3 semantic-search + item 4 similar-reports)
@@ -75,7 +75,7 @@ class ReportSearchResult(ReportResponse):
 - **Interface**: `ReportSearchResult(ReportResponse)` + `score: float`
 - **Verify**: `uv run python -c "from fala_gavea.presentation.schemas.report import ReportSearchResult"`
 - **Tests**: Coberto pelos Steps 6-7
-- [ ] Done
+- [x] Done
 
 ### Step 2: Use case SearchReports
 
@@ -110,7 +110,7 @@ class SearchReports:
 - **Depends on**: --
 - **Verify**: `uv run pytest tests/unit/application/test_search_reports.py -v` (Step 6)
 - **Tests**: Step 6
-- [ ] Done
+- [x] Done
 
 ### Step 3: Use case FindSimilarReports
 
@@ -152,7 +152,7 @@ class FindSimilarReports:
 - **Depends on**: --
 - **Verify**: `uv run pytest tests/unit/application/test_find_similar_reports.py -v` (Step 7)
 - **Tests**: Step 7
-- [ ] Done
+- [x] Done
 
 ### Step 4: Dependency get_semantic_search_port
 
@@ -180,7 +180,7 @@ def get_semantic_search_port() -> ISemanticSearchPort | None:
 - **Depends on**: --
 - **Verify**: `uv run python -c "from fala_gavea.presentation.api.dependencies import get_semantic_search_port"`
 - **Tests**: Coberto pelo Step 8 (override do dependency)
-- [ ] Done
+- [x] Done
 
 ### Step 5: Endpoints GET /reports/search e GET /reports/{id}/similar
 
@@ -239,7 +239,7 @@ Ambos endpoints **publicos** (sem `get_current_user`), alinhado a `/geojson` e a
 - **Depends on**: Steps 1, 2, 3, 4
 - **Verify**: `uv run uvicorn fala_gavea.presentation.api.main:app` sobe; `GET /reports/search?q=teste` nao colide com `/{id}`; `GET /docs` lista os dois endpoints
 - **Tests**: Step 8
-- [ ] Done
+- [x] Done
 
 ### Step 6: Testes unitarios de SearchReports
 
@@ -259,7 +259,7 @@ Usar MagicMock para a porta e o repo; `Report` valido via `Report.create(...)` o
 - **Depends on**: Step 2
 - **Verify**: `uv run pytest tests/unit/application/test_search_reports.py -v`
 - **Tests**: N/A (este step e o teste)
-- [ ] Done
+- [x] Done
 
 ### Step 7: Testes unitarios de FindSimilarReports
 
@@ -276,7 +276,7 @@ Criar `tests/unit/application/test_find_similar_reports.py`:
 - **Depends on**: Step 3
 - **Verify**: `uv run pytest tests/unit/application/test_find_similar_reports.py -v`
 - **Tests**: N/A (este step e o teste)
-- [ ] Done
+- [x] Done
 
 ### Step 8: Testes de integracao dos endpoints (override da porta)
 
@@ -306,7 +306,7 @@ testes -- a fixture `client` ja faz `clear()` no teardown.
 - **Depends on**: Steps 1-5
 - **Verify**: `uv run pytest tests/test_reports_semantic.py -v`
 - **Tests**: N/A (este step e o teste)
-- [ ] Done
+- [x] Done
 
 ### Step 9: Suite completa + lint + type check
 
@@ -314,7 +314,7 @@ testes -- a fixture `client` ja faz `clear()` no teardown.
 - **Depends on**: Steps 1-8
 - **Verify**: `uv run pytest` (toda a suite verde, sem regressao), `uv run ruff check src/ tests/`, `uv run pyright src/`
 - **Tests**: N/A
-- [ ] Done
+- [x] Done
 
 ---
 
@@ -342,3 +342,32 @@ ISemanticSearchPort (ChromaSearchClient).
 
 Plan: plan-000094
 ```
+
+---
+
+## Implementation Summary | 2026-06-19 15:02 UTC
+
+**Mode:** in-context sequential (manual topology). All 9 steps completed (9/9 done), 0 partial/failed.
+
+### Changes
+- **`presentation/schemas/report.py`** — added `ReportSearchResult(ReportResponse)` with `score: float`.
+- **`application/use_cases/reports/search_reports.py`** (new) — `SearchReports.execute(query, n)`; queries `ISemanticSearchPort.search`, hydrates each hit via `IReportRepository.find_by_id`, skips vectorstore ids absent in SQLite, preserves score/order.
+- **`application/use_cases/reports/find_similar_reports.py`** (new) — `FindSimilarReports.execute(report_id, n)`; raises `ReportNotFoundError` if base missing (→404), calls `similar()` (port self-excludes base), hydrates neighbors, skips missing ids.
+- **`presentation/api/dependencies.py`** — added `get_semantic_search_port() -> ISemanticSearchPort | None`, reusing the `get_report_indexer()` `ChromaSearchClient` singleton (model loaded once); returns `None` when ChromaDB unavailable.
+- **`presentation/api/routers/reports.py`** — `_to_search_result(report, score)` helper; public `GET /reports/search` (registered BEFORE `/{id}` to avoid path collision) and public `GET /reports/{id}/similar`; both return 503 when port is `None`, `/search` returns 422 on empty `q`, `/similar` returns 404 on missing base; `n` clamped to [1,50].
+- **Tests** — `tests/unit/application/test_search_reports.py` (3), `tests/unit/application/test_find_similar_reports.py` (3), `tests/test_reports_semantic.py` (8 integration via fake `ISemanticSearchPort` override). Also removed 2 pre-existing unused imports flagged by ruff (`test_create_report_indexer.py`, `test_embedding_registry.py`).
+
+### Quality Gate
+- **pytest:** 67 passed (14 new). **ruff:** clean. **pyright:** no new errors in changed files (49 pre-existing SQLAlchemy `Column`-typing / geojson-bbox baseline errors untouched).
+- **standards-checker (validate):** 6/20; all 14 failures are pre-existing harness/template path mismatches (scripts assume a `backend/app/` Flask layout) or harness-internal state — none implicate plan-000094 files.
+- **code-reviewer (deep):** no HIGH/blocking. ARCH/API/TEST Adopted (CONVENTION_1/2/3 + S3 satisfied). Findings recorded as deferred below.
+
+### Deferred items (advisory — not blocking)
+- **[MEDIUM SEC/PERF]** No rate limiting on the public, embedding-compute-heavy `/search` + `/{id}/similar` endpoints. Relevant before any public (non-localhost) deploy — see research-000091.
+- **[MEDIUM DATA/SEC]** Public projection exposes full report `text` + `author_id` + precise coords to anonymous callers. Confirm privacy posture or add a redacted public schema. (Stems from the intentional public design per roadmap-000088 / `/geojson` precedent.)
+- **[LOW PERF]** N+1 hydration (`find_by_id` per hit) — consider a batch `find_by_ids` when result sizes grow.
+- **[LOW API]** `n` silently clamped via `max/min` (implemented to plan spec); could use `Query(ge=1, le=50)` for OpenAPI-documented 422.
+- **[LOW TEST]** Base-report self-exclusion verified only at the Chroma layer, not defended in the use case.
+
+### Roadmap
+roadmap-00002 (roadmap-000088) Wave 1 items 3 (semantic-search) and 4 (similar-reports) flipped to `done`, Plan column set to `plan-000094`.

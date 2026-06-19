@@ -57,6 +57,12 @@ class ReportResponse(BaseModel):
     model_config = {"from_attributes": True}
 
 
+class ReportSearchResult(ReportResponse):
+    """Hydrated report plus its semantic-similarity score in [0, 1]."""
+
+    score: float
+
+
 class ReportFiltersQuery(BaseModel):
     """Query parameters for GET /reports/geojson -- use via Depends()"""
 

@@ -5,6 +5,8 @@ __pycache__/
 .env
 *.db
 *.db-journal
+# Semantic vector store (ChromaDB embeddings) — derived artifact, never committed (roadmap-000088 D-B)
+vectorstore/
 .pytest_cache/
 .ruff_cache/
 dist/
