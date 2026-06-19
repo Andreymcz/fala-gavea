@@ -5,7 +5,7 @@ COPY frontend/package*.json ./
 RUN npm ci
 COPY frontend/ ./
 RUN npm run build
-# outputs to /app/frontend/dist/
+# outputs to /app/static/ (vite.config outDir: "../static")
 
 # Stage 2: Python runtime
 FROM python:3.13-slim AS runtime
@@ -24,7 +24,7 @@ COPY src/ ./src/
 COPY scripts/ ./scripts/
 
 # Copy pre-built SPA into static/ (the path main.py resolves to)
-COPY --from=frontend-build /app/frontend/dist ./static/
+COPY --from=frontend-build /app/static/ ./static/
 
 # Data directory for persistent volume mount
 RUN mkdir -p /data
