@@ -1,8 +1,10 @@
 # Briefs Log
 
+DONE | 2026-06-19 18:25 UTC | STARTED | 2026-06-19 18:22 UTC | reflect | some IA features are implemented, however in the frontend says Busca semantica (em breve)
+
 DONE | 2026-06-19 17:14 UTC | STARTED | 2026-06-19 17:11 UTC | plan | folowing research 91 lets create a dockerfile to install and run the app locally, preparing to publish the app into Railway. create a mappiong to the db storage to local file | PLAN | 000096
 
-STARTED | 2026-06-19 16:56 UTC | reflect | on last implemented plans. I want to test the funcionality. need to re-ingest relatos ficticios
+DONE | 2026-06-19 17:23 UTC | STARTED | 2026-06-19 16:56 UTC | reflect | on last implemented plans. I want to test the funcionality. need to re-ingest relatos ficticios | PLAN | 000096
 
 DONE | 2026-06-19 15:04 UTC | STARTED | 2026-06-19 14:50 UTC | implement | plan-000094 | PLAN | 000094
 
