@@ -34,9 +34,6 @@ packages = ["src/fala_gavea"]
 testpaths = ["tests"]
 pythonpath = ["src"]
 
-[tool.uv]
-required-environments = ["sys_platform == 'win32' and platform_machine == 'AMD64'"]
-
 [tool.ruff]
 line-length = 100
 target-version = "py313"
