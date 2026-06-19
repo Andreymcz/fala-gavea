@@ -1,5 +1,9 @@
 # Briefs Log
 
+DONE | 2026-06-19 21:55 UTC | STARTED | 2026-06-19 21:53 UTC | plan | create a api entrypoint to receive a csv with seed relatos. then the use case will bulk insert | PLAN | 000105
+
+STARTED | 2026-06-19 21:46 UTC | implement | plan-000104
+
 DONE | 2026-06-19 21:44 UTC | STARTED | 2026-06-19 21:31 UTC | plan | the 1st frontend iteration — grid/workspace shell + Zustand filter/selection store + lift filter out of MapPage + Mapa/Tabela with cross-filter + wire Tópicos (GET /reports/topics), similares, and RAG chat (POST /chat) to the done backends. Pass source: research-000092 | PLAN | 000104
 
 DONE | 2026-06-19 21:26 UTC | STARTED | 2026-06-19 21:05 UTC | design | formalize JM-TB-003 (explore/filter/analyze journey) in §15 and update §8 UX Patterns with left-rail-filter + swappable-center-views model
