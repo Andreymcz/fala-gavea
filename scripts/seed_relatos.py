@@ -1,4 +1,4 @@
-"""Seed script: populates the database with reports spread across the past year.
+"""Seed script: populates the database with reports via the REST API.
 
 Reads CSV files from --csv-dir (columns: id_cidadao, texto_relato, latitude, longitude,
 data, topico) and replicates the corpus with random jitter until --count is reached.
@@ -7,46 +7,37 @@ Falls back to built-in templates if no CSV files are found.
 Pre-requisites:
     uv run python scripts/seed_report_types.py
     uv run python scripts/seed_users.py
+    API server must be running.
 
 Usage:
-    uv run python scripts/seed_relatos.py [--csv-dir seeds/relatos/] [--count N] [--force]
+    uv run python scripts/seed_relatos.py [--url http://localhost:8000] [--csv-dir seeds/relatos/] [--count N] [--force]
 
 Options:
+    --url URL       Base URL of the API (default: http://localhost:8000)
     --csv-dir DIR   Directory with CSV seed files (default: seeds/relatos/)
     --count N       Target number of reports to insert (default: 10000)
     --force         Re-seed even if reports already exist
+    --user EMAIL    Login email to use for seeding (default: citizen01@gavea.br)
+    --password PWD  Login password (default: citizen01pass)
+    --batch N       Number of reports per batch progress update (default: 100)
 """
 from __future__ import annotations
 
 import argparse
 import csv
-import os
 import random
 import sys
-import uuid
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
-
-from sqlalchemy import func
-
-from fala_gavea.infrastructure.database.models import ReportModel, ReportTypeModel, UserModel
-from fala_gavea.infrastructure.database.session import SessionLocal, create_tables
+import httpx
 
 LAT_MIN, LAT_MAX = -22.975, -22.953
 LON_MIN, LON_MAX = -43.235, -43.205
 
 URGENCY_WEIGHTS = [("alta", 0.15), ("media", 0.60), ("baixa", 0.25)]
-STATUS_WEIGHTS = [
-    ("pendente", 0.50),
-    ("em_analise", 0.25),
-    ("encaminhado", 0.15),
-    ("resolvido", 0.10),
-]
 
 # Templates organized by research connection axis (for Herbert's social science questions).
-# Each cluster covers one thematic intersection; texts use citizen voice.
 TEXTS = [
     # --- Eixo 1: Saneamento → Saúde / Assistência básica ---
     "Acumulo de lixo ha mais de uma semana no beco da Rua Coracao de Maria. "
@@ -130,7 +121,6 @@ TEXTS = [
     "bueiro obstruido. Tres problemas no mesmo ponto; nenhum atendido em dois meses.",
 ]
 
-# Default coordinates (centre of Gávea) for synthetic corpus entries
 _DEFAULT_COORDS = [
     (-22.9651, -43.2180),
     (-22.9620, -43.2150),
@@ -163,7 +153,7 @@ def parse_date(date_str: str) -> datetime:
 
 def jitter_date(base_dt: datetime) -> datetime:
     delta = timedelta(days=random.randint(-15, 15), hours=random.randint(0, 23))
-    now = datetime.utcnow()
+    now = datetime.now(timezone.utc).replace(tzinfo=None)
     year_ago = now - timedelta(days=365)
     result = base_dt + delta
     return max(year_ago, min(now, result))
@@ -171,8 +161,6 @@ def jitter_date(base_dt: datetime) -> datetime:
 
 def load_csv_corpus(
     csv_dir: str,
-    email_to_id: dict[str, str],
-    citizen_fallback: str,
     type_map: dict[str, str],
     default_type_id: str,
 ) -> list[dict]:
@@ -184,8 +172,6 @@ def load_csv_corpus(
         with csv_file.open(encoding="utf-8") as f:
             reader = csv.DictReader(f)
             for line in reader:
-                email = f"{line['id_cidadao'].strip()}@gavea.br"
-                author_id = email_to_id.get(email, citizen_fallback)
                 topico_key = line["topico"].strip().lower()
                 type_id = type_map.get(topico_key, default_type_id)
                 rows.append(
@@ -195,23 +181,18 @@ def load_csv_corpus(
                         "lon": float(line["longitude"]),
                         "created_at": parse_date(line["data"]),
                         "report_type_id": type_id,
-                        "author_id": author_id,
                     }
                 )
     return rows
 
 
-def build_synthetic_corpus(
-    user_ids: list[str],
-    type_map: dict[str, str],
-) -> list[dict]:
+def build_synthetic_corpus(type_map: dict[str, str]) -> list[dict]:
     type_ids = list(type_map.values())
     corpus = []
-    now = datetime.utcnow()
+    now = datetime.now(timezone.utc).replace(tzinfo=None)
     year_ago = now - timedelta(days=365)
     for i, text in enumerate(TEXTS):
         lat, lon = _DEFAULT_COORDS[i % len(_DEFAULT_COORDS)]
-        # Spread dates evenly across the year
         offset_seconds = int((i / len(TEXTS)) * 365 * 24 * 3600)
         created_at = year_ago + timedelta(seconds=offset_seconds)
         corpus.append(
@@ -221,76 +202,79 @@ def build_synthetic_corpus(
                 "lon": lon,
                 "created_at": created_at,
                 "report_type_id": type_ids[i % len(type_ids)],
-                "author_id": user_ids[i % len(user_ids)],
             }
         )
     return corpus
 
 
+def login(client: httpx.Client, email: str, password: str) -> str:
+    resp = client.post("/auth/token", data={"username": email, "password": password})
+    if resp.status_code != 200:
+        print(f"Login failed ({resp.status_code}): {resp.text}", file=sys.stderr)
+        sys.exit(1)
+    return resp.json()["access_token"]
+
+
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Seed reports into the Fala Gávea database.")
+    parser = argparse.ArgumentParser(description="Seed reports via the Fala Gávea API.")
+    parser.add_argument("--url", default="http://localhost:8000", help="Base URL of the API")
     parser.add_argument("--csv-dir", default="seeds/relatos/", help="Directory with CSV seed files")
     parser.add_argument("--count", type=int, default=10000, help="Target number of reports")
-    parser.add_argument("--force", action="store_true", help="Re-seed even if reports already exist")
+    parser.add_argument("--force", action="store_true", help="Re-seed without checking existing count")
+    parser.add_argument("--user", default="citizen01@gavea.br", help="Login email")
+    parser.add_argument("--password", default="citizen01pass", help="Login password")
+    parser.add_argument("--batch", type=int, default=100, help="Progress update interval")
     args = parser.parse_args()
 
-    create_tables()
-    session = SessionLocal()
+    base = args.url.rstrip("/")
 
-    existing = session.query(func.count(ReportModel.id)).scalar() or 0
-    if existing >= args.count // 2 and not args.force:
-        print(f"Skip: {existing} reports already in DB. Use --force to re-seed.")
-        session.close()
-        return
+    with httpx.Client(base_url=base, timeout=30) as client:
+        token = login(client, args.user, args.password)
+        headers = {"Authorization": f"Bearer {token}"}
 
-    user_ids = [r[0] for r in session.query(UserModel.id).all()]
-    if not user_ids:
-        print("Error: no users found. Run seed_users.py first.", file=sys.stderr)
-        session.close()
-        sys.exit(1)
+        # Fetch available report types
+        rt_resp = client.get("/report_types/")
+        if rt_resp.status_code != 200:
+            print(f"Failed to fetch report types: {rt_resp.text}", file=sys.stderr)
+            sys.exit(1)
+        report_types = rt_resp.json()
+        if not report_types:
+            print("Error: no report types found. Run seed_report_types.py first.", file=sys.stderr)
+            sys.exit(1)
+        type_map = {rt["name"].strip().lower(): rt["id"] for rt in report_types}
+        default_type_id = report_types[0]["id"]
 
-    email_to_id = {r.email: r.id for r in session.query(UserModel).all()}
-    citizen_fallback = user_ids[0]
+        corpus = load_csv_corpus(args.csv_dir, type_map, default_type_id)
+        if corpus:
+            print(f"Loaded {len(corpus)} rows from {args.csv_dir}.")
+        else:
+            print(f"No CSV files found in {args.csv_dir}. Using built-in templates.")
+            corpus = build_synthetic_corpus(type_map)
 
-    type_map = {
-        r.name.strip().lower(): r.id
-        for r in session.query(ReportTypeModel).filter_by(active=True).all()
-    }
-    if not type_map:
-        print("Error: no report types found. Run seed_report_types.py first.", file=sys.stderr)
-        session.close()
-        sys.exit(1)
-    default_type_id = list(type_map.values())[0]
+        created = 0
+        errors = 0
+        for i in range(args.count):
+            base_entry = corpus[i % len(corpus)]
+            payload = {
+                "text": base_entry["text"],
+                "lat": round(base_entry["lat"] + random.uniform(-0.003, 0.003), 6),
+                "lon": round(base_entry["lon"] + random.uniform(-0.003, 0.003), 6),
+                "urgency": weighted_choice(URGENCY_WEIGHTS),
+                "report_type_id": base_entry["report_type_id"],
+                "photo_url": None,
+            }
+            resp = client.post("/reports/", json=payload, headers=headers)
+            if resp.status_code in (200, 201):
+                created += 1
+            else:
+                errors += 1
+                if errors <= 5:
+                    print(f"  Error {resp.status_code}: {resp.text}", file=sys.stderr)
 
-    corpus = load_csv_corpus(args.csv_dir, email_to_id, citizen_fallback, type_map, default_type_id)
-    if corpus:
-        print(f"Loaded {len(corpus)} rows from {args.csv_dir}.")
-    else:
-        print(f"No CSV files found in {args.csv_dir}. Using built-in templates.")
-        corpus = build_synthetic_corpus(user_ids, type_map)
+            if (i + 1) % args.batch == 0:
+                print(f"  Progress: {i + 1}/{args.count} ({errors} errors)")
 
-    reports = []
-    for i in range(args.count):
-        base = corpus[i % len(corpus)]
-        reports.append(
-            ReportModel(
-                id=str(uuid.uuid4()),
-                text=base["text"],
-                lat=round(base["lat"] + random.uniform(-0.003, 0.003), 6),
-                lon=round(base["lon"] + random.uniform(-0.003, 0.003), 6),
-                urgency=weighted_choice(URGENCY_WEIGHTS),
-                status=weighted_choice(STATUS_WEIGHTS),
-                report_type_id=base["report_type_id"],
-                author_id=base["author_id"],
-                photo_url=None,
-                created_at=jitter_date(base["created_at"]),
-            )
-        )
-
-    session.bulk_save_objects(reports)
-    session.commit()
-    session.close()
-    print(f"Done. Created: {args.count} reports over the past 365 days.")
+    print(f"\nDone. Created: {created}, Errors: {errors}")
 
 
 if __name__ == "__main__":

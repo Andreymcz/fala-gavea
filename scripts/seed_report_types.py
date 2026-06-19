@@ -25,8 +25,8 @@ REPORT_TYPES = [
 
 def main() -> None:
     api_url = os.environ.get("FALA_GAVEA_API_URL", "http://localhost:8000").rstrip("/")
-    admin_email = os.environ.get("FALA_GAVEA_ADMIN_EMAIL", "")
-    admin_password = os.environ.get("FALA_GAVEA_ADMIN_PASSWORD", "")
+    admin_email = os.environ.get("FALA_GAVEA_ADMIN_EMAIL", "admin@gavea.br")
+    admin_password = os.environ.get("FALA_GAVEA_ADMIN_PASSWORD", "admin12345")
 
     if not admin_email or not admin_password:
         print("Error: FALA_GAVEA_ADMIN_EMAIL and FALA_GAVEA_ADMIN_PASSWORD must be set.", file=sys.stderr)
