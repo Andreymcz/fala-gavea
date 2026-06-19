@@ -1,5 +1,6 @@
 import { useWorkspaceStore } from '@/store/workspaceStore'
 import { useReportTypes } from '@/hooks/useReportTypes'
+import { useFilteredReports } from '@/hooks/useFilteredReports'
 import type { Urgency, ReportStatus } from '@/lib/types'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Label } from '@/components/ui/label'
@@ -9,6 +10,7 @@ import { Input } from '@/components/ui/input'
 export function FilterPanel() {
   const { filters, setFilter, clearFilters, setSemanticQuery } = useWorkspaceStore()
   const { data: reportTypes = [] } = useReportTypes()
+  const { count, semanticTruncated } = useFilteredReports()
 
   function update(patch: Partial<typeof filters>) {
     setFilter(patch)
@@ -16,8 +18,15 @@ export function FilterPanel() {
 
   return (
     <div className="flex flex-col gap-3 p-3 bg-white border-r border-gray-200 w-56 overflow-y-auto">
+      <div aria-live="polite" aria-atomic="true" className="sr-only" id="filter-count-announcement">
+        {semanticTruncated
+          ? `Filtro ativo — mostrando os 50 relatos mais relevantes para "${filters.semanticQuery}"`
+          : `${count} relato${count !== 1 ? 's' : ''} encontrado${count !== 1 ? 's' : ''}`
+        }
+      </div>
       <div className="flex items-center justify-between">
         <h2 className="text-sm font-semibold text-gray-700">Filtros</h2>
+        <span className="text-xs text-gray-500">{count} relato{count !== 1 ? 's' : ''}</span>
         <Button variant="ghost" size="sm" onClick={clearFilters} className="text-xs h-7 px-2">
           Limpar
         </Button>
@@ -108,6 +117,11 @@ export function FilterPanel() {
           value={filters.semanticQuery ?? ''}
           onChange={(e) => setSemanticQuery(e.target.value)}
         />
+        {semanticTruncated && (
+          <p className="text-xs text-amber-600">
+            Mostrando os 50 mais relevantes para "{filters.semanticQuery}"
+          </p>
+        )}
       </div>
     </div>
   )
