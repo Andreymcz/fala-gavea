@@ -10,6 +10,10 @@ import type {
   ReportFilters,
   ForwardingFilters,
   ForwardingStatus,
+  TopicListResponse,
+  ReportSearchResult,
+  ChatRequest,
+  ChatResponse,
 } from "./types";
 
 const BASE_URL = (import.meta.env.VITE_API_URL as string) || "";
@@ -136,5 +140,24 @@ export const api = {
 
   updateForwarding(id: string, body: UpdateForwardingBody): Promise<Forwarding> {
     return request<Forwarding>("PATCH", `/forwardings/${id}`, { body });
+  },
+
+  getTopics(filters: ReportFilters, min_docs?: number): Promise<TopicListResponse> {
+    const q = buildQuery({ ...(filters as Record<string, string | number | undefined>), min_docs: min_docs ?? 3 });
+    return request<TopicListResponse>("GET", `/reports/topics${q}`);
+  },
+
+  getSimilarReports(id: string, n?: number): Promise<ReportSearchResult[]> {
+    const q = buildQuery({ n: n ?? 5 });
+    return request<ReportSearchResult[]>("GET", `/reports/${id}/similar${q}`);
+  },
+
+  searchReports(q: string, n?: number): Promise<ReportSearchResult[]> {
+    const qs = buildQuery({ q, n: n ?? 50 });
+    return request<ReportSearchResult[]>("GET", `/reports/search${qs}`, { public: true });
+  },
+
+  chat(body: ChatRequest): Promise<ChatResponse> {
+    return request<ChatResponse>("POST", "/nl/chat", { body });
   },
 };
