@@ -42,3 +42,8 @@ class ITopicModelPort(ABC):
         Topic -1 (outliers) is excluded from the result.
         """
         ...
+
+
+class ILLMClient(ABC):
+    @abstractmethod
+    def complete(self, system: str, messages: list[dict[str, str]]) -> str: ...

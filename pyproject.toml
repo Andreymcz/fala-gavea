@@ -12,6 +12,7 @@ dependencies = [
     "chromadb>=0.6",
     "sentence-transformers>=3.0",
     "bertopic>=0.17",
+    "anthropic>=0.50",
 ]
 
 [project.optional-dependencies]

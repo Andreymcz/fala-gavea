@@ -12,7 +12,12 @@ from fala_gavea.domain.exceptions import InvalidCredentialsError
 from fala_gavea.domain.repositories.forwarding_repository import IForwardingRepository
 from fala_gavea.domain.repositories.report_repository import IReportRepository
 from fala_gavea.domain.repositories.report_type_repository import IReportTypeRepository
-from fala_gavea.domain.repositories.semantic_ports import IReportIndexer, ISemanticSearchPort, ITopicModelPort
+from fala_gavea.domain.repositories.semantic_ports import (
+    ILLMClient,
+    IReportIndexer,
+    ISemanticSearchPort,
+    ITopicModelPort,
+)
 from fala_gavea.domain.repositories.user_repository import IUserRepository
 from fala_gavea.infrastructure.auth.jwt_service import JWTService
 from fala_gavea.infrastructure.auth.password_service import PasswordService
@@ -24,6 +29,7 @@ from fala_gavea.infrastructure.repositories.sqlalchemy_user_repository import SQ
 _log = logging.getLogger(__name__)
 _indexer_instance: IReportIndexer | None = None
 _topic_model_instance: ITopicModelPort | None = None
+_llm_client_instance: ILLMClient | None = None
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token")
 
@@ -120,6 +126,17 @@ def get_topic_model_port() -> ITopicModelPort | None:
         except Exception as exc:
             _log.warning("BERTopicClient unavailable: %s", exc)
     return _topic_model_instance
+
+
+def get_llm_client() -> ILLMClient | None:
+    global _llm_client_instance
+    if _llm_client_instance is None:
+        try:
+            from fala_gavea.infrastructure.llm.factory import create_llm_client
+            _llm_client_instance = create_llm_client()
+        except Exception as exc:
+            _log.warning("LLM client unavailable: %s", exc)
+    return _llm_client_instance
 
 
 def get_forwarding_repo(db: Session = Depends(get_db)) -> IForwardingRepository:
