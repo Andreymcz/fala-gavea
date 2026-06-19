@@ -1,5 +1,7 @@
 # Briefs Log
 
+DONE | 2026-06-19 21:44 UTC | STARTED | 2026-06-19 21:31 UTC | plan | the 1st frontend iteration — grid/workspace shell + Zustand filter/selection store + lift filter out of MapPage + Mapa/Tabela with cross-filter + wire Tópicos (GET /reports/topics), similares, and RAG chat (POST /chat) to the done backends. Pass source: research-000092 | PLAN | 000104
+
 DONE | 2026-06-19 21:26 UTC | STARTED | 2026-06-19 21:05 UTC | design | formalize JM-TB-003 (explore/filter/analyze journey) in §15 and update §8 UX Patterns with left-rail-filter + swappable-center-views model
 
 DONE | 2026-06-19 21:03 UTC | STARTED | 2026-06-19 20:50 UTC | reflect | 99, 100, 2. Use research log 92 to plan a frontend journey in order to create a relatos filter and visualization amplified with IA tools implemented on backend
