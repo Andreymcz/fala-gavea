@@ -109,3 +109,32 @@ export interface ForwardingFilters {
   skip?: number;
   limit?: number;
 }
+
+export interface TopicItem {
+  topic_id: number;
+  terms: string[];
+  count: number;
+}
+
+export interface TopicListResponse {
+  topics: TopicItem[];
+  total_reports: number;
+}
+
+export interface ReportSearchResult extends ReportDetail {
+  score: number;
+}
+
+export interface ChatRequest {
+  message: string;
+  session_id?: string;
+}
+
+export interface ChatResponse {
+  response: string;
+  cited_report_ids: string[];
+}
+
+export interface WorkspaceFilters extends ReportFilters {
+  semanticQuery?: string;
+}
