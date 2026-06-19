@@ -482,6 +482,17 @@ _N/A — projeto greenfield._
 
 ---
 
+### D-008: ### D-008: Workspace em grid de ferramentas substitui o modelo map-centric
+
+
+**Context**: O SPA era map-centric (rota `/` = MapPage em tela cheia; o mapa E a visualizacao; busca semantica e chat como placeholders sobre o mapa). O time quer inverter para um modelo de workspace/dashboard que sirva tanto a transparencia civica (cidadao) quanto a analise territorial (agente), apoiando os dois projetos educacionais (Canal Digital / Waze comunitario; Mapa Colaborativo de Dados).
+
+**Decision**: O painel central de `/` vira um grid de widgets onde o mapa e apenas um deles. Iteracao 1: Mapa, Tabela/lista, Graficos agregados, Topicos/clusters semanticos. Painel unico para ambas as audiencias, com visibilidade inicial dos widgets definida pelo papel (cidadao: Mapa+Tabela; agente: os 4). Layout base fixo com toggle de ferramentas. Linked views: um store de filtro/selecao compartilhado (Zustand) com cross-filtering; react-query continua so com dados de servidor.
+
+**Consequences**: Filtro/selecao sobem do MapPage local para um store compartilhado. Nova jornada JM-TB-003 (explorar/analisar relatos). SelectionBar->CreateForwardingDialog passa a funcionar do Mapa e da Tabela. Introduz Recharts (charting) e clustering de marcadores. Widget de Topicos depende das Waves 1/2 (sequenciado por ultimo, atras de placeholder digno). a11y de cross-filter (teclado, alvos >=44px, nao-so-cor, aria-live) torna-se requisito.
+
+*Source: from research-000092 (2026-06-19)*
+
 ## CHANGELOG
 
 2026-06-17 | D-001 | added | - | Decisao de novo projeto independente via python-scaffold (roadmap-000071 D-A)

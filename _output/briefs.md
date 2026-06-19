@@ -2,7 +2,7 @@
 
 DONE | 2026-06-19 14:02 UTC | STARTED | 2026-06-19 13:25 UTC | check | validate
 
-STARTED | 2026-06-19 13:27 UTC | research | criar jornada de visualizacao, busca e analise dos relatos. ao inves do mapa ser o centro da visualizacao, ele eh apenas mais uma forma. o painel central da aplicacao eh um grid, que pode conter diversas ferramentas para visualizar os relatos filtrados. pensar educacionalmente nos dois projetos: (1) Canal Digital Comunitario para Seguranca Urbana (Waze comunitario); (2) Mapa Colaborativo de Dados para Seguranca e Planejamento do Bairro.
+DONE | 2026-06-19 14:14 UTC | STARTED | 2026-06-19 13:27 UTC | research | criar jornada de visualizacao, busca e analise dos relatos. ao inves do mapa ser o centro da visualizacao, ele eh apenas mais uma forma. o painel central da aplicacao eh um grid, que pode conter diversas ferramentas para visualizar os relatos filtrados. pensar educacionalmente nos dois projetos: (1) Canal Digital Comunitario para Seguranca Urbana (Waze comunitario); (2) Mapa Colaborativo de Dados para Seguranca e Planejamento do Bairro.
 
 DONE | 2026-06-19 13:24 UTC | STARTED | 2026-06-19 13:18 UTC | implement | implement 90 | PLAN | 000090
 

@@ -6,7 +6,7 @@
 | Date | Skill | Brief | Status | Plan | Head SHA | Generated |
 |------|-------|-------|--------|------|----------|-----------|
 | 2026-06-19 13:25 UTC | check | validate | DONE |  |  |  |
-| 2026-06-19 13:27 UTC | research | criar jornada de visualizacao, busca e analise dos relatos. ao inves do mapa se… | STARTED |  |  |  |
+| 2026-06-19 13:27 UTC | research | criar jornada de visualizacao, busca e analise dos relatos. ao inves do mapa se… | DONE |  |  |  |
 | 2026-06-19 13:18 UTC | implement | implement 90 | DONE | 000090 |  |  |
 | 2026-06-19 12:41 UTC | implement | plan-000089 | DONE | 000089 |  |  |
 | 2026-06-19 12:39 UTC | research | put fala-Gavea app into a open web url server. what are the hosts that allow a … | STARTED |  |  |  |

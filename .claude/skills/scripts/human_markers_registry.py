@@ -49,8 +49,10 @@ HUMAN_MARKERS_FILES: list[str] = [
     ".claude/skills/scripts/tests/fixtures/marker_fixture.md",
     ".claude/references/template/ux-research-results.md",
     "product-design/ux-research-results.md",
+    "product-design/project/ux-research-results.md",
     ".claude/references/template/product-design-as-intended.md",
     "product-design/product-design-as-intended.md",
+    "product-design/project/product-design-as-intended.md",
 ]
 
 
