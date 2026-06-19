@@ -33,3 +33,12 @@ class ITopicModelPort(ABC):
 
     @abstractmethod
     def fit(self, reports: list[Report]) -> None: ...
+
+    @abstractmethod
+    def infer_topics(self, reports: list[Report]) -> list[dict]:
+        """Run BERTopic on the given reports and return topic summaries.
+
+        Each dict has keys: topic_id (int), terms (list[str]), count (int).
+        Topic -1 (outliers) is excluded from the result.
+        """
+        ...
