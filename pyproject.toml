@@ -9,6 +9,9 @@ dependencies = [
     "uvicorn[standard]>=0.30",
     "pyjwt>=2.8",
     "passlib[bcrypt]>=1.7",
+    "chromadb>=0.6",
+    "sentence-transformers>=3.0",
+    "bertopic>=0.17",
 ]
 
 [project.optional-dependencies]
