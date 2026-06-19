@@ -6,7 +6,7 @@
 | Date | Skill | Brief | Status | Plan | Head SHA | Generated |
 |------|-------|-------|--------|------|----------|-----------|
 | 2026-06-19 17:11 UTC | plan | folowing research 91 lets create a dockerfile to install and run the app locall… | DONE | 000096 |  |  |
-| 2026-06-19 16:56 UTC | reflect | on last implemented plans. I want to test the funcionality. need to re-ingest r… | STARTED |  |  |  |
+| 2026-06-19 16:56 UTC | reflect | on last implemented plans. I want to test the funcionality. need to re-ingest r… | DONE | 000096 |  |  |
 | 2026-06-19 14:50 UTC | implement | plan-000094 | DONE | 000094 |  |  |
 | 2026-06-19 13:25 UTC | check | validate | DONE |  |  |  |
 | 2026-06-19 13:27 UTC | research | criar jornada de visualizacao, busca e analise dos relatos. ao inves do mapa se… | DONE |  |  |  |

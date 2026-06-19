@@ -93,6 +93,22 @@ All journey steps JM-TB-001 and JM-TB-002 are now implemented end-to-end (fronte
 
 _Not yet implemented._
 
+### 11. Deployment & Infrastructure
+
+Containerized via multi-stage Dockerfile (node:22-alpine builds React SPA → python:3.13-slim runtime installs deps via `uv sync --frozen --no-dev`). `/data` is the persistent volume mount point.
+
+Runtime configuration is fully env-var driven:
+- `DATABASE_URL` — SQLite path (`sqlite:////data/fala_gavea.db` on Railway; relative default locally)
+- `CHROMA_DATA_DIR` — ChromaDB persistence dir (checked before `FALA_GAVEA_VECTORSTORE_PATH`; default `./chroma_data`)
+- `JWT_SECRET` — HMAC signing key
+- `FALA_GAVEA_OLLAMA_URL` / `FALA_GAVEA_OLLAMA_MODEL` — optional; unset disables NL chat (returns 503)
+
+`GET /health` (unauthenticated, excluded from OpenAPI schema) returns `{"status": "ok"}` — used by Railway health checks.
+
+Ollama graceful degradation: `OllamaClient._available = False` when `FALA_GAVEA_OLLAMA_URL` is unset; `OllamaUnavailableError` (domain exception) is raised on any method call; `POST /nl/chat` router catches it and returns HTTP 503 with `{"detail": "NL chat is unavailable in this deployment."}`.
+
+`railway.json` declares Dockerfile builder, `$PORT` start command, `/health` healthcheck (30s timeout), ON_FAILURE restart policy.
+
 ### 10. Validation Constants (Domain)
 
 Enforced at both Pydantic schema layer AND use-case layer:
@@ -131,6 +147,11 @@ _Not yet implemented._
 _Not yet implemented._
 
 ### 5. Changelog
+
+#### v2 — 2026-06-19
+- **Added**: §11 Deployment & Infrastructure — Dockerfile (multi-stage), `railway.json`, `/health` endpoint, `CHROMA_DATA_DIR` env var, Ollama graceful degradation (`OllamaUnavailableError` → 503)
+- **Source**: agent (post-skill)
+- **Plan**: plan-000096
 
 #### v1 — 2026-06-17 20:07 UTC
 
