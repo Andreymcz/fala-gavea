@@ -9,6 +9,7 @@ build:
 	docker build -t $(IMAGE) .
 
 run:
+	mkdir -p $(DATA)
 	docker run -d --name $(IMAGE) -p $(PORT):$(PORT) \
 		-v "$(DATA):/data" \
 		-e DATABASE_URL=sqlite:////data/fala_gavea.db \
