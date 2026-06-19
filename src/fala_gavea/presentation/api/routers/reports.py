@@ -7,17 +7,19 @@ from fala_gavea.application.use_cases.reports.find_similar_reports import FindSi
 from fala_gavea.application.use_cases.reports.get_report import GetReport
 from fala_gavea.application.use_cases.reports.list_reports_geojson import ListReportsGeoJSON
 from fala_gavea.application.use_cases.reports.search_reports import SearchReports
+from fala_gavea.application.use_cases.topics.get_topics_for_reports import GetTopicsForReports
 from fala_gavea.domain.entities.report import Report, ReportStatus, Urgency
 from fala_gavea.domain.entities.user import User
 from fala_gavea.domain.exceptions import InvalidInputError, ReportNotFoundError, ReportTypeNotFoundError
 from fala_gavea.domain.repositories.report_repository import ReportFilters
-from fala_gavea.domain.repositories.semantic_ports import IReportIndexer, ISemanticSearchPort
+from fala_gavea.domain.repositories.semantic_ports import IReportIndexer, ISemanticSearchPort, ITopicModelPort
 from fala_gavea.presentation.api.dependencies import (
     get_current_user,
     get_report_indexer,
     get_report_repo,
     get_report_type_repo,
     get_semantic_search_port,
+    get_topic_model_port,
 )
 from fala_gavea.presentation.schemas.report import (
     ReportCreate,
@@ -25,6 +27,7 @@ from fala_gavea.presentation.schemas.report import (
     ReportResponse,
     ReportSearchResult,
 )
+from fala_gavea.presentation.schemas.topic import TopicItem, TopicListResponse
 
 router = APIRouter()
 
@@ -145,6 +148,47 @@ def similar_reports(
     except ReportNotFoundError as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
     return [_to_search_result(report, score) for report, score in results]
+
+
+@router.get("/topics", response_model=TopicListResponse)
+def get_topics(
+    q: ReportFiltersQuery = Depends(),
+    min_docs: int = 3,
+    current_user: User = Depends(get_current_user),
+    report_repo=Depends(get_report_repo),
+    topic_port: ITopicModelPort | None = Depends(get_topic_model_port),
+) -> TopicListResponse:
+    if topic_port is None:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Topic modeling unavailable",
+        )
+    bbox = None
+    if q.bbox:
+        try:
+            parts = [float(x) for x in q.bbox.split(",")]
+            if len(parts) != 4:
+                raise ValueError
+            bbox = tuple(parts)
+        except ValueError:
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail="bbox must be 'minLat,minLon,maxLat,maxLon'",
+            )
+    filters = ReportFilters(
+        report_type_id=q.type_id,
+        urgency=Urgency(q.urgency) if q.urgency else None,
+        status=ReportStatus(q.status) if q.status else None,
+        since=q.since,
+        until=q.until,
+        bbox=bbox,
+    )
+    reports = report_repo.find_all(filters)
+    if len(reports) < min_docs:
+        return TopicListResponse(topics=[], total_reports=len(reports))
+    raw_topics = GetTopicsForReports(topic_port, min_docs=min_docs).execute(reports)
+    topics = [TopicItem(topic_id=t["topic_id"], terms=t["terms"], count=t["count"]) for t in raw_topics]
+    return TopicListResponse(topics=topics, total_reports=len(reports))
 
 
 @router.get("/{id}", response_model=ReportResponse)

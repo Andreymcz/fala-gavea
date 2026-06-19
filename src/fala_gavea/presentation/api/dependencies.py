@@ -12,7 +12,7 @@ from fala_gavea.domain.exceptions import InvalidCredentialsError
 from fala_gavea.domain.repositories.forwarding_repository import IForwardingRepository
 from fala_gavea.domain.repositories.report_repository import IReportRepository
 from fala_gavea.domain.repositories.report_type_repository import IReportTypeRepository
-from fala_gavea.domain.repositories.semantic_ports import IReportIndexer, ISemanticSearchPort
+from fala_gavea.domain.repositories.semantic_ports import IReportIndexer, ISemanticSearchPort, ITopicModelPort
 from fala_gavea.domain.repositories.user_repository import IUserRepository
 from fala_gavea.infrastructure.auth.jwt_service import JWTService
 from fala_gavea.infrastructure.auth.password_service import PasswordService
@@ -23,6 +23,7 @@ from fala_gavea.infrastructure.repositories.sqlalchemy_user_repository import SQ
 
 _log = logging.getLogger(__name__)
 _indexer_instance: IReportIndexer | None = None
+_topic_model_instance: ITopicModelPort | None = None
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token")
 
@@ -107,6 +108,18 @@ def get_semantic_search_port() -> ISemanticSearchPort | None:
     # reaproveita o singleton de get_report_indexer (modelo carregado uma vez).
     client = get_report_indexer()
     return client  # type: ignore[return-value]
+
+
+def get_topic_model_port() -> ITopicModelPort | None:
+    global _topic_model_instance
+    if _topic_model_instance is None:
+        try:
+            from fala_gavea.infrastructure.topics.bertopic_client import BERTopicClient
+            from fala_gavea.infrastructure.embeddings.registry import SemanticConfig
+            _topic_model_instance = BERTopicClient(SemanticConfig())
+        except Exception as exc:
+            _log.warning("BERTopicClient unavailable: %s", exc)
+    return _topic_model_instance
 
 
 def get_forwarding_repo(db: Session = Depends(get_db)) -> IForwardingRepository:
