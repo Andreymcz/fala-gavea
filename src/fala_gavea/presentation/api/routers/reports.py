@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 
 from fala_gavea.application.use_cases.reports.create_report import CreateReport
 from fala_gavea.application.use_cases.reports.find_similar_reports import FindSimilarReports
@@ -153,7 +153,7 @@ def similar_reports(
 @router.get("/topics", response_model=TopicListResponse)
 def get_topics(
     q: ReportFiltersQuery = Depends(),
-    min_docs: int = 3,
+    min_docs: int = Query(default=3, ge=1, le=100),
     current_user: User = Depends(get_current_user),
     report_repo=Depends(get_report_repo),
     topic_port: ITopicModelPort | None = Depends(get_topic_model_port),
@@ -184,8 +184,6 @@ def get_topics(
         bbox=bbox,
     )
     reports = report_repo.find_all(filters)
-    if len(reports) < min_docs:
-        return TopicListResponse(topics=[], total_reports=len(reports))
     raw_topics = GetTopicsForReports(topic_port, min_docs=min_docs).execute(reports)
     topics = [TopicItem(topic_id=t["topic_id"], terms=t["terms"], count=t["count"]) for t in raw_topics]
     return TopicListResponse(topics=topics, total_reports=len(reports))
