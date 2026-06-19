@@ -1,5 +1,5 @@
 # Roadmap 000088 | 2026-06-18 20:04 UTC | wave2 espacos semanticos IA
-spawned: plan-000089, plan-000090
+spawned: plan-000089, plan-000090, plan-000090
 
 refina: roadmap-000071 Wave 2 (itens 5 semantic-search, 6 similar-reports, 7 chat-assistant)
 

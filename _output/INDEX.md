@@ -5,12 +5,12 @@
 
 | Date | Type | ID | Title | Status | File |
 |------|------|----|-------|--------|------|
+| 2026-06-19 13:30 UTC | Other |  | DONE | 2026-06-19 13:30 UTC | Plan 000090 | FEATURE -B | 2026-06-19 12:34 | ing… |  | [plan-000090-ingestion-pipeline-indexacao-relatos-backfill.md](plans/plan-000090-ingestion-pipeline-indexacao-relatos-backfill.md) |
 | 2026-06-19 12:39 UTC | Other |  | Research 000091 | CHORE -O | 2026-06-19 12:39 UTC | Deploy fala-gavea to public… |  | [research-000091-deploy-fala-gavea-docker-public-host.md](research-logs/research-000091-deploy-fala-gavea-docker-public-host.md) |
 | 2026-06-19 12:39 UTC | RESERVED | 000091 | research: deploy fala-gavea to public web host with Docker | RESERVED |  |
 | 2026-06-19 12:38 UTC | QA Log | 000089 | semantic-infra wave 0 planning session |  | [plan-000089-qa-semantic-infra-wave0.md](plans/plan-000089-qa-semantic-infra-wave0.md) |
 | 2026-06-19 12:35 UTC | RESERVED | 000090 | plan: ingestion pipeline indexacao relatos backfill | RESERVED |  |
 | 2026-06-19 12:34 | Other |  | Plan 000089 | FEATURE -B | 2026-06-19 12:34 | semantic-infra deps embeddings po… |  | [plan-000089-semantic-infra-deps-embeddings-portas-chroma.md](plans/plan-000089-semantic-infra-deps-embeddings-portas-chroma.md) |
-| 2026-06-19 12:34 | Other |  | Plan 000090 | FEATURE -B | 2026-06-19 12:34 | ingestion pipeline indexacao rela… |  | [plan-000090-ingestion-pipeline-indexacao-relatos-backfill.md](plans/plan-000090-ingestion-pipeline-indexacao-relatos-backfill.md) |
 | 2026-06-19 12:32 UTC | Other |  | Progress -- Plan 000079 |  | [plan-000079-progress.md](plans/plan-000079-progress.md) |
 | 2026-06-19 12:32 UTC | Other |  | Progress -- Plan 000082 |  | [plan-000082-progress.md](plans/plan-000082-progress.md) |
 | 2026-06-18 20:04 UTC | Roadmap | 000088 | wave2 espacos semanticos IA | DONE | [roadmap-00002-wave2-espacos-semanticos-ia.md](roadmaps/roadmap-00002-wave2-espacos-semanticos-ia.md) |

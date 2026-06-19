@@ -1,4 +1,4 @@
-# Plan 000090 | FEATURE -B | 2026-06-19 12:34 | ingestion pipeline indexacao relatos backfill | Review: light
+# DONE | 2026-06-19 13:30 UTC | Plan 000090 | FEATURE -B | 2026-06-19 12:34 | ingestion pipeline indexacao relatos backfill | Review: light
 plan_format_version: 1
 
 source: roadmap-000088 -- Wave 0 item 2 (ingestion-pipeline: hook em CreateReport + backfill)
@@ -79,7 +79,7 @@ O indexer e opcional (default None) para garantir retrocompatibilidade com teste
 - **Interface**: `CreateReport.__init__(report_repo, report_type_repo, indexer=None)` -- assinatura existente mantida compativel (indexer e kwargs)
 - **Verify**: `uv run pytest tests/test_reports.py -v` passa (testes existentes nao quebram pois indexer default None)
 - **Tests**: Coberto pelo Step 3
-- [ ] Done
+- [x] Done
 
 ### Step 2: Adicionar get_report_indexer a dependencies.py e atualizar router
 
@@ -117,7 +117,7 @@ Adicionar o import de `get_report_indexer` no router.
 - **Depends on**: Step 1 (plan-000090), plan-000089 (ChromaSearchClient deve existir)
 - **Verify**: `uv run uvicorn fala_gavea.presentation.api.main:app --reload` sobe sem erro (mesmo sem vectorstore); POST /reports ainda retorna 201
 - **Tests**: Coberto pelos testes de integracao existentes em `tests/test_reports.py` (indexer nao e injetado no TestClient -- app.dependency_overrides pode sobrescrever para None ou mock)
-- [ ] Done
+- [x] Done
 
 ### Step 3: Testes unitarios do hook de indexacao em CreateReport
 
@@ -133,7 +133,7 @@ Os stubs de repo podem ser MagicMock configurados para retornar um `Report` e um
 - **Depends on**: Step 1
 - **Verify**: `uv run pytest tests/unit/application/test_create_report_indexer.py -v` passa
 - **Tests**: N/A (este step eh o teste)
-- [ ] Done
+- [x] Done
 
 ### Step 4: Script de backfill idempotente
 
@@ -159,7 +159,7 @@ Nota: o script roda fora do servidor FastAPI, diretamente contra o SQLite e o ve
 - **Depends on**: Step 2 (plan-000090) -- ChromaSearchClient e SemanticConfig ja existem
 - **Verify**: `uv run python scripts/backfill_semantic.py --help` mostra ajuda; rodando com banco vazio completa sem erro; rodando duas vezes nao duplica entradas (idempotente)
 - **Tests**: N/A (script operacional; testar backfill real requereria banco populado -- adequado para teste manual)
-- [ ] Done
+- [x] Done
 
 ---
 
@@ -177,3 +177,18 @@ Wave 0 item 2 of roadmap-000088: ingestion pipeline for semantic spaces.
 
 Plan: plan-000090
 ```
+
+---
+
+## Summary
+
+All 4 steps completed successfully.
+
+- **Steps**: 4/4 completed
+- **Tests**: 53 passed (3 new unit tests for indexer hook + 50 pre-existing)
+- **Files changed**:
+  - `src/fala_gavea/application/use_cases/reports/create_report.py` — added optional `IReportIndexer` param; index called after save with warning-only error handling
+  - `src/fala_gavea/presentation/api/dependencies.py` — added `get_report_indexer()` singleton factory (lazy init, graceful fallback to None)
+  - `src/fala_gavea/presentation/api/routers/reports.py` — create_report endpoint now injects and passes indexer to `CreateReport`
+  - `tests/unit/application/test_create_report_indexer.py` — 3 unit tests: happy path, failure resilience, no-indexer legacy
+  - `scripts/backfill_semantic.py` — idempotent backfill script with `--batch-size` and `--force` flags
