@@ -1,4 +1,5 @@
 # Plan 000096 | CHORE -O | 2026-06-19 17:15 UTC | Dockerfile + Railway deploy | Review: light
+# DONE | 2026-06-19 17:45 UTC |
 plan_format_version: 1
 
 ## Brief
@@ -358,3 +359,25 @@ Docs: none
 | ChromaDB path hardcoded in multiple places | Grep for `chromadb.PersistentClient` and `chromadb.Client` in `infrastructure/` to catch all occurrences |
 | Railway volume not mounted → SQLite at ephemeral path | Health check + Railway deploy logs will reveal missing data on restart; documented in README |
 | sentence-transformers model download at container startup (slow) | Acceptable for PoC; future work: bake model into image with `COPY` |
+
+---
+
+## Implementation Summary
+
+**Steps completed:** 9/10 (Step 8 — local Docker smoke test — skipped: Docker not available in dev environment)
+**Iterations:** 3 subagent batches (steps 1-4, steps 5-7, steps 9-10)
+**All 67 tests pass.**
+
+### Changes made
+- `pyproject.toml`: Removed win32-only `required-environments` block; `uv lock` confirmed cross-platform.
+- `Dockerfile`: Multi-stage build (node:22-alpine → python:3.13-slim); `/data` mount point created.
+- `.dockerignore`: Excludes build artifacts, secrets, venv, SQLite DBs.
+- `.env.example`: Full Railway-aware env var docs (DATABASE_URL, JWT_SECRET, Ollama, CHROMA_DATA_DIR).
+- `src/fala_gavea/infrastructure/embeddings/registry.py`: `CHROMA_DATA_DIR` env var respected.
+- `src/fala_gavea/infrastructure/chromadb/chroma_search_client.py`: `os.makedirs` before PersistentClient.
+- `src/fala_gavea/presentation/api/main.py`: `GET /health` endpoint added.
+- `src/fala_gavea/domain/exceptions.py`: `OllamaUnavailableError` added.
+- `src/fala_gavea/infrastructure/ollama/ollama_client.py`: `_available = False` when URL unset.
+- `src/fala_gavea/presentation/api/routers/chat.py`: 503 returned on `OllamaUnavailableError`.
+- `railway.json`: Railway deploy config with Dockerfile builder, health check, $PORT.
+- `README.md`: "Deploy to Railway" section added.
