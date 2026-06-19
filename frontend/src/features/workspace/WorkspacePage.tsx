@@ -8,6 +8,11 @@ import { CreateForwardingDialog } from '@/features/map/CreateForwardingDialog'
 
 const MapView = lazy(() => import('./views/MapView').then((m) => ({ default: m.MapView })))
 const TableView = lazy(() => import('./views/TableView').then((m) => ({ default: m.TableView })))
+const TopicsView = lazy(() => import('./views/TopicsView').then((m) => ({ default: m.TopicsView })))
+const SimilarsView = lazy(() =>
+  import('./views/SimilarsView').then((m) => ({ default: m.SimilarsView })),
+)
+const ChatView = lazy(() => import('./views/ChatView').then((m) => ({ default: m.ChatView })))
 
 export function WorkspacePage() {
   const { user } = useAuth()
@@ -67,7 +72,46 @@ export function WorkspacePage() {
                 </div>
               )
             }
-            // Placeholder for views added in later steps
+            if (viewId === 'topics') {
+              return (
+                <div key={viewId} className="flex-1 min-h-[300px] min-w-[280px]">
+                  <Suspense
+                    fallback={
+                      <div className="flex-1 min-h-[300px] bg-gray-100 animate-pulse rounded" />
+                    }
+                  >
+                    <TopicsView />
+                  </Suspense>
+                </div>
+              )
+            }
+            if (viewId === 'similars') {
+              return (
+                <div key={viewId} className="flex-1 min-h-[300px] min-w-[280px]">
+                  <Suspense
+                    fallback={
+                      <div className="flex-1 min-h-[300px] bg-gray-100 animate-pulse rounded" />
+                    }
+                  >
+                    <SimilarsView />
+                  </Suspense>
+                </div>
+              )
+            }
+            if (viewId === 'chat') {
+              return (
+                <div key={viewId} className="flex-1 min-h-[300px] min-w-[280px]">
+                  <Suspense
+                    fallback={
+                      <div className="flex-1 min-h-[300px] bg-gray-100 animate-pulse rounded" />
+                    }
+                  >
+                    <ChatView />
+                  </Suspense>
+                </div>
+              )
+            }
+            // Fallback placeholder for unknown view ids
             return (
               <div
                 key={viewId}
