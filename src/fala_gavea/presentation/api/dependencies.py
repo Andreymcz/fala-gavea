@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from typing import Generator
 
 from fastapi import Depends, HTTPException, status
@@ -11,6 +12,7 @@ from fala_gavea.domain.exceptions import InvalidCredentialsError
 from fala_gavea.domain.repositories.forwarding_repository import IForwardingRepository
 from fala_gavea.domain.repositories.report_repository import IReportRepository
 from fala_gavea.domain.repositories.report_type_repository import IReportTypeRepository
+from fala_gavea.domain.repositories.semantic_ports import IReportIndexer
 from fala_gavea.domain.repositories.user_repository import IUserRepository
 from fala_gavea.infrastructure.auth.jwt_service import JWTService
 from fala_gavea.infrastructure.auth.password_service import PasswordService
@@ -18,6 +20,9 @@ from fala_gavea.infrastructure.database.session import SessionLocal
 from fala_gavea.infrastructure.repositories.sqlalchemy_report_repository import SQLAlchemyReportRepository
 from fala_gavea.infrastructure.repositories.sqlalchemy_report_type_repository import SQLAlchemyReportTypeRepository
 from fala_gavea.infrastructure.repositories.sqlalchemy_user_repository import SQLAlchemyUserRepository
+
+_log = logging.getLogger(__name__)
+_indexer_instance: IReportIndexer | None = None
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token")
 
@@ -83,6 +88,18 @@ def require_role(role: str):
             )
         return current_user
     return _check
+
+
+def get_report_indexer() -> IReportIndexer | None:
+    global _indexer_instance
+    if _indexer_instance is None:
+        try:
+            from fala_gavea.infrastructure.chromadb.chroma_search_client import ChromaSearchClient
+            from fala_gavea.infrastructure.embeddings.registry import SemanticConfig
+            _indexer_instance = ChromaSearchClient(SemanticConfig())
+        except Exception as exc:
+            _log.warning("ChromaSearchClient unavailable: %s", exc)
+    return _indexer_instance
 
 
 def get_forwarding_repo(db: Session = Depends(get_db)) -> IForwardingRepository:

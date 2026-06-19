@@ -9,8 +9,10 @@ from fala_gavea.domain.entities.report import ReportStatus, Urgency
 from fala_gavea.domain.entities.user import User
 from fala_gavea.domain.exceptions import InvalidInputError, ReportNotFoundError, ReportTypeNotFoundError
 from fala_gavea.domain.repositories.report_repository import ReportFilters
+from fala_gavea.domain.repositories.semantic_ports import IReportIndexer
 from fala_gavea.presentation.api.dependencies import (
     get_current_user,
+    get_report_indexer,
     get_report_repo,
     get_report_type_repo,
 )
@@ -25,9 +27,10 @@ def create_report(
     current_user: User = Depends(get_current_user),
     report_repo=Depends(get_report_repo),
     report_type_repo=Depends(get_report_type_repo),
+    indexer: IReportIndexer | None = Depends(get_report_indexer),
 ) -> ReportResponse:
     try:
-        report = CreateReport(report_repo, report_type_repo).execute(
+        report = CreateReport(report_repo, report_type_repo, indexer=indexer).execute(
             text=body.text,
             lat=body.lat,
             lon=body.lon,

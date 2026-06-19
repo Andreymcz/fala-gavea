@@ -1,9 +1,14 @@
 from __future__ import annotations
 
+import logging
+
 from fala_gavea.domain.entities.report import Report, Urgency
 from fala_gavea.domain.exceptions import InvalidInputError, ReportTypeNotFoundError
 from fala_gavea.domain.repositories.report_repository import IReportRepository
 from fala_gavea.domain.repositories.report_type_repository import IReportTypeRepository
+from fala_gavea.domain.repositories.semantic_ports import IReportIndexer
+
+_log = logging.getLogger(__name__)
 
 
 class CreateReport:
@@ -11,9 +16,11 @@ class CreateReport:
         self,
         report_repo: IReportRepository,
         report_type_repo: IReportTypeRepository,
+        indexer: IReportIndexer | None = None,
     ) -> None:
         self._report_repo = report_repo
         self._report_type_repo = report_type_repo
+        self._indexer = indexer
 
     def execute(
         self,
@@ -35,6 +42,12 @@ class CreateReport:
         rt = self._report_type_repo.find_by_id(report_type_id)
         if rt is None or not rt.active:
             raise ReportTypeNotFoundError(f"ReportType not found or inactive: {report_type_id}")
-        return self._report_repo.save(
+        report = self._report_repo.save(
             Report.create(text, lat, lon, Urgency(urgency), report_type_id, author_id, photo_url)
         )
+        if self._indexer is not None:
+            try:
+                self._indexer.index(report)
+            except Exception as exc:
+                _log.warning("Failed to index report %s: %s", report.id, exc)
+        return report
