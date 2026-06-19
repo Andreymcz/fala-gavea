@@ -44,3 +44,8 @@ class ForwardingNotFoundError(DomainError):
     def __init__(self, id: str) -> None:
         super().__init__(f"Forwarding not found: {id}")
         self.id = id
+
+
+class OllamaUnavailableError(DomainError):
+    def __init__(self) -> None:
+        super().__init__("NL chat is unavailable in this deployment.")

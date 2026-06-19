@@ -17,7 +17,10 @@ class SemanticConfig:
         )
     )
     vectorstore_path: str = field(
-        default_factory=lambda: os.getenv("FALA_GAVEA_VECTORSTORE_PATH", "vectorstore")
+        default_factory=lambda: os.getenv(
+            "CHROMA_DATA_DIR",
+            os.getenv("FALA_GAVEA_VECTORSTORE_PATH", "./chroma_data"),
+        )
     )
 
 

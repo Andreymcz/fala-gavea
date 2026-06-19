@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import os
+
 import chromadb
 from sentence_transformers import SentenceTransformer
 
@@ -12,6 +14,7 @@ _COLLECTION_NAME = "falagavea_reports_search"
 
 class ChromaSearchClient(IReportIndexer, ISemanticSearchPort):
     def __init__(self, config: SemanticConfig) -> None:
+        os.makedirs(config.vectorstore_path, exist_ok=True)
         self._client = chromadb.PersistentClient(path=config.vectorstore_path)
         self._model = SentenceTransformer(config.embed_model_search)
         self._collection = self._client.get_or_create_collection(_COLLECTION_NAME)

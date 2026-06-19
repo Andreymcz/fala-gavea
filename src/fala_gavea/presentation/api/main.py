@@ -3,11 +3,12 @@ from __future__ import annotations
 from pathlib import Path
 
 from fastapi import FastAPI
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from fala_gavea.infrastructure.database.session import create_tables
 from fala_gavea.presentation.api.routers import auth as auth_router
+from fala_gavea.presentation.api.routers import chat as chat_router
 from fala_gavea.presentation.api.routers import report_types as report_types_router
 from fala_gavea.presentation.api.routers import reports as reports_router
 from fala_gavea.presentation.api.routers import forwardings as forwardings_router
@@ -34,9 +35,15 @@ def create_app() -> FastAPI:
     app = FastAPI(title="Fala Gavea API", version="0.1.0")
     create_tables()
     app.include_router(auth_router.router, prefix="/auth", tags=["auth"])
+    app.include_router(chat_router.router, prefix="/nl", tags=["nl-chat"])
     app.include_router(reports_router.router, prefix="/reports", tags=["reports"])
     app.include_router(report_types_router.router, prefix="/report_types", tags=["report_types"])
     app.include_router(forwardings_router.router, prefix="/forwardings", tags=["forwardings"])
+
+    @app.get("/health", include_in_schema=False)
+    def health() -> JSONResponse:
+        return JSONResponse({"status": "ok"})
+
     _mount_spa(app)
     return app
 
