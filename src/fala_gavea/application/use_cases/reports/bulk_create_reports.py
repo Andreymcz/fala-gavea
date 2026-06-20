@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import logging
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import UTC, datetime
 
 from fala_gavea.domain.entities.report import Report, Urgency
 from fala_gavea.domain.repositories.report_repository import IReportRepository
@@ -33,7 +33,7 @@ class BulkCreateReports:
         errors: list[dict] = []
 
         for i, row in enumerate(rows):
-            topico = row.get("topico", "")
+            topico = row.get("topico", "").strip()
             rt = report_type_repo.find_by_name(topico)
             if rt is None:
                 skipped += 1
@@ -52,7 +52,8 @@ class BulkCreateReports:
             created_at: datetime | None = row.get("data")
             if created_at is not None and not isinstance(created_at, datetime):
                 try:
-                    created_at = datetime.fromisoformat(str(created_at))
+                    parsed = datetime.fromisoformat(str(created_at))
+                    created_at = parsed if parsed.tzinfo else parsed.replace(tzinfo=UTC)
                 except ValueError:
                     created_at = None
 

@@ -75,7 +75,7 @@ def test_seed_malformed_csv_bad_coordinates(client: TestClient, admin_headers: d
     assert len(data["errors"]) == 1
 
 
-def test_seed_missing_required_columns_returns_422(client: TestClient, admin_headers: dict) -> None:
+def test_seed_missing_required_columns_returns_200_all_skipped(client: TestClient, admin_headers: dict) -> None:
     """CSV missing all expected columns → all rows skipped (empty topico → unknown type)."""
     # A CSV with only 'comment' column — no texto_relato, no topico, no coordinates
     csv_bytes = b"comment\nsome comment here"

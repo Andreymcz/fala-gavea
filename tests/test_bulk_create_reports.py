@@ -113,7 +113,7 @@ class TestBulkCreateReports:
         uc.execute(rows, "user-1", report_type_repo, report_repo)
 
         assert len(saved) == 1
-        assert saved[0].created_at == datetime(2024, 3, 15, 10, 0, 0)
+        assert saved[0].created_at == datetime(2024, 3, 15, 10, 0, 0, tzinfo=UTC)
 
     def test_urgency_is_always_media(self):
         rt = _make_rt()
