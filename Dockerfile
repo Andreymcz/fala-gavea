@@ -19,6 +19,12 @@ WORKDIR /app
 COPY pyproject.toml uv.lock ./
 RUN uv sync --frozen --no-dev
 
+# Pre-download sentence-transformers model so runtime never hits HuggingFace
+ENV HF_HOME=/app/.hf_cache
+RUN uv run python -c \
+  "from sentence_transformers import SentenceTransformer; \
+   SentenceTransformer('intfloat/multilingual-e5-base')"
+
 # Copy application source
 COPY src/ ./src/
 COPY scripts/ ./scripts/
