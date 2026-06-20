@@ -1,5 +1,7 @@
 # Briefs Log
 
+DONE | 2026-06-20 16:46 UTC | STARTED | 2026-06-20 16:31 UTC | implement | 105 | PLAN | 000105
+
 DONE | 2026-06-19 22:35 UTC | STARTED | 2026-06-19 22:32 UTC | document | --plan 000104 | SHA | HEAD | GENERATED | drr,contextual-help
 
 DONE | 2026-06-19 21:55 UTC | STARTED | 2026-06-19 21:53 UTC | plan | create a api entrypoint to receive a csv with seed relatos. then the use case will bulk insert | PLAN | 000105

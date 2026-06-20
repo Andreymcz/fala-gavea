@@ -1,4 +1,4 @@
-# Plan 000105 | feat/reports | 2026-06-19 21:53 UTC | CSV seed relatos API endpoint + bulk insert use case | Review: light
+# DONE | 2026-06-20 16:55 UTC | Plan 000105 | feat/reports | 2026-06-19 21:53 UTC | CSV seed relatos API endpoint + bulk insert use case | Review: light
 plan_format_version: 1
 
 ## Brief
@@ -111,3 +111,29 @@ Use existing `conftest.py` patterns (in-memory SQLite, test client, admin token 
 ## Docs
 
 - Update `product-design/project/product-design-as-coded.md` §1 (Platform Purpose) to mention `POST /admin/seed/relatos` endpoint
+
+---
+
+## Implementation Summary
+
+**Completed:** 6/6 steps | **Iterations:** 3 subagents + 1 in-context fix | **Commits:** 13e7968, a6bc76d, 97c349f, 4f6fdf2
+
+### What was built
+- `BulkCreateReports` use case with `BulkResult` dataclass (inserted/skipped/errors)
+- `find_by_name` (case-insensitive) added to `IReportTypeRepository` ABC and `SQLAlchemyReportTypeRepository`
+- `Report.create()` extended with optional `created_at: datetime | None` param
+- `SeedErrorItem` + `SeedRelatosResponse` Pydantic schemas
+- `POST /admin/seed/relatos` endpoint (admin-only, CSV upload, bulk insert)
+- Router wired into `main.py` under `/admin/seed` prefix
+- 14 tests (9 unit + 5 integration), all passing
+
+### Review fixes applied
+- Naive datetime → always UTC-aware when parsing ISO strings from CSV `data` column
+- `topico` whitespace stripped before `find_by_name` lookup
+- Test name `_returns_422` corrected to `_returns_200_all_skipped`
+
+### Deferred (advisory)
+- File-size limit on upload (admin-only endpoint, low practical risk)
+- HTTP 207 vs 200 on partial failures
+- Lat/lon range validation
+- Empty `text` guard

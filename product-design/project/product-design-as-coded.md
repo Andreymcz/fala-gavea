@@ -14,12 +14,13 @@ designer_description: "I'm the as-coded mirror of what actually shipped in fala-
 
 Implemented as a FastAPI REST API. Entry point: `src/fala_gavea/presentation/api/main.py`.
 Auth: JWT Bearer (PyJWT, HS256, 24h expiry). DB: SQLite via SQLAlchemy synchronous ORM.
-Seventeen endpoints live: POST /auth/register, POST /auth/token, POST /reports, GET /reports/geojson, GET /reports/search (public),
+Eighteen endpoints live: POST /auth/register, POST /auth/token, POST /reports, GET /reports/geojson, GET /reports/search (public),
 GET /reports/{id}/similar (public), GET /reports/topics (auth-required, on-demand BERTopic), GET /reports/{id},
 GET /report_types (public), POST /report_types (admin), PATCH /report_types/{id} (admin), DELETE /report_types/{id} (admin, soft-delete),
 POST /forwardings (agent+admin), GET /forwardings (agent+admin), GET /forwardings/{id} (agent+admin),
 PATCH /forwardings/{id} (agent+admin), PATCH /forwardings/{id}/status (agent+admin),
-POST /nl/chat (agent+admin, RAG-backed NL assistant).
+POST /nl/chat (agent+admin, RAG-backed NL assistant),
+POST /admin/seed/relatos (admin-only, CSV file upload bulk-insert; returns {inserted, skipped, errors}).
 Seed scripts: `scripts/seed_report_types.py` bootstraps 8 initial types via HTTP API; `scripts/seed_users.py` inserts 3 dev users (admin/citizen01/agente) directly via SQLAlchemy (bypasses API role restriction); `scripts/seed_relatos.py` ingests CSV scenario files or built-in templates and replicates corpus with lat/lon+date jitter to reach `--count` (default 10 000) reports spanning the past 365 days, inserted directly into SQLite. CSV schema documented in `seeds/relatos/SCHEMA.md`.
 
 ### 2. Entity Hierarchy

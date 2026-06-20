@@ -25,3 +25,9 @@
 - **Added**: Journey Maps — JM-TB-003 implemented (exploration/analysis journey, plan-000104)
 - **Source**: agent (post-skill)
 - **Plan**: plan-000104
+
+
+### v6 -- 2026-06-20
+- **Added**: POST /admin/seed/relatos (admin-only CSV bulk-insert endpoint): BulkCreateReports use case, BulkResult dataclass, find_by_name on IReportTypeRepository (case-insensitive), optional created_at param on Report.create(), SeedRelatosResponse schema, seed router wired under /admin/seed prefix
+- **Source**: agent (post-skill)
+- **Plan**: plan-000105
