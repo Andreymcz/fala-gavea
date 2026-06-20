@@ -20,7 +20,9 @@ GET /report_types (public), POST /report_types (admin), PATCH /report_types/{id}
 POST /forwardings (agent+admin), GET /forwardings (agent+admin), GET /forwardings/{id} (agent+admin),
 PATCH /forwardings/{id} (agent+admin), PATCH /forwardings/{id}/status (agent+admin),
 POST /nl/chat (agent+admin, RAG-backed NL assistant),
-POST /admin/seed/relatos (admin-only, CSV file upload bulk-insert; returns {inserted, skipped, errors}).
+POST /admin/seed/relatos (admin-only, CSV file upload bulk-insert; returns {inserted, skipped, errors}),
+POST /admin/seed/topicos (admin-only, CSV upload bulk-creates ReportTypes; returns {inserted, skipped, errors}),
+DELETE /admin/seed/wipe (admin-only, clears all Reports+Forwardings+optionally ReportTypes from SQLite and ChromaDB; query param include_report_types; returns {wiped: {reports, forwardings, report_types}}).
 Seed scripts: `scripts/seed_report_types.py` bootstraps 8 initial types via HTTP API; `scripts/seed_users.py` inserts 3 dev users (admin/citizen01/agente) directly via SQLAlchemy (bypasses API role restriction); `scripts/seed_relatos.py` ingests CSV scenario files or built-in templates and replicates corpus with lat/lon+date jitter to reach `--count` (default 10 000) reports spanning the past 365 days, inserted directly into SQLite. CSV schema documented in `seeds/relatos/SCHEMA.md`.
 
 ### 2. Entity Hierarchy
@@ -65,7 +67,7 @@ JWT Bearer via PyJWT. Roles: citizen, agent, admin (UserRole enum).
 `get_current_user` and `require_role` in `presentation/api/dependencies.py`.
 Public endpoints: GET /reports/geojson, GET /reports/search, GET /reports/{id}/similar, POST /auth/register, POST /auth/token, GET /report_types.
 Auth-required endpoints: POST /reports (any authenticated user), GET /reports/{id} (any authenticated user), GET /reports/topics (any authenticated user).
-Admin-only endpoints: POST /report_types, PATCH /report_types/{id}, DELETE /report_types/{id}.
+Admin-only endpoints: POST /report_types, PATCH /report_types/{id}, DELETE /report_types/{id}, POST /admin/seed/relatos, POST /admin/seed/topicos, DELETE /admin/seed/wipe.
 Agent+admin endpoints (via `require_any_role`): POST /forwardings, GET /forwardings, GET /forwardings/{id}, PATCH /forwardings/{id}, PATCH /forwardings/{id}/status, POST /nl/chat.
 `get_forwarding_repo` and `require_any_role` added to `presentation/api/dependencies.py`.
 
@@ -97,7 +99,13 @@ All journey steps JM-TB-001, JM-TB-002, and JM-TB-003 are now implemented end-to
 
 ### 9. Administrative Domain
 
-_Not yet implemented._
+Bootstrap admin user (plan-000109): `BootstrapAdminUser` use case in `application/use_cases/admin/bootstrap_admin_user.py` runs on every `create_app()` call after `create_tables()`. Reads env vars `FALA_GAVEA_ADMIN_EMAIL`, `FALA_GAVEA_ADMIN_PASSWORD`, `FALA_GAVEA_ADMIN_NAME` (default "Admin"). If any required var is missing or the email already exists, logs DEBUG and exits. Otherwise hashes the password via `PasswordService` and creates a user with role=admin. Solves the chicken-and-egg problem of needing an admin to call admin endpoints.
+
+Bulk ReportType import (plan-000109): `BulkCreateReportTypes` use case in `application/use_cases/report_types/bulk_create_report_types.py`. Accepts list of dicts with `nome` + `descricao`; reuses `CreateReportType` for name validation (3-100 chars); skips duplicates via `find_by_name`. Returns `BulkReportTypeResult{inserted, skipped, errors}`.
+
+Database wipe (plan-000109): `WipeDatabase` use case in `application/use_cases/admin/wipe_database.py`. Receives a raw SQLAlchemy `Session` (bulk DELETEs don't fit domain repo ABCs). Deletes `forwarding_reports → forwardings → reports` in FK order; optionally deletes `report_types` when `include_report_types=True`. Calls `indexer.delete_all()` (new method on `IReportIndexer` ABC + `ChromaSearchClient`) to clear the ChromaDB collection and re-initialise it. Preserves Users. Returns `WipeResult{reports, forwardings, report_types}`.
+
+Env vars for admin bootstrap: `FALA_GAVEA_ADMIN_EMAIL`, `FALA_GAVEA_ADMIN_PASSWORD`, `FALA_GAVEA_ADMIN_NAME`.
 
 ### 11. Deployment & Infrastructure
 

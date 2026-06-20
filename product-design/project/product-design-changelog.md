@@ -27,6 +27,11 @@
 - **Plan**: plan-000104
 
 
+### v7 -- 2026-06-20
+- **Added**: Admin bootstrap user (BootstrapAdminUser use case, env-var driven on startup), POST /admin/seed/topicos (BulkCreateReportTypes), DELETE /admin/seed/wipe (WipeDatabase use case; delete_all() on IReportIndexer/ChromaSearchClient)
+- **Source**: agent (post-skill)
+- **Plan**: plan-000109
+
 ### v6 -- 2026-06-20
 - **Added**: POST /admin/seed/relatos (admin-only CSV bulk-insert endpoint): BulkCreateReports use case, BulkResult dataclass, find_by_name on IReportTypeRepository (case-insensitive), optional created_at param on Report.create(), SeedRelatosResponse schema, seed router wired under /admin/seed prefix
 - **Source**: agent (post-skill)
