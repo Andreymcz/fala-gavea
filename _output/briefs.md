@@ -1,5 +1,7 @@
 # Briefs Log
 
+DONE | 2026-06-20 22:42 UTC | STARTED | 2026-06-20 22:35 UTC | plan | Seed de Relatos no painel admin com CSV enriquecido (user_id obrigatorio, auto-cria usuario/topico, fallbacks de coordenada/data/urgencia) | PLAN | 000113
+
 DONE | 2026-06-20 21:27 UTC | STARTED | 2026-06-20 21:21 UTC | implement | Admin Panel page: seed topicos + wipe DB | PLAN | 000112
 
 DONE | 2026-06-20 20:39 UTC | STARTED | 2026-06-20 20:37 UTC | plan | Admin Panel page (CSV upload for topicos, wipe with confirmation dialog, route /admin guarded by admin role) | PLAN | 000112
