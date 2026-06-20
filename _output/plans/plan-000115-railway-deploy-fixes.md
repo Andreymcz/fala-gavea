@@ -1,4 +1,4 @@
-# Plan 000115 | CHORE -O | 2026-06-20 23:54 UTC | Railway deploy fixes | Review: light
+# Plan 000115 | CHORE -O | 2026-06-20 23:54 UTC | Railway deploy fixes | Review: light | # DONE | 2026-06-20 21:10 UTC |
 plan_format_version: 1
 source: research-000114
 
