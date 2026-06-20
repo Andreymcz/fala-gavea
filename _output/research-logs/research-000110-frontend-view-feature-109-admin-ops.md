@@ -1,5 +1,6 @@
 # Research 000110 | feat/admin | 2026-06-20 20:33 UTC | Frontend view for feature 109 admin ops
 tags: admin, frontend, feature-109, ui-coverage
+spawned: plan-000112
 
 ## User Brief
 

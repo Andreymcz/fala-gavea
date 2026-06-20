@@ -1,5 +1,7 @@
 # Briefs Log
 
+DONE | 2026-06-20 20:39 UTC | STARTED | 2026-06-20 20:37 UTC | plan | Admin Panel page (CSV upload for topicos, wipe with confirmation dialog, route /admin guarded by admin role) | PLAN | 000112
+
 DONE | 2026-06-20 20:35 UTC | STARTED | 2026-06-20 20:33 UTC | research | is there any frontend view for these operations in feature 109 ?
 
 DONE | 2026-06-20 20:30 UTC | STARTED | 2026-06-20 20:20 UTC | implement | 109 | PLAN | 000109
