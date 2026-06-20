@@ -1,5 +1,7 @@
 # Briefs Log
 
+DONE | 2026-06-20 23:51 UTC | STARTED | 2026-06-20 23:46 UTC | research | como a atual configuracao docker está adequada a fazer o deploy no railway, considerando modificacoes recentes na stack tecnologica do front end. Segue plano 96
+
 DONE | 2026-06-20 22:58 UTC | STARTED | 2026-06-20 22:49 UTC | implement | 113 | PLAN | 000113
 
 DONE | 2026-06-20 22:42 UTC | STARTED | 2026-06-20 22:35 UTC | plan | Seed de Relatos no painel admin com CSV enriquecido (user_id obrigatorio, auto-cria usuario/topico, fallbacks de coordenada/data/urgencia) | PLAN | 000113
