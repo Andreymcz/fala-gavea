@@ -19,6 +19,8 @@ class BERTopicClient(ITopicModelPort):
 
     def __init__(self, config: SemanticConfig) -> None:
         self._config = config
+        from sentence_transformers import SentenceTransformer
+        self._embedding_model = SentenceTransformer(config.embed_model_topics)
 
     # ------------------------------------------------------------------
     # ITopicModelPort — primary method
@@ -34,19 +36,17 @@ class BERTopicClient(ITopicModelPort):
         # bertopic import is intentionally scoped to this module (CONVENTION_1)
         try:
             from bertopic import BERTopic  # type: ignore[import-untyped]
-            from sentence_transformers import SentenceTransformer
         except ImportError as exc:
-            logger.error("bertopic/sentence-transformers not available: %s", exc)
+            logger.error("bertopic not available: %s", exc)
             return []
 
         texts = [r.text for r in reports]
-        if not texts:
+        if len(texts) < 5:
             return []
 
         try:
-            embedding_model = SentenceTransformer(self._config.embed_model_topics)
             topic_model = BERTopic(
-                embedding_model=embedding_model,
+                embedding_model=self._embedding_model,
                 min_topic_size=2,
                 verbose=False,
             )
