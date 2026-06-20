@@ -37,6 +37,11 @@
 - **Source**: agent (post-skill)
 - **Plan**: plan-000105
 
+### v9 -- 2026-06-20
+- **Added**: Batch indexing — `IReportIndexer.index_many` (ABC default-body fallback); `ChromaSearchClient.index_many` + vectorised `reindex_all`; `BulkCreateReports` chunked flush (CHUNK_SIZE=500) replacing per-row `index()` calls
+- **Source**: agent (post-skill)
+- **Plan**: plan-000120
+
 ### v8 -- 2026-06-20
 - **Changed**: §9 Administrative Domain — enriched BulkCreateReports: per-row author from `user_id` (auto-create + dedup by synthetic e-mail, dev default password), auto-create unknown `topico` (guarded), Gávea-bbox random coords / `now` date / `media` urgency fallbacks; POST /admin/seed/relatos parses `user_id`+`urgency` columns (`id_cidadao` alias) and injects user_repo/password_service
 - **Added**: Frontend — `api.seedRelatos(file)` + "Seed de Relatos" card (CSV upload + pt-BR rules) in AdminPage.tsx

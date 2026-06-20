@@ -5,7 +5,7 @@
 
 | Date | Skill | Brief | Status | Plan | Head SHA | Generated |
 |------|-------|-------|--------|------|----------|-----------|
-| 2026-06-20 23:43 UTC | plan | implementar recomendações ALTA da research-000119: index_many() batched ao Chro… | STARTED |  |  |  |
+| 2026-06-20 23:43 UTC | plan | implementar recomendações ALTA da research-000119: index_many() batched ao Chro… | DONE | 000120 |  |  |
 | 2026-06-20 23:23 UTC | research | investigar porque o seed de relatos em csv esta demorando tanto e usando mta me… | DONE |  |  |  |
 | 2026-06-20 23:00 UTC | plan | ERROR: UNIQUE constraint failed on users.email during database seeding | DONE | 000118 |  |  |
 | 2026-06-20 21:46 UTC | research | logs do railway, parece que o servidor esta reiniciando quando tenta ingerir um… | STARTED |  |  |  |

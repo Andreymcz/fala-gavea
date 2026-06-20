@@ -10,7 +10,7 @@
 | 2026-06-20 23:54 UTC | RESERVED | 000115 | plan: Railway deploy fixes | RESERVED |  |
 | 2026-06-20 23:46 UTC | Other |  | Research 000114 | CHORE -O | 2026-06-20 23:46 UTC | Docker Railway deploy vs fr… |  | [research-000114-docker-railway-deploy-frontend-stack.md](research-logs/research-000114-docker-railway-deploy-frontend-stack.md) |
 | 2026-06-20 23:46 UTC | RESERVED | 000114 | research: Docker Railway deploy frontend stack | RESERVED |  |
-| 2026-06-20 23:43 UTC | Plan | 000120 | Batch Indexing: index_many + BulkCreateReports chunked | OPEN | [plan-000120-batch-index-seed-performance.md](plans/plan-000120-batch-index-seed-performance.md) |
+| 2026-06-20 23:43 UTC | Plan | 000120 | Batch Indexing: index_many + BulkCreateReports chunked | DONE | [plan-000120-batch-index-seed-performance.md](plans/plan-000120-batch-index-seed-performance.md) |
 | 2026-06-20 23:23 UTC | Research | 000119 | Seed CSV Performance: Lentidão e Alto Consumo de Memória | DONE | [research-000119-seed-csv-performance.md](research-logs/research-000119-seed-csv-performance.md) |
 | 2026-06-20 23:00 UTC | Plan | 000118 | fix seed duplicate email race | OPEN | [plan-000118.md](plans/plan-000118.md) |
 | 2026-06-20 22:58 UTC | Other |  | Implement 000113 QA | 2026-06-20 22:58 UTC | Seed de Relatos no painel admin (C… |  | [implement-000113-qa-seed-relatos-admin-panel.md](plans/implement-000113-qa-seed-relatos-admin-panel.md) |
