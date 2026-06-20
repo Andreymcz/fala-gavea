@@ -16,11 +16,9 @@ const ChatView = lazy(() => import('./views/ChatView').then((m) => ({ default: m
 
 export function WorkspacePage() {
   const { user } = useAuth()
-  const { activeViews } = useWorkspaceStore()
-  const { selectedIds, clearSelection } = useWorkspaceStore((s) => ({
-    selectedIds: s.selectedIds,
-    clearSelection: s.clearSelection,
-  }))
+  const activeViews = useWorkspaceStore((s) => s.activeViews)
+  const selectedIds = useWorkspaceStore((s) => s.selectedIds)
+  const clearSelection = useWorkspaceStore((s) => s.clearSelection)
   const [showCreateDialog, setShowCreateDialog] = useState(false)
 
   const isAgent = user?.role === 'agent' || user?.role === 'admin'
@@ -48,7 +46,7 @@ export function WorkspacePage() {
           {activeViews.map((viewId) => {
             if (viewId === 'map') {
               return (
-                <div key={viewId} className="flex-1 min-h-[300px] min-w-[300px]">
+                <div key={viewId} className="flex flex-col flex-1 h-full min-h-[300px] min-w-[300px]">
                   <Suspense
                     fallback={
                       <div className="flex-1 min-h-[300px] bg-gray-100 animate-pulse rounded" />

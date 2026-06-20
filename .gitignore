@@ -7,6 +7,7 @@ __pycache__/
 *.db-journal
 # Semantic vector store (ChromaDB embeddings) — derived artifact, never committed (roadmap-000088 D-B)
 vectorstore/
+chroma_data/
 .pytest_cache/
 .ruff_cache/
 dist/
@@ -17,3 +18,4 @@ build/
 frontend/node_modules/
 frontend/dist/
 static/
+local-data

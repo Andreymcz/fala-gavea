@@ -8,7 +8,10 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
 export function FilterPanel() {
-  const { filters, setFilter, clearFilters, setSemanticQuery } = useWorkspaceStore()
+  const filters = useWorkspaceStore((s) => s.filters)
+  const setFilter = useWorkspaceStore((s) => s.setFilter)
+  const clearFilters = useWorkspaceStore((s) => s.clearFilters)
+  const setSemanticQuery = useWorkspaceStore((s) => s.setSemanticQuery)
   const { data: reportTypes = [] } = useReportTypes()
   const { count, semanticTruncated } = useFilteredReports()
 
@@ -35,14 +38,14 @@ export function FilterPanel() {
       <div className="space-y-1">
         <Label className="text-xs">Tipo</Label>
         <Select
-          value={filters.type_id ?? ''}
-          onValueChange={(v) => update({ type_id: v || undefined })}
+          value={filters.type_id ?? '__all__'}
+          onValueChange={(v) => update({ type_id: v === '__all__' ? undefined : v })}
         >
           <SelectTrigger className="h-8 text-xs">
             <SelectValue placeholder="Todos os tipos" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">Todos os tipos</SelectItem>
+            <SelectItem value="__all__">Todos os tipos</SelectItem>
             {reportTypes.map((rt) => (
               <SelectItem key={rt.id} value={rt.id}>
                 {rt.name}
@@ -55,14 +58,14 @@ export function FilterPanel() {
       <div className="space-y-1">
         <Label className="text-xs">Urgência</Label>
         <Select
-          value={filters.urgency ?? ''}
-          onValueChange={(v) => update({ urgency: (v as Urgency) || undefined })}
+          value={filters.urgency ?? '__all__'}
+          onValueChange={(v) => update({ urgency: v === '__all__' ? undefined : (v as Urgency) })}
         >
           <SelectTrigger className="h-8 text-xs">
             <SelectValue placeholder="Todas" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">Todas</SelectItem>
+            <SelectItem value="__all__">Todas</SelectItem>
             <SelectItem value="alta">Alta</SelectItem>
             <SelectItem value="media">Média</SelectItem>
             <SelectItem value="baixa">Baixa</SelectItem>
@@ -73,14 +76,14 @@ export function FilterPanel() {
       <div className="space-y-1">
         <Label className="text-xs">Status</Label>
         <Select
-          value={filters.status ?? ''}
-          onValueChange={(v) => update({ status: (v as ReportStatus) || undefined })}
+          value={filters.status ?? '__all__'}
+          onValueChange={(v) => update({ status: v === '__all__' ? undefined : (v as ReportStatus) })}
         >
           <SelectTrigger className="h-8 text-xs">
             <SelectValue placeholder="Todos" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">Todos</SelectItem>
+            <SelectItem value="__all__">Todos</SelectItem>
             <SelectItem value="pendente">Pendente</SelectItem>
             <SelectItem value="em_analise">Em análise</SelectItem>
             <SelectItem value="encaminhado">Encaminhado</SelectItem>

@@ -29,11 +29,9 @@ function statusLabel(s: string): string {
 
 export function TableView() {
   const { features, isLoading } = useFilteredReports()
-  const { selectedIds, toggleSelect, setSimilarSeed } = useWorkspaceStore((s) => ({
-    selectedIds: s.selectedIds,
-    toggleSelect: s.toggleSelect,
-    setSimilarSeed: s.setSimilarSeed,
-  }))
+  const selectedIds = useWorkspaceStore((s) => s.selectedIds)
+  const toggleSelect = useWorkspaceStore((s) => s.toggleSelect)
+  const setSimilarSeed = useWorkspaceStore((s) => s.setSimilarSeed)
   const { data: reportTypes = [] } = useReportTypes()
   const typeMap = new Map(reportTypes.map((rt) => [rt.id, rt.name]))
 

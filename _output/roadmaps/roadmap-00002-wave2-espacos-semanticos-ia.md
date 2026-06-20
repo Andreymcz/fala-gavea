@@ -174,7 +174,7 @@ duplicatas antes de encaminhar. 404 se o relato base nao existe; exclui o propri
 | # | ID | Title | Scope | Type | Plan | Depends on | Status |
 |---|-----|-------|-------|------|------|-----------|--------|
 | 5 | topic-modeling | BERTopic: fit em lote + atribuicao incremental + GET /reports/topics | backend | technical | plan-TBD | semantic-infra | pending |
-| 6 | rag-chat | POST /chat -- RAG via Ollama recuperando relatos do espaco de busca | backend | technical | plan-TBD | semantic-search | pending |
+| 6 | rag-chat | POST /chat -- RAG via Ollama recuperando relatos do espaco de busca | backend | technical | plan-000100 | semantic-search | pending |
 
 **Item 5 -- topic-modeling:**
 `infrastructure/topics/bertopic_model.py` (D-E): `fit(corpus)` em lote + persistencia em

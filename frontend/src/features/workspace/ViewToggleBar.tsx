@@ -19,7 +19,8 @@ const VIEW_META: ViewMeta[] = [
 
 export function ViewToggleBar() {
   const { user } = useAuth()
-  const { activeViews, toggleView } = useWorkspaceStore()
+  const activeViews = useWorkspaceStore((s) => s.activeViews)
+  const toggleView = useWorkspaceStore((s) => s.toggleView)
   const barRef = useRef<HTMLDivElement>(null)
 
   const isAgentOrAdmin = user?.role === 'agent' || user?.role === 'admin'

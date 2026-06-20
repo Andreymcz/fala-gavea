@@ -84,7 +84,7 @@ export function MapView() {
   }, [])
 
   return (
-    <div className="relative flex-1 min-h-[300px] min-w-[300px]">
+    <div className="relative flex-1 h-full min-h-[300px] min-w-[300px]">
       {/* Bbox controls overlay */}
       <div
         className="absolute top-2 right-2 z-[1000] flex gap-2"
