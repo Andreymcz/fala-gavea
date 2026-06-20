@@ -1,4 +1,4 @@
-# Plan 000113 | feat/seed-relatos | 2026-06-20 22:35 UTC | Seed de Relatos no painel admin (CSV enriquecido) | Review: standard
+# DONE | 2026-06-20 22:58 UTC | Plan 000113 | feat/seed-relatos | 2026-06-20 22:35 UTC | Seed de Relatos no painel admin (CSV enriquecido) | Review: standard
 plan_format_version: 1
 source: plan-000112
 
@@ -77,7 +77,7 @@ Imports novos no arquivo: `random`, `User`, `UserRole`, `IUserRepository`, `Pass
 - **References**: `project/standards.md § Backend`, `project/security-checklists.md`
 - **Tests**: **`tests/test_bulk_create_reports.py` já existe com ~10 testes que chamam a assinatura ANTIGA posicionalmente (`execute(rows, "user-1", report_type_repo, report_repo)`) e dois que codificam comportamento agora inválido (`test_skips_unknown_topico` — tópico agora é auto-criado; `test_urgency_is_always_media` — urgency agora vem do CSV). REESCREVER, não estender:** atualizar o helper de fakes para também fornecer `user_repo` (fake com `find_by_email`→`None` na 1ª vez, registrando os `save` para checar dedup) e `password_service` fake; corrigir todas as chamadas para a nova assinatura por keyword; remover/substituir os dois testes contraditórios. Casos a cobrir: (a) auto-cria usuário quando `user_id` novo e reusa no 2º relato do mesmo `user_id` (apenas 1 save de user); (b) `user_id` vazio → linha pulada com erro (índice base-0); (c) tópico inexistente é auto-criado e o relato referencia o novo ReportType; (d) tópico com <3 chars → linha pulada com erro, batch **não** aborta; (e) urgency lida do CSV e fallback `media` para valor inválido; (f) lat/lon ausente → coordenada gerada dentro do bbox da Gávea. Padrão de fakes: estender o `_make_repos` existente (MagicMock) para retornar também `user_repo` (`find_by_email.return_value = None`, `save.side_effect = lambda u: u`) e `password_service` (`hash_password.return_value = "hashed"`); para o caso de auto-criação de tópico, configurar `find_by_name.return_value = None` e checar que `report_type_repo.save` foi chamado.
 - **Verify**: `uv run pytest tests/test_bulk_create_reports.py` passa; `uv run pyright src/` sem novos erros.
-- [ ] Done
+- [x] Done
 
 ### Step 2: Atualizar o endpoint `POST /admin/seed/relatos`
 
@@ -115,7 +115,7 @@ Em [seed.py](../../src/fala_gavea/presentation/api/routers/seed.py), `seed_relat
 - **Depends on**: Step 1
 - **Tests**: teste de endpoint (TestClient, padrão de `tests/test_bootstrap_admin.py`): admin envia CSV com `user_id` novo + tópico inexistente → 200 com `inserted >= 1`, usuário sintético criado, ReportType criado; CSV sem `user_id` → linha em `skipped`; não-admin → 403.
 - **Verify**: `uv run pytest tests/ -k seed_relatos` passa.
-- [ ] Done
+- [x] Done
 
 ### Step 3: Adicionar `seedRelatos` ao `api.ts`
 
@@ -142,7 +142,7 @@ seedRelatos(file: File): Promise<{ inserted: number; skipped: number; errors: un
 - **Files**: `frontend/src/lib/api.ts` (modify)
 - **References**: `project/standards.md § Frontend`
 - **Verify**: `cd frontend && npx tsc --noEmit` limpo.
-- [ ] Done
+- [x] Done
 
 ### Step 4: Adicionar card "Seed de Relatos" ao `AdminPage.tsx` (regras em pt-BR)
 
@@ -162,7 +162,7 @@ Em [AdminPage.tsx](../../frontend/src/features/admin/AdminPage.tsx), adicionar u
 - **Depends on**: Step 3
 - **Tests**: estender [AdminPage.test.tsx](../../frontend/src/features/admin/AdminPage.test.tsx): mockar `api.seedRelatos`; caso "renderiza seção Seed de Relatos" e caso "upload de CSV chama seedRelatos(file)".
 - **Verify**: `cd frontend && npm run test -- --run` verde; seção renderiza com as regras pt-BR.
-- [ ] Done
+- [x] Done
 
 ## Review
 
@@ -187,3 +187,28 @@ Em [AdminPage.tsx](../../frontend/src/features/admin/AdminPage.tsx), adicionar u
 ```
 feat(seed-relatos): seed de relatos no painel admin — CSV com user_id, auto-cria usuário/tópico e fallbacks Gávea
 ```
+
+## Summary (implement 113 — manual mode, 2026-06-20 22:58 UTC)
+
+All 4 steps completed (4/4 `[x] Done`).
+
+**Backend**
+- `bulk_create_reports.py`: reescrito `BulkCreateReports.execute` — nova assinatura (substitui `author_id` por `user_repo` + `password_service`); resolve/cria autor por `user_id` deduplicado (e-mail sintético `{user_id}@seed.gavea.br`, cache local), auto-cria tópico via `CreateReportType` com guarda `InvalidInputError`, coordenadas aleatórias no bbox da Gávea quando ausentes/inválidas, `urgency` lida do CSV com fallback `media`. Constantes de módulo `_LAT_MIN/_LAT_MAX/_LON_MIN/_LON_MAX/_DEFAULT_PASSWORD`.
+- `seed.py`: endpoint `POST /admin/seed/relatos` injeta `user_repo`/`password_service`, lê colunas novas (`user_id`/`urgency`, alias `id_cidadao`), remove `author_id=current_user.id`. `require_role("admin")` mantido.
+
+**Frontend**
+- `api.ts`: novo método `seedRelatos(file)` espelhando `seedTopicos`.
+- `AdminPage.tsx`: nova seção "Seed de Relatos" (input CSV + botão, estado próprio `relatosFile`/`seedingRelatos`) com bloco de regras pt-BR.
+
+**Tests**
+- `test_bulk_create_reports.py`: reescrito (13 testes) cobrindo dedup de usuário, reuso de conta existente, skip sem `user_id`, auto-criação de tópico, tópico curto não aborta batch, urgency do CSV + fallback, coords aleatórias no bbox, datas, indexer.
+- `test_seed_endpoint.py`: atualizado (5 testes) — happy path com alias, auto-criação de usuário+tópico, skip sem `user_id`, coords inválidas geram ponto, não-admin 403.
+- `AdminPage.test.tsx`: mock `seedRelatos` + 2 casos novos (renderiza seção, upload chama `seedRelatos`).
+
+**Quality Gate**
+- ruff: arquivos alterados limpos (3 erros pré-existentes em `test_bootstrap_admin.py`/`test_wipe.py`, não tocados).
+- pyright: arquivos alterados 0 erros (66 erros pré-existentes em outros módulos de `src/`).
+- pytest: 116 passed, **2 failed pré-existentes** (`test_report_types.py::test_create_report_type_citizen_forbidden` e `::test_create_report_type_unauthenticated`) — confirmados em HEAD limpo, fora do escopo deste plano.
+- frontend: 32 passed.
+
+**Bug pré-existente detectado (não corrigido):** `POST /report_types/` permite criação por `citizen` (retorna 201 em vez de 403) e por não autenticado. Recomenda-se `/plan` para corrigir a autorização do router de report_types.

@@ -178,6 +178,23 @@ export const api = {
     );
   },
 
+  seedRelatos(file: File): Promise<{ inserted: number; skipped: number; errors: unknown[] }> {
+    const token = getToken();
+    const headers: Record<string, string> = {};
+    if (token) headers["Authorization"] = `Bearer ${token}`;
+    const formData = new FormData();
+    formData.append("file", file);
+    return fetch(`${BASE_URL}/admin/seed/relatos`, { method: "POST", headers, body: formData }).then(
+      async (res) => {
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({ detail: res.statusText }));
+          throw new ApiError(res.status, data.detail || res.statusText);
+        }
+        return res.json();
+      },
+    );
+  },
+
   wipeDatabase(
     includeReportTypes: boolean,
   ): Promise<{ wiped: { reports: number; forwardings: number; report_types: number } }> {

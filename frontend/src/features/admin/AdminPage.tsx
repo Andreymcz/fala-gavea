@@ -20,6 +20,10 @@ export function AdminPage() {
   const [file, setFile] = useState<File | null>(null);
   const [seeding, setSeeding] = useState(false);
 
+  const relatosInputRef = useRef<HTMLInputElement>(null);
+  const [relatosFile, setRelatosFile] = useState<File | null>(null);
+  const [seedingRelatos, setSeedingRelatos] = useState(false);
+
   const [wipeScope, setWipeScope] = useState<WipeScope | null>(null);
   const [wiping, setWiping] = useState(false);
 
@@ -42,6 +46,27 @@ export function AdminPage() {
         toast(`Falha ao inserir tópicos: ${msg}`, "error");
       })
       .finally(() => setSeeding(false));
+  }
+
+  function handleSeedRelatosSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!relatosFile) {
+      toast("Selecione um arquivo CSV.", "error");
+      return;
+    }
+    setSeedingRelatos(true);
+    api
+      .seedRelatos(relatosFile)
+      .then((res) => {
+        toast(`${res.inserted} relatos inseridos, ${res.skipped} ignorados.`, "success");
+        setRelatosFile(null);
+        if (relatosInputRef.current) relatosInputRef.current.value = "";
+      })
+      .catch((err) => {
+        const msg = err instanceof ApiError ? err.detail : "Erro ao processar o arquivo.";
+        toast(`Falha ao inserir relatos: ${msg}`, "error");
+      })
+      .finally(() => setSeedingRelatos(false));
   }
 
   function handleWipeConfirm() {
@@ -95,6 +120,52 @@ export function AdminPage() {
             <div>
               <Button type="submit" disabled={seeding || !file}>
                 {seeding ? "Enviando..." : "Enviar CSV"}
+              </Button>
+            </div>
+          </form>
+        </section>
+
+        <section className="rounded-md border border-gray-200 p-5">
+          <h2 className="mb-1 text-base font-semibold text-gray-900">Seed de Relatos</h2>
+          <p className="mb-3 text-sm text-gray-500">
+            Envie um CSV com as colunas{" "}
+            <code>user_id, texto_relato, latitude, longitude, data, topico, urgency</code>. Apenas{" "}
+            <strong>user_id</strong> é obrigatório. Regras automáticas:
+          </p>
+          <ul className="mb-4 list-disc space-y-1 pl-5 text-sm text-gray-500">
+            <li>
+              <strong>Usuário:</strong> se o <code>user_id</code> não existir, criamos uma conta de
+              cidadão automaticamente (senha padrão de desenvolvimento).
+            </li>
+            <li>
+              <strong>Tópico:</strong> se o tópico informado não existir, ele é criado.
+            </li>
+            <li>
+              <strong>Localização:</strong> sem latitude/longitude válidas, geramos um ponto
+              aleatório na Gávea.
+            </li>
+            <li>
+              <strong>Data:</strong> sem data, usamos o momento da importação.
+            </li>
+            <li>
+              <strong>Urgência:</strong> valores aceitos <code>alta</code>, <code>media</code>,{" "}
+              <code>baixa</code>; vazio assume <code>media</code>.
+            </li>
+          </ul>
+          <form onSubmit={handleSeedRelatosSubmit} className="flex flex-col gap-3">
+            <div className="space-y-1">
+              <Label htmlFor="seed-relatos-file">Arquivo CSV</Label>
+              <Input
+                id="seed-relatos-file"
+                ref={relatosInputRef}
+                type="file"
+                accept=".csv"
+                onChange={(e) => setRelatosFile(e.target.files?.[0] ?? null)}
+              />
+            </div>
+            <div>
+              <Button type="submit" disabled={seedingRelatos || !relatosFile}>
+                {seedingRelatos ? "Enviando..." : "Enviar CSV"}
               </Button>
             </div>
           </form>

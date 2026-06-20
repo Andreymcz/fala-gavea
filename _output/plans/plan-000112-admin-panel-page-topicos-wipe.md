@@ -1,7 +1,7 @@
 # DONE | 2026-06-20 21:21 UTC | Plan 000112 | feat/admin-panel | 2026-06-20 20:37 UTC | Admin Panel page: seed topicos + wipe DB | Review: light
 plan_format_version: 1
 source: research-000110
-spawned: plan-000113
+spawned: plan-000113, plan-000113
 
 ## Context
 

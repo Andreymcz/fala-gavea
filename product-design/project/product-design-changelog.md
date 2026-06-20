@@ -36,3 +36,9 @@
 - **Added**: POST /admin/seed/relatos (admin-only CSV bulk-insert endpoint): BulkCreateReports use case, BulkResult dataclass, find_by_name on IReportTypeRepository (case-insensitive), optional created_at param on Report.create(), SeedRelatosResponse schema, seed router wired under /admin/seed prefix
 - **Source**: agent (post-skill)
 - **Plan**: plan-000105
+
+### v8 -- 2026-06-20
+- **Changed**: §9 Administrative Domain — enriched BulkCreateReports: per-row author from `user_id` (auto-create + dedup by synthetic e-mail, dev default password), auto-create unknown `topico` (guarded), Gávea-bbox random coords / `now` date / `media` urgency fallbacks; POST /admin/seed/relatos parses `user_id`+`urgency` columns (`id_cidadao` alias) and injects user_repo/password_service
+- **Added**: Frontend — `api.seedRelatos(file)` + "Seed de Relatos" card (CSV upload + pt-BR rules) in AdminPage.tsx
+- **Source**: agent (post-skill)
+- **Plan**: plan-000113

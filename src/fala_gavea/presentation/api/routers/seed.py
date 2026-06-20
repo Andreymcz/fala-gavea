@@ -13,11 +13,15 @@ from fala_gavea.domain.entities.user import User
 from fala_gavea.domain.repositories.report_repository import IReportRepository
 from fala_gavea.domain.repositories.report_type_repository import IReportTypeRepository
 from fala_gavea.domain.repositories.semantic_ports import IReportIndexer
+from fala_gavea.domain.repositories.user_repository import IUserRepository
+from fala_gavea.infrastructure.auth.password_service import PasswordService
 from fala_gavea.presentation.api.dependencies import (
     get_db,
+    get_password_service,
     get_report_indexer,
     get_report_repo,
     get_report_type_repo,
+    get_user_repo,
     require_role,
 )
 from fala_gavea.presentation.schemas.seed_schemas import (
@@ -37,6 +41,8 @@ def seed_relatos(
     current_user: User = Depends(require_role("admin")),
     report_repo: IReportRepository = Depends(get_report_repo),
     report_type_repo: IReportTypeRepository = Depends(get_report_type_repo),
+    user_repo: IUserRepository = Depends(get_user_repo),
+    password_service: PasswordService = Depends(get_password_service),
     indexer: IReportIndexer | None = Depends(get_report_indexer),
 ) -> SeedRelatosResponse:
     if file.content_type not in ("text/csv", "application/csv", "application/octet-stream"):
@@ -52,18 +58,21 @@ def seed_relatos(
     rows: list[dict] = []
     for row in reader:
         rows.append({
+            "user_id": row.get("user_id", "") or row.get("id_cidadao", ""),
             "descricao": row.get("texto_relato", ""),
             "lat": row.get("latitude", ""),
             "lon": row.get("longitude", ""),
             "data": row.get("data", ""),
             "topico": row.get("topico", ""),
+            "urgency": row.get("urgency", ""),
         })
 
     result = BulkCreateReports().execute(
         rows,
-        author_id=current_user.id,
         report_type_repo=report_type_repo,
         report_repo=report_repo,
+        user_repo=user_repo,
+        password_service=password_service,
         indexer=indexer,
     )
 

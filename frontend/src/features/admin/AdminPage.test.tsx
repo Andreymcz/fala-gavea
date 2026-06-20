@@ -3,6 +3,7 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { AdminPage } from "./AdminPage";
 
 const seedTopicos = vi.fn();
+const seedRelatos = vi.fn();
 const wipeDatabase = vi.fn();
 
 vi.mock("@/lib/api", async () => {
@@ -11,6 +12,7 @@ vi.mock("@/lib/api", async () => {
     ...actual,
     api: {
       seedTopicos: (...args: unknown[]) => seedTopicos(...args),
+      seedRelatos: (...args: unknown[]) => seedRelatos(...args),
       wipeDatabase: (...args: unknown[]) => wipeDatabase(...args),
     },
   };
@@ -19,12 +21,14 @@ vi.mock("@/lib/api", async () => {
 describe("AdminPage", () => {
   beforeEach(() => {
     seedTopicos.mockReset();
+    seedRelatos.mockReset();
     wipeDatabase.mockReset();
   });
 
-  it("renders both admin sections", () => {
+  it("renders all admin sections", () => {
     render(<AdminPage />);
     expect(screen.getByText("Seed de Tópicos")).toBeInTheDocument();
+    expect(screen.getByText("Seed de Relatos")).toBeInTheDocument();
     expect(screen.getByText("Limpar Banco de Dados")).toBeInTheDocument();
   });
 
@@ -33,14 +37,36 @@ describe("AdminPage", () => {
     render(<AdminPage />);
 
     const file = new File(["nome,descricao\nIluminação,"], "topicos.csv", { type: "text/csv" });
-    const input = screen.getByLabelText(/arquivo csv/i) as HTMLInputElement;
+    // The first "Arquivo CSV" input belongs to the Seed de Tópicos section.
+    const input = screen.getAllByLabelText(/arquivo csv/i)[0] as HTMLInputElement;
     fireEvent.change(input, { target: { files: [file] } });
 
-    fireEvent.click(screen.getByRole("button", { name: /enviar csv/i }));
+    fireEvent.click(screen.getAllByRole("button", { name: /enviar csv/i })[0]);
 
     await waitFor(() => {
       expect(seedTopicos).toHaveBeenCalledWith(file);
     });
+  });
+
+  it("uploads a CSV and calls seedRelatos", async () => {
+    seedRelatos.mockResolvedValue({ inserted: 5, skipped: 0, errors: [] });
+    render(<AdminPage />);
+
+    const file = new File(
+      ["user_id,texto_relato,topico\nu1,Buraco na rua,Iluminacao"],
+      "relatos.csv",
+      { type: "text/csv" },
+    );
+    // The second "Arquivo CSV" input belongs to the Seed de Relatos section.
+    const input = screen.getAllByLabelText(/arquivo csv/i)[1] as HTMLInputElement;
+    fireEvent.change(input, { target: { files: [file] } });
+
+    fireEvent.click(screen.getAllByRole("button", { name: /enviar csv/i })[1]);
+
+    await waitFor(() => {
+      expect(seedRelatos).toHaveBeenCalledWith(file);
+    });
+    expect(seedTopicos).not.toHaveBeenCalled();
   });
 
   it("opens a confirm dialog before wiping and only wipes on confirm", async () => {

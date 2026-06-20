@@ -5,6 +5,13 @@ import io
 
 from fastapi.testclient import TestClient
 
+from fala_gavea.infrastructure.repositories.sqlalchemy_report_type_repository import (
+    SQLAlchemyReportTypeRepository,
+)
+from fala_gavea.infrastructure.repositories.sqlalchemy_user_repository import (
+    SQLAlchemyUserRepository,
+)
+
 
 def _csv_bytes(*rows: dict, columns: list[str] | None = None) -> bytes:
     """Build a CSV bytestring from a list of row dicts."""
@@ -18,11 +25,8 @@ def _csv_bytes(*rows: dict, columns: list[str] | None = None) -> bytes:
     return "\n".join(lines).encode("utf-8")
 
 
-_VALID_COLUMNS = ["id_cidadao", "texto_relato", "latitude", "longitude", "data", "topico"]
-
-
 def test_seed_happy_path(client: TestClient, admin_headers: dict, sample_report_type: str) -> None:
-    """3 valid rows → inserted=3, skipped=0, errors=[]."""
+    """3 valid rows (id_cidadao alias) → inserted=3, skipped=0, errors=[]."""
     csv_bytes = _csv_bytes(
         {"id_cidadao": "u1", "texto_relato": "Buraco na calçada perto do parque", "latitude": "-22.9731", "longitude": "-43.2272", "data": "2026-01-01", "topico": "Iluminacao publica"},
         {"id_cidadao": "u2", "texto_relato": "Lâmpada queimada na esquina da rua", "latitude": "-22.9740", "longitude": "-43.2280", "data": "2026-01-02", "topico": "Iluminacao publica"},
@@ -40,10 +44,34 @@ def test_seed_happy_path(client: TestClient, admin_headers: dict, sample_report_
     assert data["errors"] == []
 
 
-def test_seed_unknown_topico(client: TestClient, admin_headers: dict, sample_report_type: str) -> None:
-    """One row with invalid topic → skipped=1, errors contains that row's reason."""
+def test_seed_new_user_and_topic_are_auto_created(client: TestClient, admin_headers: dict, db_session) -> None:
+    """New user_id + nonexistent topico → 200 inserted>=1, synthetic user + ReportType created."""
     csv_bytes = _csv_bytes(
-        {"id_cidadao": "u1", "texto_relato": "Problema de esgoto na rua", "latitude": "-22.9731", "longitude": "-43.2272", "data": "2026-01-01", "topico": "TopicoInexistente"},
+        {"user_id": "novo1", "texto_relato": "Problema de esgoto na rua principal", "latitude": "-22.9731", "longitude": "-43.2272", "data": "2026-01-01", "topico": "Saneamento", "urgency": "alta"},
+    )
+    resp = client.post(
+        "/admin/seed/relatos",
+        files={"file": ("relatos.csv", io.BytesIO(csv_bytes), "text/csv")},
+        headers=admin_headers,
+    )
+    assert resp.status_code == 200, resp.text
+    data = resp.json()
+    assert data["inserted"] == 1
+    assert data["skipped"] == 0
+
+    # Synthetic citizen account created for the new user_id.
+    user = SQLAlchemyUserRepository(db_session).find_by_email("novo1@seed.gavea.br")
+    assert user is not None
+    assert user.name == "Cidadão novo1"
+    # Topic auto-created.
+    rt = SQLAlchemyReportTypeRepository(db_session).find_by_name("Saneamento")
+    assert rt is not None
+
+
+def test_seed_missing_user_id_is_skipped(client: TestClient, admin_headers: dict, sample_report_type: str) -> None:
+    """Row without user_id → skipped with error; user_id is the only required column."""
+    csv_bytes = _csv_bytes(
+        {"user_id": "", "texto_relato": "Relato sem autor identificado", "latitude": "-22.9731", "longitude": "-43.2272", "data": "2026-01-01", "topico": "Iluminacao publica"},
     )
     resp = client.post(
         "/admin/seed/relatos",
@@ -55,13 +83,13 @@ def test_seed_unknown_topico(client: TestClient, admin_headers: dict, sample_rep
     assert data["inserted"] == 0
     assert data["skipped"] == 1
     assert len(data["errors"]) == 1
-    assert "TopicoInexistente" in data["errors"][0]["reason"]
+    assert "user_id" in data["errors"][0]["reason"]
 
 
-def test_seed_malformed_csv_bad_coordinates(client: TestClient, admin_headers: dict, sample_report_type: str) -> None:
-    """Row with non-numeric coordinates → skipped with error, not a server crash."""
+def test_seed_missing_coordinates_uses_random_gavea_point(client: TestClient, admin_headers: dict, sample_report_type: str) -> None:
+    """Invalid/missing coordinates no longer skip the row — a random Gávea point is generated."""
     csv_bytes = _csv_bytes(
-        {"id_cidadao": "u1", "texto_relato": "Problema na rua principal aqui", "latitude": "NOT_A_NUMBER", "longitude": "-43.2272", "data": "2026-01-01", "topico": "Iluminacao publica"},
+        {"user_id": "u1", "texto_relato": "Problema na rua principal aqui", "latitude": "NOT_A_NUMBER", "longitude": "-43.2272", "data": "2026-01-01", "topico": "Iluminacao publica"},
     )
     resp = client.post(
         "/admin/seed/relatos",
@@ -70,32 +98,14 @@ def test_seed_malformed_csv_bad_coordinates(client: TestClient, admin_headers: d
     )
     assert resp.status_code == 200, resp.text
     data = resp.json()
-    assert data["inserted"] == 0
-    assert data["skipped"] == 1
-    assert len(data["errors"]) == 1
-
-
-def test_seed_missing_required_columns_returns_200_all_skipped(client: TestClient, admin_headers: dict) -> None:
-    """CSV missing all expected columns → all rows skipped (empty topico → unknown type)."""
-    # A CSV with only 'comment' column — no texto_relato, no topico, no coordinates
-    csv_bytes = b"comment\nsome comment here"
-    resp = client.post(
-        "/admin/seed/relatos",
-        files={"file": ("relatos.csv", io.BytesIO(csv_bytes), "text/csv")},
-        headers=admin_headers,
-    )
-    # The router maps missing columns to empty strings; empty topico won't match any ReportType
-    assert resp.status_code == 200, resp.text
-    data = resp.json()
-    # Row is skipped because topico='' is not found, then coordinates fail
-    assert data["inserted"] == 0
-    assert data["skipped"] == 1
+    assert data["inserted"] == 1
+    assert data["skipped"] == 0
 
 
 def test_seed_non_admin_returns_403(client: TestClient, citizen_headers: dict) -> None:
     """Non-admin caller → 403 Forbidden."""
     csv_bytes = _csv_bytes(
-        {"id_cidadao": "u1", "texto_relato": "Algum relato aqui na rua", "latitude": "-22.9731", "longitude": "-43.2272", "data": "2026-01-01", "topico": "Iluminacao publica"},
+        {"user_id": "u1", "texto_relato": "Algum relato aqui na rua", "latitude": "-22.9731", "longitude": "-43.2272", "data": "2026-01-01", "topico": "Iluminacao publica"},
     )
     resp = client.post(
         "/admin/seed/relatos",
