@@ -15,6 +15,9 @@ class IReportIndexer(ABC):
     @abstractmethod
     def reindex_all(self, reports: list[Report]) -> None: ...
 
+    @abstractmethod
+    def delete_all(self) -> None: ...
+
 
 class ISemanticSearchPort(ABC):
     @abstractmethod

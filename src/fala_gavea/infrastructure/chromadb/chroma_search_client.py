@@ -52,6 +52,10 @@ class ChromaSearchClient(IReportIndexer, ISemanticSearchPort):
     def delete(self, report_id: str) -> None:
         self._collection.delete(ids=[report_id])
 
+    def delete_all(self) -> None:
+        self._client.delete_collection(_COLLECTION_NAME)
+        self._collection = self._client.get_or_create_collection(_COLLECTION_NAME)
+
     def reindex_all(self, reports: list[Report]) -> None:
         self._client.delete_collection(_COLLECTION_NAME)
         self._collection = self._client.get_or_create_collection(_COLLECTION_NAME)

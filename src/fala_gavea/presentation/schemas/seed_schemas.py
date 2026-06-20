@@ -12,3 +12,19 @@ class SeedRelatosResponse(BaseModel):
     inserted: int
     skipped: int
     errors: list[SeedErrorItem]
+
+
+class SeedTopicosResponse(BaseModel):
+    inserted: int
+    skipped: int
+    errors: list[SeedErrorItem]
+
+
+class WipedCounts(BaseModel):
+    reports: int
+    forwardings: int
+    report_types: int
+
+
+class WipeResponse(BaseModel):
+    wiped: WipedCounts

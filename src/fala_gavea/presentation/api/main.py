@@ -6,7 +6,10 @@ from fastapi import FastAPI
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
-from fala_gavea.infrastructure.database.session import create_tables
+from fala_gavea.application.use_cases.admin.bootstrap_admin_user import BootstrapAdminUser
+from fala_gavea.infrastructure.auth.password_service import PasswordService
+from fala_gavea.infrastructure.database.session import SessionLocal, create_tables
+from fala_gavea.infrastructure.repositories.sqlalchemy_user_repository import SQLAlchemyUserRepository
 from fala_gavea.presentation.api.routers import auth as auth_router
 from fala_gavea.presentation.api.routers import chat as chat_router
 from fala_gavea.presentation.api.routers import report_types as report_types_router
@@ -35,6 +38,13 @@ def _mount_spa(app: FastAPI) -> None:
 def create_app() -> FastAPI:
     app = FastAPI(title="Fala Gavea API", version="0.1.0")
     create_tables()
+
+    db = SessionLocal()
+    try:
+        BootstrapAdminUser().execute(SQLAlchemyUserRepository(db), PasswordService())
+    finally:
+        db.close()
+
     app.include_router(auth_router.router, prefix="/auth", tags=["auth"])
     app.include_router(chat_router.router, prefix="/nl", tags=["nl-chat"])
     app.include_router(reports_router.router, prefix="/reports", tags=["reports"])
