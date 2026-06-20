@@ -4,6 +4,7 @@ from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi.responses import FileResponse, JSONResponse
+from sqlalchemy import text
 from fastapi.staticfiles import StaticFiles
 
 from fala_gavea.application.use_cases.admin.bootstrap_admin_user import BootstrapAdminUser
@@ -54,6 +55,12 @@ def create_app() -> FastAPI:
 
     @app.get("/health", include_in_schema=False)
     def health() -> JSONResponse:
+        try:
+            db = SessionLocal()
+            db.execute(text("SELECT 1"))
+            db.close()
+        except Exception:
+            return JSONResponse({"status": "error", "detail": "db unavailable"}, status_code=503)
         return JSONResponse({"status": "ok"})
 
     _mount_spa(app)
