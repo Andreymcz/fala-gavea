@@ -28,6 +28,7 @@ def list_report_types(
 @router.post("/", response_model=ReportTypeResponse, status_code=status.HTTP_201_CREATED)
 def create_report_type(
     body: ReportTypeCreate,
+    _current_user=Depends(require_role("admin")),
     report_type_repo: IReportTypeRepository = Depends(get_report_type_repo),
 ) -> ReportTypeResponse:
     try:
