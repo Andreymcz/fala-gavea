@@ -16,6 +16,13 @@ class SQLAlchemyReportTypeRepository(IReportTypeRepository):
         model = self._session.get(ReportTypeModel, id)
         return self._to_entity(model) if model else None
 
+    def find_by_name(self, name: str) -> ReportType | None:
+        stmt = select(ReportTypeModel).where(
+            ReportTypeModel.name.ilike(name)
+        )
+        model = self._session.scalars(stmt).first()
+        return self._to_entity(model) if model else None
+
     def find_all_active(self) -> list[ReportType]:
         stmt = select(ReportTypeModel).where(ReportTypeModel.active == True)  # noqa: E712
         return [self._to_entity(m) for m in self._session.scalars(stmt).all()]

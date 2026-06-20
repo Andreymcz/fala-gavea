@@ -41,6 +41,7 @@ class Report:
         report_type_id: str,
         author_id: str,
         photo_url: str | None = None,
+        created_at: datetime | None = None,
     ) -> Report:
         return Report(
             id=str(uuid.uuid4()),
@@ -52,5 +53,5 @@ class Report:
             report_type_id=report_type_id,
             author_id=author_id,
             status=ReportStatus.pendente,
-            created_at=datetime.now(UTC),
+            created_at=created_at if created_at is not None else datetime.now(UTC),
         )
