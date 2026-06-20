@@ -1,5 +1,11 @@
 # Briefs Log
 
+DONE | 2026-06-20 23:39 UTC | STARTED | 2026-06-20 23:23 UTC | research | investigar porque o seed de relatos em csv esta demorando tanto e usando mta memoria. o servidor esta usando mais que 4GB
+
+DONE | 2026-06-20 23:10 UTC | STARTED | 2026-06-20 23:00 UTC | plan | ERROR: UNIQUE constraint failed on users.email during database seeding | PLAN | 000118
+
+STARTED | 2026-06-20 21:46 UTC | research | logs do railway, parece que o servidor esta reiniciando quando tenta ingerir um csv
+
 DONE | 2026-06-20 21:05 UTC | STARTED | 2026-06-20 21:03 UTC | implement | 115 | PLAN | 000115
 
 DONE | 2026-06-20 23:55 UTC | STARTED | 2026-06-20 23:54 UTC | plan | aplicar correções de deploy Railway: JWT_SECRET_KEY em .env.example, DATABASE_URL absoluto, /health com DB probe, remover frontend/dist/ do .dockerignore. source: research-000114 | PLAN | 000115
