@@ -1,5 +1,7 @@
 # Briefs Log
 
+DONE | 2026-06-20 23:55 UTC | STARTED | 2026-06-20 23:54 UTC | plan | aplicar correções de deploy Railway: JWT_SECRET_KEY em .env.example, DATABASE_URL absoluto, /health com DB probe, remover frontend/dist/ do .dockerignore. source: research-000114 | PLAN | 000115
+
 DONE | 2026-06-20 23:51 UTC | STARTED | 2026-06-20 23:46 UTC | research | como a atual configuracao docker está adequada a fazer o deploy no railway, considerando modificacoes recentes na stack tecnologica do front end. Segue plano 96
 
 DONE | 2026-06-20 22:58 UTC | STARTED | 2026-06-20 22:49 UTC | implement | 113 | PLAN | 000113
