@@ -1,5 +1,7 @@
 # Briefs Log
 
+DONE | 2026-06-20 20:35 UTC | STARTED | 2026-06-20 20:33 UTC | research | is there any frontend view for these operations in feature 109 ?
+
 DONE | 2026-06-20 20:30 UTC | STARTED | 2026-06-20 20:20 UTC | implement | 109 | PLAN | 000109
 
 STARTED | 2026-06-20 16:50 UTC | plan | admin features: seed csv with relatos, topicos, allow wipe all database entries
