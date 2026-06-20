@@ -42,6 +42,14 @@ export function Header() {
               Encaminhamentos
             </Link>
           )}
+          {user?.role === "admin" && (
+            <Link
+              to="/admin"
+              className="text-sm text-gray-600 hover:text-gray-900"
+            >
+              Painel admin
+            </Link>
+          )}
           {!user ? (
             <Link to="/login">
               <Button size="sm">Entrar</Button>

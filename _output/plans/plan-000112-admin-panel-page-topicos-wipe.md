@@ -1,4 +1,4 @@
-# Plan 000112 | feat/admin-panel | 2026-06-20 20:37 UTC | Admin Panel page: seed topicos + wipe DB | Review: light
+# DONE | 2026-06-20 21:21 UTC | Plan 000112 | feat/admin-panel | 2026-06-20 20:37 UTC | Admin Panel page: seed topicos + wipe DB | Review: light
 plan_format_version: 1
 source: research-000110
 
@@ -42,7 +42,7 @@ Note: `seedTopicos` cannot use the shared `request()` helper because it sends `m
 
 - **Files**: `frontend/src/lib/api.ts` (modify)
 - **Verify**: TypeScript compiles; no import changes needed
-- [ ] Done
+- [x] Done
 
 ### Step 2: Create `AdminPage.tsx`
 
@@ -57,7 +57,7 @@ Layout pattern: same as `ForwardingsPage` — `flex flex-col p-6` with `h1` head
 - **Files**: `frontend/src/features/admin/AdminPage.tsx` (create)
 - **Depends on**: Step 1
 - **Verify**: page renders, CSV upload triggers `seedTopicos`, wipe buttons open confirm dialog and trigger `wipeDatabase`
-- [ ] Done
+- [x] Done
 
 ### Step 3: Register route `/admin` in `App.tsx`
 
@@ -83,7 +83,7 @@ const AdminPage = lazy(() => import("@/features/admin/AdminPage").then(m => ({ d
 - **Files**: `frontend/src/App.tsx` (modify)
 - **Depends on**: Step 2
 - **Verify**: navigating to `/admin` as non-admin redirects to `/`; as admin renders the page
-- [ ] Done
+- [x] Done
 
 ### Step 4: Add "Painel admin" link to `Header.tsx`
 
@@ -100,7 +100,7 @@ Add a link visible only when `user.role === "admin"`, alongside the existing age
 - **Files**: `frontend/src/components/layout/Header.tsx` (modify)
 - **Depends on**: Step 3
 - **Verify**: admin user sees "Painel admin" in header; agent and citizen do not
-- [ ] Done
+- [x] Done
 
 ## Review
 
@@ -119,3 +119,24 @@ Add a link visible only when `user.role === "admin"`, alongside the existing age
 ```
 feat(admin-panel): admin page — seed topicos CSV + wipe DB with confirm dialog
 ```
+
+## Implementation Summary
+
+Mode: manual (4 sequential steps). All 4 steps completed.
+
+**Files changed:**
+- `frontend/src/lib/api.ts` (modify) — added `seedTopicos(file)` (raw `fetch` + `FormData` multipart, Bearer header) and `wipeDatabase(includeReportTypes)` (shared `request()` DELETE with query param). Response types mirror backend `SeedTopicosResponse` / `WipeResponse`.
+- `frontend/src/features/admin/AdminPage.tsx` (create) — `/admin` page with two card sections: "Seed de Tópicos" (CSV file input + submit, spinner, result/error toasts) and "Limpar Banco de Dados" (two destructive buttons opening a shared confirm `Dialog`; wipe only fires on "Confirmar"). Scope state distinguishes reports-only vs. include-report_types.
+- `frontend/src/features/admin/AdminPage.test.tsx` (create) — 3 vitest cases: renders both sections, CSV upload calls `seedTopicos(file)`, confirm-dialog gating (wipe not called until "Confirmar", then called with `true`).
+- `frontend/src/App.tsx` (modify) — lazy `AdminPage` import + `/admin` route guarded by `RequireAuth roles={["admin"]}`.
+- `frontend/src/components/layout/Header.tsx` (modify) — "Painel admin" nav link shown only when `user?.role === "admin"`.
+
+**Quality gate:**
+- TypeScript `tsc --noEmit`: clean.
+- Vitest: 31 passing (28 prior + 3 new admin tests).
+- ESLint on changed files: clean (3 repo-wide pre-existing errors live in untouched files).
+- Project validation (`run_all_checks.py`): no new failures attributable to this change. `check_unused_files.py` flags `AdminPage.tsx` — confirmed pre-existing false positive: the checker doesn't follow dynamic `import()`, so every lazy-loaded page (WorkspacePage, ForwardingsPage, Login/Register, ReportForm) is flagged identically.
+- Review (light depth, inline): all plan-adopted perspectives verified (admin route guard + independent backend 403, confirm-dialog wipe gate, multipart-boundary-safe upload, primitive reuse).
+
+**Deferred / notes:**
+- `seedTopicos` raw `fetch` does not dispatch `auth:unauthorized` on 401 (the shared `request()` helper does). Non-blocking; matches the plan's specified code; acceptable for an admin-only tool.

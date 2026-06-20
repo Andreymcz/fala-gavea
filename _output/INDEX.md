@@ -6,7 +6,7 @@
 | Date | Type | ID | Title | Status | File |
 |------|------|----|-------|--------|------|
 | 2026-06-20 20:39 UTC | QA Log | 000112 | Admin Panel page: seed topicos + wipe DB |  | [plan-000112-qa-admin-panel-topicos-wipe.md](plans/plan-000112-qa-admin-panel-topicos-wipe.md) |
-| 2026-06-20 20:37 UTC | Plan | 000112 | Admin Panel page: seed topicos + wipe DB | OPEN | [plan-000112-admin-panel-page-topicos-wipe.md](plans/plan-000112-admin-panel-page-topicos-wipe.md) |
+| 2026-06-20 20:37 UTC | Plan | 000112 | Admin Panel page: seed topicos + wipe DB | DONE | [plan-000112-admin-panel-page-topicos-wipe.md](plans/plan-000112-admin-panel-page-topicos-wipe.md) |
 | 2026-06-20 20:34 UTC | RESERVED | 000111 | research: frontend view feature 109 admin ops | RESERVED |  |
 | 2026-06-20 20:33 UTC | Research | 000110 | Frontend view for feature 109 admin ops | DONE | [research-000110-frontend-view-feature-109-admin-ops.md](research-logs/research-000110-frontend-view-feature-109-admin-ops.md) |
 | 2026-06-20 16:50 UTC | Plan | 000109 | Admin seed topicos + wipe DB + bootstrap admin user | DONE | [plan-000109-admin-seed-topicos-wipe.md](plans/plan-000109-admin-seed-topicos-wipe.md) |

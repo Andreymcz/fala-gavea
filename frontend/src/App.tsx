@@ -13,6 +13,7 @@ const ReportFormPage = lazy(() => import("@/features/report/ReportFormPage").the
 const ForwardingsPage = lazy(() => import("@/features/forwardings/ForwardingsPage").then(m => ({ default: m.ForwardingsPage })));
 const LoginPage = lazy(() => import("@/features/auth/LoginPage").then(m => ({ default: m.LoginPage })));
 const RegisterPage = lazy(() => import("@/features/auth/RegisterPage").then(m => ({ default: m.RegisterPage })));
+const AdminPage = lazy(() => import("@/features/admin/AdminPage").then(m => ({ default: m.AdminPage })));
 
 function LoadingFallback() {
   return (
@@ -55,6 +56,16 @@ export default function App() {
                   <RequireAuth roles={["agent", "admin"]}>
                     <Suspense fallback={<LoadingFallback />}>
                       <ForwardingsPage />
+                    </Suspense>
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/admin"
+                element={
+                  <RequireAuth roles={["admin"]}>
+                    <Suspense fallback={<LoadingFallback />}>
+                      <AdminPage />
                     </Suspense>
                   </RequireAuth>
                 }
