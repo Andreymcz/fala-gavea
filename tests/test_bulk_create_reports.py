@@ -315,13 +315,15 @@ class TestBulkCreateReports:
             indexer=indexer,
         )
 
-        assert indexer.index.call_count == 2
+        assert indexer.index_many.call_count == 1
+        called_reports = indexer.index_many.call_args[0][0]
+        assert len(called_reports) == 2
 
     def test_indexer_failure_does_not_abort(self):
         rt = _make_rt()
         report_type_repo, report_repo, user_repo, password_service = _make_repos(rt)
         indexer = MagicMock()
-        indexer.index.side_effect = RuntimeError("chroma down")
+        indexer.index_many.side_effect = RuntimeError("chroma down")
         rows = [
             {"user_id": "u1", "topico": "Iluminacao", "descricao": "Lampada queimada no beco", "lat": -22.97, "lon": -43.22},
             {"user_id": "u2", "topico": "Iluminacao", "descricao": "Poste sem luz na rua lateral", "lat": -22.98, "lon": -43.23},

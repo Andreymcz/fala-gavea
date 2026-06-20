@@ -63,7 +63,9 @@ class ChromaSearchClient(IReportIndexer, ISemanticSearchPort):
             return
         ids = [r.id for r in reports]
         documents = [r.text for r in reports]
-        embeddings = [self._encode_passage(r.text) for r in reports]
+        embeddings = self._model.encode(
+            [f"passage: {r.text}" for r in reports], batch_size=64, show_progress_bar=False
+        ).tolist()
         metadatas = [
             {
                 "lat": r.lat,
@@ -90,6 +92,28 @@ class ChromaSearchClient(IReportIndexer, ISemanticSearchPort):
         ids = result["ids"][0]
         distances = result["distances"][0]
         return [(rid, 1.0 / (1.0 + dist)) for rid, dist in zip(ids, distances)]
+
+    def index_many(self, reports: list[Report], batch_size: int = 64) -> None:
+        if not reports:
+            return
+        texts = [f"passage: {r.text}" for r in reports]
+        embeddings = self._model.encode(
+            texts, batch_size=batch_size, show_progress_bar=False
+        ).tolist()
+        self._collection.add(
+            ids=[r.id for r in reports],
+            documents=[r.text for r in reports],
+            embeddings=embeddings,
+            metadatas=[
+                {
+                    "lat": r.lat,
+                    "lon": r.lon,
+                    "urgency": r.urgency.value,
+                    "report_type_id": r.report_type_id,
+                }
+                for r in reports
+            ],
+        )
 
     def similar(self, report_id: str, n: int = 5) -> list[tuple[str, float]]:
         result = self._collection.get(ids=[report_id], include=["embeddings"])

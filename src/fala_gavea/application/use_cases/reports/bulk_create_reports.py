@@ -40,10 +40,12 @@ class BulkCreateReports:
         password_service: PasswordService,
         indexer: IReportIndexer | None = None,
     ) -> BulkResult:
+        CHUNK_SIZE = 500
         inserted = 0
         skipped = 0
         errors: list[dict] = []
         author_cache: dict[str, str] = {}
+        pending_index: list[Report] = []
 
         for i, row in enumerate(rows):
             user_id = str(row.get("user_id", "")).strip()
@@ -110,11 +112,27 @@ class BulkCreateReports:
             )
             report_repo.save(report)
             inserted += 1
+            pending_index.append(report)
+            if len(pending_index) >= CHUNK_SIZE:
+                if indexer is not None:
+                    try:
+                        indexer.index_many(pending_index)
+                    except Exception as exc:
+                        _log.error(
+                            "index_many failed for reports %s: %s",
+                            [r.id for r in pending_index],
+                            exc,
+                        )
+                pending_index.clear()
 
-            if indexer is not None:
-                try:
-                    indexer.index(report)
-                except Exception as exc:
-                    _log.warning("Failed to index report %s: %s", report.id, exc)
+        if pending_index and indexer is not None:
+            try:
+                indexer.index_many(pending_index)
+            except Exception as exc:
+                _log.error(
+                    "index_many failed for reports %s: %s",
+                    [r.id for r in pending_index],
+                    exc,
+                )
 
         return BulkResult(inserted=inserted, skipped=skipped, errors=errors)

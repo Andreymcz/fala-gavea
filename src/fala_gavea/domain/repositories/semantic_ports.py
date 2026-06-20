@@ -18,6 +18,12 @@ class IReportIndexer(ABC):
     @abstractmethod
     def delete_all(self) -> None: ...
 
+    @abstractmethod
+    def index_many(self, reports: list[Report], batch_size: int = 64) -> None:
+        """Index multiple reports in a single batched operation."""
+        for report in reports:
+            self.index(report)
+
 
 class ISemanticSearchPort(ABC):
     @abstractmethod
