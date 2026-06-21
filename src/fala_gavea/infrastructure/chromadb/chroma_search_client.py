@@ -122,7 +122,7 @@ class ChromaSearchClient(IReportIndexer, ISemanticSearchPort):
         q_emb = self._encode_query(query)
         result = self._collection.get(ids=ids, include=["embeddings"])
         found_ids: list[str] = result["ids"]
-        embeddings = result["embeddings"] or []
+        embeddings = result["embeddings"] if result["embeddings"] is not None else []
         scores: dict[str, float] = {}
         q_norm = math.sqrt(sum(x * x for x in q_emb))
         for rid, emb in zip(found_ids, embeddings):
