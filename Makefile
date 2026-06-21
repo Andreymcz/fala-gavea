@@ -38,8 +38,12 @@ run-docker:
 		-e DATABASE_URL=sqlite:////data/fala_gavea.db \
 		-e CHROMA_DATA_DIR=/data/chromadb \
 		-e JWT_SECRET=$(SECRET) \
+		-e FALA_GAVEA_ADMIN_EMAIL=$(ADMIN_EMAIL) \
+		-e FALA_GAVEA_ADMIN_PASSWORD=$(ADMIN_PASSWORD) \
+		-e FALA_GAVEA_ADMIN_NAME=$(ADMIN_NAME) \
 		$(IMAGE)
 	@echo "App running at http://localhost:$(PORT)"
+	@echo "Admin bootstrap: $(ADMIN_EMAIL) / $(ADMIN_PASSWORD)"
 
 stop:
 	docker stop $(IMAGE)

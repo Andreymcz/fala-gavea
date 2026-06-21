@@ -2,9 +2,8 @@ from __future__ import annotations
 
 from datetime import UTC, datetime
 
-import pytest
 
-from fala_gavea.application.use_cases.reports.query_reports import QueryReports, QueryPage
+from fala_gavea.application.use_cases.reports.query_reports import QueryReports
 from fala_gavea.domain.entities.report import Report, ReportStatus, Urgency
 from fala_gavea.domain.repositories.report_repository import IReportRepository, ReportFilters
 from fala_gavea.domain.repositories.semantic_ports import ISemanticSearchPort

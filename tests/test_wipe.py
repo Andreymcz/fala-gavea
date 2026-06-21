@@ -4,7 +4,6 @@ from __future__ import annotations
 import uuid
 from datetime import UTC, datetime
 
-import pytest
 
 from fala_gavea.application.use_cases.admin.wipe_database import WipeDatabase
 from fala_gavea.domain.entities.report import Report, ReportStatus, Urgency

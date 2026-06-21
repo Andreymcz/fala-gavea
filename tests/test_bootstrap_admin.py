@@ -1,9 +1,7 @@
 """Tests for BootstrapAdminUser use case."""
 from __future__ import annotations
 
-import os
 
-import pytest
 from fastapi.testclient import TestClient
 
 from fala_gavea.application.use_cases.admin.bootstrap_admin_user import BootstrapAdminUser

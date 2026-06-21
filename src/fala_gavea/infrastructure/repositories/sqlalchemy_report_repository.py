@@ -66,7 +66,7 @@ class SQLAlchemyReportRepository(IReportRepository):
         order: str = "recent",
         candidate_cap: int = 500,
     ) -> tuple[list[Report], int]:
-        from sqlalchemy import func, desc
+        from sqlalchemy import func
 
         stmt = select(ReportModel)
         if filters.report_type_ids is not None:

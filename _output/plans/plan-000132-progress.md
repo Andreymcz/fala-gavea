@@ -27,5 +27,9 @@ Created `tests/test_report_repository.py` with 7 unit tests covering: `find_all`
 
 Added `ReportQueryRequest`, `ReportQueryItem`, `ReportQueryResponse` schemas to `presentation/schemas/report.py` (imports `Urgency`/`ReportStatus` for validators). Added `POST /reports/query` route to `reports.py` router near `/search`; imports `QueryReports`. Route parses bbox from string, builds `ReportFilters`, delegates to `QueryReports.execute`, returns paginated envelope. Created `tests/test_reports_query_api.py` with 6 tests (urgency filter, bad enum 422, unauthenticated 401, pagination envelope, empty filters, recency ranked_by). All 6 pass. No new ruff or pyright errors.
 
+### Step 7 — 2026-06-21
+
+Retargeted frontend data layer to `POST /reports/query`. Added `ReportQueryBody`, `ReportQueryItem`, `ReportQueryResponse` types to `types.ts`. Added `queryReports` method to `api.ts`. Rewrote `useFilteredReports.ts` to build a `ReportQueryBody` from workspace filters (plural arrays for type/urgency/status, `q` for semantic), call `api.queryReports`, and map `items` to `ReportFeature[]`; `count` now comes from `data.total`. `intersectByScore` export kept for backward compatibility. `useSemanticSearch` no longer called internally (still exists as standalone file for potential external use). Added `queryReports` POST test to `api.test.ts`. All 33 tests pass; `tsc --noEmit` clean.
+
 ### Step 8 — 2026-06-21
 Added cross-reference dependency note to plan-000131: FilterPanel/views now read through `POST /reports/query` (plan-000132); `useFilteredReports`/`useSemanticSearch` retargeted in Step 7; R2 catch-all guard remains independent.
