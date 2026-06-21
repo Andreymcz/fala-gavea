@@ -27,6 +27,9 @@ def _mount_spa(app: FastAPI) -> None:
     assets = STATIC_DIR / "assets"
     if assets.exists():
         app.mount("/assets", StaticFiles(directory=assets), name="assets")
+    docs = STATIC_DIR / "docs"
+    if docs.exists():
+        app.mount("/docs", StaticFiles(directory=docs, html=True), name="docs")
 
     @app.get("/{full_path:path}", include_in_schema=False)
     def spa_fallback(full_path: str) -> FileResponse:

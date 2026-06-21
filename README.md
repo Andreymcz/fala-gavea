@@ -7,6 +7,19 @@ Cidadão registra problema (localização, tipo, urgência) → agente público 
 
 ---
 
+## Documentacao
+
+| Documento | Publico |
+|-----------|---------|
+| [Para Usuarios](docs/communication-000127-end-users.md) | Cidadaos e agentes publicos |
+| [Para Clientes](docs/communication-000126-clients.md) | Professores e patrocinadores do projeto |
+| [Para Avaliadores Tecnicos](docs/communication-000125-evaluators.md) | Tech leads, professores INF2921 |
+| [Para Academicos](docs/communication-000128-academics.md) | Pesquisadores em engenharia semiotica e HCI |
+
+> No sistema em execucao, a documentacao tambem esta acessivel em **`/docs/`** (ex: `http://localhost:8000/docs/`).
+
+---
+
 ## Stack
 
 | Camada | Tecnologia |

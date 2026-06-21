@@ -1,6 +1,6 @@
 # Briefs Log
 
-STARTED | 2026-06-21 15:31 UTC | communicate | how the system work, features implemented, users and journeys. Put documentation acessible in docs with a link in root's project README.md.
+DONE | 2026-06-21 15:39 UTC | STARTED | 2026-06-21 15:31 UTC | communicate | how the system work, features implemented, users and journeys. Put documentation acessible in docs with a link in root's project README.md.
 
 DONE | 2026-06-21 15:35 UTC | STARTED | 2026-06-21 15:24 UTC | implement | 124 | PLAN | 000124
 

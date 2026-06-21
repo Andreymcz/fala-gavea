@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Communication 000126 Clients</title>
+  <style>
+body {
+  max-width: 48em;
+  margin: 2em auto;
+  padding: 0 1em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+               Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #222;
+}
+h1, h2, h3 { margin-top: 1.4em; }
+code { background: #f4f4f4; padding: 0.15em 0.3em; border-radius: 3px; }
+pre  { background: #f4f4f4; padding: 1em; overflow-x: auto; border-radius: 4px; }
+pre code { background: none; padding: 0; }
+table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+th, td { border: 1px solid #ddd; padding: 0.5em 0.75em; text-align: left; }
+th { background: #f8f8f8; }
+blockquote { border-left: 4px solid #ddd; margin: 1em 0; padding: 0.5em 1em; color: #555; }
+a { color: #0366d6; }
+
+  </style>
+</head>
+<body>
+
+<h1 id="communication-000126-clt-2026-06-21-1531-utc-clients">Communication 000126 | CLT | 2026-06-21 15:31 UTC | Clients</h1>
+<p><strong>Produto:</strong> Fala, Gavea! -- Sistema de demandas de cidadaos para seguranca urbana<br />
+<strong>Destinatarios:</strong> Professores coordenadores INF2921/CIS2114 e partes interessadas em seguranca urbana<br />
+<strong>Data:</strong> 21 de junho de 2026<br />
+<strong>Fase atual:</strong> PoC/MVP entregue para avaliacao academica (2026.1)<br />
+<strong>Equipe:</strong> Andrey, Mauro, Julia, Herbert, Natali</p>
+<hr />
+<h2 id="1-alinhamento-com-a-visao-do-produto">1. Alinhamento com a Visao do Produto</h2>
+<p>O produto que voces comissionaram responde a uma necessidade real e documentada: cidadaos do bairro da Gavea (Rio de Janeiro) nao tinham um canal eficiente para registrar problemas de seguranca urbana, e agentes publicos nao contavam com ferramentas para organizar e encaminhar essas demandas de forma sistematica.</p>
+<p>O Fala, Gavea! foi construido com tres objetivos centrais, todos derivados das diretrizes do curso e do contexto de seguranca urbana:</p>
+<table>
+<thead>
+<tr>
+<th>Objetivo comissionado</th>
+<th>O que foi entregue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Canal de registro para cidadaos</td>
+<td>Formulario web com mapa interativo, tipo de ocorrencia, nivel de urgencia e descricao textual</td>
+</tr>
+<tr>
+<td>Ferramenta de gestao para agentes publicos</td>
+<td>Fluxo completo de encaminhamento com rastreamento de status por orgao responsavel</td>
+</tr>
+<tr>
+<td>Exploracao assistida por IA</td>
+<td>Busca semantica, agrupamento de temas, relatos similares e chat em linguagem natural para agentes</td>
+</tr>
+</tbody>
+</table>
+<p>O produto esta alinhado com a visao comissionada. Todos os tres fluxos de usuario definidos no escopo original -- registro pelo cidadao, encaminhamento pelo agente e exploracao por IA -- foram implementados de ponta a ponta.</p>
+<hr />
+<h2 id="2-status-de-entrega">2. Status de Entrega</h2>
+<h3 id="o-que-foi-construido">O que foi construido</h3>
+<p><strong>Para o cidadao:</strong>
+- Registro de ocorrencias com localizacao geografica (mapa interativo Leaflet + coordenadas lat/lon)
+- Classificacao por tipo de problema e nivel de urgencia (alta / media / baixa)
+- Autenticacao segura com perfil de cidadao</p>
+<p><strong>Para o agente publico:</strong>
+- Painel de trabalho com 5 visoes: mapa de ocorrencias, tabela filtrada, agrupamento de topicos, relatos similares e chat NL
+- Gestao de encaminhamentos com ciclo de vida completo: <code>aguardando_solucao</code> -&gt; <code>solucao_em_andamento</code> -&gt; <code>finalizado</code>
+- Ferramentas de administracao: importacao em massa via CSV, gestao de banco de dados</p>
+<p><strong>Infraestrutura e seguranca:</strong>
+- Autenticacao JWT com tres papeis (cidadao / agente / admin)
+- Validacao de entrada em todas as camadas
+- Conteiner Docker + deploy na nuvem Railway com volume de dados persistente</p>
+<p><strong>IA embutida:</strong>
+- Busca semantica sobre relatos (ChromaDB + sentence-transformers)
+- Descoberta de relatos similares
+- Agrupamento de temas por TF-IDF
+- Assistente de chat em linguagem natural (Ollama, modelo qwen3:8b, opcional)</p>
+<h3 id="o-que-vem-a-seguir-fora-do-escopo-do-poc-atual">O que vem a seguir (fora do escopo do PoC atual)</h3>
+<p>Os itens abaixo nao fazem parte da entrega avaliada, mas foram identificados como proximos passos naturais para um produto em producao:</p>
+<ul>
+<li>Notificacoes em tempo real para cidadaos (atualizacoes de status)</li>
+<li>Suporte a multiplos idiomas (sistema atual exclusivamente em pt-BR)</li>
+<li>Integracao com sistemas de gestao municipal existentes</li>
+<li>Painel de indicadores para gestores (metricas agregadas por tipo, regiao, urgencia)</li>
+</ul>
+<h3 id="riscos-conhecidos-e-posicionamento-honesto">Riscos conhecidos e posicionamento honesto</h3>
+<table>
+<thead>
+<tr>
+<th>Restricao</th>
+<th>Impacto</th>
+<th>Posicionamento</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SQLite como banco de dados</td>
+<td>Adequado para PoC; limitado para escala municipal real</td>
+<td>Migracao para PostgreSQL e o proximo passo tecnico se o produto for para producao</td>
+</tr>
+<tr>
+<td>Ollama (LLM local) opcional</td>
+<td>Chat NL retorna 503 gracioso se o servico nao estiver disponivel</td>
+<td>Busca semantica e topicos funcionam independentemente do LLM</td>
+</tr>
+<tr>
+<td>Sem notificacoes em tempo real</td>
+<td>Cidadao nao e alertado automaticamente sobre mudancas de status</td>
+<td>Requer enquete ativa ou email -- identificado como lacuna para v2</td>
+</tr>
+<tr>
+<td>Escopo geografico fixo (Gavea)</td>
+<td>Dados de localizacao e contexto calibrados para o bairro</td>
+<td>Expansao para outros bairros requer configuracao de contexto</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="3-evidencias-de-resultado">3. Evidencias de Resultado</h2>
+<h3 id="cobertura-funcional-dos-fluxos-comissionados">Cobertura funcional dos fluxos comissionados</h3>
+<table>
+<thead>
+<tr>
+<th>Fluxo</th>
+<th>Status</th>
+<th>Observacao</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cidadao registra ocorrencia com localizacao</td>
+<td>Entregue</td>
+<td>Mapa interativo, validacao de coordenadas, todos os campos</td>
+</tr>
+<tr>
+<td>Agente visualiza e filtra demandas</td>
+<td>Entregue</td>
+<td>5 visoes complementares no painel de trabalho</td>
+</tr>
+<tr>
+<td>Agente cria e atualiza encaminhamento</td>
+<td>Entregue</td>
+<td>Ciclo de vida completo com rastreamento de orgao</td>
+</tr>
+<tr>
+<td>Busca semantica por texto livre</td>
+<td>Entregue</td>
+<td>ChromaDB + sentence-transformers, pt-BR</td>
+</tr>
+<tr>
+<td>Agente explora relatos similares</td>
+<td>Entregue</td>
+<td>Descoberta automatica por proximidade semantica</td>
+</tr>
+<tr>
+<td>Chat NL para exploracao</td>
+<td>Entregue (opcional)</td>
+<td>Funciona com Ollama local; sistema degrada graciosamente sem ele</td>
+</tr>
+<tr>
+<td>Admin importa dados via CSV</td>
+<td>Entregue</td>
+<td>Ferramenta de carga em massa disponivel</td>
+</tr>
+<tr>
+<td>Autenticacao e controle de acesso</td>
+<td>Entregue</td>
+<td>JWT com 3 papeis, sem permissoes cruzadas</td>
+</tr>
+</tbody>
+</table>
+<h3 id="qualidade-tecnica">Qualidade tecnica</h3>
+<ul>
+<li>Arquitetura limpa implementada: separacao entre dominio, aplicacao, infraestrutura e apresentacao</li>
+<li>Cobertura de testes: suite pytest (backend) + Vitest (frontend)</li>
+<li>Deploy reproduzivel: Dockerfile + variavel de ambiente, sem segredos embutidos</li>
+<li>Frontend moderno: React 18 + TypeScript + Vite, build estatico servido pelo FastAPI</li>
+</ul>
+<hr />
+<h2 id="4-mensagem-central-versao-em-linguagem-simples">4. Mensagem Central (versao em linguagem simples)</h2>
+<p>O produto que voces comissionaram foi construido e funciona. Um cidadao da Gavea pode abrir o sistema, marcar no mapa onde viu um problema de seguranca, descrever o que aconteceu e enviar -- em menos de dois minutos. Um agente publico pode ver todas as demandas no mapa, buscar por palavras, encontrar relatos parecidos, agrupar por tema e conversar com um assistente de IA para entender o que esta acontecendo no bairro. Quando decide agir, cria um encaminhamento para o orgao responsavel e acompanha o status ate a resolucao.</p>
+<p>O sistema foi projetado para ser honesto sobre o que pode e o que nao pode fazer: se o assistente de chat nao estiver disponivel, o sistema avisa e continua funcionando. Se um dado obrigatorio nao foi preenchido, o sistema rejeita com mensagem clara. Se um usuario tenta acessar o que nao e seu, o sistema bloqueia.</p>
+<p>Para o contexto academico deste curso, o produto demonstra os principios de design de sistemas de IA em producao: separacao de responsabilidades, degradacao gracosa, autenticacao por papel, e IA como ferramenta de apoio -- nao como substituta do julgamento humano.</p>
+<hr />
+<h2 id="5-proximas-decisoes-que-dependem-de-voces">5. Proximas Decisoes que Dependem de Voces</h2>
+<p>As questoes abaixo nao sao tecnicamente complexas, mas requerem decisao dos comissionadores antes de qualquer evolucao do produto:</p>
+<ol>
+<li><strong>Continuidade apos o curso:</strong> O sistema sera descontinuado ao fim do semestre ou ha interesse em manter o deploy para uso real na Gavea?</li>
+<li><strong>Dados reais vs. dados de demonstracao:</strong> O banco atual contem dados sinteticos para avaliacao. Uma implantacao real exige politica de privacidade e protecao de dados (LGPD).</li>
+<li><strong>Escopo de expansao:</strong> O modelo de seguranca urbana pode ser replicado para outros bairros? Isso definiria se a arquitetura atual precisa de parametrizacao adicional.</li>
+</ol>
+<hr />
+<p><em>Fala, Gavea! -- INF2921/CIS2114 2026.1 | Equipe: Andrey, Mauro, Julia, Herbert, Natali</em></p>
+
+</body>
+</html>

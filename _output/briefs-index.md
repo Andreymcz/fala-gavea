@@ -5,7 +5,7 @@
 
 | Date | Skill | Brief | Status | Plan | Head SHA | Generated |
 |------|-------|-------|--------|------|----------|-----------|
-| 2026-06-21 15:31 UTC | communicate | how the system work, features implemented, users and journeys. Put documentatio… | STARTED |  |  |  |
+| 2026-06-21 15:31 UTC | communicate | how the system work, features implemented, users and journeys. Put documentatio… | DONE |  |  |  |
 | 2026-06-21 15:24 UTC | implement | 124 | DONE | 000124 |  |  |
 | 2026-06-21 15:11 UTC | plan | R1: CPU-only PyTorch; R2: e5-small; R3: unified embeddings registry; R4: TF-IDF… | DONE | 000124 |  |  |
 | 2026-06-21 12:46 UTC | research | how to reduce memory usage. our railway app is using 2GB RAM without any active… | DONE |  |  |  |

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Communication 000125 Evaluators</title>
+  <style>
+body {
+  max-width: 48em;
+  margin: 2em auto;
+  padding: 0 1em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+               Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #222;
+}
+h1, h2, h3 { margin-top: 1.4em; }
+code { background: #f4f4f4; padding: 0.15em 0.3em; border-radius: 3px; }
+pre  { background: #f4f4f4; padding: 1em; overflow-x: auto; border-radius: 4px; }
+pre code { background: none; padding: 0; }
+table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+th, td { border: 1px solid #ddd; padding: 0.5em 0.75em; text-align: left; }
+th { background: #f8f8f8; }
+blockquote { border-left: 4px solid #ddd; margin: 1em 0; padding: 0.5em 1em; color: #555; }
+a { color: #0366d6; }
+
+  </style>
+</head>
+<body>
+
+<h1 id="communication-000125-evl-2026-06-21-1531-utc-evaluators">Communication 000125 | EVL | 2026-06-21 15:31 UTC | Evaluators</h1>
+<p><strong>Project:</strong> fala-gavea
+<strong>Audience:</strong> Professors and technical evaluators assessing project merit (INF2921/CIS2114 -- AI Systems Design 2026.1)
+<strong>Purpose:</strong> Technical evaluation briefing -- architecture, design decisions, and feature delivery</p>
+<hr />
+<h2 id="executive-overview">Executive Overview</h2>
+<p>fala-gavea is a civic demand management platform for urban safety in the Gavea district. Citizens register urban problems (location, type, urgency level); public agents create forwardings to responsible institutions; AI assists exploratory analysis through semantic search and natural language chat.</p>
+<p><strong>The problem it solves:</strong> Urban safety complaint workflows are typically handled through opaque, non-searchable systems. Citizens lack feedback visibility; agents lack tools to spot patterns across complaints; administrators cannot easily see demand clusters. fala-gavea addresses all three gaps in a single, role-differentiated platform.</p>
+<p><strong>What distinguishes it technically:</strong>
+- Clean architecture enforced throughout (domain / application / infrastructure / presentation), with no layer violations
+- AI layer is optional and gracefully degraded -- the system works without Ollama or Anthropic API configured
+- Dual LLM backend: local-first (Ollama, <code>qwen3:8b</code>) with a drop-in switch to Anthropic API via a single env var
+- Semantic search is public (no auth required), lowering the barrier for citizen-facing discovery
+- Frontend is a single React 18 + Vite + TypeScript SPA served directly by FastAPI StaticFiles -- no separate deployment</p>
+<hr />
+<h2 id="system-capabilities">System Capabilities</h2>
+<h3 id="delivered-endpoints-21-total">Delivered Endpoints (21 total)</h3>
+<table>
+<thead>
+<tr>
+<th>Domain</th>
+<th>Endpoints</th>
+<th>Auth</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Auth</td>
+<td>POST /auth/register, POST /auth/login</td>
+<td>public</td>
+</tr>
+<tr>
+<td>Report Types</td>
+<td>GET, POST, PUT, DELETE /report-types</td>
+<td>GET public, others admin</td>
+</tr>
+<tr>
+<td>Reports</td>
+<td>POST, GET, GET/:id, PUT/:id, DELETE/:id</td>
+<td>citizen/agent/admin</td>
+</tr>
+<tr>
+<td>Reports -- AI</td>
+<td>GET /reports/search, GET /reports/:id/similar</td>
+<td>public</td>
+</tr>
+<tr>
+<td>Reports -- AI</td>
+<td>GET /reports/topics</td>
+<td>auth</td>
+</tr>
+<tr>
+<td>Forwardings</td>
+<td>POST, GET, GET/:id, PUT/:id, DELETE/:id</td>
+<td>agent/admin</td>
+</tr>
+<tr>
+<td>NL Chat</td>
+<td>POST /nl/chat</td>
+<td>agent/admin</td>
+</tr>
+<tr>
+<td>Keywords</td>
+<td>GET /reports/keywords</td>
+<td>auth</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ai-and-semantic-layer">AI and Semantic Layer</h3>
+<p><strong>Semantic search</strong> uses ChromaDB with sentence-transformers (e5-small model, CPU-optimized for Railway deployment). Two public endpoints enable similarity search without requiring a login.</p>
+<p><strong>Topic extraction</strong> uses a TF-IDF keyword client wired in place of BERTopic -- a deliberate memory-efficiency trade-off made for Railway's constrained container environment. The BERTopic implementation exists and can be restored by swapping the registry entry.</p>
+<p><strong>NL Chat</strong> is a RAG-backed assistant. The pipeline retrieves semantically similar reports from ChromaDB, injects them as context, and sends the prompt to the configured LLM (Ollama by default; Anthropic API when <code>ANTHROPIC_API_KEY</code> is set). The switch is zero-code -- purely environment-driven.</p>
+<hr />
+<h2 id="architecture-overview">Architecture Overview</h2>
+<pre><code>src/fala_gavea/
+  domain/
+    entities/          -- pure dataclasses, no framework dependencies
+    repositories/      -- ABCs (interfaces) for persistence
+    exceptions.py
+  application/
+    use_cases/         -- business logic; no direct DB or HTTP access
+  infrastructure/
+    database/          -- SQLAlchemy models, session, migrations
+    repositories/      -- SQLAlchemy implementations of domain repos
+    chromadb/          -- ChromaClient (semantic indexing + search)
+    embeddings/        -- sentence-transformers registry (swappable models)
+    ollama/            -- OllamaClient
+    topics/            -- TfidfTopicsClient (BERTopic-compatible interface)
+  presentation/
+    api/
+      routers/         -- FastAPI routers per entity
+      dependencies.py  -- get_current_user, require_role (JWT decoding isolated here)
+      main.py
+    schemas/           -- Pydantic v2 request/response schemas
+</code></pre>
+<p><strong>Key design decisions:</strong></p>
+<ol>
+<li>
+<p><strong>No layer violations</strong> -- use cases call repository interfaces, never SQLAlchemy sessions directly. Routers call use cases, never repositories directly.</p>
+</li>
+<li>
+<p><strong>JWT auth isolated to dependencies.py</strong> -- no router decodes a token; all auth goes through <code>get_current_user</code> and <code>require_role</code> dependency injectors.</p>
+</li>
+<li>
+<p><strong>All LLM and vector-store calls isolated to infrastructure/</strong> -- use cases receive results, not clients. This means the AI backend is fully substitutable without touching business logic.</p>
+</li>
+<li>
+<p><strong>Swappable embeddings registry</strong> -- the sentence-transformers model is resolved at startup from a registry, making model changes a one-line config edit.</p>
+</li>
+<li>
+<p><strong>Soft-delete on ReportTypes</strong> -- admin-managed types can be deactivated without cascading data loss.</p>
+</li>
+</ol>
+<h3 id="data-model">Data Model</h3>
+<pre><code>User (id, email, password_hash, role: citizen|agent|admin)
+ReportType (id, name, active, deleted_at)
+Report (id, user_id, report_type_id, text[10-2000], lat, lon,
+        urgency: alta|media|baixa, status: pendente|em_analise|encaminhado|resolvido)
+Forwarding (id, agent_id, institution[3-200], proposed_solution[20-5000],
+            status: aguardando_solucao|solucao_em_andamento|finalizado)
+ForwardingReport (forwarding_id, report_id)  -- many-to-many
+</code></pre>
+<hr />
+<h2 id="frontend-architecture">Frontend Architecture</h2>
+<p>The React 18 + Vite + TypeScript SPA is compiled to <code>static/</code> and served by FastAPI <code>StaticFiles</code>. No separate Node.js server is needed in production.</p>
+<p><strong>Main screens:</strong></p>
+<ul>
+<li><strong>WorkspacePage (/)</strong> -- the primary exploration surface. A <code>FilterPanel</code> accepts type, urgency, status, date range, and a live semantic query field. Five swappable views: Mapa (react-leaflet), Tabela, Topicos, Similares, Chat.</li>
+<li><strong>ReportFormPage (/report)</strong> -- citizen report submission with browser geolocation.</li>
+<li><strong>ForwardingsPage (/agent)</strong> -- agent forwarding management dashboard.</li>
+<li><strong>AdminPage</strong> -- CSV seed upload (reports + report types), database wipe tools.</li>
+</ul>
+<p>The semantic query field in <code>FilterPanel</code> calls <code>GET /reports/search</code> on each keystroke with debounce, providing real-time semantic filtering without a full page reload.</p>
+<hr />
+<h2 id="deployment-and-configuration">Deployment and Configuration</h2>
+<p><strong>Docker:</strong> Multi-stage build. Build stage compiles the Vite SPA; runtime stage is a slim Python 3.13 image. The compiled frontend is copied into the runtime image -- single container, no sidecar.</p>
+<p><strong>Railway:</strong> Deployed on Railway with CPU-only torch (reduced image size), e5-small embeddings model (low memory footprint), and TF-IDF topics (avoids BERTopic's RAM spike at startup).</p>
+<p><strong>Environment variables (key ones):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Purpose</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DATABASE_URL</td>
+<td>SQLite path or connection string</td>
+<td>sqlite:///./fala_gavea.db</td>
+</tr>
+<tr>
+<td>FALA_GAVEA_OLLAMA_URL</td>
+<td>Ollama server URL</td>
+<td>http://localhost:11434</td>
+</tr>
+<tr>
+<td>FALA_GAVEA_OLLAMA_MODEL</td>
+<td>Ollama model name</td>
+<td>qwen3:8b</td>
+</tr>
+<tr>
+<td>ANTHROPIC_API_KEY</td>
+<td>Switches NL chat to Anthropic API when set</td>
+<td>(unset = Ollama)</td>
+</tr>
+<tr>
+<td>JWT_SECRET_KEY</td>
+<td>HS256 signing secret</td>
+<td>(required)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="trade-offs-and-honest-limitations">Trade-offs and Honest Limitations</h2>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Decision</th>
+<th>Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SQLite</td>
+<td>Used instead of PostgreSQL</td>
+<td>Sufficient for PoC scale; zero-config for course evaluation</td>
+</tr>
+<tr>
+<td>TF-IDF topics</td>
+<td>Replaces BERTopic in production</td>
+<td>BERTopic requires ~1.5 GB RAM at startup; Railway free tier cannot absorb that</td>
+</tr>
+<tr>
+<td>Ollama local</td>
+<td>Default LLM backend</td>
+<td>Avoids API costs during development; Anthropic API available as drop-in</td>
+</tr>
+<tr>
+<td>JWT 24h expiry</td>
+<td>No refresh token</td>
+<td>Acceptable for PoC; refresh token flow is a clear next step</td>
+</tr>
+<tr>
+<td>No pagination</td>
+<td>List endpoints return all rows</td>
+<td>Acceptable for demo dataset sizes; pagination is the obvious next step</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="adoption-path-for-evaluators">Adoption Path (for Evaluators)</h2>
+<p>To run a local evaluation instance:</p>
+<pre><code class="language-bash"># 1. Clone and install
+git clone &lt;repo&gt;
+cd fala-gavea
+uv sync --extra dev
+
+# 2. Set required env var
+export JWT_SECRET_KEY=any-secret-string
+
+# 3. Start the API (serves frontend too)
+uv run uvicorn fala_gavea.presentation.api.main:app --reload
+
+# 4. Open http://localhost:8000
+# Use AdminPage to seed data from CSV, then explore WorkspacePage
+</code></pre>
+<p>To evaluate with Anthropic-backed NL chat, add <code>ANTHROPIC_API_KEY=&lt;key&gt;</code> before starting the server.</p>
+<p>To evaluate semantic search without Ollama, the <code>/reports/search</code> and <code>/reports/:id/similar</code> endpoints are public and require no LLM configuration.</p>
+<p><strong>Test suite:</strong></p>
+<pre><code class="language-bash">uv run pytest           # backend tests
+cd frontend &amp;&amp; npm test # frontend tests (vitest)
+</code></pre>
+<hr />
+<h2 id="summary-assessment">Summary Assessment</h2>
+<p>fala-gavea delivers a complete, role-differentiated civic platform with a functioning AI layer within a clean architecture. The primary technical achievements for evaluation are:</p>
+<ol>
+<li><strong>Architecture discipline</strong> -- clean separation enforced at every layer; no shortcuts taken for deadline pressure</li>
+<li><strong>Dual-mode AI backend</strong> -- local-first with zero-code cloud fallback; the seam is explicit and testable</li>
+<li><strong>Memory-aware deployment</strong> -- production constraints (Railway RAM limits) drove concrete architectural decisions (TF-IDF over BERTopic, e5-small over larger models), demonstrating operational awareness beyond the happy path</li>
+<li><strong>Single-container deployment</strong> -- frontend compiled into the Python image; one <code>docker run</code> starts the full stack</li>
+<li><strong>Role-differentiated UX</strong> -- citizen, agent, and admin flows are distinct and enforced at the API level, not just the UI level</li>
+</ol>
+
+</body>
+</html>
