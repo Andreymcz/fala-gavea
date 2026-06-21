@@ -17,12 +17,13 @@ from fala_gavea.presentation.api.routers import report_types as report_types_rou
 from fala_gavea.presentation.api.routers import reports as reports_router
 from fala_gavea.presentation.api.routers import forwardings as forwardings_router
 from fala_gavea.presentation.api.routers import seed as seed_router
+from fala_gavea.presentation.api.routers import saved_filters as saved_filters_router
 
 STATIC_DIR = Path(__file__).resolve().parents[4] / "static"
 
 _API_PREFIXES = {
     "auth", "reports", "report_types", "forwardings",
-    "nl", "admin", "health", "docs",
+    "nl", "admin", "health", "docs", "saved-filters",
 }
 
 
@@ -63,6 +64,7 @@ def create_app() -> FastAPI:
     app.include_router(report_types_router.router, prefix="/report_types", tags=["report_types"])
     app.include_router(forwardings_router.router, prefix="/forwardings", tags=["forwardings"])
     app.include_router(seed_router.router, prefix="/admin/seed", tags=["seed"])
+    app.include_router(saved_filters_router.router, prefix="/saved-filters", tags=["saved-filters"])
 
     @app.get("/health", include_in_schema=False)
     def health() -> JSONResponse:
