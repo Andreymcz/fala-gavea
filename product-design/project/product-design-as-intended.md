@@ -525,6 +525,19 @@ _N/A — projeto greenfield._
 
 *Source: from research-000092 (2026-06-19)*
 
+### D-009: Filtro encenado (draft + Aplicar) substitui o cross-filtering ao vivo do D-008
+
+
+**Context**: O FilterPanel do workspace (D-008) aplicava filtros ao vivo -- cada mudanca de filtro (incluindo a busca semantica, sem debounce) re-disparava fetch geojson e busca semantica imediatamente. Feedback do usuario: o painel lateral esquerdo e o coracao da busca e precisa comunicar claramente os filtros ativos e dar controle explicito sobre quando aplicar.
+
+**Decision**: Introduzir um modelo encenado (staged). O FilterPanel edita um draftFilters (slice separado no Zustand); um botao Aplicar comita draft -> filters e so entao as visoes re-buscam. Indicador de filtros alterados (dirty) + chips de filtros ativos com remocao individual; Limpar mantido. Manipulacao direta (bbox desenhado no mapa, Similares na tabela) comita imediatamente; apenas campos do painel sao encenados. aria-live para dirty/chips.
+
+**Consequences**: O store ganha um slice draftFilters paralelo a filters; consumidores leem so o comitado. Busca semantica deixa de disparar por tecla (resolvido pelo Apply, dispensando debounce). Diverge da intencao filtro ao vivo, lente unica do D-008.
+
+**Rejected Alternatives**: (a) Manter filtro ao vivo e apenas adicionar debounce (~350ms) na busca semantica + chips de filtro ativo -- mais leve e preserva a intencao do D-008, mas nao oferece o gesto explicito de Aplicar que o usuario pediu. (b) Status quo (tudo ao vivo, sem debounce) -- mantem carga por tecla na busca semantica.
+
+*Source: from research-000129 (2026-06-21)*
+
 ## CHANGELOG
 
 2026-06-17 | D-001 | added | - | Decisao de novo projeto independente via python-scaffold (roadmap-000071 D-A)

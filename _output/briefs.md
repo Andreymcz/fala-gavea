@@ -1,5 +1,7 @@
 # Briefs Log
 
+DONE | 2026-06-21 17:11 UTC | STARTED | 2026-06-21 16:33 UTC | research | refine data exploration search filters in front end. citizen and public agent journeys: pending-filters apply button, temporal presets (e.g. last 15 days), Tipos combobox not populating, reports table (full text + sorting), map draw-area broken / filter-by-visible-area
+
 DONE | 2026-06-21 15:39 UTC | STARTED | 2026-06-21 15:31 UTC | communicate | how the system work, features implemented, users and journeys. Put documentation acessible in docs with a link in root's project README.md.
 
 DONE | 2026-06-21 15:35 UTC | STARTED | 2026-06-21 15:24 UTC | implement | 124 | PLAN | 000124
