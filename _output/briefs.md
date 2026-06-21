@@ -1,5 +1,7 @@
 # Briefs Log
 
+DONE | 2026-06-21 00:16 UTC | STARTED | 2026-06-21 00:13 UTC | research | é possivel, dado um relato, ter uma metrica que diz que eles possuem relatos muito parecidos, em comparacao com o resto do universo de relatos ?
+
 DONE | 2026-06-20 23:43 UTC | STARTED | 2026-06-20 23:43 UTC | plan | implementar recomendações ALTA da research-000119: index_many() batched ao ChromaSearchClient e BulkCreateReports em chunks de 500. source: research-000119 | PLAN | 000120
 
 DONE | 2026-06-20 23:39 UTC | STARTED | 2026-06-20 23:23 UTC | research | investigar porque o seed de relatos em csv esta demorando tanto e usando mta memoria. o servidor esta usando mais que 4GB
