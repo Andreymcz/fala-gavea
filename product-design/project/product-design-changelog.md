@@ -42,6 +42,15 @@
 - **Source**: agent (post-skill)
 - **Plan**: plan-000120
 
+### v10 -- 2026-06-21
+- **Changed**: Embedding model default: `multilingual-e5-base` → `multilingual-e5-small`; `embed_model_topics` field removed from SemanticConfig; `EmbeddingProviderRegistry` no longer maps `topics` purpose
+- **Changed**: Dockerfile forces CPU-only PyTorch via `UV_EXTRA_INDEX_URL`; pre-download target updated to `e5-small`
+- **Removed**: `GET /reports/topics` endpoint; `BERTopicClient` dormant (installed, never instantiated); `_topic_model_instance` singleton removed from `dependencies.py`
+- **Added**: `TfidfKeywordClient` (`infrastructure/topics/tfidf_keyword_client.py`): TF-IDF + K-means keyword extraction, no second model; `GET /reports/keywords` endpoint; `KeywordItem`/`KeywordListResponse` Pydantic schemas; `get_keyword_extractor()` dependency
+- **Changed**: Frontend — `TopicItem`→`KeywordItem`, `useTopics`→`useKeywords`, ViewId `topics`→`keywords`, tab label `Tópicos`→`Palavras-chave`
+- **Source**: agent (post-skill)
+- **Plan**: plan-000124
+
 ### v8 -- 2026-06-20
 - **Changed**: §9 Administrative Domain — enriched BulkCreateReports: per-row author from `user_id` (auto-create + dedup by synthetic e-mail, dev default password), auto-create unknown `topico` (guarded), Gávea-bbox random coords / `now` date / `media` urgency fallbacks; POST /admin/seed/relatos parses `user_id`+`urgency` columns (`id_cidadao` alias) and injects user_repo/password_service
 - **Added**: Frontend — `api.seedRelatos(file)` + "Seed de Relatos" card (CSV upload + pt-BR rules) in AdminPage.tsx
