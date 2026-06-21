@@ -1,5 +1,7 @@
 # Briefs Log
 
+DONE | 2026-06-21 18:17 UTC | STARTED | 2026-06-21 18:13 UTC | plan | Phase B unified POST /reports/query (multi-value filters + bbox + date range + semantic ranker + pagination, SQL-as-filter-source/Chroma-ranker) + retarget research-000129 frontend onto it; NL assistant + saved filters deferred. source: research-000130 | PLAN | 000132
+
 DONE | 2026-06-21 17:20 UTC | STARTED | 2026-06-21 17:15 UTC | plan | Implement research-000129: staged filter + Apply button (R1/D-009), fix Tipos combobox routing bug (R2), date presets (R3), table sort + full-text (R4), map filter-this-area (R5), regression tests (R6). source: research-000129 | PLAN | 000131
 
 DONE | 2026-06-21 17:51 UTC | STARTED | 2026-06-21 17:15 UTC | research | filter assistant: natural language to query params. this will allow more complex queryes in relatos (wich will have to be supported by api) database. this could be a potent feature allowing the user to build complex queryes and visualize then. we could also build a feature to save logged user filters (save the query filter sent to api)

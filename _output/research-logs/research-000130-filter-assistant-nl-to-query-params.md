@@ -3,6 +3,7 @@
 tags: filters, hybrid-search, llm-structured-output, api-design, saved-filters
 
 source: user request -- NL filter assistant + richer query API + saved filters, layered on research-000129
+spawned: plan-000132
 
 ## User brief (verbatim)
 
