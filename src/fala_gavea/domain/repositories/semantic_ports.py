@@ -32,6 +32,13 @@ class ISemanticSearchPort(ABC):
     @abstractmethod
     def similar(self, report_id: str, n: int = 5) -> list[tuple[str, float]]: ...
 
+    @abstractmethod
+    def rank(self, query: str, ids: list[str]) -> dict[str, float]: ...
+    """Return a similarity score in [0,1] for each id that exists in the index.
+
+    Missing ids are omitted from the result.
+    """
+
 
 class ITopicModelPort(ABC):
     @abstractmethod

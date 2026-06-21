@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 import os
 
 import chromadb
@@ -114,6 +115,23 @@ class ChromaSearchClient(IReportIndexer, ISemanticSearchPort):
                 for r in reports
             ],
         )
+
+    def rank(self, query: str, ids: list[str]) -> dict[str, float]:
+        if not ids:
+            return {}
+        q_emb = self._encode_query(query)
+        result = self._collection.get(ids=ids, include=["embeddings"])
+        found_ids: list[str] = result["ids"]
+        embeddings = result["embeddings"] or []
+        scores: dict[str, float] = {}
+        q_norm = math.sqrt(sum(x * x for x in q_emb))
+        for rid, emb in zip(found_ids, embeddings):
+            dot = sum(a * b for a, b in zip(q_emb, emb))
+            e_norm = math.sqrt(sum(x * x for x in emb))
+            cosine = dot / (q_norm * e_norm) if q_norm and e_norm else 0.0
+            # Clamp to [0, 1] — cosine can be slightly negative for unrelated docs
+            scores[rid] = max(0.0, cosine)
+        return scores
 
     def similar(self, report_id: str, n: int = 5) -> list[tuple[str, float]]:
         result = self._collection.get(ids=[report_id], include=["embeddings"])
