@@ -23,5 +23,9 @@ Created `QueryReports` use case at `src/fala_gavea/application/use_cases/reports
 
 Created `tests/test_report_repository.py` with 7 unit tests covering: `find_all` urgencies IN filter (alta+media excludes baixa), `find_all` report_type_ids IN filter, `find_all` text ilike case-insensitive, `find_page` recent order with correct total, `find_page` offset pagination, `candidate_cap` limiting rows when cap < limit, and no-cap-effect when rows < cap. All 7 tests pass. No new lint errors introduced in the new file.
 
+### Step 5 — 2026-06-21
+
+Added `ReportQueryRequest`, `ReportQueryItem`, `ReportQueryResponse` schemas to `presentation/schemas/report.py` (imports `Urgency`/`ReportStatus` for validators). Added `POST /reports/query` route to `reports.py` router near `/search`; imports `QueryReports`. Route parses bbox from string, builds `ReportFilters`, delegates to `QueryReports.execute`, returns paginated envelope. Created `tests/test_reports_query_api.py` with 6 tests (urgency filter, bad enum 422, unauthenticated 401, pagination envelope, empty filters, recency ranked_by). All 6 pass. No new ruff or pyright errors.
+
 ### Step 8 — 2026-06-21
 Added cross-reference dependency note to plan-000131: FilterPanel/views now read through `POST /reports/query` (plan-000132); `useFilteredReports`/`useSemanticSearch` retargeted in Step 7; R2 catch-all guard remains independent.

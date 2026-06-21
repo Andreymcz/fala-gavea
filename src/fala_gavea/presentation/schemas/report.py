@@ -4,6 +4,8 @@ from datetime import datetime
 
 from pydantic import BaseModel, field_validator
 
+from fala_gavea.domain.entities.report import ReportStatus, Urgency
+
 
 class ReportCreate(BaseModel):
     text: str
@@ -61,6 +63,63 @@ class ReportSearchResult(ReportResponse):
     """Hydrated report plus its semantic-similarity score in [0, 1]."""
 
     score: float
+
+
+class ReportQueryRequest(BaseModel):
+    report_type_ids: list[str] = []
+    urgencies: list[str] = []
+    statuses: list[str] = []
+    since: datetime | None = None
+    until: datetime | None = None
+    bbox: str | None = None  # "minLat,minLon,maxLat,maxLon"
+    text: str | None = None
+    q: str | None = None
+    limit: int = 50
+    offset: int = 0
+
+    @field_validator("limit")
+    @classmethod
+    def limit_range(cls, v: int) -> int:
+        if not (1 <= v <= 200):
+            raise ValueError("limit must be 1-200")
+        return v
+
+    @field_validator("offset")
+    @classmethod
+    def offset_positive(cls, v: int) -> int:
+        if v < 0:
+            raise ValueError("offset must be >= 0")
+        return v
+
+    @field_validator("urgencies")
+    @classmethod
+    def urgencies_valid(cls, v: list[str]) -> list[str]:
+        valid = {e.value for e in Urgency}
+        for item in v:
+            if item not in valid:
+                raise ValueError(f"invalid urgency: {item}")
+        return v
+
+    @field_validator("statuses")
+    @classmethod
+    def statuses_valid(cls, v: list[str]) -> list[str]:
+        valid = {e.value for e in ReportStatus}
+        for item in v:
+            if item not in valid:
+                raise ValueError(f"invalid status: {item}")
+        return v
+
+
+class ReportQueryItem(ReportResponse):
+    score: float | None = None
+
+
+class ReportQueryResponse(BaseModel):
+    items: list[ReportQueryItem]
+    total: int
+    limit: int
+    offset: int
+    ranked_by: str
 
 
 class ReportFiltersQuery(BaseModel):

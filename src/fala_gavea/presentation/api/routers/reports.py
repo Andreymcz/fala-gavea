@@ -6,6 +6,7 @@ from fala_gavea.application.use_cases.reports.create_report import CreateReport
 from fala_gavea.application.use_cases.reports.find_similar_reports import FindSimilarReports
 from fala_gavea.application.use_cases.reports.get_report import GetReport
 from fala_gavea.application.use_cases.reports.list_reports_geojson import ListReportsGeoJSON
+from fala_gavea.application.use_cases.reports.query_reports import QueryReports
 from fala_gavea.application.use_cases.reports.search_reports import SearchReports
 from fala_gavea.application.use_cases.topics.get_topics_for_reports import GetTopicsForReports
 from fala_gavea.domain.entities.report import Report, ReportStatus, Urgency
@@ -25,6 +26,9 @@ from fala_gavea.presentation.schemas.keyword import KeywordItem, KeywordListResp
 from fala_gavea.presentation.schemas.report import (
     ReportCreate,
     ReportFiltersQuery,
+    ReportQueryItem,
+    ReportQueryRequest,
+    ReportQueryResponse,
     ReportResponse,
     ReportSearchResult,
 )
@@ -133,6 +137,70 @@ def search_reports(
     n = max(1, min(n, 50))
     results = SearchReports(report_repo, search_port).execute(q, n)
     return [_to_search_result(report, score) for report, score in results]
+
+
+MAX_RESULTS = 500
+
+
+@router.post("/query", response_model=ReportQueryResponse)
+def query_reports(
+    body: ReportQueryRequest,
+    current_user: User = Depends(get_current_user),
+    report_repo=Depends(get_report_repo),
+    search_port: ISemanticSearchPort | None = Depends(get_semantic_search_port),
+) -> ReportQueryResponse:
+    bbox = None
+    if body.bbox:
+        parts = body.bbox.split(",")
+        if len(parts) != 4:
+            raise HTTPException(status_code=422, detail="bbox must be 'minLat,minLon,maxLat,maxLon'")
+        try:
+            bbox = (float(parts[0]), float(parts[1]), float(parts[2]), float(parts[3]))
+        except ValueError:
+            raise HTTPException(status_code=422, detail="bbox values must be numbers")
+
+    filters = ReportFilters(
+        report_type_ids=body.report_type_ids if body.report_type_ids else None,
+        urgencies=[Urgency(u) for u in body.urgencies] if body.urgencies else None,
+        statuses=[ReportStatus(s) for s in body.statuses] if body.statuses else None,
+        since=body.since,
+        until=body.until,
+        bbox=bbox,
+        text=body.text,
+    )
+
+    page = QueryReports(report_repo, search_port).execute(
+        filters,
+        q=body.q,
+        limit=body.limit,
+        offset=body.offset,
+        max_results=MAX_RESULTS,
+    )
+
+    items = [
+        ReportQueryItem(
+            id=r.id,
+            text=r.text,
+            lat=r.lat,
+            lon=r.lon,
+            urgency=r.urgency.value,
+            status=r.status.value,
+            report_type_id=r.report_type_id,
+            author_id=r.author_id,
+            photo_url=r.photo_url,
+            created_at=r.created_at,
+            score=score,
+        )
+        for r, score in page.items
+    ]
+
+    return ReportQueryResponse(
+        items=items,
+        total=page.total,
+        limit=page.limit,
+        offset=page.offset,
+        ranked_by=page.ranked_by,
+    )
 
 
 @router.get("/{id}/similar", response_model=list[ReportSearchResult])
