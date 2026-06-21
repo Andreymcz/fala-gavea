@@ -156,6 +156,8 @@ export interface ReportQueryItem extends ReportDetail {
   score: number | null;
 }
 
+export type DatePreset = 'hoje' | 'ultimos7' | 'ultimos15' | 'ultimos30' | 'estemes' | 'personalizado';
+
 export interface ReportQueryResponse {
   items: ReportQueryItem[];
   total: number;
