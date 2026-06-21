@@ -1,5 +1,13 @@
 # AS-CODED CHANGELOG — fala-gavea
 
+### v13 -- 2026-06-21
+- **Added**: `SavedFilter` domain entity + `ISavedFilterRepository` port; `SavedFilterModel` (SQLAlchemy, `DateTime(timezone=True)`, auto-created via `create_tables()`); `SQLAlchemySavedFilterRepository` (save/find_by_id/find_all_for_user/update/delete)
+- **Added**: 5 use cases: `CreateSavedFilter`/`ListSavedFilters`/`GetSavedFilter`/`UpdateSavedFilter`/`DeleteSavedFilter` with BOLA enforcement (non-owned → 404); `SavedFilterNotFoundError` in `domain/exceptions.py`
+- **Added**: CRUD router at `/saved-filters` (POST/GET/GET{id}/PATCH/DELETE); `SavedFilterResponse` schema with `deprecated_fields: []` for graceful schema migration
+- **Added**: Phase B preset bar — Save popover (name input, auto-name fallback, Atualizar for loaded presets), Load dropdown (list + per-item trash delete), `*` dirty indicator; `workspaceStore` extended with `loadedPresetId`
+- **Source**: agent (post-skill)
+- **Plan**: 000139
+
 ### v12 -- 2026-06-21
 - **Added**: Phase A UI overhaul — staged filter model (`filters` + `draftFilters` slices in `workspaceStore`), `applyFilters()`/`clearFilters()`/`discardDraft()`/`removeFilter()`/`setBbox()` actions, `isDirty()` derived selector
 - **Added**: Four-section `FilterPanel` (`w-72`, collapsible), `ActiveFilterChips`, `DateRangePresets` (6 presets + custom), draft-loss guard via `useBlocker` + `beforeunload`

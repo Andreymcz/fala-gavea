@@ -12,7 +12,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
 
-from sqlalchemy import event, text
+from sqlalchemy import event
 
 from fala_gavea.infrastructure.database.models import Base
 from fala_gavea.domain.entities.saved_filter import SavedFilter

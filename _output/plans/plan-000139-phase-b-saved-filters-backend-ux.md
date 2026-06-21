@@ -1,4 +1,4 @@
-# Plan 000139 | feat/saved-filters | 2026-06-21 22:40 UTC | Phase B: saved filters backend + UX | Review: standard
+# DONE | 2026-06-21 23:05 UTC | Plan 000139 | feat/saved-filters | 2026-06-21 22:40 UTC | Phase B: saved filters backend + UX | Review: standard
 plan_format_version: 1
 
 ## Context
@@ -63,7 +63,7 @@ class ISavedFilterRepository(ABC):
 - **Interface**: exports `SavedFilter` dataclass; exports `ISavedFilterRepository` ABC with the 5 methods listed above
 - **Verify**: `uv run python -c "from fala_gavea.domain.entities.saved_filter import SavedFilter; from fala_gavea.domain.repositories.saved_filter_repository import ISavedFilterRepository; print('ok')"` exits 0
 - **Tests**: Add unit tests in `tests/domain/test_saved_filter.py` — verify `SavedFilter` dataclass fields are correctly typed; verify `ISavedFilterRepository` is abstract (cannot be instantiated)
-- [ ] Done
+- [x] Done
 
 ---
 
@@ -99,7 +99,7 @@ Mapper helper `_to_entity(m: SavedFilterModel) -> SavedFilter` — private funct
 - **Interface**: exports `SQLAlchemySavedFilterRepository(db: Session)` implementing `ISavedFilterRepository`
 - **Verify**: `uv run pytest tests/infrastructure/test_sqlalchemy_saved_filter_repository.py -x` passes; `create_tables()` creates `saved_filters` table (verified by running `uv run python -c "from fala_gavea.infrastructure.database.session import create_tables; create_tables(); print('ok')"`)
 - **Tests**: Add `tests/infrastructure/test_sqlalchemy_saved_filter_repository.py` — in-memory SQLite session, test all 5 methods: save returns entity; find_by_id returns None for missing; find_all_for_user returns only own entries; update changes name+body; delete removes entry
-- [ ] Done
+- [x] Done
 
 ---
 
@@ -132,7 +132,7 @@ Add `domain/exceptions.py` `NotFoundError` if not already present. Check first �
 - **Interface**: each use case class has an `.execute(...)` method; `CreateSavedFilter(repo).execute(owner_id, name, body) -> SavedFilter`; `GetSavedFilter(repo).execute(id, owner_id) -> SavedFilter`; `DeleteSavedFilter(repo).execute(id, owner_id) -> None`
 - **Verify**: `uv run pytest tests/application/test_saved_filter_use_cases.py -x` passes
 - **Tests**: Add `tests/application/test_saved_filter_use_cases.py` using an in-memory `SQLAlchemySavedFilterRepository` (or a simple stub). Test: create → get returns it; get with wrong owner_id raises NotFoundError; update patches fields; delete removes; list returns only own entries; create with name > 80 chars raises InvalidInputError
-- [ ] Done
+- [x] Done
 
 ---
 
@@ -188,7 +188,7 @@ def get_saved_filter_repo(db: Session = Depends(get_db)) -> ISavedFilterReposito
 - **Verify**: `uv run pytest tests/presentation/test_saved_filters_router.py -x` passes; `uv run uvicorn fala_gavea.presentation.api.main:app` starts without error
 - **Tests**: Add `tests/presentation/test_saved_filters_router.py` — use FastAPI `TestClient`; test: unauthenticated → 401; create → 201 with id+name+body; list → returns created; get → 200; get with another user's id → 404; patch → 200 with new name; delete → 204; get after delete → 404
 - **Docs**: Update API reference contextual help if present (search `_output/` for existing docs)
-- [ ] Done
+- [x] Done
 
 ---
 
@@ -235,7 +235,7 @@ All functions call `/saved-filters` with `Authorization: Bearer <token>` (same a
 - **Interface**: exports `createSavedFilter`, `listSavedFilters`, `getSavedFilter`, `updateSavedFilter`, `deleteSavedFilter` from `api.ts`; exports `SavedFilter`, `SavedFilterCreate`, `SavedFilterUpdate` from `types.ts`
 - **Verify**: `cd frontend && npm run build` succeeds (type check passes)
 - **Tests**: Add or extend `frontend/src/lib/api.test.ts` — mock fetch; verify each function sends the correct method/path/body; verify `deleteSavedFilter` resolves `void` on 204
-- [ ] Done
+- [x] Done
 
 ---
 
@@ -271,7 +271,7 @@ Activate the placeholder Save/Load controls in Section 1 of `FilterPanel.tsx` us
 - **Depends on**: Step 5
 - **Verify**: `cd frontend && npm run build` passes; `cd frontend && npm run test` passes
 - **Tests**: Add tests in `frontend/src/features/workspace/FilterPanel.test.tsx` — mock API; verify Save popover appears on "Salvar" click; verify auto-name generation when `draftFilterName` is empty; verify Load dropdown shows fetched names; verify trash icon calls `deleteSavedFilter`; verify `*` appears when loaded preset is dirty
-- [ ] Done
+- [x] Done
 
 ---
 
@@ -312,3 +312,33 @@ for loaded presets), Load dropdown (name list + trash icon), * dirty
 indicator when loaded preset is modified. BOLA: owner_id always from
 JWT, non-owned resources → 404.
 ```
+
+---
+
+## Implementation Summary
+
+**Completed:** 6/6 steps | **Iterations:** 6 | **Partial/Failed:** 0
+
+### Steps Completed
+1. Domain layer: `SavedFilter` dataclass + `ISavedFilterRepository` ABC
+2. Infrastructure: `SavedFilterModel` (SQLAlchemy, auto-created via `create_tables()`) + `SQLAlchemySavedFilterRepository` with all 5 methods
+3. Application: 5 use cases (Create/List/Get/Update/Delete) with BOLA ownership enforcement via 404 for non-owned resources
+4. Presentation: Pydantic schemas, CRUD router at `/saved-filters`, dependency + `main.py` wiring
+5. Frontend: `SavedFilter` types + 5 `api.ts` functions (create/list/get/update/delete)
+6. Frontend UX: `FilterPanel` Section 1 preset bar — Save popover (name input, auto-name, Atualizar), Load dropdown (names + trash), `*` dirty indicator; `workspaceStore` extended with `loadedPresetId`
+
+### Quality Gate
+- ruff: all checks passed (after fixing F821 return type annotation + F401 unused import)
+- pytest backend: 129/130 passed (1 pre-existing failure in `test_static_spa.py`, unrelated to this plan)
+- npm test: 94/94 passed
+
+### Post-Review Fixes Applied
+- `get_saved_filter_repo`: added `-> "ISavedFilterRepository"` return type via `TYPE_CHECKING` guard
+- `SavedFilterModel`: `DateTime(timezone=True)` to prevent silent tz stripping on SQLite round-trips
+- `_to_response`: wrapped `json.loads` in `try/except JSONDecodeError` to avoid 500 on malformed stored body
+- `UpdateSavedFilter.execute`: early return if both `name` and `body` are `None` (no-op PATCH guard)
+
+### Deferred Findings (non-blocking)
+- Body size cap (MEDIUM): no `max_length` check on `body` JSON; acceptable at PoC scale
+- A11Y: emoji trash icon (`🗑`) could use SVG; `aria-expanded` missing on popover triggers
+- No Alembic migration (by plan design; `create_tables()` auto-creates on startup)

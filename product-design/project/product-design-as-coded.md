@@ -42,6 +42,8 @@ Forwarding         (full CRUD -- agent+admin)
   status: aguardando_solucao | solucao_em_andamento | finalizado
 ForwardingReport   (join table, fully implemented)
   forwarding_reports table: forwarding_id FK, report_id FK (composite PK)
+SavedFilter        (user-owned filter preset — plan-000139)
+  saved_filters table: id (UUID4), owner_id FK→users, name (1–80 chars), body (JSON string), schema_ver, created_at, updated_at
 ```
 
 SQLAlchemy models in `infrastructure/database/models.py`. FK enforcement via PRAGMA foreign_keys=ON event listener in `session.py`.
@@ -73,6 +75,7 @@ Auth-required endpoints: POST /reports (any authenticated user), GET /reports/{i
 Admin-only endpoints: POST /report_types, PATCH /report_types/{id}, DELETE /report_types/{id}, POST /admin/seed/relatos, POST /admin/seed/topicos, DELETE /admin/seed/wipe.
 Agent+admin endpoints (via `require_any_role`): POST /forwardings, GET /forwardings, GET /forwardings/{id}, PATCH /forwardings/{id}, PATCH /forwardings/{id}/status, POST /nl/chat.
 `get_forwarding_repo` and `require_any_role` added to `presentation/api/dependencies.py`.
+Saved-filter endpoints (plan-000139, any authenticated user, owner-scoped via JWT): POST /saved-filters, GET /saved-filters, GET /saved-filters/{id}, PATCH /saved-filters/{id}, DELETE /saved-filters/{id}. `owner_id` always taken from `current_user.id`; non-owned resources return 404 (BOLA prevention, R9). `get_saved_filter_repo` added to `presentation/api/dependencies.py`.
 
 ### 5. Content Authoring & Attribution
 
@@ -91,6 +94,8 @@ Monolingual pt-BR by design (PoC). Error messages in English (FastAPI default); 
 Implemented as a React 18 + Vite + TypeScript SPA (`frontend/`). Built to `static/` and served by FastAPI StaticFiles.
 
 **Workspace grid pattern (plan-000104):** The `/` route now renders `WorkspacePage` — a left-rail filter panel + swappable center views (Mapa, Tabela, Tópicos, Similares, Chat). Filter state is managed by a Zustand store (`workspaceStore.ts`); react-query owns server cache. Views are toggled via `ViewToggleBar` (aria-pressed chips). Citizen/anonymous sees Mapa+Tabela; agent/admin sees all five. Cross-filter unified: `useFilteredReports` calls `POST /reports/query` as a single request combining structural filters + optional semantic `q`; the hook adapts returned `items` into GeoJSON features and exposes `count = total` from the envelope. No separate GeoJSON or semantic search calls.
+
+**Phase B preset bar (plan-000139):** Section 1 of FilterPanel is now fully active. "Salvar" opens a popover with a name input (pre-filled from `draftFilterName` or auto-generated from active filter chip labels, truncated to 40 chars); "Confirmar" calls `POST /saved-filters` with the committed filters body; if a preset is loaded, "Atualizar" calls `PATCH /saved-filters/{id}`. "Carregar" opens a dropdown listing the user's saved filters via `GET /saved-filters` (react-query, staleTime 30s); each item loads the saved body into draft state and sets `loadedPresetName`/`loadedPresetId` in the store; trash icon calls `DELETE /saved-filters/{id}`. The preset name in the Section 1 header shows `loadedPresetName ?? "Sem filtro salvo"` with a `*` suffix when the loaded preset has been modified since loading (`isDirty()`). `workspaceStore` extended with `loadedPresetId: string | null` and `setLoadedPresetId`; `clearFilters` resets it.
 
 **Phase A UI overhaul (plan-000137):** Staged filter model — `workspaceStore` now maintains two slices: `filters` (committed, read by views) and `draftFilters` (edited by the panel). `applyFilters()` copies draft to committed; `clearFilters()` resets both; `removeFilter(key)` and `setBbox(bbox)` write to both immediately (chip remove and map bbox are direct manipulations). `isDirty()` compares the two slices across all 7 filter keys. Panel is now `w-72` with four sections: (1) preset bar with `loadedPresetName` display and disabled Phase B placeholders, (2) `ActiveFilterChips` showing committed filters as removable chips, (3) draft controls with dirty indicator ("Filtros alterados"), Aplicar, and Limpar, (4) NL assistant footer placeholder (Phase C). `DateRangePresets` provides 6 preset buttons + custom date inputs. `WorkspacePage` has a draft-loss guard via `useBlocker` (react-router-dom v6) and `beforeunload`. TableView gains column sort (local, `SortKey` type), full-text Radix Dialog ("Ler relato"), pagination (PAGE_SIZE=50, reset on filter/sort change), score column (gated on `ranked_by === 'similarity'`), and density toggle. MapView replaces draw gesture with "Filtrar nesta área" button (reads `map.getBounds()`, commits bbox to both slices immediately). SPA catch-all guard in `main.py` returns 404 JSON for known API prefixes (`_API_PREFIXES` set) before serving `index.html`.
 
