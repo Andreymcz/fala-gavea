@@ -20,6 +20,14 @@ A frontend-led REDESIGN with one backend routing fix. The architectural core is 
 
 This plan implements decision **D-009** (`product-design-as-intended.md`).
 
+## Dependencies
+
+**plan-000132 (unified `POST /reports/query` API — Phase B):**
+
+- The FilterPanel and workspace views in this plan now read through `POST /reports/query` introduced by plan-000132, rather than calling separate `/reports` and `/reports/search` endpoints.
+- The `useFilteredReports` and `useSemanticSearch` hooks are retargeted in **plan-000132 Step 7** to call `POST /reports/query` with the unified parameter envelope; the store shape and Apply semantics defined here remain unchanged.
+- The R2 catch-all guard (`/report_types`, `/forwardings`) is an independent backend routing fix and remains valid regardless of the query API changes introduced by plan-000132.
+
 ## Files
 
 - `frontend/src/store/workspaceStore.ts` (modify) + `workspaceStore.test.ts` (modify)
