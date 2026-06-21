@@ -70,7 +70,7 @@ export function WorkspacePage() {
                 </div>
               )
             }
-            if (viewId === 'topics') {
+            if (viewId === 'keywords') {
               return (
                 <div key={viewId} className="flex-1 min-h-[300px] min-w-[280px]">
                   <Suspense

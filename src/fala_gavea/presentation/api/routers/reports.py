@@ -15,21 +15,36 @@ from fala_gavea.domain.repositories.report_repository import ReportFilters
 from fala_gavea.domain.repositories.semantic_ports import IReportIndexer, ISemanticSearchPort, ITopicModelPort
 from fala_gavea.presentation.api.dependencies import (
     get_current_user,
+    get_keyword_extractor,
     get_report_indexer,
     get_report_repo,
     get_report_type_repo,
     get_semantic_search_port,
-    get_topic_model_port,
 )
+from fala_gavea.presentation.schemas.keyword import KeywordItem, KeywordListResponse
 from fala_gavea.presentation.schemas.report import (
     ReportCreate,
     ReportFiltersQuery,
     ReportResponse,
     ReportSearchResult,
 )
-from fala_gavea.presentation.schemas.topic import TopicItem, TopicListResponse
 
 router = APIRouter()
+
+
+def _parse_bbox(q: ReportFiltersQuery) -> tuple[float, float, float, float] | None:
+    if not q.bbox:
+        return None
+    try:
+        parts = [float(x) for x in q.bbox.split(",")]
+        if len(parts) != 4:
+            raise ValueError
+        return (parts[0], parts[1], parts[2], parts[3])
+    except ValueError:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail="bbox must be 'minLat,minLon,maxLat,maxLon'",
+        )
 
 
 @router.post("/", response_model=ReportResponse, status_code=status.HTTP_201_CREATED)
@@ -71,18 +86,7 @@ def list_reports_geojson(
     q: ReportFiltersQuery = Depends(),
     report_repo=Depends(get_report_repo),
 ) -> dict:
-    bbox = None
-    if q.bbox:
-        try:
-            parts = [float(x) for x in q.bbox.split(",")]
-            if len(parts) != 4:
-                raise ValueError
-            bbox = tuple(parts)
-        except ValueError:
-            raise HTTPException(
-                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-                detail="bbox must be 'minLat,minLon,maxLat,maxLon'",
-            )
+    bbox = _parse_bbox(q)
     filters = ReportFilters(
         report_type_id=q.type_id,
         urgency=Urgency(q.urgency) if q.urgency else None,
@@ -150,31 +154,20 @@ def similar_reports(
     return [_to_search_result(report, score) for report, score in results]
 
 
-@router.get("/topics", response_model=TopicListResponse)
-def get_topics(
+@router.get("/keywords", response_model=KeywordListResponse)
+def get_keywords(
     q: ReportFiltersQuery = Depends(),
     min_docs: int = Query(default=3, ge=1, le=100),
     current_user: User = Depends(get_current_user),
     report_repo=Depends(get_report_repo),
-    topic_port: ITopicModelPort | None = Depends(get_topic_model_port),
-) -> TopicListResponse:
-    if topic_port is None:
+    keyword_extractor: ITopicModelPort | None = Depends(get_keyword_extractor),
+) -> KeywordListResponse:
+    if keyword_extractor is None:
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail="Topic modeling unavailable",
+            detail="Keyword extraction unavailable",
         )
-    bbox = None
-    if q.bbox:
-        try:
-            parts = [float(x) for x in q.bbox.split(",")]
-            if len(parts) != 4:
-                raise ValueError
-            bbox = tuple(parts)
-        except ValueError:
-            raise HTTPException(
-                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-                detail="bbox must be 'minLat,minLon,maxLat,maxLon'",
-            )
+    bbox = _parse_bbox(q)
     filters = ReportFilters(
         report_type_id=q.type_id,
         urgency=Urgency(q.urgency) if q.urgency else None,
@@ -184,9 +177,9 @@ def get_topics(
         bbox=bbox,
     )
     reports = report_repo.find_all(filters)
-    raw_topics = GetTopicsForReports(topic_port, min_docs=min_docs).execute(reports)
-    topics = [TopicItem(topic_id=t["topic_id"], terms=t["terms"], count=t["count"]) for t in raw_topics]
-    return TopicListResponse(topics=topics, total_reports=len(reports))
+    raw = GetTopicsForReports(keyword_extractor, min_docs=min_docs).execute(reports)
+    items = [KeywordItem(cluster_id=t["topic_id"], terms=t["terms"], count=t["count"]) for t in raw]
+    return KeywordListResponse(keywords=items, total_reports=len(reports))
 
 
 @router.get("/{id}", response_model=ReportResponse)

@@ -28,7 +28,6 @@ from fala_gavea.infrastructure.repositories.sqlalchemy_user_repository import SQ
 
 _log = logging.getLogger(__name__)
 _indexer_instance: IReportIndexer | None = None
-_topic_model_instance: ITopicModelPort | None = None
 _llm_client_instance: ILLMClient | None = None
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token")
@@ -117,15 +116,16 @@ def get_semantic_search_port() -> ISemanticSearchPort | None:
 
 
 def get_topic_model_port() -> ITopicModelPort | None:
-    global _topic_model_instance
-    if _topic_model_instance is None:
-        try:
-            from fala_gavea.infrastructure.topics.bertopic_client import BERTopicClient
-            from fala_gavea.infrastructure.embeddings.registry import SemanticConfig
-            _topic_model_instance = BERTopicClient(SemanticConfig())
-        except Exception as exc:
-            _log.warning("BERTopicClient unavailable: %s", exc)
-    return _topic_model_instance
+    return None
+
+
+def get_keyword_extractor() -> ITopicModelPort | None:
+    try:
+        from fala_gavea.infrastructure.topics.tfidf_keyword_client import TfidfKeywordClient
+        return TfidfKeywordClient()
+    except Exception as exc:
+        _log.warning("TfidfKeywordClient unavailable: %s", exc)
+        return None
 
 
 def get_llm_client() -> ILLMClient | None:

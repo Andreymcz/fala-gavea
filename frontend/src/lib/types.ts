@@ -110,14 +110,14 @@ export interface ForwardingFilters {
   limit?: number;
 }
 
-export interface TopicItem {
-  topic_id: number;
+export interface KeywordItem {
+  cluster_id: number;
   terms: string[];
   count: number;
 }
 
-export interface TopicListResponse {
-  topics: TopicItem[];
+export interface KeywordListResponse {
+  keywords: KeywordItem[];
   total_reports: number;
 }
 

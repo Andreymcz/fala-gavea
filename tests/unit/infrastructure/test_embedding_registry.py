@@ -6,12 +6,13 @@ from fala_gavea.infrastructure.embeddings.registry import EmbeddingProviderRegis
 
 def test_default_search_model() -> None:
     reg = EmbeddingProviderRegistry(SemanticConfig())
-    assert reg.get_model_name("search") == "intfloat/multilingual-e5-base"
+    assert reg.get_model_name("search") == "intfloat/multilingual-e5-small"
 
 
-def test_default_topics_model() -> None:
+def test_unknown_purpose_raises() -> None:
     reg = EmbeddingProviderRegistry(SemanticConfig())
-    assert reg.get_model_name("topics") == "paraphrase-multilingual-MiniLM-L12-v2"
+    with pytest.raises(ValueError, match="Unknown embedding purpose"):
+        reg.get_model_name("topics")
 
 
 def test_rag_same_as_search_by_default() -> None:

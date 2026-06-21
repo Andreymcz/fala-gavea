@@ -17,13 +17,14 @@ WORKDIR /app
 
 # Install Python dependencies from lockfile (production only)
 COPY pyproject.toml uv.lock ./
+ENV UV_EXTRA_INDEX_URL=https://download.pytorch.org/whl/cpu
 RUN uv sync --frozen --no-dev
 
 # Pre-download sentence-transformers model so runtime never hits HuggingFace
 ENV HF_HOME=/app/.hf_cache
 RUN uv run python -c \
   "from sentence_transformers import SentenceTransformer; \
-   SentenceTransformer('intfloat/multilingual-e5-base')"
+   SentenceTransformer('intfloat/multilingual-e5-small')"
 
 # Copy application source
 COPY src/ ./src/

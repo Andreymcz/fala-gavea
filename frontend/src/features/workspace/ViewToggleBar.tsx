@@ -12,7 +12,7 @@ interface ViewMeta {
 const VIEW_META: ViewMeta[] = [
   { id: 'map', label: 'Mapa', description: 'Veja os relatos no mapa da Gávea' },
   { id: 'table', label: 'Tabela', description: 'Liste e selecione relatos para encaminhar' },
-  { id: 'topics', label: 'Tópicos', description: 'Temas emergentes no subconjunto filtrado (IA)', agentOnly: true },
+  { id: 'keywords', label: 'Palavras-chave', description: 'Palavras-chave extraídas do subconjunto filtrado (TF-IDF)', agentOnly: true },
   { id: 'similars', label: 'Similares', description: 'Relatos parecidos com um relato-semente' },
   { id: 'chat', label: 'Chat', description: 'Pergunte sobre os relatos em linguagem natural (IA)', agentOnly: true },
 ]

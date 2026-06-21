@@ -8,7 +8,7 @@ from fastapi.testclient import TestClient
 from fala_gavea.application.use_cases.topics.get_topics_for_reports import GetTopicsForReports
 from fala_gavea.domain.entities.report import Report, ReportStatus, Urgency
 from fala_gavea.domain.repositories.semantic_ports import ITopicModelPort
-from fala_gavea.presentation.api.dependencies import get_topic_model_port
+from fala_gavea.presentation.api.dependencies import get_keyword_extractor
 
 
 # ---------------------------------------------------------------------------
@@ -85,38 +85,37 @@ def test_use_case_corpus_sufficient_calls_port_and_returns_result() -> None:
 # Integration tests — HTTP layer
 # ---------------------------------------------------------------------------
 
-def test_get_topics_no_topic_port_returns_503(client: TestClient) -> None:
-    """GET /reports/topics com topic_port=None retorna 503."""
-    client.app.dependency_overrides[get_topic_model_port] = lambda: None
-    # Need auth — register and login a citizen
+def test_get_keywords_no_extractor_returns_503(client: TestClient) -> None:
+    """GET /reports/keywords com keyword_extractor=None retorna 503."""
+    client.app.dependency_overrides[get_keyword_extractor] = lambda: None
     client.post("/auth/register", json={"email": "u503@test.com", "password": "pass1234", "name": "U503"})
     resp = client.post("/auth/token", data={"username": "u503@test.com", "password": "pass1234"})
     token = resp.json()["access_token"]
     headers = {"Authorization": f"Bearer {token}"}
 
-    result = client.get("/reports/topics", headers=headers)
+    result = client.get("/reports/keywords", headers=headers)
     assert result.status_code == 503
 
 
-def test_get_topics_zero_reports_returns_200_empty(
+def test_get_keywords_zero_reports_returns_200_empty(
     client: TestClient, citizen_headers: dict
 ) -> None:
-    """GET /reports/topics com 0 relatos filtrados retorna 200 com topics=[]."""
+    """GET /reports/keywords com 0 relatos filtrados retorna 200 com keywords=[]."""
     port = _FakeTopicPort(result=[])
-    client.app.dependency_overrides[get_topic_model_port] = lambda: port
+    client.app.dependency_overrides[get_keyword_extractor] = lambda: port
 
-    resp = client.get("/reports/topics", headers=citizen_headers)
+    resp = client.get("/reports/keywords", headers=citizen_headers)
 
     assert resp.status_code == 200
     data = resp.json()
-    assert data["topics"] == []
+    assert data["keywords"] == []
     assert data["total_reports"] == 0
 
 
-def test_get_topics_no_auth_returns_401(client: TestClient) -> None:
-    """GET /reports/topics sem auth retorna 401."""
+def test_get_keywords_no_auth_returns_401(client: TestClient) -> None:
+    """GET /reports/keywords sem auth retorna 401."""
     port = _FakeTopicPort()
-    client.app.dependency_overrides[get_topic_model_port] = lambda: port
+    client.app.dependency_overrides[get_keyword_extractor] = lambda: port
 
-    resp = client.get("/reports/topics")
+    resp = client.get("/reports/keywords")
     assert resp.status_code == 401

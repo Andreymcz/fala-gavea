@@ -10,7 +10,7 @@ import type {
   ReportFilters,
   ForwardingFilters,
   ForwardingStatus,
-  TopicListResponse,
+  KeywordListResponse,
   ReportSearchResult,
   ChatRequest,
   ChatResponse,
@@ -142,9 +142,9 @@ export const api = {
     return request<Forwarding>("PATCH", `/forwardings/${id}`, { body });
   },
 
-  getTopics(filters: ReportFilters, min_docs?: number): Promise<TopicListResponse> {
+  getKeywords(filters: ReportFilters, min_docs?: number): Promise<KeywordListResponse> {
     const q = buildQuery({ ...(filters as Record<string, string | number | undefined>), min_docs: min_docs ?? 3 });
-    return request<TopicListResponse>("GET", `/reports/topics${q}`);
+    return request<KeywordListResponse>("GET", `/reports/keywords${q}`);
   },
 
   getSimilarReports(id: string, n?: number): Promise<ReportSearchResult[]> {

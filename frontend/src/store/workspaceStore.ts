@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import type { WorkspaceFilters, ReportFilters, UserRole } from '@/lib/types'
 
-export type ViewId = 'map' | 'table' | 'topics' | 'similars' | 'chat'
+export type ViewId = 'map' | 'table' | 'keywords' | 'similars' | 'chat'
 
 interface WorkspaceState {
   filters: WorkspaceFilters
@@ -22,7 +22,7 @@ interface WorkspaceState {
 }
 
 export function defaultViewsForRole(role: UserRole | undefined): ViewId[] {
-  if (role === 'agent' || role === 'admin') return ['map', 'table', 'topics', 'similars', 'chat']
+  if (role === 'agent' || role === 'admin') return ['map', 'table', 'keywords', 'similars', 'chat']
   return ['map', 'table']
 }
 
