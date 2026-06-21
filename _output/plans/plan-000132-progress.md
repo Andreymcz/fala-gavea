@@ -19,5 +19,9 @@ Extended `ReportFilters` in `domain/repositories/report_repository.py`: replaced
 
 Created `QueryReports` use case at `src/fala_gavea/application/use_cases/reports/query_reports.py`. Two paths: semantic (q + search_port → filter SQL with order="none"/candidate_cap → rank in memory → sort desc by score → paginate slice) and recency (find_page with order="recent"). Returns `QueryPage(items, total, limit, offset, ranked_by)`. Tests in `tests/test_query_reports.py` cover: score ordering, pagination slicing, recency fallback (no q), search_port=None fallback, max_results cap. All 5 tests pass. Pyright: 66 pre-existing errors, none from this step.
 
+### Step 2 — 2026-06-21
+
+Created `tests/test_report_repository.py` with 7 unit tests covering: `find_all` urgencies IN filter (alta+media excludes baixa), `find_all` report_type_ids IN filter, `find_all` text ilike case-insensitive, `find_page` recent order with correct total, `find_page` offset pagination, `candidate_cap` limiting rows when cap < limit, and no-cap-effect when rows < cap. All 7 tests pass. No new lint errors introduced in the new file.
+
 ### Step 8 — 2026-06-21
 Added cross-reference dependency note to plan-000131: FilterPanel/views now read through `POST /reports/query` (plan-000132); `useFilteredReports`/`useSemanticSearch` retargeted in Step 7; R2 catch-all guard remains independent.
