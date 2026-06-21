@@ -6,8 +6,8 @@
 | Date | Type | ID | Title | Status | File |
 |------|------|----|-------|--------|------|
 | 2026-06-21 17:20 UTC | QA Log |  | plan-000131 | Refine data exploration search filters |  | [plan-000131-qa-refine-data-exploration-search-filters.md](plans/plan-000131-qa-refine-data-exploration-search-filters.md) |
-| 2026-06-21 17:16 UTC | RESERVED | 000130 | research: filter assistant NL to query params | RESERVED |  |
 | 2026-06-21 17:15 | Plan | 000131 | Refine data exploration search filters | OPEN | [plan-000131-refine-data-exploration-search-filters.md](plans/plan-000131-refine-data-exploration-search-filters.md) |
+| 2026-06-21 17:15 | Research | 000130 | Filter assistant: NL to query params, unified query API, saved filters | DONE | [research-000130-filter-assistant-nl-to-query-params.md](research-logs/research-000130-filter-assistant-nl-to-query-params.md) |
 | 2026-06-21 16:33 | Research | 000129 | Refine data exploration search filters | DONE | [research-000129-refine-data-exploration-search-filters.md](research-logs/research-000129-refine-data-exploration-search-filters.md) |
 | 2026-06-21 15:34 UTC | RESERVED | 000125 | communication: evaluators | RESERVED |  |
 | 2026-06-21 15:34 UTC | RESERVED | 000126 | communication: clients | RESERVED |  |
