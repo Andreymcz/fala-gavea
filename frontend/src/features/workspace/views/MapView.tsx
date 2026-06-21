@@ -1,8 +1,8 @@
 import { useState, useCallback } from 'react'
-import { MapContainer, TileLayer, useMapEvents } from 'react-leaflet'
+import { MapContainer, TileLayer, useMap, useMapEvents } from 'react-leaflet'
 import MarkerClusterGroup from 'react-leaflet-cluster'
 import 'leaflet/dist/leaflet.css'
-import type { LatLng } from 'leaflet'
+import type { LatLng, LatLngBounds } from 'leaflet'
 import { ReportMarkers } from '@/features/map/ReportMarkers'
 import { useFilteredReports } from '@/hooks/useFilteredReports'
 import { useReportTypes } from '@/hooks/useReportTypes'
@@ -46,6 +46,54 @@ function BboxDrawHandler({ drawing, onBboxCommit, onDrawEnd }: BboxDrawHandlerPr
 }
 
 // ────────────────────────────────────────────────────────────
+// MapControls — overlay buttons inside MapContainer so they
+// can call useMap() to read current viewport bounds.
+// ────────────────────────────────────────────────────────────
+interface MapControlsProps {
+  onFilterArea: (bounds: LatLngBounds) => void
+  onClearArea: () => void
+  hasBbox: boolean
+}
+
+function MapControls({ onFilterArea, onClearArea, hasBbox }: MapControlsProps) {
+  const map = useMap()
+
+  return (
+    <div
+      className="absolute top-2 left-1/2 -translate-x-1/2 z-[1000] flex gap-2"
+      style={{ zIndex: 1000 }}
+    >
+      <button
+        type="button"
+        onClick={() => onFilterArea(map.getBounds())}
+        aria-label="Filtrar relatórios na área visível do mapa"
+        className={[
+          'min-h-[44px] px-4 py-2 rounded-md text-sm font-medium shadow-md',
+          'bg-blue-600 text-white border border-blue-700',
+          'hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500',
+        ].join(' ')}
+      >
+        Filtrar nesta área
+      </button>
+      <button
+        type="button"
+        onClick={onClearArea}
+        disabled={!hasBbox}
+        aria-label="Limpar filtro de área do mapa"
+        className={[
+          'min-h-[44px] px-3 py-2 rounded-md text-sm font-medium shadow-md',
+          'bg-white border border-red-300 text-red-600',
+          'hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500',
+          'disabled:opacity-40 disabled:cursor-not-allowed',
+        ].join(' ')}
+      >
+        Limpar área
+      </button>
+    </div>
+  )
+}
+
+// ────────────────────────────────────────────────────────────
 // MapView — the public widget component
 // ────────────────────────────────────────────────────────────
 export function MapView() {
@@ -82,6 +130,15 @@ export function MapView() {
   const handleDrawEnd = useCallback(() => {
     setDrawing(false)
   }, [])
+
+  const handleFilterArea = useCallback(
+    (bounds: LatLngBounds) => {
+      setBbox(
+        `${bounds.getSouth()},${bounds.getWest()},${bounds.getNorth()},${bounds.getEast()}`,
+      )
+    },
+    [setBbox],
+  )
 
   return (
     <div className="relative flex-1 h-full min-h-[300px] min-w-[300px]">
@@ -135,6 +192,11 @@ export function MapView() {
           drawing={drawing}
           onBboxCommit={handleBboxCommit}
           onDrawEnd={handleDrawEnd}
+        />
+        <MapControls
+          onFilterArea={handleFilterArea}
+          onClearArea={handleClear}
+          hasBbox={!!currentBbox}
         />
         <MarkerClusterGroup>
           <ReportMarkers
