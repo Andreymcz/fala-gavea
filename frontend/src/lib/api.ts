@@ -14,6 +14,8 @@ import type {
   ReportSearchResult,
   ChatRequest,
   ChatResponse,
+  ReportQueryBody,
+  ReportQueryResponse,
 } from "./types";
 
 const BASE_URL = (import.meta.env.VITE_API_URL as string) || "";
@@ -155,6 +157,10 @@ export const api = {
   searchReports(q: string, n?: number): Promise<ReportSearchResult[]> {
     const qs = buildQuery({ q, n: n ?? 50 });
     return request<ReportSearchResult[]>("GET", `/reports/search${qs}`, { public: true });
+  },
+
+  queryReports(body: ReportQueryBody): Promise<ReportQueryResponse> {
+    return request<ReportQueryResponse>("POST", "/reports/query", { body });
   },
 
   chat(body: ChatRequest): Promise<ChatResponse> {

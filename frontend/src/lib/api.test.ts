@@ -80,4 +80,31 @@ describe("api client", () => {
     const [_url, init] = mockFetch.mock.calls[0];
     expect(init.headers["Authorization"]).toBe("Bearer my-token");
   });
+
+  it("queryReports POSTs to /reports/query with JSON body", async () => {
+    const mockResponse = {
+      items: [],
+      total: 0,
+      limit: 200,
+      offset: 0,
+      ranked_by: "relevance",
+    };
+    const mockFetch = vi.fn().mockResolvedValue({
+      ok: true,
+      status: 200,
+      json: () => Promise.resolve(mockResponse),
+    });
+    vi.stubGlobal("fetch", mockFetch);
+
+    const body = { urgencies: ["alta"], limit: 200 };
+    const result = await api.queryReports(body);
+
+    expect(mockFetch).toHaveBeenCalledOnce();
+    const [url, init] = mockFetch.mock.calls[0];
+    expect(url).toContain("/reports/query");
+    expect(init.method).toBe("POST");
+    expect(init.headers["Content-Type"]).toBe("application/json");
+    expect(JSON.parse(init.body as string)).toEqual(body);
+    expect(result).toEqual(mockResponse);
+  });
 });

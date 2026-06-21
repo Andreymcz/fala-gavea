@@ -138,3 +138,28 @@ export interface ChatResponse {
 export interface WorkspaceFilters extends ReportFilters {
   semanticQuery?: string;
 }
+
+export interface ReportQueryBody {
+  report_type_ids?: string[];
+  urgencies?: string[];
+  statuses?: string[];
+  since?: string;
+  until?: string;
+  bbox?: string;
+  text?: string;
+  q?: string;
+  limit?: number;
+  offset?: number;
+}
+
+export interface ReportQueryItem extends ReportDetail {
+  score: number | null;
+}
+
+export interface ReportQueryResponse {
+  items: ReportQueryItem[];
+  total: number;
+  limit: number;
+  offset: number;
+  ranked_by: string;
+}
