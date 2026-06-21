@@ -74,4 +74,4 @@ def test_spa_guard_api_prefix_list_is_comprehensive() -> None:
     from fala_gavea.presentation.api.main import _API_PREFIXES
 
     expected = {"auth", "reports", "report_types", "forwardings", "nl", "admin", "health", "docs"}
-    assert expected <= _API_PREFIXES
+    assert expected == _API_PREFIXES, f"_API_PREFIXES must be updated when new routers are mounted. Diff: {expected.symmetric_difference(_API_PREFIXES)}"

@@ -117,7 +117,6 @@ export function TableView() {
   const filtersKey = JSON.stringify(filters)
   useEffect(() => {
     setPage(0)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filtersKey])
 
   useEffect(() => {

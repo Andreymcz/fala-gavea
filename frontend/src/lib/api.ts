@@ -125,7 +125,7 @@ export const api = {
 
   getForwardings(filters: ForwardingFilters = {}): Promise<Forwarding[]> {
     const q = buildQuery(filters as Record<string, string | number | undefined>);
-    return request<Forwarding[]>("GET", `/forwardings/${q}`);
+    return request<Forwarding[]>("GET", `/forwardings${q}`);
   },
 
   getForwarding(id: string): Promise<Forwarding> {

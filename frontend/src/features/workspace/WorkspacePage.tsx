@@ -58,7 +58,7 @@ export function WorkspacePage() {
   return (
     <>
       {/* Draft-loss guard dialog (SPA navigation) */}
-      <Dialog open={blocker.state === 'blocked'}>
+      <Dialog open={blocker.state === 'blocked'} onOpenChange={() => blocker.reset?.()}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Descartar filtros não aplicados?</DialogTitle>

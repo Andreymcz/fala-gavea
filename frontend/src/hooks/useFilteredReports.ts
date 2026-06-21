@@ -32,7 +32,7 @@ export function useFilteredReports(options?: UseFilteredReportsOptions) {
   const body: ReportQueryBody = {
     limit: options?.limit ?? 200,
   }
-  if (options?.offset) body.offset = options.offset
+  if (options?.offset != null) body.offset = options.offset
   if (type_id) body.report_type_ids = [type_id]
   if (urgency) body.urgencies = [urgency]
   if (status) body.statuses = [status]
