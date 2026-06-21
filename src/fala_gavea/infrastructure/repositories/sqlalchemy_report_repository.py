@@ -35,12 +35,12 @@ class SQLAlchemyReportRepository(IReportRepository):
 
     def find_all(self, filters: ReportFilters) -> list[Report]:
         stmt = select(ReportModel)
-        if filters.report_type_id is not None:
-            stmt = stmt.where(ReportModel.report_type_id == filters.report_type_id)
-        if filters.urgency is not None:
-            stmt = stmt.where(ReportModel.urgency == filters.urgency.value)
-        if filters.status is not None:
-            stmt = stmt.where(ReportModel.status == filters.status.value)
+        if filters.report_type_ids is not None:
+            stmt = stmt.where(ReportModel.report_type_id.in_(filters.report_type_ids))
+        if filters.urgencies is not None:
+            stmt = stmt.where(ReportModel.urgency.in_([u.value for u in filters.urgencies]))
+        if filters.statuses is not None:
+            stmt = stmt.where(ReportModel.status.in_([s.value for s in filters.statuses]))
         if filters.since is not None:
             stmt = stmt.where(ReportModel.created_at >= filters.since)
         if filters.until is not None:
@@ -53,7 +53,50 @@ class SQLAlchemyReportRepository(IReportRepository):
                 ReportModel.lon >= min_lon,
                 ReportModel.lon <= max_lon,
             )
+        if filters.text is not None:
+            stmt = stmt.where(ReportModel.text.ilike(f"%{filters.text}%"))
         return [self._to_entity(m) for m in self._session.scalars(stmt).all()]
+
+    def find_page(
+        self,
+        filters: ReportFilters,
+        *,
+        limit: int,
+        offset: int,
+        order: str = "recent",
+        candidate_cap: int = 500,
+    ) -> tuple[list[Report], int]:
+        from sqlalchemy import func, desc
+
+        stmt = select(ReportModel)
+        if filters.report_type_ids is not None:
+            stmt = stmt.where(ReportModel.report_type_id.in_(filters.report_type_ids))
+        if filters.urgencies is not None:
+            stmt = stmt.where(ReportModel.urgency.in_([u.value for u in filters.urgencies]))
+        if filters.statuses is not None:
+            stmt = stmt.where(ReportModel.status.in_([s.value for s in filters.statuses]))
+        if filters.since is not None:
+            stmt = stmt.where(ReportModel.created_at >= filters.since)
+        if filters.until is not None:
+            stmt = stmt.where(ReportModel.created_at <= filters.until)
+        if filters.bbox is not None:
+            min_lat, min_lon, max_lat, max_lon = filters.bbox
+            stmt = stmt.where(
+                ReportModel.lat >= min_lat,
+                ReportModel.lat <= max_lat,
+                ReportModel.lon >= min_lon,
+                ReportModel.lon <= max_lon,
+            )
+        if filters.text is not None:
+            stmt = stmt.where(ReportModel.text.ilike(f"%{filters.text}%"))
+        count_stmt = select(func.count()).select_from(stmt.subquery())
+        total: int = self._session.scalar(count_stmt) or 0
+        if order == "urgent":
+            stmt = stmt.order_by(ReportModel.urgency.desc(), ReportModel.created_at.desc())
+        else:
+            stmt = stmt.order_by(ReportModel.created_at.desc())
+        stmt = stmt.offset(offset).limit(min(limit, candidate_cap))
+        return [self._to_entity(m) for m in self._session.scalars(stmt).all()], total
 
     def _to_model(self, report: Report) -> ReportModel:
         return ReportModel(

@@ -88,9 +88,9 @@ def list_reports_geojson(
 ) -> dict:
     bbox = _parse_bbox(q)
     filters = ReportFilters(
-        report_type_id=q.type_id,
-        urgency=Urgency(q.urgency) if q.urgency else None,
-        status=ReportStatus(q.status) if q.status else None,
+        report_type_ids=[q.type_id] if q.type_id else None,
+        urgencies=[Urgency(q.urgency)] if q.urgency else None,
+        statuses=[ReportStatus(q.status)] if q.status else None,
         since=q.since,
         until=q.until,
         bbox=bbox,
@@ -169,9 +169,9 @@ def get_keywords(
         )
     bbox = _parse_bbox(q)
     filters = ReportFilters(
-        report_type_id=q.type_id,
-        urgency=Urgency(q.urgency) if q.urgency else None,
-        status=ReportStatus(q.status) if q.status else None,
+        report_type_ids=[q.type_id] if q.type_id else None,
+        urgencies=[Urgency(q.urgency)] if q.urgency else None,
+        statuses=[ReportStatus(q.status)] if q.status else None,
         since=q.since,
         until=q.until,
         bbox=bbox,
