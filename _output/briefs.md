@@ -1,5 +1,7 @@
 # Briefs Log
 
+DONE | 2026-06-21 19:58 UTC | STARTED | 2026-06-21 19:50 UTC | plan | Phase A: extended plan-000131 — four-section left panel (w-72, collapsible, preset bar + active chips + draft controls + NL assistant footer placeholder), staged draft/Apply model with loadedPresetName + draftFilterName + draft-loss guard, date presets, SPA routing fix, TableView sort + Radix Dialog full-text + pagination + score column + density toggle, MapView filter-this-area. source: research-000136 + research-000129 + plan-000131 | PLAN | 000137
+
 DONE | 2026-06-21 19:46 UTC | STARTED | 2026-06-21 19:40 UTC | research | left panel as core UI of search engine: it show the data filtering possibilities and current active filters. An Active filter has a name and can be loaded and saved. an small, on left pannel, chat allow the user to write filter intentions. the chat sugest a filter params that the user can review and apply in current UI. The user can name and save a filter easely. also review the plans and researchers linked in this conversation in order to create a better table visualization and experience on main panel
 
 DONE | 2026-06-21 19:32 UTC | STARTED | 2026-06-21 19:20 UTC | reflect | on last researches + implemented plans. Lets plan a UI overhaul based on newly added search features and plan user filter CRUD + NL to filter params chat on left panel + filter staging + apply status
