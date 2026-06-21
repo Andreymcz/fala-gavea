@@ -1,6 +1,6 @@
 # Briefs Log
 
-STARTED | 2026-06-21 22:44 UTC | plan | Phase C: NL filter parser backend (IFilterParser port + AnthropicFilterParser/OllamaFilterParser + ParseNLFilter use case + POST /nl/filter endpoint) + NL assistant UX (Section 4 input, suggestion preview zone, "Aplicar sugestão" button). From research 136.
+DONE | 2026-06-21 22:49 UTC | STARTED | 2026-06-21 22:44 UTC | plan | Phase C: NL filter parser backend (IFilterParser port + AnthropicFilterParser/OllamaFilterParser + ParseNLFilter use case + POST /nl/filter endpoint) + NL assistant UX (Section 4 input, suggestion preview zone, "Aplicar sugestão" button). From research 136. | PLAN | 000140
 
 DONE | 2026-06-21 22:50 UTC | STARTED | 2026-06-21 22:40 UTC | plan | Phase B Saved filters backend (domain port + SQLAlchemy repo + 5 use cases + CRUD router + Alembic migration) + saved filters UX (preset bar, save popover, load dropdown). FROM research 136 | PLAN | 000139
 
