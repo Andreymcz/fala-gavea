@@ -76,6 +76,8 @@ A multi-value filter + semantic query + pagination is too complex for clean GET 
 
 Note the map view needs GeoJSON and the table needs rows -- decide whether `items` is GeoJSON features or flat rows (recommend flat rows + lat/lon so both views derive from one payload, or a `format=geojson|rows` switch). The optional literal **full-text `text CONTAINS`** filter (cheap SQL `LIKE`) is a useful complement to semantic ranking and nearly free -- include it as one more field; semantic `q` ranks, `text` narrows.
 
+> **REFINED (follow-up, 2026-06-21 17:55 UTC):** The sequencing in the paragraph above is **inverted by the designer's decision**. Rather than introducing the unified endpoint *additively after* research-000129's SPA migrates, **research-000130's `POST /reports/query` becomes the foundation, and research-000129 builds its front-end UI/UX on top of it.** Backend-first: ship the unified query API, then 129's FilterPanel (staged draft/Apply, chips, temporal presets) consumes it directly. The old `/geojson` + `/search` endpoints can still be removed once 129's frontend targets the new endpoint -- but 129 is no longer a *constraint that delays* the cutover; it is the *consumer* of the new contract. This also means 129 and 130 are co-designed: build them as one feature with a backend layer (130) under a frontend layer (129).
+
 ### F5 -- Saved filters: versioned JSON blob, per-user owned, validated on load
 
 The filter shape will keep changing (multi-value, new fields, 129's presets), so a **normalized table would force a migration per field change**. Store a **versioned JSON blob**: `{ id, user_id, name, schema_version, filter_json, created_at }`, index `user_id`, FK to user. **Re-validate `filter_json` through the current Pydantic schema on load**, silently dropping/flagging fields that no longer exist (schema drift) -- never trust the blob as-is. Enforce ownership **server-side in the query** (`WHERE user_id = current_user.id`): a saved-filter id fetchable without the ownership check is a BOLA / horizontal-escalation hole. Reads/writes go through `dependencies.py` `get_current_user`. Report `text` can carry citizen PII, but saved filters store *query params*, not results, so the blob itself is low-sensitivity -- the risk is the ownership check, not the contents.
@@ -97,6 +99,13 @@ The filter shape will keep changing (multi-value, new fields, 129's presets), so
 | R5 | **Saved filters = versioned JSON blob.** One migration: `saved_filters(id, user_id FK+index, name, schema_version, filter_json, created_at)`. Validate `filter_json` through the current schema on load; drop/flag drifted fields rather than failing hard. CRUD endpoints scoped to the owner. | MEDIUM |
 | R6 | **Phase B -> A -> C on top of research-000129; avoid gold-plating.** Skip candidate-id pre-filter, Chroma metadata mirroring, cache headers, rate limiting, SDK-contract tests. Include ownership checks, blob validate-on-load, `max_results` cap, and happy-path + malformed-input parser tests. | LOW |
 
+**REFINED recommendations summary (follow-up, 2026-06-21 17:55 UTC)** -- supersedes the *sequencing* in R1/R6 only; all priorities and technical content above stand:
+
+| # | Refinement | Priority |
+|---|------------|----------|
+| R1' | The unified `POST /reports/query` is the **foundation built first**, not an additive endpoint introduced after 129. research-000129 (FilterPanel staged draft/Apply, chips, temporal presets) is the **front-end consumer** layered on top of it. Co-design 129 + 130 as one feature (backend layer under frontend layer). Old `/geojson`+`/search` retired once 129 targets the new endpoint. | HIGH |
+| R6' | Phasing becomes **B (unified query API) -> {129 frontend + A NL assistant} -> C (saved filters)**: B is the backend foundation, 129's UI/UX and the NL assistant both consume it, saved filters reload a B-shaped body. Capture the decisions formally via `/design` (create `product-design-as-intended.md` + D-NNN entries) before/with the full-feature plan. | HIGH |
+
 **Considered & rejected:** (a) pushing all filters into Chroma `where` -- needs a status/created_at dual-write + re-index discipline that breaks SQL-as-source-of-truth; (b) constraining vector search via candidate-id `$in` -- negates the index, fiddly at hundreds of ids; (c) letting the NL assistant auto-apply filters for a snappier feel -- reintroduces the silent-wrong-query failure and a real injection surface, defeating the transparency goal.
 
 ---
@@ -106,6 +115,12 @@ The filter shape will keep changing (multi-value, new fields, 129's presets), so
 **Q1 (initial):** Build a "filter assistant" that turns natural language into query params, supported by a richer `/reports` query API (multi-value + semantic + bbox), with the ability to visualize/build complex queries and to save a logged-in user's filters.
 
 **A1:** Six recommendations (R1-R6). Confirmed scope via the four clarifying questions: the assistant produces a **structured editable filter** (not prose); the query API becomes **one unified `/reports` query** combining multi-value structured filters + bbox + date range + an optional **semantic ranker** + max-results + pagination (semantic similarity orders the filtered set rather than being a separate path); saved filters are **per-user private for all roles**; and the research covers the **full feature with a phased B->A->C recommendation** layered on research-000129. The defining engineering decisions: keep **SQL as the filter source of truth and Chroma as a ranker-only** (filter-then-rank-in-memory, rank the whole filtered set before paginating); make the **editable-draft chips the security/reliability contract** for the NL parser (Ollama `format` JSON-schema + Pydantic validation + repair + graceful fallback, never auto-apply); expose the unified query as an **additive `POST /reports/query`** deprecating the old endpoints only after the SPA migrates; and store saved filters as a **versioned per-user JSON blob validated on load**.
+
+**Q2 (follow-up):** How should research-000130 and research-000129 be sequenced?
+
+**A2 (verbatim user):** "Research 129 can work on top of this Unified POST /reports/query and will focus on front end UI/UX. Edit this research, run design and plan full feature"
+
+**A2 (resolution):** Sequencing inverted from the original F4/R1: **130's unified `POST /reports/query` is the backend foundation, built first; 129 is the front-end UI/UX layer that consumes it.** They are co-designed as one feature. Next actions: `/design` to formalize the design intent + D-NNN decisions, then `/plan` for the full feature (B + 129-frontend/A + C) with `source: research-000130`. See R1' / R6' above and the REFINED note under F4.
 
 ## Sources
 
