@@ -20,6 +20,11 @@ from fala_gavea.presentation.api.routers import seed as seed_router
 
 STATIC_DIR = Path(__file__).resolve().parents[4] / "static"
 
+_API_PREFIXES = {
+    "auth", "reports", "report_types", "forwardings",
+    "nl", "admin", "health", "docs",
+}
+
 
 def _mount_spa(app: FastAPI) -> None:
     if not STATIC_DIR.exists():
@@ -31,8 +36,11 @@ def _mount_spa(app: FastAPI) -> None:
     if docs.exists():
         app.mount("/docs", StaticFiles(directory=docs, html=True), name="docs")
 
-    @app.get("/{full_path:path}", include_in_schema=False)
-    def spa_fallback(full_path: str) -> FileResponse:
+    @app.get("/{full_path:path}", include_in_schema=False, response_model=None)
+    def spa_fallback(full_path: str) -> FileResponse | JSONResponse:
+        first_segment = full_path.split("/")[0] if full_path else ""
+        if first_segment in _API_PREFIXES:
+            return JSONResponse({"detail": "Not Found"}, status_code=404)
         candidate = STATIC_DIR / full_path
         if full_path and candidate.is_file():
             return FileResponse(candidate)
