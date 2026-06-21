@@ -49,3 +49,9 @@ class ForwardingNotFoundError(DomainError):
 class OllamaUnavailableError(DomainError):
     def __init__(self) -> None:
         super().__init__("NL chat is unavailable in this deployment.")
+
+
+class SavedFilterNotFoundError(DomainError):
+    def __init__(self, id: str) -> None:
+        super().__init__(f"SavedFilter not found: {id}")
+        self.id = id
