@@ -51,3 +51,4 @@
 {"created_at": "2026-06-20T23:56:14Z", "description": "Execute plan-000115 Railway deploy fixes", "id": "pa-000037", "last_reminded_at": null, "snooze_until": null, "source": "plan-000115", "status": "pending", "type": "implement"}
 {"closed_at": "2026-06-20T21:05:44Z", "id": "pa-000037", "status": "done"}
 {"created_at": "2026-06-20T23:49:52Z", "description": "Run manual tests per plan-000120's Test plan section", "id": "pa-000038", "last_reminded_at": null, "snooze_until": null, "source": "plan-000120", "status": "pending", "type": "test-implementation"}
+{"created_at": "2026-06-21T15:14:22Z", "description": "Execute plan-000124: Reduce Railway memory \u2014 CPU torch, e5-small, TF-IDF topics", "id": "pa-000039", "last_reminded_at": null, "snooze_until": null, "source": "plan-000124", "status": "pending", "type": "implement"}

@@ -1,5 +1,7 @@
 # Briefs Log
 
+DONE | 2026-06-21 15:14 UTC | STARTED | 2026-06-21 15:11 UTC | plan | R1: CPU-only PyTorch; R2: e5-small; R3: unified embeddings registry; R4: TF-IDF topics. source: research-000122 | PLAN | 000124
+
 DONE | 2026-06-21 15:10 UTC | STARTED | 2026-06-21 12:46 UTC | research | how to reduce memory usage. our railway app is using 2GB RAM without any active usage.
 
 DONE | 2026-06-21 00:16 UTC | STARTED | 2026-06-21 00:13 UTC | research | é possivel, dado um relato, ter uma metrica que diz que eles possuem relatos muito parecidos, em comparacao com o resto do universo de relatos ?
