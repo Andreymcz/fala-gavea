@@ -16,6 +16,9 @@ import type {
   ChatResponse,
   ReportQueryBody,
   ReportQueryResponse,
+  SavedFilter,
+  SavedFilterCreate,
+  SavedFilterUpdate,
 } from "./types";
 
 const BASE_URL = (import.meta.env.VITE_API_URL as string) || "";
@@ -199,6 +202,26 @@ export const api = {
         return res.json();
       },
     );
+  },
+
+  createSavedFilter(data: SavedFilterCreate): Promise<SavedFilter> {
+    return request<SavedFilter>("POST", "/saved-filters", { body: data });
+  },
+
+  listSavedFilters(): Promise<SavedFilter[]> {
+    return request<SavedFilter[]>("GET", "/saved-filters");
+  },
+
+  getSavedFilter(id: string): Promise<SavedFilter> {
+    return request<SavedFilter>("GET", `/saved-filters/${id}`);
+  },
+
+  updateSavedFilter(id: string, data: SavedFilterUpdate): Promise<SavedFilter> {
+    return request<SavedFilter>("PATCH", `/saved-filters/${id}`, { body: data });
+  },
+
+  deleteSavedFilter(id: string): Promise<void> {
+    return request<void>("DELETE", `/saved-filters/${id}`);
   },
 
   wipeDatabase(

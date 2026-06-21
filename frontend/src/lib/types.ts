@@ -166,3 +166,23 @@ export interface ReportQueryResponse {
   offset: number;
   ranked_by: string;
 }
+
+export interface SavedFilter {
+  id: string;
+  name: string;
+  body: Partial<ReportFilters & { q?: string }>;
+  schema_ver: string;
+  created_at: string;
+  updated_at: string;
+  deprecated_fields: string[];
+}
+
+export interface SavedFilterCreate {
+  name: string;
+  body: Partial<ReportFilters & { q?: string }>;
+}
+
+export interface SavedFilterUpdate {
+  name?: string;
+  body?: Partial<ReportFilters & { q?: string }>;
+}

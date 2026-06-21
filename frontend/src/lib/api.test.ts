@@ -81,6 +81,71 @@ describe("api client", () => {
     expect(init.headers["Authorization"]).toBe("Bearer my-token");
   });
 
+  it("createSavedFilter POSTs to /saved-filters with JSON body", async () => {
+    const saved = { id: "sf1", name: "My Filter", body: { urgency: "alta" }, schema_ver: "1", created_at: "2024-01-01", updated_at: "2024-01-01", deprecated_fields: [] };
+    const mockFetch = vi.fn().mockResolvedValue({ ok: true, status: 201, json: () => Promise.resolve(saved) });
+    vi.stubGlobal("fetch", mockFetch);
+    localStorage.setItem("fala_gavea_token", "tok");
+
+    const result = await api.createSavedFilter({ name: "My Filter", body: { urgency: "alta" } });
+
+    const [url, init] = mockFetch.mock.calls[0];
+    expect(url).toContain("/saved-filters");
+    expect(init.method).toBe("POST");
+    expect(init.headers["Authorization"]).toBe("Bearer tok");
+    expect(JSON.parse(init.body as string)).toEqual({ name: "My Filter", body: { urgency: "alta" } });
+    expect(result).toEqual(saved);
+  });
+
+  it("listSavedFilters GETs /saved-filters", async () => {
+    const mockFetch = vi.fn().mockResolvedValue({ ok: true, status: 200, json: () => Promise.resolve([]) });
+    vi.stubGlobal("fetch", mockFetch);
+    localStorage.setItem("fala_gavea_token", "tok");
+
+    const result = await api.listSavedFilters();
+
+    const [url, init] = mockFetch.mock.calls[0];
+    expect(url).toContain("/saved-filters");
+    expect(init.method).toBe("GET");
+    expect(result).toEqual([]);
+  });
+
+  it("getSavedFilter GETs /saved-filters/:id", async () => {
+    const saved = { id: "sf1", name: "F", body: {}, schema_ver: "1", created_at: "2024-01-01", updated_at: "2024-01-01", deprecated_fields: [] };
+    const mockFetch = vi.fn().mockResolvedValue({ ok: true, status: 200, json: () => Promise.resolve(saved) });
+    vi.stubGlobal("fetch", mockFetch);
+
+    await api.getSavedFilter("sf1");
+
+    const [url] = mockFetch.mock.calls[0];
+    expect(url).toContain("/saved-filters/sf1");
+  });
+
+  it("updateSavedFilter PATCHes /saved-filters/:id with JSON body", async () => {
+    const saved = { id: "sf1", name: "Updated", body: {}, schema_ver: "1", created_at: "2024-01-01", updated_at: "2024-01-02", deprecated_fields: [] };
+    const mockFetch = vi.fn().mockResolvedValue({ ok: true, status: 200, json: () => Promise.resolve(saved) });
+    vi.stubGlobal("fetch", mockFetch);
+
+    await api.updateSavedFilter("sf1", { name: "Updated" });
+
+    const [url, init] = mockFetch.mock.calls[0];
+    expect(url).toContain("/saved-filters/sf1");
+    expect(init.method).toBe("PATCH");
+    expect(JSON.parse(init.body as string)).toEqual({ name: "Updated" });
+  });
+
+  it("deleteSavedFilter DELETEs /saved-filters/:id and resolves void on 204", async () => {
+    const mockFetch = vi.fn().mockResolvedValue({ ok: true, status: 204, json: () => Promise.resolve(null) });
+    vi.stubGlobal("fetch", mockFetch);
+
+    const result = await api.deleteSavedFilter("sf1");
+
+    const [url, init] = mockFetch.mock.calls[0];
+    expect(url).toContain("/saved-filters/sf1");
+    expect(init.method).toBe("DELETE");
+    expect(result).toBeUndefined();
+  });
+
   it("queryReports POSTs to /reports/query with JSON body", async () => {
     const mockResponse = {
       items: [],
