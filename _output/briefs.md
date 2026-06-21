@@ -1,5 +1,9 @@
 # Briefs Log
 
+DONE | 2026-06-21 17:20 UTC | STARTED | 2026-06-21 17:15 UTC | plan | Implement research-000129: staged filter + Apply button (R1/D-009), fix Tipos combobox routing bug (R2), date presets (R3), table sort + full-text (R4), map filter-this-area (R5), regression tests (R6). source: research-000129 | PLAN | 000131
+
+STARTED | 2026-06-21 17:15 UTC | research | filter assistant: natural language to query params. this will allow more complex queryes in relatos (wich will have to be supported by api) database. this could be a potent feature allowing the user to build complex queryes and visualize then. we could also build a feature to save logged user filters (save the query filter sent to api)
+
 DONE | 2026-06-21 17:11 UTC | STARTED | 2026-06-21 16:33 UTC | research | refine data exploration search filters in front end. citizen and public agent journeys: pending-filters apply button, temporal presets (e.g. last 15 days), Tipos combobox not populating, reports table (full text + sorting), map draw-area broken / filter-by-visible-area
 
 DONE | 2026-06-21 15:39 UTC | STARTED | 2026-06-21 15:31 UTC | communicate | how the system work, features implemented, users and journeys. Put documentation acessible in docs with a link in root's project README.md.

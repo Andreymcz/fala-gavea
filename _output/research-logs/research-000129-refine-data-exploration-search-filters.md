@@ -3,6 +3,7 @@
 tags: ux-patterns, filters, map, data-table, frontend-architecture, routing-bug
 
 source: user request -- refine FilterPanel for citizen and public-agent exploration journeys
+spawned: plan-000131
 
 ## User brief (verbatim)
 
