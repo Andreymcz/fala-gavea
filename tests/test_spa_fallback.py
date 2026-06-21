@@ -1,10 +1,8 @@
 """Regression tests for SPA catch-all guard."""
 from __future__ import annotations
 
-import unittest.mock as mock
 from pathlib import Path
 
-import pytest
 from fastapi.testclient import TestClient
 
 
