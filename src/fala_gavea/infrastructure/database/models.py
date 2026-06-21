@@ -79,3 +79,15 @@ class ForwardingReportModel(Base):
     report_id = Column(String, ForeignKey("reports.id"), primary_key=True)
 
     __table_args__ = (PrimaryKeyConstraint("forwarding_id", "report_id"),)
+
+
+class SavedFilterModel(Base):
+    __tablename__ = "saved_filters"
+
+    id = Column(String, primary_key=True)
+    owner_id = Column(String, ForeignKey("users.id"), nullable=False)
+    name = Column(String, nullable=False)
+    body = Column(String, nullable=False)
+    schema_ver = Column(String, nullable=False, server_default="1")
+    created_at = Column(DateTime, nullable=False)
+    updated_at = Column(DateTime, nullable=False)
