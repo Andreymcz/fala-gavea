@@ -61,3 +61,6 @@
 {"created_at": "2026-06-21T18:42:13Z", "description": "Run manual tests per plan-000132's Test plan section", "id": "pa-000044", "last_reminded_at": null, "snooze_until": null, "source": "plan-000132", "status": "pending", "type": "test-implementation"}
 {"created_at": "2026-06-21T19:58:28Z", "description": "Execute plan-000137 Phase A: extended panel, draft filters, table UX", "id": "pa-000045", "last_reminded_at": null, "snooze_until": null, "source": "plan-000137", "status": "pending", "type": "implement"}
 {"closed_at": "2026-06-21T21:56:03Z", "id": "pa-000042", "status": "done"}
+{"closed_at": "2026-06-21T22:03:11Z", "id": "pa-000045", "status": "done"}
+{"created_at": "2026-06-21T22:08:14Z", "description": "Review product-design/product-design-as-coded.md against the real implementation of plan-000137", "id": "pa-000046", "last_reminded_at": null, "snooze_until": null, "source": "plan-000137", "status": "pending", "type": "verify-as-coded"}
+{"created_at": "2026-06-21T22:08:14Z", "description": "Run manual tests per plan-000137's Test plan section", "id": "pa-000047", "last_reminded_at": null, "snooze_until": null, "source": "plan-000137", "status": "pending", "type": "test-implementation"}

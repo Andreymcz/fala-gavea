@@ -1,19 +1,10 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
-import { useBlocker } from 'react-router-dom'
 import { useAuth } from '@/auth/AuthContext'
 import { useWorkspaceStore, defaultViewsForRole } from '@/store/workspaceStore'
 import { FilterPanel } from './FilterPanel'
 import { ViewToggleBar } from './ViewToggleBar'
 import { SelectionBar } from '@/features/map/SelectionBar'
 import { CreateForwardingDialog } from '@/features/map/CreateForwardingDialog'
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogFooter,
-  DialogTitle,
-  DialogDescription,
-} from '@/components/ui/dialog'
 
 const MapView = lazy(() => import('./views/MapView').then((m) => ({ default: m.MapView })))
 const TableView = lazy(() => import('./views/TableView').then((m) => ({ default: m.TableView })))
@@ -28,7 +19,6 @@ export function WorkspacePage() {
   const activeViews = useWorkspaceStore((s) => s.activeViews)
   const selectedIds = useWorkspaceStore((s) => s.selectedIds)
   const clearSelection = useWorkspaceStore((s) => s.clearSelection)
-  const discardDraft = useWorkspaceStore((s) => s.discardDraft)
   const isDirty = useWorkspaceStore((s) => s.isDirty())
   const [showCreateDialog, setShowCreateDialog] = useState(false)
 
@@ -52,40 +42,8 @@ export function WorkspacePage() {
     return () => window.removeEventListener('beforeunload', handleBeforeUnload)
   }, [isDirty])
 
-  // SPA-internal navigation guard (react-router-dom v6.8+)
-  const blocker = useBlocker(isDirty)
-
   return (
     <>
-      {/* Draft-loss guard dialog (SPA navigation) */}
-      <Dialog open={blocker.state === 'blocked'} onOpenChange={() => blocker.reset?.()}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Descartar filtros não aplicados?</DialogTitle>
-            <DialogDescription>
-              Você tem filtros de rascunho que ainda não foram aplicados. Se sair agora, eles serão
-              perdidos.
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
-            <button
-              className="px-4 py-2 rounded border border-gray-300 text-sm hover:bg-gray-50"
-              onClick={() => blocker.reset?.()}
-            >
-              Voltar
-            </button>
-            <button
-              className="px-4 py-2 rounded bg-red-600 text-white text-sm hover:bg-red-700"
-              onClick={() => {
-                discardDraft()
-                blocker.proceed?.()
-              }}
-            >
-              Descartar e sair
-            </button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
       <div className="flex flex-1 overflow-hidden h-full">
         {/* Left rail filter panel */}
         <FilterPanel />

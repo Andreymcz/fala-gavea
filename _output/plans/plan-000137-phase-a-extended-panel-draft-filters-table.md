@@ -1,4 +1,4 @@
-# Plan 000137 | REDESIGN-A | 2026-06-21 19:50 UTC | Phase A: extended panel, draft filters, table UX | Review: standard
+# DONE | 2026-06-21 22:02 UTC | Plan 000137 | REDESIGN-A | 2026-06-21 19:50 UTC | Phase A: extended panel, draft filters, table UX | Review: standard
 plan_format_version: 1
 
 source: research-000136 (left-panel layout, draft model, table UX), research-000129 (staged filter, chips, date presets, routing fix, table, map), plan-000131 (superseded by this plan — same scope extended)
@@ -324,3 +324,34 @@ Run `python .claude/skills/scripts/pending.py done --source plan-000131 --type i
 10. **Map "Filtrar nesta área":** pan/zoom map to a region, click "Filtrar nesta área" → markers update to show only visible area; click "Limpar área" → all markers return.
 11. **Collapse toggle:** click collapse button → panel hides; map/table expands; badge shows count; click again → panel restores.
 12. **Draft-loss guard:** set draft filters, click a nav link → AlertDialog appears; choose "Descartar e sair" → navigates; choose "Voltar" → stays on workspace.
+
+---
+
+## Implementation Summary
+
+**Completed:** 8/8 steps | **Iterations used:** 8 (1 per step) | **Partial/Failed:** 0
+
+### Steps
+
+- [x] Step 1: Extend workspaceStore — committed/draft split + panel state (`3072bc1`)
+- [x] Step 2: Four-section FilterPanel — layout, Apply/Limpar, dirty indicator, collapse (`e171ca4`)
+- [x] Step 3: ActiveFilterChips component (`6f45974`)
+- [x] Step 4: DateRangePresets component + `DatePreset` type (`bda600f`)
+- [x] Step 5: SPA routing fix — catch-all guard + api.ts trailing slash (`76df8e2`)
+- [x] Step 6: TableView — sort, full-text dialog, pagination, score column, density toggle (`0ad89ab`)
+- [x] Step 7: MapView — "Filtrar nesta área" button (`7a81e10`)
+- [x] Step 8: WorkspacePage draft-loss guard + regression pass (`b1076c3`)
+
+### Quality Gate
+
+- Frontend: 80/80 tests pass, TypeScript clean
+- Backend: 141/142 tests pass (1 pre-existing failure in `test_static_spa.py`), ruff clean, pyright 66 pre-existing errors (unchanged)
+- Code review (check-000138): 1 HIGH fixed (getForwardings URL), 3 MEDIUM/LOW fixed, 4 advisory deferred
+- Files changed: 21 files, +1985/-333 lines
+
+### Key Decisions / Learnings
+
+- `filtersKey = JSON.stringify(filters)` pattern used in `useEffect` to reset page on filter change (avoids object identity pitfalls)
+- `setBbox` commits to both slices immediately (bypasses staging by design — MapView direct manipulation)
+- `@radix-ui/react-dialog` already installed; reused for both TableView full-text and WorkspacePage blocker dialog
+- plan-000131 pending entry closed (superseded by this plan)

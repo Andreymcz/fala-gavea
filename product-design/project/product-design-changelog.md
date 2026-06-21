@@ -1,5 +1,14 @@
 # AS-CODED CHANGELOG — fala-gavea
 
+### v12 -- 2026-06-21
+- **Added**: Phase A UI overhaul — staged filter model (`filters` + `draftFilters` slices in `workspaceStore`), `applyFilters()`/`clearFilters()`/`discardDraft()`/`removeFilter()`/`setBbox()` actions, `isDirty()` derived selector
+- **Added**: Four-section `FilterPanel` (`w-72`, collapsible), `ActiveFilterChips`, `DateRangePresets` (6 presets + custom), draft-loss guard via `useBlocker` + `beforeunload`
+- **Changed**: `TableView` — column sort (`SortKey`), full-text Radix Dialog, pagination (PAGE_SIZE=50), score column (gated on `ranked_by==='similarity'`), density toggle
+- **Changed**: `MapView` — "Filtrar nesta área" button replaces primary draw gesture; `setBbox` commits to both slices immediately
+- **Changed**: SPA catch-all in `main.py` — `_API_PREFIXES` guard returns 404 JSON for known API prefixes; `getReportTypes()` and `getForwardings()` trailing-slash alignment in `api.ts`
+- **Source**: agent (post-skill)
+- **Plan**: 000137
+
 ### v11 -- 2026-06-21
 - **Added**: `POST /reports/query` unified endpoint — multi-value filters (`report_type_ids[]`, `urgencies[]`, `statuses[]`), `bbox`, `since`/`until`, `text` ILIKE, optional `q` semantic rank; response envelope `{items, total, limit, offset, ranked_by}`; `ReportQueryRequest`/`ReportQueryItem`/`ReportQueryResponse` Pydantic schemas
 - **Added**: `rank(query, ids) -> dict[str, float]` on `ISemanticSearchPort` (cosine similarity, no metadata mirroring); implemented in `ChromaSearchClient`
