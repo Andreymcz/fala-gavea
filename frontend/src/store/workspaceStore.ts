@@ -17,6 +17,7 @@ interface WorkspaceState {
   similarSeedId: string | null
   panelOpen: boolean
   loadedPresetName: string | null
+  loadedPresetId: string | null
   draftFilterName: string
 
   // actions
@@ -34,6 +35,7 @@ interface WorkspaceState {
   setSimilarSeed: (id: string | null) => void
   togglePanel: () => void
   setLoadedPresetName: (name: string | null) => void
+  setLoadedPresetId: (id: string | null) => void
   setDraftFilterName: (name: string) => void
 
   // derived selectors (functions — not stored state)
@@ -54,6 +56,7 @@ export const useWorkspaceStore = create<WorkspaceState>()((set, get) => ({
   similarSeedId: null,
   panelOpen: true,
   loadedPresetName: null,
+  loadedPresetId: null,
   draftFilterName: '',
 
   // Alias for backward compat — routes to draftFilters
@@ -67,7 +70,7 @@ export const useWorkspaceStore = create<WorkspaceState>()((set, get) => ({
     set((state) => ({ filters: { ...state.draftFilters } })),
 
   clearFilters: () =>
-    set({ filters: {}, draftFilters: {}, loadedPresetName: null, draftFilterName: '' }),
+    set({ filters: {}, draftFilters: {}, loadedPresetName: null, loadedPresetId: null, draftFilterName: '' }),
 
   discardDraft: () =>
     set((state) => ({ draftFilters: { ...state.filters }, loadedPresetName: null })),
@@ -117,7 +120,10 @@ export const useWorkspaceStore = create<WorkspaceState>()((set, get) => ({
 
   togglePanel: () => set((state) => ({ panelOpen: !state.panelOpen })),
 
-  setLoadedPresetName: (name: string | null) => set({ loadedPresetName: name }),
+  setLoadedPresetName: (name: string | null) =>
+    set({ loadedPresetName: name, ...(name === null ? { loadedPresetId: null } : {}) }),
+
+  setLoadedPresetId: (id: string | null) => set({ loadedPresetId: id }),
 
   setDraftFilterName: (name: string) => set({ draftFilterName: name }),
 

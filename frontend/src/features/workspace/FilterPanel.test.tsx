@@ -6,15 +6,22 @@ const clearFilters = vi.fn()
 const setDraftFilter = vi.fn()
 const setSemanticQuery = vi.fn()
 const togglePanel = vi.fn()
+const setLoadedPresetName = vi.fn()
+const setLoadedPresetId = vi.fn()
+const setDraftFilterName = vi.fn()
 
 let mockIsDirty = false
 let mockPanelOpen = true
 let mockLoadedPresetName: string | null = null
+let mockLoadedPresetId: string | null = null
+let mockDraftFilterName = ''
+let mockFilters: Record<string, unknown> = {}
 
 const getMockStore = (selector: (s: Record<string, unknown>) => unknown) => {
   const store = {
-    filters: {},
+    filters: mockFilters,
     draftFilters: { semanticQuery: '' } as Record<string, unknown>,
+    draftFilterName: mockDraftFilterName,
     setFilter: setDraftFilter,
     setDraftFilter,
     clearFilters,
@@ -23,6 +30,10 @@ const getMockStore = (selector: (s: Record<string, unknown>) => unknown) => {
     togglePanel,
     panelOpen: mockPanelOpen,
     loadedPresetName: mockLoadedPresetName,
+    loadedPresetId: mockLoadedPresetId,
+    setLoadedPresetName,
+    setLoadedPresetId,
+    setDraftFilterName,
     isDirty: () => mockIsDirty,
   }
   return selector(store as unknown as Record<string, unknown>)
@@ -36,6 +47,42 @@ vi.mock('@/hooks/useFilteredReports', () => ({
   useFilteredReports: () => ({ count: 5, semanticTruncated: false, features: [], isLoading: false, semanticActive: false }),
 }))
 
+// Mock @tanstack/react-query
+const mockInvalidateQueries = vi.fn()
+const mockMutate = vi.fn()
+let mockSavedFilters: Array<{ id: string; name: string; body: Record<string, unknown> }> = []
+let mockListError = false
+let mockListEnabled = false
+
+vi.mock('@tanstack/react-query', () => ({
+  useQuery: ({ enabled }: { enabled?: boolean }) => {
+    mockListEnabled = !!enabled
+    return {
+      data: mockListEnabled ? mockSavedFilters : [],
+      isError: mockListEnabled ? mockListError : false,
+    }
+  },
+  useMutation: ({ onSuccess }: { onSuccess?: (data: unknown) => void }) => ({
+    mutate: (arg: unknown) => {
+      mockMutate(arg)
+      if (onSuccess) onSuccess({ id: 'new-id', name: typeof arg === 'string' ? arg : 'test', body: {} })
+    },
+    isPending: false,
+  }),
+  useQueryClient: () => ({ invalidateQueries: mockInvalidateQueries }),
+}))
+
+// Mock api
+vi.mock('@/lib/api', () => ({
+  api: {
+    listSavedFilters: vi.fn(() => Promise.resolve([])),
+    getSavedFilter: vi.fn(() => Promise.resolve({ id: '1', name: 'test', body: {} })),
+    createSavedFilter: vi.fn(() => Promise.resolve({ id: 'new-id', name: 'test', body: {} })),
+    updateSavedFilter: vi.fn(() => Promise.resolve({ id: '1', name: 'test', body: {} })),
+    deleteSavedFilter: vi.fn(() => Promise.resolve()),
+  },
+}))
+
 import { FilterPanel } from './FilterPanel'
 
 beforeEach(() => {
@@ -43,6 +90,12 @@ beforeEach(() => {
   mockIsDirty = false
   mockPanelOpen = true
   mockLoadedPresetName = null
+  mockLoadedPresetId = null
+  mockDraftFilterName = ''
+  mockFilters = {}
+  mockSavedFilters = []
+  mockListError = false
+  mockListEnabled = false
 })
 
 describe('FilterPanel', () => {
@@ -110,10 +163,76 @@ describe('FilterPanel', () => {
   it('when panelOpen is false, panel collapses and shows expand button', () => {
     mockPanelOpen = false
     const { queryByRole, getByRole } = render(<FilterPanel />)
-    // Aplicar button should not be visible in collapsed state
     expect(queryByRole('button', { name: /Aplicar/i })).toBeNull()
-    // Expand toggle should be present
     const toggle = getByRole('button', { name: /Expandir painel/i })
     expect(toggle).toBeTruthy()
+  })
+
+  // --- New preset bar tests ---
+
+  it('Save popover appears on "Salvar" click', () => {
+    const { getByRole, getByPlaceholderText } = render(<FilterPanel />)
+    fireEvent.click(getByRole('button', { name: /^Salvar$/i }))
+    expect(getByPlaceholderText(/Nome do filtro salvo/i)).toBeTruthy()
+  })
+
+  it('auto-name generated when draftFilterName is empty and filters are active', () => {
+    mockDraftFilterName = ''
+    mockFilters = { urgency: 'alta' }
+    const { getByRole, getByDisplayValue } = render(<FilterPanel />)
+    fireEvent.click(getByRole('button', { name: /^Salvar$/i }))
+    // Auto-generated name should contain urgency label
+    const input = getByDisplayValue(/Urgência/i)
+    expect(input).toBeTruthy()
+  })
+
+  it('Load dropdown shows "Carregar" button that toggles dropdown', () => {
+    mockSavedFilters = [{ id: '1', name: 'Meu filtro', body: {} }]
+    const { getByRole, getByText } = render(<FilterPanel />)
+    fireEvent.click(getByRole('button', { name: /^Carregar$/i }))
+    expect(getByText('Meu filtro')).toBeTruthy()
+  })
+
+  it('Load dropdown shows error message when listError is true', () => {
+    mockListError = true
+    const { getByRole, getByText } = render(<FilterPanel />)
+    fireEvent.click(getByRole('button', { name: /^Carregar$/i }))
+    expect(getByText(/Erro ao carregar filtros salvos/i)).toBeTruthy()
+  })
+
+  it('Trash icon calls deleteMutation.mutate with the correct id', () => {
+    mockSavedFilters = [{ id: 'abc', name: 'Filtro A', body: {} }]
+    const { getByRole, getByTitle } = render(<FilterPanel />)
+    fireEvent.click(getByRole('button', { name: /^Carregar$/i }))
+    const trashBtn = getByTitle('Remover filtro')
+    fireEvent.click(trashBtn)
+    expect(mockMutate).toHaveBeenCalledWith('abc')
+  })
+
+  it('* appears in preset label when loadedPresetName is set and isDirty is true', () => {
+    mockLoadedPresetName = 'Meu preset'
+    mockIsDirty = true
+    const { getByText } = render(<FilterPanel />)
+    expect(getByText('Meu preset *')).toBeTruthy()
+  })
+
+  it('preset label shows name without * when not dirty', () => {
+    mockLoadedPresetName = 'Meu preset'
+    mockIsDirty = false
+    const { getByText } = render(<FilterPanel />)
+    expect(getByText('Meu preset')).toBeTruthy()
+  })
+
+  it('shows "Sem filtro salvo" when no preset is loaded', () => {
+    mockLoadedPresetName = null
+    const { getByText } = render(<FilterPanel />)
+    expect(getByText('Sem filtro salvo')).toBeTruthy()
+  })
+
+  it('"Atualizar" option appears in save popover when loadedPresetId is set', () => {
+    mockLoadedPresetId = 'preset-123'
+    const { getByRole } = render(<FilterPanel />)
+    fireEvent.click(getByRole('button', { name: /^Salvar$/i }))
+    expect(getByRole('button', { name: /Atualizar/i })).toBeTruthy()
   })
 })

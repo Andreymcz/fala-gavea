@@ -1,17 +1,55 @@
+import { useState } from 'react'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useWorkspaceStore } from '@/store/workspaceStore'
 import { useReportTypes } from '@/hooks/useReportTypes'
 import { useFilteredReports } from '@/hooks/useFilteredReports'
-import type { Urgency, ReportStatus } from '@/lib/types'
+import type { Urgency, ReportStatus, WorkspaceFilters } from '@/lib/types'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ActiveFilterChips } from './ActiveFilterChips'
 import { DateRangePresets } from './DateRangePresets'
+import { api } from '@/lib/api'
+
+const URGENCY_LABELS: Record<string, string> = {
+  alta: 'Alta',
+  media: 'Média',
+  baixa: 'Baixa',
+}
+
+const STATUS_LABELS: Record<string, string> = {
+  pendente: 'Pendente',
+  em_analise: 'Em análise',
+  encaminhado: 'Encaminhado',
+  resolvido: 'Resolvido',
+}
+
+function getChipLabel(key: keyof WorkspaceFilters, value: string): string {
+  switch (key) {
+    case 'urgency':
+      return `Urgência: ${URGENCY_LABELS[value] ?? value}`
+    case 'status':
+      return `Status: ${STATUS_LABELS[value] ?? value}`
+    case 'since':
+      return `De: ${value}`
+    case 'until':
+      return `Até: ${value}`
+    case 'bbox':
+      return 'Área do mapa'
+    case 'semanticQuery': {
+      const q = value.length > 20 ? value.slice(0, 20) + '...' : value
+      return `Busca: "${q}"`
+    }
+    default:
+      return `${key}: ${value}`
+  }
+}
 
 export function FilterPanel() {
   const draftFilters = useWorkspaceStore((s) => s.draftFilters)
   const filters = useWorkspaceStore((s) => s.filters)
+  const draftFilterName = useWorkspaceStore((s) => s.draftFilterName)
   const setDraftFilter = useWorkspaceStore((s) => s.setDraftFilter)
   const applyFilters = useWorkspaceStore((s) => s.applyFilters)
   const clearFilters = useWorkspaceStore((s) => s.clearFilters)
@@ -19,19 +57,98 @@ export function FilterPanel() {
   const togglePanel = useWorkspaceStore((s) => s.togglePanel)
   const panelOpen = useWorkspaceStore((s) => s.panelOpen)
   const loadedPresetName = useWorkspaceStore((s) => s.loadedPresetName)
+  const loadedPresetId = useWorkspaceStore((s) => s.loadedPresetId)
+  const setLoadedPresetName = useWorkspaceStore((s) => s.setLoadedPresetName)
+  const setLoadedPresetId = useWorkspaceStore((s) => s.setLoadedPresetId)
+  const setDraftFilterName = useWorkspaceStore((s) => s.setDraftFilterName)
   const isDirty = useWorkspaceStore((s) => s.isDirty())
 
   const { data: reportTypes = [] } = useReportTypes()
   const { count } = useFilteredReports()
+  const queryClient = useQueryClient()
+
+  const [saveOpen, setSaveOpen] = useState(false)
+  const [loadOpen, setLoadOpen] = useState(false)
+  const [saveNameInput, setSaveNameInput] = useState('')
 
   // Preset bar display name
   const presetLabel = loadedPresetName
     ? isDirty
       ? `${loadedPresetName} *`
       : loadedPresetName
-    : 'Sem nome'
+    : 'Sem filtro salvo'
 
   const countLabel = `${count} relato${count !== 1 ? 's' : ''}`
+
+  // Auto-generate name from active filter chips
+  function autoName(): string {
+    const entries = (Object.entries(filters) as [keyof WorkspaceFilters, string | undefined][]).filter(
+      ([, v]) => v !== undefined && v !== '',
+    )
+    const parts = entries.map(([k, v]) => getChipLabel(k, v as string))
+    const joined = parts.join(', ')
+    return joined.length > 40 ? joined.slice(0, 40) : joined
+  }
+
+  function handleOpenSave() {
+    setSaveNameInput(draftFilterName || autoName())
+    setSaveOpen(true)
+    setLoadOpen(false)
+  }
+
+  function handleOpenLoad() {
+    setLoadOpen((prev) => !prev)
+    setSaveOpen(false)
+  }
+
+  // List query
+  const { data: savedFilters = [], isError: listError } = useQuery({
+    queryKey: ['saved-filters'],
+    queryFn: () => api.listSavedFilters(),
+    staleTime: 30_000,
+    enabled: loadOpen,
+  })
+
+  // Create mutation
+  const createMutation = useMutation({
+    mutationFn: (name: string) =>
+      api.createSavedFilter({ name, body: filters }),
+    onSuccess: (saved) => {
+      setLoadedPresetName(saved.name)
+      setLoadedPresetId(saved.id)
+      setDraftFilterName(saved.name)
+      void queryClient.invalidateQueries({ queryKey: ['saved-filters'] })
+      setSaveOpen(false)
+    },
+  })
+
+  // Update mutation
+  const updateMutation = useMutation({
+    mutationFn: () =>
+      api.updateSavedFilter(loadedPresetId!, { body: filters }),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ['saved-filters'] })
+      setSaveOpen(false)
+    },
+  })
+
+  // Delete mutation
+  const deleteMutation = useMutation({
+    mutationFn: (id: string) => api.deleteSavedFilter(id),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ['saved-filters'] })
+    },
+  })
+
+  // Load a preset
+  async function handleLoadPreset(id: string, name: string) {
+    const saved = await api.getSavedFilter(id)
+    setDraftFilter(saved.body as Partial<typeof draftFilters>)
+    setLoadedPresetName(name)
+    setLoadedPresetId(id)
+    setDraftFilterName(name)
+    setLoadOpen(false)
+  }
 
   // Collapsed state
   if (!panelOpen) {
@@ -60,21 +177,19 @@ export function FilterPanel() {
   return (
     <div className="w-72 flex flex-col h-full bg-white border-r border-gray-200">
       {/* Section 1 — Preset bar */}
-      <div className="border-b py-2 px-3 flex items-center gap-2">
+      <div className="border-b py-2 px-3 flex items-center gap-2 relative">
         <span className="text-xs font-medium text-gray-700 flex-1 truncate" title={presetLabel}>
           {presetLabel}
         </span>
         <button
-          className="text-xs text-gray-400 opacity-50 cursor-not-allowed"
-          disabled
-          title="Disponível em breve"
+          className="text-xs text-blue-600 hover:text-blue-800"
+          onClick={handleOpenSave}
         >
           Salvar
         </button>
         <button
-          className="text-xs text-gray-400 opacity-50 cursor-not-allowed"
-          disabled
-          title="Disponível em breve"
+          className="text-xs text-blue-600 hover:text-blue-800"
+          onClick={handleOpenLoad}
         >
           Carregar
         </button>
@@ -88,6 +203,79 @@ export function FilterPanel() {
         >
           ‹
         </button>
+
+        {/* Save popover */}
+        {saveOpen && (
+          <div className="absolute top-full left-0 right-0 z-20 bg-white border border-gray-200 shadow-lg rounded p-3 flex flex-col gap-2">
+            <p className="text-xs font-medium text-gray-700">Nome do filtro</p>
+            <Input
+              className="h-7 text-xs"
+              value={saveNameInput}
+              onChange={(e) => setSaveNameInput(e.target.value)}
+              placeholder="Nome do filtro salvo"
+              autoFocus
+            />
+            <div className="flex gap-2">
+              <Button
+                size="sm"
+                className="flex-1 h-7 text-xs"
+                onClick={() => createMutation.mutate(saveNameInput)}
+                disabled={!saveNameInput.trim() || createMutation.isPending}
+              >
+                Confirmar
+              </Button>
+              {loadedPresetId && (
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  className="flex-1 h-7 text-xs"
+                  onClick={() => updateMutation.mutate()}
+                  disabled={updateMutation.isPending}
+                >
+                  Atualizar
+                </Button>
+              )}
+              <Button
+                size="sm"
+                variant="ghost"
+                className="h-7 text-xs"
+                onClick={() => setSaveOpen(false)}
+              >
+                Cancelar
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {/* Load dropdown */}
+        {loadOpen && (
+          <div className="absolute top-full left-0 right-0 z-20 bg-white border border-gray-200 shadow-lg rounded flex flex-col max-h-48 overflow-y-auto">
+            {listError ? (
+              <p className="text-xs text-red-600 px-3 py-2">Erro ao carregar filtros salvos</p>
+            ) : savedFilters.length === 0 ? (
+              <p className="text-xs text-gray-400 px-3 py-2">Nenhum filtro salvo.</p>
+            ) : (
+              savedFilters.map((sf) => (
+                <div key={sf.id} className="flex items-center px-3 py-1.5 hover:bg-gray-50 gap-1">
+                  <button
+                    className="text-xs text-gray-700 flex-1 text-left truncate"
+                    onClick={() => void handleLoadPreset(sf.id, sf.name)}
+                  >
+                    {sf.name}
+                  </button>
+                  <button
+                    title="Remover filtro"
+                    aria-label={`Remover filtro ${sf.name}`}
+                    className="text-gray-400 hover:text-red-600 text-xs px-1"
+                    onClick={() => deleteMutation.mutate(sf.id)}
+                  >
+                    🗑
+                  </button>
+                </div>
+              ))
+            )}
+          </div>
+        )}
       </div>
 
       {/* Section 2 — Active chips */}
