@@ -21,6 +21,8 @@ class UpdateSavedFilter:
         body: str | None = None,
     ) -> SavedFilter:
         sf = self._get.execute(id, owner_id)
+        if name is None and body is None:
+            return sf
         if name is not None:
             name = name.strip()
             if not name or len(name) > 80:

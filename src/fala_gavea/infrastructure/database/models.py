@@ -89,5 +89,5 @@ class SavedFilterModel(Base):
     name = Column(String, nullable=False)
     body = Column(String, nullable=False)
     schema_ver = Column(String, nullable=False, server_default="1")
-    created_at = Column(DateTime, nullable=False)
-    updated_at = Column(DateTime, nullable=False)
+    created_at = Column(DateTime(timezone=True), nullable=False)
+    updated_at = Column(DateTime(timezone=True), nullable=False)

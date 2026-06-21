@@ -24,7 +24,11 @@ router = APIRouter()
 
 
 def _to_response(sf: SavedFilter) -> SavedFilterResponse:
-    body = json.loads(sf.body) if isinstance(sf.body, str) else sf.body
+    try:
+        body = json.loads(sf.body) if isinstance(sf.body, str) else sf.body
+    except json.JSONDecodeError:
+        body = {}
+
     return SavedFilterResponse(
         id=sf.id,
         name=sf.name,

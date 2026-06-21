@@ -1,7 +1,10 @@
 from __future__ import annotations
 
 import logging
-from typing import Generator
+from typing import TYPE_CHECKING, Generator
+
+if TYPE_CHECKING:
+    from fala_gavea.domain.repositories.saved_filter_repository import ISavedFilterRepository
 
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
@@ -144,7 +147,7 @@ def get_forwarding_repo(db: Session = Depends(get_db)) -> IForwardingRepository:
     return SQLAlchemyForwardingRepository(db)
 
 
-def get_saved_filter_repo(db: Session = Depends(get_db)):
+def get_saved_filter_repo(db: Session = Depends(get_db)) -> "ISavedFilterRepository":
     from fala_gavea.infrastructure.repositories.sqlalchemy_saved_filter_repository import SQLAlchemySavedFilterRepository
     return SQLAlchemySavedFilterRepository(db)
 
