@@ -5,7 +5,7 @@
 
 | Date | Skill | Brief | Status | Plan | Head SHA | Generated |
 |------|-------|-------|--------|------|----------|-----------|
-| 2026-06-21 22:44 UTC | plan | Phase C: NL filter parser backend (IFilterParser port + AnthropicFilterParser/O… | STARTED |  |  |  |
+| 2026-06-21 22:44 UTC | plan | Phase C: NL filter parser backend (IFilterParser port + AnthropicFilterParser/O… | DONE | 000140 |  |  |
 | 2026-06-21 22:40 UTC | plan | Phase B Saved filters backend (domain port + SQLAlchemy repo + 5 use cases + CR… | DONE | 000139 |  |  |
 | 2026-06-21 19:50 UTC | plan | Phase A: extended plan-000131 — four-section left panel (w-72, collapsible, pre… | DONE | 000137 |  |  |
 | 2026-06-21 19:40 UTC | research | left panel as core UI of search engine: it show the data filtering possibilitie… | DONE |  |  |  |

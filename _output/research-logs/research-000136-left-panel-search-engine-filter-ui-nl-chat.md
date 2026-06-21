@@ -3,7 +3,7 @@
 tags: ux-patterns, filters, nl-to-filter, saved-filters, table, left-panel, llm-structured-output, api-design, security
 
 source: user request — left panel as core UI of the search engine, NL chat for filter intent, saved/loaded named filters, table visualization improvements. Layered on research-000129/000130 and plan-000131/000132.
-spawned: plan-000137
+spawned: plan-000137, plan-000140
 
 ---
 
