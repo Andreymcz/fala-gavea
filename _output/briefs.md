@@ -1,5 +1,7 @@
 # Briefs Log
 
+DONE | 2026-06-21 15:10 UTC | STARTED | 2026-06-21 12:46 UTC | research | how to reduce memory usage. our railway app is using 2GB RAM without any active usage.
+
 DONE | 2026-06-21 00:16 UTC | STARTED | 2026-06-21 00:13 UTC | research | é possivel, dado um relato, ter uma metrica que diz que eles possuem relatos muito parecidos, em comparacao com o resto do universo de relatos ?
 
 DONE | 2026-06-20 23:43 UTC | STARTED | 2026-06-20 23:43 UTC | plan | implementar recomendações ALTA da research-000119: index_many() batched ao ChromaSearchClient e BulkCreateReports em chunks de 500. source: research-000119 | PLAN | 000120
