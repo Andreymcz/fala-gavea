@@ -3,22 +3,42 @@ import type { WorkspaceFilters, ReportFilters, UserRole } from '@/lib/types'
 
 export type ViewId = 'map' | 'table' | 'keywords' | 'similars' | 'chat'
 
+const FILTER_KEYS: (keyof WorkspaceFilters)[] = [
+  'urgency', 'status', 'type_id', 'since', 'until', 'bbox', 'semanticQuery',
+]
+
 interface WorkspaceState {
+  // committed filters — what views query against
   filters: WorkspaceFilters
+  // draft filters — what the panel edits before Apply
+  draftFilters: WorkspaceFilters
   selectedIds: Set<string>
   activeViews: ViewId[]
   similarSeedId: string | null
+  panelOpen: boolean
+  loadedPresetName: string | null
+  draftFilterName: string
+
   // actions
   setFilter: (patch: Partial<WorkspaceFilters>) => void
+  setDraftFilter: (patch: Partial<WorkspaceFilters>) => void
+  applyFilters: () => void
   clearFilters: () => void
+  discardDraft: () => void
+  removeFilter: (key: keyof WorkspaceFilters) => void
   setBbox: (bbox: string | undefined) => void
   setSemanticQuery: (q: string) => void
   toggleSelect: (id: string) => void
   clearSelection: () => void
   toggleView: (id: ViewId) => void
   setSimilarSeed: (id: string | null) => void
-  // derived selector (function — not stored state)
+  togglePanel: () => void
+  setLoadedPresetName: (name: string | null) => void
+  setDraftFilterName: (name: string) => void
+
+  // derived selectors (functions — not stored state)
   structuredFilters: () => ReportFilters
+  isDirty: () => boolean
 }
 
 export function defaultViewsForRole(role: UserRole | undefined): ViewId[] {
@@ -28,20 +48,49 @@ export function defaultViewsForRole(role: UserRole | undefined): ViewId[] {
 
 export const useWorkspaceStore = create<WorkspaceState>()((set, get) => ({
   filters: {},
+  draftFilters: {},
   selectedIds: new Set<string>(),
   activeViews: ['map', 'table'],
   similarSeedId: null,
+  panelOpen: true,
+  loadedPresetName: null,
+  draftFilterName: '',
 
+  // Alias for backward compat — routes to draftFilters
   setFilter: (patch: Partial<WorkspaceFilters>) =>
-    set((state) => ({ filters: { ...state.filters, ...patch } })),
+    set((state) => ({ draftFilters: { ...state.draftFilters, ...patch } })),
 
-  clearFilters: () => set({ filters: {} }),
+  setDraftFilter: (patch: Partial<WorkspaceFilters>) =>
+    set((state) => ({ draftFilters: { ...state.draftFilters, ...patch } })),
 
+  applyFilters: () =>
+    set((state) => ({ filters: { ...state.draftFilters } })),
+
+  clearFilters: () =>
+    set({ filters: {}, draftFilters: {}, loadedPresetName: null, draftFilterName: '' }),
+
+  discardDraft: () =>
+    set((state) => ({ draftFilters: { ...state.filters }, loadedPresetName: null })),
+
+  removeFilter: (key: keyof WorkspaceFilters) =>
+    set((state) => {
+      const nextFilters = { ...state.filters }
+      const nextDraft = { ...state.draftFilters }
+      delete nextFilters[key]
+      delete nextDraft[key]
+      return { filters: nextFilters, draftFilters: nextDraft }
+    }),
+
+  // setBbox commits to BOTH slices immediately
   setBbox: (bbox: string | undefined) =>
-    set((state) => ({ filters: { ...state.filters, bbox } })),
+    set((state) => ({
+      filters: { ...state.filters, bbox },
+      draftFilters: { ...state.draftFilters, bbox },
+    })),
 
+  // setSemanticQuery writes to draft only
   setSemanticQuery: (q: string) =>
-    set((state) => ({ filters: { ...state.filters, semanticQuery: q } })),
+    set((state) => ({ draftFilters: { ...state.draftFilters, semanticQuery: q } })),
 
   toggleSelect: (id: string) =>
     set((state) => {
@@ -66,8 +115,19 @@ export const useWorkspaceStore = create<WorkspaceState>()((set, get) => ({
 
   setSimilarSeed: (id: string | null) => set({ similarSeedId: id }),
 
+  togglePanel: () => set((state) => ({ panelOpen: !state.panelOpen })),
+
+  setLoadedPresetName: (name: string | null) => set({ loadedPresetName: name }),
+
+  setDraftFilterName: (name: string) => set({ draftFilterName: name }),
+
   structuredFilters: (): ReportFilters => {
     const { semanticQuery: _sq, ...rest } = get().filters
     return rest
+  },
+
+  isDirty: (): boolean => {
+    const { filters, draftFilters } = get()
+    return FILTER_KEYS.some((k) => filters[k] !== draftFilters[k])
   },
 }))
