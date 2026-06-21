@@ -15,5 +15,9 @@ Added `rank(query, ids) -> dict[str, float]` abstract method to `ISemanticSearch
 
 Extended `ReportFilters` in `domain/repositories/report_repository.py`: replaced single-value `report_type_id`, `urgency`, `status` with plural list fields (`report_type_ids`, `urgencies`, `statuses`); added `text: str | None = None`. Added `find_page` abstract method. Updated `SQLAlchemyReportRepository.find_all` to use `.in_()` and `.ilike()`, and implemented `find_page` with count subquery + offset/limit. Updated two `ReportFilters(...)` constructors in `reports.py` router (wrapping single values in lists). Pyright: 65 pre-existing errors, none introduced by this step. Gotcha: `find_page` also needed a concrete implementation to satisfy abstract class; the import of `func`/`desc` was moved inside the method to avoid polluting module scope.
 
+### Step 4 — 2026-06-21
+
+Created `QueryReports` use case at `src/fala_gavea/application/use_cases/reports/query_reports.py`. Two paths: semantic (q + search_port → filter SQL with order="none"/candidate_cap → rank in memory → sort desc by score → paginate slice) and recency (find_page with order="recent"). Returns `QueryPage(items, total, limit, offset, ranked_by)`. Tests in `tests/test_query_reports.py` cover: score ordering, pagination slicing, recency fallback (no q), search_port=None fallback, max_results cap. All 5 tests pass. Pyright: 66 pre-existing errors, none from this step.
+
 ### Step 8 — 2026-06-21
 Added cross-reference dependency note to plan-000131: FilterPanel/views now read through `POST /reports/query` (plan-000132); `useFilteredReports`/`useSemanticSearch` retargeted in Step 7; R2 catch-all guard remains independent.
