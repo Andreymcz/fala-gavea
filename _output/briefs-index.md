@@ -5,7 +5,7 @@
 
 | Date | Skill | Brief | Status | Plan | Head SHA | Generated |
 |------|-------|-------|--------|------|----------|-----------|
-| 2026-06-21 18:26 UTC | implement | 132 | STARTED |  |  |  |
+| 2026-06-21 18:26 UTC | implement | 132 | DONE |  |  |  |
 | 2026-06-21 18:21 UTC | research | NL to SQL in the context of this project. follow research 129, 130, plan 131/13… | DONE |  |  |  |
 | 2026-06-21 18:13 UTC | plan | Phase B unified POST /reports/query (multi-value filters + bbox + date range + … | DONE | 000132 |  |  |
 | 2026-06-21 17:15 UTC | plan | Implement research-000129: staged filter + Apply button (R1/D-009), fix Tipos c… | DONE | 000131 |  |  |

@@ -1,4 +1,4 @@
-# Plan 000132 | REDESIGN-B | 2026-06-21 18:13 UTC | Unified reports query API (Phase B) | Review: standard
+# DONE | 2026-06-21 18:39 UTC | Plan 000132 | REDESIGN-B | 2026-06-21 18:13 UTC | Unified reports query API (Phase B) | Review: standard
 plan_format_version: 1
 
 source: research-000130 -- unified POST /reports/query (multi-value + bbox + date range + semantic ranker + pagination); NL assistant (Phase A) + saved filters (Phase C) deferred
@@ -138,3 +138,29 @@ The design was evaluated end-to-end by the `research-reviewer` at research-00013
 - Backend only: `uv run pytest` then restart the API (`uv run uvicorn fala_gavea.presentation.api.main:app`).
 - Frontend: `cd frontend && npm run build` (or `npm run dev` against the API) so the workspace exercises the new endpoint.
 - No DB migration in Phase B. (Phase C saved filters will add one.)
+
+---
+
+## Implementation Summary
+
+**Completed**: 2026-06-21 18:39 UTC | 8/8 steps | 7 iterations (Steps 1+3+8 parallel, then 2+4 parallel, then 5, then 7)
+
+### Steps completed
+- [x] Step 1: Extended `ReportFilters` to multi-value (`report_type_ids`, `urgencies`, `statuses`) + `text`; added `find_page` abstract method; updated SQLAlchemy `find_all` to `.in_()`/`.ilike()` and implemented `find_page` with count subquery + offset/limit.
+- [x] Step 2: Tests for SQLAlchemy repo — 7 tests covering multi-value IN, ilike, find_page ordering/pagination/candidate_cap. All pass.
+- [x] Step 3: Added `rank(query, ids) -> dict[str, float]` to `ISemanticSearchPort` and implemented in `ChromaSearchClient` using cosine similarity.
+- [x] Step 4: Created `QueryReports` use case with `QueryPage` dataclass; two-path logic (semantic rank-in-memory vs recency SQL). 5 tests with fake in-memory implementations.
+- [x] Step 5: `POST /reports/query` endpoint with `ReportQueryRequest`/`ReportQueryItem`/`ReportQueryResponse` schemas; 6 API tests all green.
+- [x] Step 6: Legacy call sites (`/reports/geojson`, `/reports/keywords`) already updated in Step 1 to wrap singletons in lists.
+- [x] Step 7: Frontend retarget — added `queryReports()` to `api.ts`, new types to `types.ts`, rewrote `useFilteredReports` as single unified `useQuery`; 33/33 frontend tests pass.
+- [x] Step 8: Cross-reference note added to plan-000131.
+
+### Quality Gate
+- pytest: 136 passed
+- ruff: 7 unused import warnings (auto-fixed)
+- Frontend tests: 33 passed, tsc clean
+
+### Generator-Critic Iterations
+- Iteration count: 0/2
+- Findings per iteration: []
+- Resolution status: all resolved

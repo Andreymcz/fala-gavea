@@ -5,9 +5,8 @@
 
 | Date | Type | ID | Title | Status | File |
 |------|------|----|-------|--------|------|
-| 2026-06-21 18:26 UTC | Other |  | Progress -- Plan 000132 |  | [plan-000132-progress.md](plans/plan-000132-progress.md) |
 | 2026-06-21 18:21 | Research | 000133 | NL to SQL for reports exploration | DONE | [research-000133-nl-to-sql-reports-exploration.md](research-logs/research-000133-nl-to-sql-reports-exploration.md) |
-| 2026-06-21 18:13 UTC | Plan | 000132 | Unified reports query API (Phase B) | OPEN | [plan-000132-unified-reports-query-api-phase-b.md](plans/plan-000132-unified-reports-query-api-phase-b.md) |
+| 2026-06-21 18:13 UTC | Plan | 000132 | Unified reports query API (Phase B) | DONE | [plan-000132-unified-reports-query-api-phase-b.md](plans/plan-000132-unified-reports-query-api-phase-b.md) |
 | 2026-06-21 17:20 UTC | QA Log |  | plan-000131 | Refine data exploration search filters |  | [plan-000131-qa-refine-data-exploration-search-filters.md](plans/plan-000131-qa-refine-data-exploration-search-filters.md) |
 | 2026-06-21 17:15 | Plan | 000131 | Refine data exploration search filters | OPEN | [plan-000131-refine-data-exploration-search-filters.md](plans/plan-000131-refine-data-exploration-search-filters.md) |
 | 2026-06-21 17:15 | Research | 000130 | Filter assistant: NL to query params, unified query API, saved filters | DONE | [research-000130-filter-assistant-nl-to-query-params.md](research-logs/research-000130-filter-assistant-nl-to-query-params.md) |
@@ -26,6 +25,7 @@
 | 2026-06-21 12:46 UTC | Research | 000122 | Reduce Memory Usage — Railway Deployment | DONE | [research-000122-reduce-memory-usage-railway.md](research-logs/research-000122-reduce-memory-usage-railway.md) |
 | 2026-06-21 00:15 UTC | Research | 000121 | Métrica de similaridade relativa ao corpus | DONE | [research-000121-similarity-metric-relative-corpus.md](research-logs/research-000121-similarity-metric-relative-corpus.md) |
 | 2026-06-21 00:00:00 UTC | Other |  | Communications -- 2026-06-21 |  | [index.md](communication/2026-06-21/index.md) |
+| 2026-06-21 00:00:00 UTC | Other |  | Progress -- Plan 000132 |  | [plan-000132-progress.md](plans/plan-000132-progress.md) |
 | 2026-06-20 23:55 UTC | Other |  | Plan 000115 QA | CHORE -O | 2026-06-20 23:55 UTC | Railway deploy fixes |  | [plan-000115-qa-railway-deploy-fixes.md](plans/plan-000115-qa-railway-deploy-fixes.md) |
 | 2026-06-20 23:54 UTC | Other |  | Plan 000115 | CHORE -O | 2026-06-20 23:54 UTC | Railway deploy fixes | Review: … |  | [plan-000115-railway-deploy-fixes.md](plans/plan-000115-railway-deploy-fixes.md) |
 | 2026-06-20 23:54 UTC | RESERVED | 000115 | plan: Railway deploy fixes | RESERVED |  |

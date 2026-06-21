@@ -1,6 +1,6 @@
 # Briefs Log
 
-STARTED | 2026-06-21 18:26 UTC | implement | 132
+DONE | 2026-06-21 18:40 UTC | STARTED | 2026-06-21 18:26 UTC | implement | 132
 
 DONE | 2026-06-21 18:27 UTC | STARTED | 2026-06-21 18:21 UTC | research | NL to SQL in the context of this project. follow research 129, 130, plan 131/132. NL->SQL as a powerful exploration/analysis tool given full control of the DB; plan 132's fixed query-params format is not flexible/powerful enough to express the full set of SQL possibilities. What alternatives do we have?
 

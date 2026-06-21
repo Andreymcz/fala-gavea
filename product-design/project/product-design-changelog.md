@@ -1,5 +1,15 @@
 # AS-CODED CHANGELOG — fala-gavea
 
+### v11 -- 2026-06-21
+- **Added**: `POST /reports/query` unified endpoint — multi-value filters (`report_type_ids[]`, `urgencies[]`, `statuses[]`), `bbox`, `since`/`until`, `text` ILIKE, optional `q` semantic rank; response envelope `{items, total, limit, offset, ranked_by}`; `ReportQueryRequest`/`ReportQueryItem`/`ReportQueryResponse` Pydantic schemas
+- **Added**: `rank(query, ids) -> dict[str, float]` on `ISemanticSearchPort` (cosine similarity, no metadata mirroring); implemented in `ChromaSearchClient`
+- **Added**: `find_page(filters, *, limit, offset, order, candidate_cap)` on `IReportRepository`; SQLAlchemy impl with count subquery + offset/limit
+- **Added**: `QueryReports` use case (`application/use_cases/reports/query_reports.py`) — SQL filter → optional Chroma rank in-memory → paginate; `QueryPage` dataclass
+- **Changed**: `ReportFilters` — single-value `report_type_id`/`urgency`/`status` replaced by plural lists; `text: str | None` added; legacy `/geojson` + `/keywords` wrap singletons transparently
+- **Changed**: Frontend `useFilteredReports` — retargeted from dual GeoJSON+semantic calls to single `queryReports(POST /reports/query)`; `count = total` from envelope
+- **Source**: agent (post-skill)
+- **Plan**: plan-000132
+
 ### v1 -- 2026-06-19
 - **Added**: Semantic AI foundation (Wave 0): deps chromadb/sentence-transformers/bertopic, domain ports IReportIndexer/ISemanticSearchPort/ITopicModelPort, EmbeddingProviderRegistry, ChromaSearchClient
 - **Source**: agent (post-skill)
