@@ -28,6 +28,7 @@ export interface ReportProperties {
   author_id: string;
   photo_url: string | null;
   created_at: string;
+  score?: number | null;
 }
 
 export interface ReportFeature {

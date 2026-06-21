@@ -18,15 +18,21 @@ export function intersectByScore(
   return result
 }
 
-export function useFilteredReports() {
+export interface UseFilteredReportsOptions {
+  limit?: number
+  offset?: number
+}
+
+export function useFilteredReports(options?: UseFilteredReportsOptions) {
   const filters = useWorkspaceStore((s) => s.filters)
   const { semanticQuery, urgency, status, type_id, since, until, bbox } = filters
 
   const semanticActive = Boolean(semanticQuery && semanticQuery.trim().length > 0)
 
   const body: ReportQueryBody = {
-    limit: 200,
+    limit: options?.limit ?? 200,
   }
+  if (options?.offset) body.offset = options.offset
   if (type_id) body.report_type_ids = [type_id]
   if (urgency) body.urgencies = [urgency]
   if (status) body.statuses = [status]
@@ -54,12 +60,15 @@ export function useFilteredReports() {
       author_id: item.author_id,
       photo_url: item.photo_url,
       created_at: item.created_at,
+      score: item.score,
     },
   }))
 
   return {
     features,
     count: data?.total ?? 0,
+    total: data?.total ?? 0,
+    ranked_by: data?.ranked_by ?? null,
     isLoading,
     semanticActive,
     semanticTruncated: false,
