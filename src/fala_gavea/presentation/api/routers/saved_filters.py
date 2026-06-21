@@ -40,7 +40,7 @@ def _to_response(sf: SavedFilter) -> SavedFilterResponse:
     )
 
 
-@router.post("/", response_model=SavedFilterResponse, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=SavedFilterResponse, status_code=status.HTTP_201_CREATED)
 def create_saved_filter(
     payload: SavedFilterCreate,
     current_user: User = Depends(get_current_user),
@@ -57,7 +57,7 @@ def create_saved_filter(
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e))
 
 
-@router.get("/", response_model=list[SavedFilterResponse])
+@router.get("", response_model=list[SavedFilterResponse])
 def list_saved_filters(
     current_user: User = Depends(get_current_user),
     repo: ISavedFilterRepository = Depends(get_saved_filter_repo),

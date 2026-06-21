@@ -9,7 +9,7 @@ def _create_filter(client, headers: dict, name: str = "My Filter", body: dict | 
     if body is None:
         body = {"status": "pendente", "urgency": "alta"}
     resp = client.post(
-        "/saved-filters/",
+        "/saved-filters",
         json={"name": name, "body": body},
         headers=headers,
     )
@@ -22,7 +22,7 @@ def _create_filter(client, headers: dict, name: str = "My Filter", body: dict | 
 # ---------------------------------------------------------------------------
 
 def test_unauthenticated_post_returns_401(client):
-    resp = client.post("/saved-filters/", json={"name": "x", "body": {}})
+    resp = client.post("/saved-filters", json={"name": "x", "body": {}})
     assert resp.status_code == 401
 
 
@@ -39,7 +39,7 @@ def test_create_returns_201_with_fields(client, citizen_headers):
 
 def test_list_returns_created_item(client, citizen_headers):
     _create_filter(client, citizen_headers, name="Filter B")
-    resp = client.get("/saved-filters/", headers=citizen_headers)
+    resp = client.get("/saved-filters", headers=citizen_headers)
     assert resp.status_code == 200
     names = [f["name"] for f in resp.json()]
     assert "Filter B" in names
