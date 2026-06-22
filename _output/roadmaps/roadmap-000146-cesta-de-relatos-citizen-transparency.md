@@ -77,3 +77,19 @@ Depends on Wave 0 #4 (`set-similarity`). Execute after Wave 0. Run `cd frontend 
 
 ## Implementation directive (from user)
 Implement each wave as it is planned, **with a clean (fresh, isolated) context at every implementation start** — each phase runs in its own cold agent context. Verify (tests + lint) between waves before proceeding to the next.
+
+## Implementation Status — DONE (2026-06-22)
+
+All three waves implemented, each in a fresh isolated agent context (per the directive above), and committed sequentially in dependency order.
+
+| Wave | Items | Commit | Verification |
+|------|-------|--------|-------------|
+| Wave 0 — backend | author-filter, public-forwarding-read, report-forwardings-reverse, set-similarity | `95b5085` | `uv run pytest`: 189 passed |
+| Wave 1 — agent cesta | cesta-de-relatos (badge + view + similar-open + inline create; SelectionBar removed) | `e9cd693` | `npm run test`: 111 passed; build clean |
+| Wave 2 — citizen UX | citizen-inline-create, citizen-transparency-views | `f422022` | `npm run test`: 126 passed; build clean |
+
+Final combined verification: backend **189 passed** (1 pre-existing unrelated failure: `test_static_spa::test_api_works_without_static_dir`), frontend **126 passed**, `vite build` clean.
+
+New backend endpoints: `GET /forwardings/public[/{id}]`, `GET /reports/{id}/forwardings`, `POST /reports/similar-to-set` (agent+admin), `author_id` filter on `GET /reports/geojson` + `POST /reports/query`.
+
+Notes: implementations were executed directly by isolated agents from this roadmap's per-item specs rather than via separate `/plan` files, so the `Plan` columns above remain `plan-TBD` by design (the work item specs in this roadmap served as the plans). One pre-existing failing test and pre-existing lint/type debt in untouched files were left as-is.

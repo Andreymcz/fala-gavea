@@ -1,5 +1,7 @@
 # Briefs Log
 
+DONE | 2026-06-22 21:00 UTC | STARTED | 2026-06-22 20:52 UTC | implement | roadmap-000146 all waves (Wave 0 backend 95b5085, Wave 1 cesta e9cd693, Wave 2 citizen UX f422022); each wave in fresh isolated agent context per user directive | ROADMAP | 000146
+
 DONE | 2026-06-22 20:51 UTC | STARTED | 2026-06-22 20:02 UTC | plan | Roadmap: implement research-000145 (cesta de relatos + citizen transparency journeys) in dependency-aware waves. source: research-000145 | PLAN | 000146
 
 DONE | 2026-06-22 19:59 UTC | STARTED | 2026-06-22 19:46 UTC | research | cesta de relatos (agent journey) + citizen transparency journeys. Anchored on reflection-000144. Basket as first-class component, set-similarity for open reports, basket-vs-SelectionBar; citizen inline relato creation + relatos/encaminhamentos read surfaces + relato-encaminhamento links (gap: forwarding endpoints agent+admin only)
