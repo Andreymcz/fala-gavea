@@ -538,6 +538,42 @@ _N/A — projeto greenfield._
 
 *Source: from research-000129 (2026-06-21)*
 
+### D-010: "Relato aberto" = somente status `pendente`
+
+**Context**: A cesta de relatos verifica se o conjunto selecionado tem relatos similares "abertos"; o enum ReportStatus nao possui `aberto`.
+**Decision**: "Aberto" mapeia para `ReportStatus.pendente` apenas. `em_analise`, `encaminhado` e `resolvido` nao sao candidatos a duplicata.
+**Consequences**: Relatos em analise nao aparecem como similares-abertos na cesta.
+**Rejected Alternatives**: pendente+em_analise; tudo exceto resolvido.
+
+*Source: research-000145 (2026-06-22)*
+
+### D-011: Leitura de encaminhamentos e publica (sem login)
+
+**Context**: Jornada de transparencia cidada; endpoints de forwarding eram todos agent+admin.
+**Decision**: Novas rotas GET publicas (`/forwardings/public`, `/forwardings/public/{id}`, `/reports/{id}/forwardings`) com schema sem `agent_id`; POST/PATCH seguem agent+admin.
+**Consequences**: `proposed_solution` torna-se mundo-legivel e deve ser escrito como texto voltado ao cidadao.
+**Rejected Alternatives**: apenas usuarios logados; cidadao ve apenas os seus.
+
+*Source: research-000145 (2026-06-22)*
+
+### D-012: Lista de relatos do cidadao = todos + filtro "meus relatos"
+
+**Context**: Cidadao quer transparencia geral e tambem acompanhar os proprios relatos.
+**Decision**: Manter a lista publica de todos os relatos e adicionar `author_id` a ReportFilters/queries + toggle "Meus relatos" no FilterPanel.
+**Consequences**: Filtro de autor exige plumbing no repositorio SQLAlchemy + indice em `reports.author_id`.
+**Rejected Alternatives**: somente meus; somente todos.
+
+*Source: research-000145 (2026-06-22)*
+
+### D-013: "Cesta de relatos" eleva `selectedIds` (substitui SelectionBar flutuante)
+
+**Context**: `selectedIds` ja e alimentado por mapa e tabela; faltava uma superficie de primeira classe.
+**Decision**: Badge de contagem no Header + view `cesta` (par de map/table) com revisao + similares-abertos + criacao inline; remover o SelectionBar flutuante.
+**Consequences**: Sem novo estado de selecao; sem mudanca de schema.
+**Rejected Alternatives**: estado de cesta separado; manter SelectionBar + view.
+
+*Source: research-000145 (2026-06-22)*
+
 ## CHANGELOG
 
 2026-06-17 | D-001 | added | - | Decisao de novo projeto independente via python-scaffold (roadmap-000071 D-A)
