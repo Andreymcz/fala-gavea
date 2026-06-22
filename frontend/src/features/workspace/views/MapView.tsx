@@ -1,13 +1,16 @@
 import { useState, useCallback } from 'react'
-import { MapContainer, TileLayer, useMap, useMapEvents } from 'react-leaflet'
+import { useNavigate } from 'react-router-dom'
+import { MapContainer, TileLayer, Marker, useMap, useMapEvents } from 'react-leaflet'
 import MarkerClusterGroup from 'react-leaflet-cluster'
 import 'leaflet/dist/leaflet.css'
 import type { LatLng, LatLngBounds } from 'leaflet'
 import { ReportMarkers } from '@/features/map/ReportMarkers'
+import { InlineReportDialog } from '@/features/report/InlineReportDialog'
 import { useFilteredReports } from '@/hooks/useFilteredReports'
 import { useReportTypes } from '@/hooks/useReportTypes'
 import { useAuth } from '@/auth/AuthContext'
 import { useWorkspaceStore } from '@/store/workspaceStore'
+import { toast } from '@/components/ui/toast'
 
 const GAVEA_CENTER: [number, number] = [-22.9731, -43.2272]
 const DEFAULT_ZOOM = 15
@@ -42,6 +45,25 @@ function BboxDrawHandler({ drawing, onBboxCommit, onDrawEnd }: BboxDrawHandlerPr
     },
   })
 
+  return null
+}
+
+// ────────────────────────────────────────────────────────────
+// AddReportHandler — captures the next map click while the
+// "Adicionar relato aqui" mode is armed.
+// ────────────────────────────────────────────────────────────
+interface AddReportHandlerProps {
+  arming: boolean
+  onPick: (latlng: LatLng) => void
+}
+
+function AddReportHandler({ arming, onPick }: AddReportHandlerProps) {
+  useMapEvents({
+    click(e) {
+      if (!arming) return
+      onPick(e.latlng)
+    },
+  })
   return null
 }
 
@@ -98,6 +120,7 @@ function MapControls({ onFilterArea, onClearArea, hasBbox }: MapControlsProps) {
 // ────────────────────────────────────────────────────────────
 export function MapView() {
   const { user } = useAuth()
+  const navigate = useNavigate()
   const isAgent = user?.role === 'agent' || user?.role === 'admin'
 
   const { features } = useFilteredReports()
@@ -110,8 +133,12 @@ export function MapView() {
   const currentBbox = useWorkspaceStore((s) => s.filters.bbox)
 
   const [drawing, setDrawing] = useState(false)
+  const [addingReport, setAddingReport] = useState(false)
+  const [pickedPoint, setPickedPoint] = useState<{ lat: number; lon: number } | null>(null)
 
   const handleDrawStart = useCallback(() => {
+    // Arm modes are mutually exclusive: drawing disarms add-report.
+    setAddingReport(false)
     setDrawing(true)
   }, [])
 
@@ -140,9 +167,33 @@ export function MapView() {
     [setBbox],
   )
 
+  const handleAddReportArm = useCallback(() => {
+    if (!user) {
+      toast('Faça login para adicionar um relato.', 'info')
+      navigate('/login')
+      return
+    }
+    // Arm modes are mutually exclusive: add-report disarms bbox draw.
+    setDrawing(false)
+    setAddingReport(true)
+  }, [user, navigate])
+
+  const handleAddReportCancel = useCallback(() => {
+    setAddingReport(false)
+  }, [])
+
+  const handlePickPoint = useCallback((latlng: LatLng) => {
+    setPickedPoint({ lat: latlng.lat, lon: latlng.lng })
+    setAddingReport(false)
+  }, [])
+
+  const handleDialogChange = useCallback((open: boolean) => {
+    if (!open) setPickedPoint(null)
+  }, [])
+
   return (
     <div className="relative flex-1 h-full min-h-[300px] min-w-[300px]">
-      {/* Bbox controls overlay */}
+      {/* Bbox + add-report controls overlay */}
       <div
         className="absolute top-2 right-2 z-[1000] flex gap-2"
         style={{ zIndex: 1000 }}
@@ -162,6 +213,35 @@ export function MapView() {
         >
           {drawing ? 'Clique 2x no mapa…' : 'Desenhar área'}
         </button>
+        {addingReport ? (
+          <button
+            type="button"
+            onClick={handleAddReportCancel}
+            aria-pressed={true}
+            aria-label="Cancelar adição de relato"
+            className={[
+              'min-h-[44px] px-3 py-2 rounded-md text-sm font-medium shadow',
+              'bg-green-600 text-white border border-green-700',
+              'hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500',
+            ].join(' ')}
+          >
+            Clique no mapa… (cancelar)
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={handleAddReportArm}
+            aria-pressed={false}
+            aria-label="Adicionar relato clicando no mapa"
+            className={[
+              'min-h-[44px] px-3 py-2 rounded-md text-sm font-medium shadow',
+              'bg-white border border-green-400 text-green-700',
+              'hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-green-500',
+            ].join(' ')}
+          >
+            Adicionar relato aqui
+          </button>
+        )}
         {currentBbox && (
           <button
             type="button"
@@ -193,11 +273,15 @@ export function MapView() {
           onBboxCommit={handleBboxCommit}
           onDrawEnd={handleDrawEnd}
         />
+        <AddReportHandler arming={addingReport} onPick={handlePickPoint} />
         <MapControls
           onFilterArea={handleFilterArea}
           onClearArea={handleClear}
           hasBbox={!!currentBbox}
         />
+        {pickedPoint && (
+          <Marker position={[pickedPoint.lat, pickedPoint.lon]} />
+        )}
         <MarkerClusterGroup>
           <ReportMarkers
             features={features}
@@ -208,6 +292,16 @@ export function MapView() {
           />
         </MarkerClusterGroup>
       </MapContainer>
+
+      {pickedPoint && (
+        <InlineReportDialog
+          key={`${pickedPoint.lat},${pickedPoint.lon}`}
+          open={true}
+          lat={pickedPoint.lat}
+          lon={pickedPoint.lon}
+          onOpenChange={handleDialogChange}
+        />
+      )}
     </div>
   )
 }

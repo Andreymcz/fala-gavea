@@ -10,6 +10,28 @@ export function useForwardings(filters: ForwardingFilters = {}) {
   });
 }
 
+/** Public (no-auth) forwardings list — D-011. Omits agent_id. */
+export function usePublicForwardings(status?: ForwardingStatus) {
+  return useQuery({
+    queryKey: ["forwardings", "public", status ?? null],
+    queryFn: () => api.getPublicForwardings(status),
+    staleTime: 30_000,
+  });
+}
+
+/**
+ * Encaminhamentos linked to a report (public). Lazy: pass enabled=false to
+ * avoid firing one request per row on initial render.
+ */
+export function useReportForwardings(reportId: string | null, enabled = true) {
+  return useQuery({
+    queryKey: ["reports", "forwardings", reportId],
+    queryFn: () => api.getReportForwardings(reportId!),
+    enabled: enabled && !!reportId,
+    staleTime: 30_000,
+  });
+}
+
 export function useCreateForwarding() {
   const qc = useQueryClient();
   return useMutation({

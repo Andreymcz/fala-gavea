@@ -45,6 +45,8 @@ export function ActiveFilterChips() {
         return `Até: ${formatDate(value)}`
       case 'bbox':
         return 'Área do mapa'
+      case 'author_id':
+        return 'Meus relatos'
       case 'semanticQuery': {
         const q = value.length > 20 ? value.slice(0, 20) + '...' : value
         return `Busca: "${q}"`

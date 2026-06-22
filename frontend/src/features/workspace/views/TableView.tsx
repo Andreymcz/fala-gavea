@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useFilteredReports } from '@/hooks/useFilteredReports'
+import { useReportForwardings } from '@/hooks/useForwardings'
 import { useWorkspaceStore } from '@/store/workspaceStore'
 import { useReportTypes } from '@/hooks/useReportTypes'
 import { Button } from '@/components/ui/button'
@@ -87,6 +88,31 @@ function sortIcon(key: SortKey, config: SortConfig | null): string {
 function ariaSortValue(key: SortKey, config: SortConfig | null): 'ascending' | 'descending' | 'none' {
   if (!config || config.key !== key) return 'none'
   return config.dir === 'asc' ? 'ascending' : 'descending'
+}
+
+const FWD_STATUS_LABEL: Record<string, string> = {
+  aguardando_solucao: 'aguardando solução',
+  solucao_em_andamento: 'em andamento',
+  finalizado: 'finalizado',
+}
+
+/**
+ * Linked-encaminhamento line for the report detail dialog. Lazy: only mounts
+ * (and fetches) when the dialog is open for a given report.
+ */
+function ReportDetailForwardings({ reportId }: { reportId: string }) {
+  const { data: forwardings = [] } = useReportForwardings(reportId)
+  if (forwardings.length === 0) return null
+  return (
+    <div className="space-y-0.5 border-t border-gray-100 pt-2">
+      <p className="text-xs text-gray-500 uppercase">Encaminhamentos</p>
+      {forwardings.map((f) => (
+        <p key={f.id} className="text-sm text-gray-700">
+          Encaminhado → {f.institution} · {FWD_STATUS_LABEL[f.status] ?? f.status}
+        </p>
+      ))}
+    </div>
+  )
 }
 
 // ─── Component ───────────────────────────────────────────────────────────────
@@ -394,6 +420,7 @@ export function TableView() {
                       <dd>{new Date(p.created_at).toLocaleDateString('pt-BR')}</dd>
                     </div>
                   </dl>
+                  <ReportDetailForwardings reportId={p.id} />
                   <div className="flex justify-between pt-2">
                     <Button
                       size="sm"

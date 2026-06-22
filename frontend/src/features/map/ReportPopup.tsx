@@ -1,5 +1,6 @@
 import type { ReportFeature } from "@/lib/types";
 import { Badge } from "@/components/ui/badge";
+import { useReportForwardings } from "@/hooks/useForwardings";
 
 const URGENCY_LABEL: Record<string, string> = {
   alta: "Alta",
@@ -12,6 +13,12 @@ const STATUS_LABEL: Record<string, string> = {
   em_analise: "Em análise",
   encaminhado: "Encaminhado",
   resolvido: "Resolvido",
+};
+
+const FWD_STATUS_LABEL: Record<string, string> = {
+  aguardando_solucao: "aguardando solução",
+  solucao_em_andamento: "em andamento",
+  finalizado: "finalizado",
 };
 
 interface ReportPopupProps {
@@ -33,6 +40,10 @@ export function ReportPopup({
   const typeName = typeMap.get(p.report_type_id) ?? p.report_type_id;
   const dateStr = new Date(p.created_at).toLocaleDateString("pt-BR");
 
+  // Lazy: the popup (and this component) only mounts when the marker is opened,
+  // so we do not fire one request per report on initial map render.
+  const { data: forwardings = [] } = useReportForwardings(p.id);
+
   return (
     <div className="min-w-[200px] space-y-1.5 text-sm">
       <p className="font-semibold">{typeName}</p>
@@ -45,6 +56,15 @@ export function ReportPopup({
           {STATUS_LABEL[p.status]}
         </Badge>
       </div>
+      {forwardings.length > 0 && (
+        <div className="space-y-0.5 border-t border-gray-100 pt-1">
+          {forwardings.map((f) => (
+            <p key={f.id} className="text-xs text-gray-600">
+              Encaminhado → {f.institution} · {FWD_STATUS_LABEL[f.status] ?? f.status}
+            </p>
+          ))}
+        </div>
+      )}
       <p className="text-gray-400 text-xs">{dateStr}</p>
       {isAgent && onToggleSelect && (
         <label className="flex items-center gap-1.5 cursor-pointer mt-1">

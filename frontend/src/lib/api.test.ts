@@ -146,6 +146,32 @@ describe("api client", () => {
     expect(result).toBeUndefined();
   });
 
+  it("getPublicForwardings GETs /forwardings/public without auth header", async () => {
+    localStorage.setItem("fala_gavea_token", "tok");
+    const mockFetch = vi.fn().mockResolvedValue({ ok: true, status: 200, json: () => Promise.resolve([]) });
+    vi.stubGlobal("fetch", mockFetch);
+
+    await api.getPublicForwardings("finalizado");
+
+    const [url, init] = mockFetch.mock.calls[0];
+    expect(url).toContain("/forwardings/public");
+    expect(url).toContain("status=finalizado");
+    expect(init.method).toBe("GET");
+    // public: true → no Authorization header even when a token exists
+    expect(init.headers["Authorization"]).toBeUndefined();
+  });
+
+  it("getReportForwardings GETs /reports/:id/forwardings (public)", async () => {
+    const mockFetch = vi.fn().mockResolvedValue({ ok: true, status: 200, json: () => Promise.resolve([]) });
+    vi.stubGlobal("fetch", mockFetch);
+
+    await api.getReportForwardings("r-1");
+
+    const [url, init] = mockFetch.mock.calls[0];
+    expect(url).toContain("/reports/r-1/forwardings");
+    expect(init.method).toBe("GET");
+  });
+
   it("queryReports POSTs to /reports/query with JSON body", async () => {
     const mockResponse = {
       items: [],

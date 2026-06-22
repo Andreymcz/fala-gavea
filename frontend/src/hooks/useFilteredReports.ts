@@ -25,7 +25,7 @@ export interface UseFilteredReportsOptions {
 
 export function useFilteredReports(options?: UseFilteredReportsOptions) {
   const filters = useWorkspaceStore((s) => s.filters)
-  const { semanticQuery, urgency, status, type_id, since, until, bbox } = filters
+  const { semanticQuery, urgency, status, type_id, author_id, since, until, bbox } = filters
 
   const semanticActive = Boolean(semanticQuery && semanticQuery.trim().length > 0)
 
@@ -36,6 +36,7 @@ export function useFilteredReports(options?: UseFilteredReportsOptions) {
   if (type_id) body.report_type_ids = [type_id]
   if (urgency) body.urgencies = [urgency]
   if (status) body.statuses = [status]
+  if (author_id) body.author_id = author_id
   if (since) body.since = since
   if (until) body.until = until
   if (bbox) body.bbox = bbox

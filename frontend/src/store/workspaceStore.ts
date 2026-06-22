@@ -4,7 +4,7 @@ import type { WorkspaceFilters, ReportFilters, UserRole } from '@/lib/types'
 export type ViewId = 'map' | 'table' | 'keywords' | 'similars' | 'chat' | 'cesta'
 
 const FILTER_KEYS: (keyof WorkspaceFilters)[] = [
-  'urgency', 'status', 'type_id', 'since', 'until', 'bbox', 'semanticQuery',
+  'urgency', 'status', 'type_id', 'author_id', 'since', 'until', 'bbox', 'semanticQuery',
 ]
 
 interface WorkspaceState {

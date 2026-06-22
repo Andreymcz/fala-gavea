@@ -44,12 +44,18 @@ export function Header() {
               Novo relato
             </Link>
           )}
+          <Link
+            to="/encaminhamentos"
+            className="text-sm text-gray-600 hover:text-gray-900"
+          >
+            Encaminhamentos
+          </Link>
           {user && (user.role === "agent" || user.role === "admin") && (
             <Link
               to="/agent"
               className="text-sm text-gray-600 hover:text-gray-900"
             >
-              Encaminhamentos
+              Gerenciar encaminhamentos
             </Link>
           )}
           {user?.role === "admin" && (

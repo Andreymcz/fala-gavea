@@ -100,9 +100,21 @@ export interface ReportFilters {
   urgency?: Urgency;
   status?: ReportStatus;
   type_id?: string;
+  author_id?: string;
   since?: string;
   until?: string;
   bbox?: string;
+}
+
+/** Public-facing forwarding view (D-011): OMITS agent_id. */
+export interface PublicForwarding {
+  id: string;
+  institution: string;
+  proposed_solution: string;
+  status: ForwardingStatus;
+  reports: ReportSummary[];
+  created_at: string;
+  updated_at: string;
 }
 
 export interface ForwardingFilters {
@@ -148,6 +160,7 @@ export interface ReportQueryBody {
   until?: string;
   bbox?: string;
   text?: string;
+  author_id?: string;
   q?: string;
   limit?: number;
   offset?: number;

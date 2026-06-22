@@ -10,6 +10,7 @@ import type {
   ReportFilters,
   ForwardingFilters,
   ForwardingStatus,
+  PublicForwarding,
   KeywordListResponse,
   ReportSearchResult,
   ChatRequest,
@@ -133,6 +134,19 @@ export const api = {
 
   getForwarding(id: string): Promise<Forwarding> {
     return request<Forwarding>("GET", `/forwardings/${id}`);
+  },
+
+  getPublicForwardings(status?: ForwardingStatus): Promise<PublicForwarding[]> {
+    const q = buildQuery({ status });
+    return request<PublicForwarding[]>("GET", `/forwardings/public${q}`, { public: true });
+  },
+
+  getPublicForwarding(id: string): Promise<PublicForwarding> {
+    return request<PublicForwarding>("GET", `/forwardings/public/${id}`, { public: true });
+  },
+
+  getReportForwardings(reportId: string): Promise<PublicForwarding[]> {
+    return request<PublicForwarding[]>("GET", `/reports/${reportId}/forwardings`, { public: true });
   },
 
   createForwarding(body: CreateForwardingBody): Promise<Forwarding> {

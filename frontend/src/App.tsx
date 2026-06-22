@@ -11,6 +11,7 @@ import { lazy, Suspense } from "react";
 const WorkspacePage = lazy(() => import("@/features/workspace/WorkspacePage").then(m => ({ default: m.WorkspacePage })));
 const ReportFormPage = lazy(() => import("@/features/report/ReportFormPage").then(m => ({ default: m.ReportFormPage })));
 const ForwardingsPage = lazy(() => import("@/features/forwardings/ForwardingsPage").then(m => ({ default: m.ForwardingsPage })));
+const PublicForwardingsPage = lazy(() => import("@/features/forwardings/PublicForwardingsPage").then(m => ({ default: m.PublicForwardingsPage })));
 const LoginPage = lazy(() => import("@/features/auth/LoginPage").then(m => ({ default: m.LoginPage })));
 const RegisterPage = lazy(() => import("@/features/auth/RegisterPage").then(m => ({ default: m.RegisterPage })));
 const AdminPage = lazy(() => import("@/features/admin/AdminPage").then(m => ({ default: m.AdminPage })));
@@ -35,6 +36,14 @@ export default function App() {
                 element={
                   <Suspense fallback={<LoadingFallback />}>
                     <WorkspacePage />
+                  </Suspense>
+                }
+              />
+              <Route
+                path="/encaminhamentos"
+                element={
+                  <Suspense fallback={<LoadingFallback />}>
+                    <PublicForwardingsPage />
                   </Suspense>
                 }
               />

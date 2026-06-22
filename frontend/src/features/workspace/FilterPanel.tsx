@@ -69,7 +69,7 @@ export function FilterPanel() {
   const setNLSuggestion = useWorkspaceStore((s) => s.setNLSuggestion)
   const applyNLSuggestion = useWorkspaceStore((s) => s.applyNLSuggestion)
 
-  const { token } = useAuth()
+  const { token, user } = useAuth()
 
   const { data: reportTypes = [] } = useReportTypes()
   const { count } = useFilteredReports()
@@ -387,6 +387,20 @@ export function FilterPanel() {
             </SelectContent>
           </Select>
         </div>
+
+        {user && (
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={draftFilters.author_id === user.id}
+              onChange={(e) =>
+                setDraftFilter({ author_id: e.target.checked ? user.id : undefined })
+              }
+              className="h-4 w-4"
+            />
+            <span className="text-xs text-gray-700">Meus relatos</span>
+          </label>
+        )}
 
         <DateRangePresets />
 

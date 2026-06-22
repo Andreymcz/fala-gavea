@@ -57,6 +57,10 @@ vi.mock('@/hooks/useReportTypes', () => ({
   useReportTypes: () => ({ data: [{ id: 'type-1', name: 'Iluminação' }] }),
 }))
 
+vi.mock('@/hooks/useForwardings', () => ({
+  useReportForwardings: () => ({ data: [], isLoading: false }),
+}))
+
 afterEach(() => {
   mockToggle.mockClear()
   mockSetSimilarSeed.mockClear()
