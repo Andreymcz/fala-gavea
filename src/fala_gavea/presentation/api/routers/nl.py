@@ -9,6 +9,7 @@ from slowapi.util import get_remote_address
 from fala_gavea.application.use_cases.chat.answer_with_rag import AnswerWithRag
 from fala_gavea.application.use_cases.nl.parse_nl_filter import ParseNLFilter
 from fala_gavea.domain.entities.user import User
+from fala_gavea.domain.exceptions import OllamaUnavailableError
 from fala_gavea.domain.repositories.filter_ports import ParseError
 from fala_gavea.domain.repositories.report_repository import IReportRepository
 from fala_gavea.domain.repositories.semantic_ports import ILLMClient, ISemanticSearchPort
@@ -66,14 +67,14 @@ def nl_filter(
     use_case = ParseNLFilter(filter_parser)
     try:
         result = use_case.execute(body.text)
-    except ParseError as exc:
-        raise HTTPException(
-            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-            detail=f"Could not parse filter: {exc.message}",
-        )
-    except RuntimeError as exc:
+    except (OllamaUnavailableError, RuntimeError):
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail=str(exc),
+            detail="O assistente de filtros está indisponível no momento.",
+        )
+    except ParseError:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Não foi possível interpretar o filtro.",
         )
     return NLFilterResponse(body=result.body, warnings=result.warnings)
