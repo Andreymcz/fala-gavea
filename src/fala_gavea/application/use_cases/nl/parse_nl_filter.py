@@ -1,7 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass, field
-from fala_gavea.domain.repositories.filter_ports import IFilterParser, ParseError
-from fala_gavea.presentation.schemas.report import ReportQueryRequest
+from fala_gavea.domain.repositories.filter_ports import IFilterParser, ParseError  # noqa: F401
 
 _ALLOWED_KEYS = {
     "report_type_ids", "urgencies", "statuses",
@@ -28,10 +27,4 @@ class ParseNLFilter:
         unknown = set(raw.keys()) - _ALLOWED_KEYS
         if unknown:
             warnings.append(f"Campos ignorados: {sorted(unknown)}")
-        try:
-            validated = ReportQueryRequest(**filtered)
-            body = validated.model_dump(exclude={"limit", "offset", "bbox"}, exclude_none=True)
-        except Exception as exc:
-            warnings.append(f"Validação parcial: {exc}")
-            body = filtered
-        return ParseNLFilterResult(body=body, warnings=warnings)
+        return ParseNLFilterResult(body=filtered, warnings=warnings)
