@@ -1,6 +1,7 @@
 # Research 000145 | FEAT-X | 2026-06-22 19:47 UTC | Cesta de relatos + citizen transparency journeys
 
 source: reflection-000144
+spawned: roadmap-000146
 tags: ux, frontend-architecture, semantic-search, api-design, security, transparency
 
 ## User brief (verbatim)

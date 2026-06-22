@@ -1,5 +1,7 @@
 # Briefs Log
 
+DONE | 2026-06-22 20:51 UTC | STARTED | 2026-06-22 20:02 UTC | plan | Roadmap: implement research-000145 (cesta de relatos + citizen transparency journeys) in dependency-aware waves. source: research-000145 | PLAN | 000146
+
 DONE | 2026-06-22 19:59 UTC | STARTED | 2026-06-22 19:46 UTC | research | cesta de relatos (agent journey) + citizen transparency journeys. Anchored on reflection-000144. Basket as first-class component, set-similarity for open reports, basket-vs-SelectionBar; citizen inline relato creation + relatos/encaminhamentos read surfaces + relato-encaminhamento links (gap: forwarding endpoints agent+admin only)
 
 DONE | 2026-06-22 19:43 UTC | STARTED | 2026-06-22 19:24 UTC | reflect | on past plans and researchers. now focus on public agent and citizen transparency journeys (citizen: login + create relato via map click + form on main page, see relatos list, see encaminhamentos list, see encaminhamentos-relatos links; agente publico: login + create/edit encaminhamentos)
