@@ -1,6 +1,19 @@
 from __future__ import annotations
 
+import logging
+import os
 from pathlib import Path
+
+# Allow fine-grained log level control via env var, e.g.:
+#   FALA_GAVEA_LOG_LEVEL=DEBUG uv run uvicorn ...
+_log_level = os.environ.get("FALA_GAVEA_LOG_LEVEL", "INFO").upper()
+_fala_logger = logging.getLogger("fala_gavea")
+_fala_logger.setLevel(_log_level)
+if _log_level == "DEBUG" and not _fala_logger.handlers:
+    _dbg_handler = logging.StreamHandler()
+    _dbg_handler.setLevel(logging.DEBUG)
+    _dbg_handler.setFormatter(logging.Formatter("%(levelname)s %(name)s: %(message)s"))
+    _fala_logger.addHandler(_dbg_handler)
 
 from fastapi import FastAPI, Request
 from fastapi.responses import FileResponse, JSONResponse

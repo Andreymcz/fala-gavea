@@ -25,10 +25,14 @@ class LLMFilterParser(IFilterParser):
         self._llm = llm_client
 
     def parse(self, text: str) -> dict:
-        raw = self._llm.complete_with_timeout(_SYSTEM_PROMPT, [{"role": "user", "content": text}], timeout_s=8.0)
+        _log.debug("LLMFilterParser.parse input=%r", text)
+        raw = self._llm.complete_with_timeout(_SYSTEM_PROMPT, [{"role": "user", "content": text}], timeout_s=30.0)
+        _log.debug("LLMFilterParser raw response=%r", raw)
         result, warnings = self._try_parse(raw)
         if result is not None:
+            _log.debug("LLMFilterParser parsed OK: %s", result)
             return result
+        _log.warning("LLMFilterParser attempt 1 failed to parse, retrying. raw=%r", raw)
         # one repair retry
         repair_prompt = (
             f"O JSON anterior estava malformado: {raw!r}\n"
@@ -38,10 +42,13 @@ class LLMFilterParser(IFilterParser):
             {"role": "user", "content": text},
             {"role": "assistant", "content": raw},
             {"role": "user", "content": repair_prompt},
-        ], timeout_s=8.0)
+        ], timeout_s=30.0)
+        _log.debug("LLMFilterParser retry response=%r", raw2)
         result2, _ = self._try_parse(raw2)
         if result2 is not None:
+            _log.debug("LLMFilterParser parsed OK on retry: %s", result2)
             return result2
+        _log.error("LLMFilterParser failed after retry. raw1=%r raw2=%r", raw, raw2)
         raise ParseError(message="LLM returned invalid JSON after retry", raw=raw2)
 
     @staticmethod

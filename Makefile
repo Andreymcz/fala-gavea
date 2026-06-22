@@ -10,6 +10,15 @@ ADMIN_EMAIL    := admin@gavea.br
 ADMIN_PASSWORD := admin12345!
 ADMIN_NAME     := Admin
 
+# Ollama local LLM — override on the command line, e.g.:
+#   make run-backend OLLAMA_URL=http://localhost:11434 OLLAMA_MODEL=llama3:8b
+OLLAMA_URL   := http://localhost:11434
+OLLAMA_MODEL := qwen2.5:7b
+
+# Log level for the fala_gavea package (DEBUG shows LLM request/response traces).
+# Override: make run-backend LOG_LEVEL=INFO
+LOG_LEVEL := DEBUG
+
 .PHONY: build run-backend run-frontend run-docker stop rm restart logs shell clean rebuild help
 
 build:
@@ -21,11 +30,15 @@ run-backend: export JWT_SECRET := $(SECRET)
 run-backend: export FALA_GAVEA_ADMIN_EMAIL := $(ADMIN_EMAIL)
 run-backend: export FALA_GAVEA_ADMIN_PASSWORD := $(ADMIN_PASSWORD)
 run-backend: export FALA_GAVEA_ADMIN_NAME := $(ADMIN_NAME)
+run-backend: export FALA_GAVEA_OLLAMA_URL := $(OLLAMA_URL)
+run-backend: export FALA_GAVEA_OLLAMA_MODEL := $(OLLAMA_MODEL)
+run-backend: export FALA_GAVEA_LOG_LEVEL := $(LOG_LEVEL)
 run-backend:
 	@echo "Running backend locally with SQLite database at $(DATA)/fala_gavea.db"
 	@echo "Admin bootstrap: $(ADMIN_EMAIL) / $(ADMIN_PASSWORD)"
+	@echo "Ollama: $(OLLAMA_URL) model=$(OLLAMA_MODEL)"
 	powershell -Command "New-Item -ItemType Directory -Force '$(DATA)' | Out-Null"
-	uv run uvicorn fala_gavea.presentation.api.main:app --reload
+	uv run uvicorn fala_gavea.presentation.api.main:app --reload --log-level $(shell powershell -Command "'$(LOG_LEVEL)'.ToLower()")
 
 run-frontend:
 	@echo "Running frontend locally at http://localhost:3000"
@@ -41,6 +54,8 @@ run-docker:
 		-e FALA_GAVEA_ADMIN_EMAIL=$(ADMIN_EMAIL) \
 		-e FALA_GAVEA_ADMIN_PASSWORD=$(ADMIN_PASSWORD) \
 		-e FALA_GAVEA_ADMIN_NAME=$(ADMIN_NAME) \
+		-e FALA_GAVEA_OLLAMA_URL=$(OLLAMA_URL) \
+		-e FALA_GAVEA_OLLAMA_MODEL=$(OLLAMA_MODEL) \
 		$(IMAGE)
 	@echo "App running at http://localhost:$(PORT)"
 	@echo "Admin bootstrap: $(ADMIN_EMAIL) / $(ADMIN_PASSWORD)"

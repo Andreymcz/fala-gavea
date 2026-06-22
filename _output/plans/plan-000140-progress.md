@@ -40,3 +40,11 @@ Append-only cross-iteration learnings. Each subagent reads this file at the star
 - Pyright: 77 errors (all pre-existing; our 1 new error suppressed with `# type: ignore[arg-type]`).
 - Tests: 162 passed (1 pre-existing failure in `test_static_spa.py` unrelated to our changes).
 - Status: SUCCESS
+
+### 2026-06-21 — Steps 8–9 (commit 6351057)
+
+- Created `frontend/src/api/nlFilter.ts` — `postNLFilter(text, token)` calling `POST /nl/filter`; maps 429→`rate_limit`, 503→`unavailable` errors. Uses `WorkspaceFilters` as response body type (matches store shape; backend fields map directly).
+- Updated `frontend/src/store/workspaceStore.ts` — added `nlSuggestion: Partial<WorkspaceFilters> | null` and `nlWarnings: string[]` state; added `setNLSuggestion(suggestion, warnings)` and `applyNLSuggestion(suggestion)` actions (non-destructive merge into draftFilters).
+- Updated `frontend/src/features/workspace/FilterPanel.tsx` — replaced Section 4 disabled placeholder with functional NL assistant: textarea + send button (loading state), error messages in pt-BR (rate_limit / unavailable / generic), suggestion preview zone with chips and "Aplicar sugestão ao rascunho" / "Descartar" buttons. Uses `useAuth()` for token access.
+- Build: `npm run build` succeeded (0 errors, 267 modules transformed).
+- Status: SUCCESS
