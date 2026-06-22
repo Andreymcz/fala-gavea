@@ -19,6 +19,8 @@ interface WorkspaceState {
   loadedPresetName: string | null
   loadedPresetId: string | null
   draftFilterName: string
+  nlSuggestion: Partial<WorkspaceFilters> | null
+  nlWarnings: string[]
 
   // actions
   setFilter: (patch: Partial<WorkspaceFilters>) => void
@@ -37,6 +39,8 @@ interface WorkspaceState {
   setLoadedPresetName: (name: string | null) => void
   setLoadedPresetId: (id: string | null) => void
   setDraftFilterName: (name: string) => void
+  setNLSuggestion: (suggestion: Partial<WorkspaceFilters> | null, warnings: string[]) => void
+  applyNLSuggestion: (suggestion: Partial<WorkspaceFilters>) => void
 
   // derived selectors (functions — not stored state)
   structuredFilters: () => ReportFilters
@@ -58,6 +62,8 @@ export const useWorkspaceStore = create<WorkspaceState>()((set, get) => ({
   loadedPresetName: null,
   loadedPresetId: null,
   draftFilterName: '',
+  nlSuggestion: null,
+  nlWarnings: [],
 
   // Alias for backward compat — routes to draftFilters
   setFilter: (patch: Partial<WorkspaceFilters>) =>
@@ -126,6 +132,12 @@ export const useWorkspaceStore = create<WorkspaceState>()((set, get) => ({
   setLoadedPresetId: (id: string | null) => set({ loadedPresetId: id }),
 
   setDraftFilterName: (name: string) => set({ draftFilterName: name }),
+
+  setNLSuggestion: (suggestion: Partial<WorkspaceFilters> | null, warnings: string[]) =>
+    set({ nlSuggestion: suggestion, nlWarnings: warnings }),
+
+  applyNLSuggestion: (suggestion: Partial<WorkspaceFilters>) =>
+    set((state) => ({ draftFilters: { ...state.draftFilters, ...suggestion } })),
 
   structuredFilters: (): ReportFilters => {
     const { semanticQuery: _sq, ...rest } = get().filters

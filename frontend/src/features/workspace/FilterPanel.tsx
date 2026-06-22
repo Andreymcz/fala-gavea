@@ -11,6 +11,8 @@ import { Input } from '@/components/ui/input'
 import { ActiveFilterChips } from './ActiveFilterChips'
 import { DateRangePresets } from './DateRangePresets'
 import { api } from '@/lib/api'
+import { useAuth } from '@/auth/useAuth'
+import { postNLFilter } from '@/api/nlFilter'
 
 const URGENCY_LABELS: Record<string, string> = {
   alta: 'Alta',
@@ -62,6 +64,12 @@ export function FilterPanel() {
   const setLoadedPresetId = useWorkspaceStore((s) => s.setLoadedPresetId)
   const setDraftFilterName = useWorkspaceStore((s) => s.setDraftFilterName)
   const isDirty = useWorkspaceStore((s) => s.isDirty())
+  const nlSuggestion = useWorkspaceStore((s) => s.nlSuggestion)
+  const nlWarnings = useWorkspaceStore((s) => s.nlWarnings)
+  const setNLSuggestion = useWorkspaceStore((s) => s.setNLSuggestion)
+  const applyNLSuggestion = useWorkspaceStore((s) => s.applyNLSuggestion)
+
+  const { token } = useAuth()
 
   const { data: reportTypes = [] } = useReportTypes()
   const { count } = useFilteredReports()
@@ -70,6 +78,9 @@ export function FilterPanel() {
   const [saveOpen, setSaveOpen] = useState(false)
   const [loadOpen, setLoadOpen] = useState(false)
   const [saveNameInput, setSaveNameInput] = useState('')
+  const [nlText, setNlText] = useState('')
+  const [nlLoading, setNlLoading] = useState(false)
+  const [nlError, setNlError] = useState<string | null>(null)
 
   // Preset bar display name
   const presetLabel = loadedPresetName
@@ -148,6 +159,34 @@ export function FilterPanel() {
     setLoadedPresetId(id)
     setDraftFilterName(name)
     setLoadOpen(false)
+  }
+
+  async function handleNLSubmit() {
+    if (!nlText.trim() || !token) return
+    setNlLoading(true)
+    setNlError(null)
+    try {
+      const result = await postNLFilter(nlText.trim(), token)
+      setNLSuggestion(result.body as Partial<WorkspaceFilters>, result.warnings)
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : 'error'
+      if (msg === 'rate_limit') setNlError('Limite de requisições atingido. Tente novamente em instantes.')
+      else if (msg === 'unavailable') setNlError('Assistente de IA indisponível no momento.')
+      else setNlError('Erro ao processar. Tente novamente.')
+    } finally {
+      setNlLoading(false)
+    }
+  }
+
+  function getSuggestionChips(suggestion: Partial<WorkspaceFilters>): string[] {
+    const chips: string[] = []
+    if (suggestion.urgency) chips.push(`Urgência: ${URGENCY_LABELS[suggestion.urgency] ?? suggestion.urgency}`)
+    if (suggestion.status) chips.push(`Status: ${STATUS_LABELS[suggestion.status] ?? suggestion.status}`)
+    if (suggestion.since) chips.push(`De: ${suggestion.since}`)
+    if (suggestion.until) chips.push(`Até: ${suggestion.until}`)
+    if (suggestion.semanticQuery) chips.push(`Busca: "${suggestion.semanticQuery}"`)
+    if (suggestion.type_id) chips.push(`Tipo: ${suggestion.type_id}`)
+    return chips
   }
 
   // Collapsed state
@@ -390,25 +429,74 @@ export function FilterPanel() {
       </div>
 
       {/* Section 4 — NL assistant footer */}
-      <div className="border-t py-2 px-3">
-        <p className="text-xs text-gray-500 font-medium mb-1">Assistente de filtros</p>
+      <div className="border-t py-2 px-3 flex flex-col gap-1.5">
+        <p className="text-xs text-gray-500 font-medium">Assistente de filtros</p>
         <div className="flex gap-1">
-          <Input
-            placeholder="Descreva o filtro..."
-            className="h-7 text-xs flex-1"
-            disabled
+          <textarea
+            className="flex-1 text-xs border border-gray-200 rounded px-2 py-1 resize-none focus:outline-none focus:ring-1 focus:ring-blue-400 disabled:opacity-50"
+            rows={2}
+            placeholder="Descreva o filtro em linguagem natural..."
+            value={nlText}
+            onChange={(e) => setNlText(e.target.value)}
+            disabled={nlLoading}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault()
+                void handleNLSubmit()
+              }
+            }}
           />
           <Button
             size="sm"
             variant="ghost"
-            className="h-7 px-2 text-xs"
-            disabled
-            title="Disponível em breve"
+            className="h-auto px-2 text-xs self-end"
+            onClick={() => void handleNLSubmit()}
+            disabled={nlLoading || !nlText.trim()}
+            title="Enviar"
           >
-            →
+            {nlLoading ? '...' : '→'}
           </Button>
         </div>
-        <p className="text-xs text-gray-400 mt-1">Em breve: filtros por linguagem natural</p>
+        {nlError && (
+          <p className="text-xs text-red-600">{nlError}</p>
+        )}
+        {nlSuggestion && (
+          <div className="flex flex-col gap-1 mt-0.5">
+            <div className="flex flex-wrap gap-1">
+              {getSuggestionChips(nlSuggestion).map((chip) => (
+                <span key={chip} className="text-xs bg-blue-50 text-blue-700 border border-blue-200 rounded px-1.5 py-0.5">
+                  {chip}
+                </span>
+              ))}
+              {nlWarnings.map((w, i) => (
+                <span key={i} className="text-xs bg-amber-50 text-amber-700 border border-amber-200 rounded px-1.5 py-0.5">
+                  ⚠ {w}
+                </span>
+              ))}
+            </div>
+            <div className="flex gap-1">
+              <Button
+                size="sm"
+                className="flex-1 h-6 text-xs"
+                onClick={() => {
+                  applyNLSuggestion(nlSuggestion)
+                  setNLSuggestion(null, [])
+                  setNlText('')
+                }}
+              >
+                Aplicar sugestão ao rascunho
+              </Button>
+              <Button
+                size="sm"
+                variant="ghost"
+                className="h-6 text-xs"
+                onClick={() => setNLSuggestion(null, [])}
+              >
+                Descartar
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )
