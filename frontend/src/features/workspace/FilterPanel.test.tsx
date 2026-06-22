@@ -1,4 +1,5 @@
-import { render, fireEvent } from '@testing-library/react'
+import { render, fireEvent, act, waitFor, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 
 const applyFilters = vi.fn()
@@ -16,6 +17,11 @@ let mockLoadedPresetName: string | null = null
 let mockLoadedPresetId: string | null = null
 let mockDraftFilterName = ''
 let mockFilters: Record<string, unknown> = {}
+let mockNlSuggestion: Record<string, unknown> | null = null
+let mockNlWarnings: string[] = []
+
+const setNLSuggestion = vi.fn()
+const applyNLSuggestion = vi.fn()
 
 const getMockStore = (selector: (s: Record<string, unknown>) => unknown) => {
   const store = {
@@ -35,6 +41,10 @@ const getMockStore = (selector: (s: Record<string, unknown>) => unknown) => {
     setLoadedPresetId,
     setDraftFilterName,
     isDirty: () => mockIsDirty,
+    nlSuggestion: mockNlSuggestion,
+    nlWarnings: mockNlWarnings,
+    setNLSuggestion,
+    applyNLSuggestion,
   }
   return selector(store as unknown as Record<string, unknown>)
 }
@@ -83,10 +93,22 @@ vi.mock('@/lib/api', () => ({
   },
 }))
 
+// Mock auth
+let mockToken: string | null = 'test-token'
+vi.mock('@/auth/useAuth', () => ({
+  useAuth: () => ({ token: mockToken, user: null, isLoading: false }),
+}))
+
+// Mock postNLFilter
+const mockPostNLFilter = vi.fn()
+vi.mock('@/api/nlFilter', () => ({
+  postNLFilter: (...args: unknown[]) => mockPostNLFilter(...args),
+}))
+
 import { FilterPanel } from './FilterPanel'
 
 beforeEach(() => {
-  vi.clearAllMocks()
+  vi.resetAllMocks()
   mockIsDirty = false
   mockPanelOpen = true
   mockLoadedPresetName = null
@@ -96,6 +118,9 @@ beforeEach(() => {
   mockSavedFilters = []
   mockListError = false
   mockListEnabled = false
+  mockToken = 'test-token'
+  mockNlSuggestion = null
+  mockNlWarnings = []
 })
 
 describe('FilterPanel', () => {
@@ -146,11 +171,12 @@ describe('FilterPanel', () => {
     expect(applyFilters).toHaveBeenCalledTimes(1)
   })
 
-  it('Section 4 NL placeholder is visible and disabled', () => {
+  it('Section 4 NL textarea renders enabled when token is present', () => {
+    mockToken = 'test-token'
     const { getByPlaceholderText } = render(<FilterPanel />)
     const input = getByPlaceholderText(/Descreva o filtro/i)
     expect(input).toBeTruthy()
-    expect((input as HTMLInputElement).disabled).toBe(true)
+    expect((input as HTMLTextAreaElement).disabled).toBe(false)
   })
 
   it('collapse toggle calls togglePanel', () => {
@@ -234,5 +260,84 @@ describe('FilterPanel', () => {
     const { getByRole } = render(<FilterPanel />)
     fireEvent.click(getByRole('button', { name: /^Salvar$/i }))
     expect(getByRole('button', { name: /Atualizar/i })).toBeTruthy()
+  })
+
+  // --- Section 4: NL assistant tests ---
+
+  it('Section 4 submit button triggers postNLFilter', async () => {
+    mockPostNLFilter.mockResolvedValueOnce({ body: { urgencies: ['alta'] }, warnings: [] })
+    const { getByPlaceholderText } = render(<FilterPanel />)
+    const textarea = getByPlaceholderText(/Descreva o filtro/i)
+    fireEvent.change(textarea, { target: { value: 'postes apagados' } })
+    await act(async () => {
+      fireEvent.keyDown(textarea, { key: 'Enter', code: 'Enter', shiftKey: false })
+    })
+    expect(mockPostNLFilter).toHaveBeenCalledWith('postes apagados', 'test-token')
+  })
+
+  it('suggestion preview zone appears after successful response', async () => {
+    // Pre-set suggestion in store to simulate a successful response
+    mockNlSuggestion = { urgencies: ['alta'] }
+    const { getByRole } = render(<FilterPanel />)
+    expect(getByRole('button', { name: /Aplicar sugestão ao rascunho/i })).toBeTruthy()
+    expect(getByRole('button', { name: /Descartar/i })).toBeTruthy()
+  })
+
+  it('"Aplicar sugestão ao rascunho" calls applyNLSuggestion', () => {
+    mockNlSuggestion = { urgencies: ['alta'] }
+    const { getByRole } = render(<FilterPanel />)
+    fireEvent.click(getByRole('button', { name: /Aplicar sugestão ao rascunho/i }))
+    expect(applyNLSuggestion).toHaveBeenCalledWith(mockNlSuggestion)
+  })
+
+  it('"Descartar" clears suggestion', () => {
+    mockNlSuggestion = { urgencies: ['alta'] }
+    const { getByRole } = render(<FilterPanel />)
+    fireEvent.click(getByRole('button', { name: /Descartar/i }))
+    expect(setNLSuggestion).toHaveBeenCalledWith(null, [])
+  })
+
+  it('unavailable error shows graceful degradation message', async () => {
+    const ref: { reject?: (e: Error) => void } = {}
+    const { getByPlaceholderText } = render(<FilterPanel />)
+    const textarea = getByPlaceholderText(/Descreva o filtro/i)
+    fireEvent.change(textarea, { target: { value: 'teste' } })
+    await act(async () => {
+      mockPostNLFilter.mockImplementationOnce(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        () => new Promise<any>((_, reject) => { ref.reject = reject }),
+      )
+      fireEvent.keyDown(textarea, { key: 'Enter', code: 'Enter', shiftKey: false })
+    })
+    expect(mockPostNLFilter).toHaveBeenCalled()
+    expect(ref.reject).toBeDefined()
+    await act(async () => {
+      ref.reject!(new Error('unavailable'))
+      await Promise.resolve()
+      await Promise.resolve()
+    })
+    expect(screen.getByText(/indispon/i)).toBeTruthy()
+  })
+
+  it('rate_limit error shows rate limit message', async () => {
+    const ref: { reject?: (e: Error) => void } = {}
+    const { getByPlaceholderText } = render(<FilterPanel />)
+    const textarea = getByPlaceholderText(/Descreva o filtro/i)
+    fireEvent.change(textarea, { target: { value: 'teste' } })
+    await act(async () => {
+      mockPostNLFilter.mockImplementationOnce(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        () => new Promise<any>((_, reject) => { ref.reject = reject }),
+      )
+      fireEvent.keyDown(textarea, { key: 'Enter', code: 'Enter', shiftKey: false })
+    })
+    expect(mockPostNLFilter).toHaveBeenCalled()
+    expect(ref.reject).toBeDefined()
+    await act(async () => {
+      ref.reject!(new Error('rate_limit'))
+      await Promise.resolve()
+      await Promise.resolve()
+    })
+    expect(screen.getByText(/Limite de/i)).toBeTruthy()
   })
 })

@@ -81,7 +81,7 @@ src/fala_gavea/
 
 1. **Todas as chamadas LLM e buscas semanticas passam pelo `infrastructure/`** (ChromaClient, OllamaClient) — nenhum acesso direto a ChromaDB ou Ollama em use cases ou routers
 2. **Autenticacao e middleware** — nenhum router acessa JWT diretamente; use `dependencies.py` (get_current_user, require_role)
-3. **Type annotations obrigatorias** em todas as funcoes publicas; configuracao via env vars (FALA_GAVEA_OLLAMA_URL, FALA_GAVEA_OLLAMA_MODEL, DATABASE_URL)
+3. **Type annotations obrigatorias** em todas as funcoes publicas; configuracao via env vars (FALA_GAVEA_OLLAMA_URL, FALA_GAVEA_OLLAMA_MODEL, DATABASE_URL, FALA_GAVEA_LLM_PROVIDER, ANTHROPIC_API_KEY, FALA_GAVEA_ANTHROPIC_MODEL)
 
 ## Skills & Design References
 
