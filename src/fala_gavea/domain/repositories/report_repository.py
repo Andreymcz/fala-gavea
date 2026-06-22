@@ -16,6 +16,7 @@ class ReportFilters:
     until: datetime | None = None
     bbox: tuple[float, float, float, float] | None = None  # (minLat, minLon, maxLat, maxLon)
     text: str | None = None
+    author_id: str | None = None
 
 
 class IReportRepository(ABC):

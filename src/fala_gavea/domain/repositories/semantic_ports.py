@@ -33,6 +33,16 @@ class ISemanticSearchPort(ABC):
     def similar(self, report_id: str, n: int = 5) -> list[tuple[str, float]]: ...
 
     @abstractmethod
+    def similar_to_set(self, report_ids: list[str], n: int = 5) -> list[tuple[str, float]]:
+        """Neighbors of the centroid of the given reports' embeddings.
+
+        Averages the embeddings of report_ids into a centroid, queries the index,
+        drops any id in report_ids, and returns up to n (id, score) tuples.
+        Returns [] when no embeddings are available.
+        """
+        ...
+
+    @abstractmethod
     def rank(self, query: str, ids: list[str]) -> dict[str, float]: ...
     """Return a similarity score in [0,1] for each id that exists in the index.
 

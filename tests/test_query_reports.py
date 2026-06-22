@@ -68,6 +68,9 @@ class FakeSearchPort(ISemanticSearchPort):
     def similar(self, report_id: str, n: int = 5) -> list[tuple[str, float]]:
         return []
 
+    def similar_to_set(self, report_ids: list[str], n: int = 5) -> list[tuple[str, float]]:
+        return []
+
     def rank(self, query: str, ids: list[str]) -> dict[str, float]:
         return {id_: self._scores[id_] for id_ in ids if id_ in self._scores}
 

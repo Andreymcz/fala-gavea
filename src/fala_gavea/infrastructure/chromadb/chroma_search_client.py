@@ -133,6 +133,28 @@ class ChromaSearchClient(IReportIndexer, ISemanticSearchPort):
             scores[rid] = max(0.0, cosine)
         return scores
 
+    def similar_to_set(self, report_ids: list[str], n: int = 5) -> list[tuple[str, float]]:
+        if not report_ids:
+            return []
+        result = self._collection.get(ids=report_ids, include=["embeddings"])
+        embeddings = result["embeddings"] if result["embeddings"] is not None else []
+        embeddings = [e for e in embeddings if e is not None and len(e) > 0]
+        if not embeddings:
+            return []
+        dim = len(embeddings[0])
+        centroid = [sum(e[i] for e in embeddings) / len(embeddings) for i in range(dim)]
+        seed = set(report_ids)
+        query_result = self._collection.query(
+            query_embeddings=[centroid], n_results=n + len(report_ids)
+        )
+        ids = query_result["ids"][0]
+        distances = query_result["distances"][0]
+        return [
+            (rid, 1.0 / (1.0 + dist))
+            for rid, dist in zip(ids, distances)
+            if rid not in seed
+        ][:n]
+
     def similar(self, report_id: str, n: int = 5) -> list[tuple[str, float]]:
         result = self._collection.get(ids=[report_id], include=["embeddings"])
         embedding = result["embeddings"][0]

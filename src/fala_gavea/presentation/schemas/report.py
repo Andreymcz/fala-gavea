@@ -73,6 +73,7 @@ class ReportQueryRequest(BaseModel):
     until: datetime | None = None
     bbox: str | None = None  # "minLat,minLon,maxLat,maxLon"
     text: str | None = None
+    author_id: str | None = None
     q: str | None = None
     limit: int = 50
     offset: int = 0
@@ -110,6 +111,25 @@ class ReportQueryRequest(BaseModel):
         return v
 
 
+class ReportSetSimilarRequest(BaseModel):
+    report_ids: list[str]
+    n: int = 5
+
+    @field_validator("report_ids")
+    @classmethod
+    def report_ids_not_empty(cls, v: list[str]) -> list[str]:
+        if not v:
+            raise ValueError("report_ids must contain at least one report id")
+        return v
+
+    @field_validator("n")
+    @classmethod
+    def n_range(cls, v: int) -> int:
+        if not (1 <= v <= 50):
+            raise ValueError("n must be 1-50")
+        return v
+
+
 class ReportQueryItem(ReportResponse):
     score: float | None = None
 
@@ -128,6 +148,7 @@ class ReportFiltersQuery(BaseModel):
     type_id: str | None = None
     urgency: str | None = None
     status: str | None = None
+    author_id: str | None = None
     since: datetime | None = None
     until: datetime | None = None
     bbox: str | None = None  # "minLat,minLon,maxLat,maxLon"

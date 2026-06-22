@@ -43,7 +43,7 @@ class ReportModel(Base):
     urgency = Column(SAEnum("alta", "media", "baixa", name="report_urgency"), nullable=False)
     photo_url = Column(String, nullable=True)
     report_type_id = Column(String, ForeignKey("report_types.id"), nullable=False)
-    author_id = Column(String, ForeignKey("users.id"), nullable=False)
+    author_id = Column(String, ForeignKey("users.id"), nullable=False, index=True)
     status = Column(
         SAEnum("pendente", "em_analise", "encaminhado", "resolvido", name="report_status"),
         nullable=False,

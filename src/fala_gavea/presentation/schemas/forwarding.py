@@ -83,3 +83,16 @@ class ForwardingResponse(BaseModel):
     reports: list[ReportSummary]
     created_at: datetime
     updated_at: datetime
+
+
+class PublicForwardingResponse(BaseModel):
+    """Public-facing forwarding view (D-011): identical to ForwardingResponse
+    but OMITS agent_id so citizens cannot see which agent created it."""
+
+    id: str
+    institution: str
+    proposed_solution: str
+    status: str
+    reports: list[ReportSummary]
+    created_at: datetime
+    updated_at: datetime

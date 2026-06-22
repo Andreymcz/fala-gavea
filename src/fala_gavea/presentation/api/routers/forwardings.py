@@ -25,6 +25,7 @@ from fala_gavea.presentation.schemas.forwarding import (
     ForwardingResponse,
     ForwardingStatusUpdate,
     ForwardingUpdate,
+    PublicForwardingResponse,
     ReportSummary,
 )
 
@@ -54,6 +55,71 @@ def _build_response(forwarding: Forwarding, reports: list[Report]) -> Forwarding
         created_at=forwarding.created_at,
         updated_at=forwarding.updated_at,
     )
+
+
+def _build_public_response(forwarding: Forwarding, reports: list[Report]) -> PublicForwardingResponse:
+    return PublicForwardingResponse(
+        id=forwarding.id,
+        institution=forwarding.institution,
+        proposed_solution=forwarding.proposed_solution,
+        status=forwarding.status.value,
+        reports=[
+            ReportSummary(
+                id=r.id,
+                text=r.text,
+                urgency=r.urgency.value,
+                status=r.status.value,
+                report_type_id=r.report_type_id,
+                created_at=r.created_at,
+            )
+            for r in reports
+        ],
+        created_at=forwarding.created_at,
+        updated_at=forwarding.updated_at,
+    )
+
+
+# Registered before GET /{id} so FastAPI does not match "/public" against "/{id}".
+@router.get("/public", response_model=list[PublicForwardingResponse])
+def list_public_forwardings(
+    status_filter: str | None = Query(None, alias="status"),
+    forwarding_repo: IForwardingRepository = Depends(get_forwarding_repo),
+    report_repo: IReportRepository = Depends(get_report_repo),
+) -> list[PublicForwardingResponse]:
+    parsed_status: ForwardingStatus | None = None
+    if status_filter is not None:
+        try:
+            parsed_status = ForwardingStatus(status_filter)
+        except ValueError:
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail=f"Invalid status: {status_filter}",
+            )
+
+    filters = ForwardingFilters(status=parsed_status)
+    forwardings = ListForwardings(forwarding_repo).execute(filters)
+
+    result: list[PublicForwardingResponse] = []
+    for fwd in forwardings:
+        try:
+            _, reports = GetForwarding(forwarding_repo, report_repo).execute(fwd.id)
+        except ForwardingNotFoundError:
+            reports = []
+        result.append(_build_public_response(fwd, reports))
+    return result
+
+
+@router.get("/public/{id}", response_model=PublicForwardingResponse)
+def get_public_forwarding(
+    id: str,
+    forwarding_repo: IForwardingRepository = Depends(get_forwarding_repo),
+    report_repo: IReportRepository = Depends(get_report_repo),
+) -> PublicForwardingResponse:
+    try:
+        forwarding, reports = GetForwarding(forwarding_repo, report_repo).execute(id)
+        return _build_public_response(forwarding, reports)
+    except ForwardingNotFoundError as e:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
 
 
 @router.post("/", response_model=ForwardingResponse, status_code=status.HTTP_201_CREATED)

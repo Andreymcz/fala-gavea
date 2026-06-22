@@ -41,6 +41,8 @@ class SQLAlchemyReportRepository(IReportRepository):
             stmt = stmt.where(ReportModel.urgency.in_([u.value for u in filters.urgencies]))
         if filters.statuses is not None:
             stmt = stmt.where(ReportModel.status.in_([s.value for s in filters.statuses]))
+        if filters.author_id is not None:
+            stmt = stmt.where(ReportModel.author_id == filters.author_id)
         if filters.since is not None:
             stmt = stmt.where(ReportModel.created_at >= filters.since)
         if filters.until is not None:
@@ -75,6 +77,8 @@ class SQLAlchemyReportRepository(IReportRepository):
             stmt = stmt.where(ReportModel.urgency.in_([u.value for u in filters.urgencies]))
         if filters.statuses is not None:
             stmt = stmt.where(ReportModel.status.in_([s.value for s in filters.statuses]))
+        if filters.author_id is not None:
+            stmt = stmt.where(ReportModel.author_id == filters.author_id)
         if filters.since is not None:
             stmt = stmt.where(ReportModel.created_at >= filters.since)
         if filters.until is not None:

@@ -73,6 +73,17 @@ class SQLAlchemyForwardingRepository(IForwardingRepository):
         )
         return list(self._session.scalars(stmt).all())
 
+    def find_by_report_id(self, report_id: str) -> list[Forwarding]:
+        stmt = (
+            select(ForwardingModel)
+            .join(
+                ForwardingReportModel,
+                ForwardingReportModel.forwarding_id == ForwardingModel.id,
+            )
+            .where(ForwardingReportModel.report_id == report_id)
+        )
+        return [self._to_entity(m) for m in self._session.scalars(stmt).all()]
+
     def _to_entity(self, m: ForwardingModel) -> Forwarding:
         return Forwarding(
             id=m.id,

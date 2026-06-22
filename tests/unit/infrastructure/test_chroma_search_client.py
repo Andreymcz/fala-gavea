@@ -79,3 +79,32 @@ def test_similar_excludes_self(mocked_client) -> None:
     assert "r1" not in ids
     assert "r2" in ids
     assert "r3" in ids
+
+
+def test_similar_to_set_centroid_drops_seeds(mocked_client) -> None:
+    client, collection, _ = mocked_client
+    # two seeds with embeddings -> centroid queried; results drop seeds
+    collection.get.return_value = {"embeddings": [[0.0, 0.0, 1.0], [1.0, 1.0, 1.0]]}
+    collection.query.return_value = {
+        "ids": [["s1", "s2", "n1", "n2"]],
+        "distances": [[0.0, 0.1, 0.4, 0.8]],
+    }
+    results = client.similar_to_set(["s1", "s2"], n=5)
+    ids = [r[0] for r in results]
+    assert "s1" not in ids
+    assert "s2" not in ids
+    assert ids == ["n1", "n2"]
+    # centroid = mean of the two embeddings
+    call_kwargs = collection.query.call_args.kwargs
+    assert call_kwargs["query_embeddings"] == [[0.5, 0.5, 1.0]]
+
+
+def test_similar_to_set_empty_ids_returns_empty(mocked_client) -> None:
+    client, _, _ = mocked_client
+    assert client.similar_to_set([], n=5) == []
+
+
+def test_similar_to_set_no_embeddings_returns_empty(mocked_client) -> None:
+    client, collection, _ = mocked_client
+    collection.get.return_value = {"embeddings": None}
+    assert client.similar_to_set(["x"], n=5) == []

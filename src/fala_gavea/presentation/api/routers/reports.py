@@ -2,26 +2,37 @@ from __future__ import annotations
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 
+from fala_gavea.application.use_cases.forwardings.list_forwardings_for_report import (
+    ListForwardingsForReport,
+)
 from fala_gavea.application.use_cases.reports.create_report import CreateReport
 from fala_gavea.application.use_cases.reports.find_similar_reports import FindSimilarReports
+from fala_gavea.application.use_cases.reports.find_similar_to_report_set import (
+    FindSimilarToReportSet,
+)
 from fala_gavea.application.use_cases.reports.get_report import GetReport
 from fala_gavea.application.use_cases.reports.list_reports_geojson import ListReportsGeoJSON
 from fala_gavea.application.use_cases.reports.query_reports import QueryReports
 from fala_gavea.application.use_cases.reports.search_reports import SearchReports
 from fala_gavea.application.use_cases.topics.get_topics_for_reports import GetTopicsForReports
+from fala_gavea.domain.entities.forwarding import Forwarding
 from fala_gavea.domain.entities.report import Report, ReportStatus, Urgency
 from fala_gavea.domain.entities.user import User
 from fala_gavea.domain.exceptions import InvalidInputError, ReportNotFoundError, ReportTypeNotFoundError
-from fala_gavea.domain.repositories.report_repository import ReportFilters
+from fala_gavea.domain.repositories.forwarding_repository import IForwardingRepository
+from fala_gavea.domain.repositories.report_repository import IReportRepository, ReportFilters
 from fala_gavea.domain.repositories.semantic_ports import IReportIndexer, ISemanticSearchPort, ITopicModelPort
 from fala_gavea.presentation.api.dependencies import (
     get_current_user,
+    get_forwarding_repo,
     get_keyword_extractor,
     get_report_indexer,
     get_report_repo,
     get_report_type_repo,
     get_semantic_search_port,
+    require_any_role,
 )
+from fala_gavea.presentation.schemas.forwarding import PublicForwardingResponse, ReportSummary
 from fala_gavea.presentation.schemas.keyword import KeywordItem, KeywordListResponse
 from fala_gavea.presentation.schemas.report import (
     ReportCreate,
@@ -31,9 +42,12 @@ from fala_gavea.presentation.schemas.report import (
     ReportQueryResponse,
     ReportResponse,
     ReportSearchResult,
+    ReportSetSimilarRequest,
 )
 
 router = APIRouter()
+
+_agent_or_admin = require_any_role("agent", "admin")
 
 
 def _parse_bbox(q: ReportFiltersQuery) -> tuple[float, float, float, float] | None:
@@ -95,6 +109,7 @@ def list_reports_geojson(
         report_type_ids=[q.type_id] if q.type_id else None,
         urgencies=[Urgency(q.urgency)] if q.urgency else None,
         statuses=[ReportStatus(q.status)] if q.status else None,
+        author_id=q.author_id,
         since=q.since,
         until=q.until,
         bbox=bbox,
@@ -116,6 +131,44 @@ def _to_search_result(report: Report, score: float) -> ReportSearchResult:
         created_at=report.created_at,
         score=score,
     )
+
+
+def _to_public_forwarding(forwarding: Forwarding, reports: list[Report]) -> PublicForwardingResponse:
+    return PublicForwardingResponse(
+        id=forwarding.id,
+        institution=forwarding.institution,
+        proposed_solution=forwarding.proposed_solution,
+        status=forwarding.status.value,
+        reports=[
+            ReportSummary(
+                id=r.id,
+                text=r.text,
+                urgency=r.urgency.value,
+                status=r.status.value,
+                report_type_id=r.report_type_id,
+                created_at=r.created_at,
+            )
+            for r in reports
+        ],
+        created_at=forwarding.created_at,
+        updated_at=forwarding.updated_at,
+    )
+
+
+# Registered before GET /{id} so FastAPI does not match "/similar-to-set" against "/{id}".
+@router.post("/similar-to-set", response_model=list[ReportSearchResult])
+def similar_to_set(
+    body: ReportSetSimilarRequest,
+    _current_user: User = Depends(_agent_or_admin),
+    report_repo=Depends(get_report_repo),
+    search_port: ISemanticSearchPort | None = Depends(get_semantic_search_port),
+) -> list[ReportSearchResult]:
+    if search_port is None:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="Semantic search unavailable"
+        )
+    results = FindSimilarToReportSet(report_repo, search_port).execute(body.report_ids, body.n)
+    return [_to_search_result(report, score) for report, score in results]
 
 
 # Registered before GET /{id} so FastAPI does not match "/search" against "/{id}".
@@ -163,6 +216,7 @@ def query_reports(
         report_type_ids=body.report_type_ids if body.report_type_ids else None,
         urgencies=[Urgency(u) for u in body.urgencies] if body.urgencies else None,
         statuses=[ReportStatus(s) for s in body.statuses] if body.statuses else None,
+        author_id=body.author_id,
         since=body.since,
         until=body.until,
         bbox=bbox,
@@ -220,6 +274,19 @@ def similar_reports(
     except ReportNotFoundError as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
     return [_to_search_result(report, score) for report, score in results]
+
+
+@router.get("/{id}/forwardings", response_model=list[PublicForwardingResponse])
+def list_report_forwardings(
+    id: str,
+    report_repo: IReportRepository = Depends(get_report_repo),
+    forwarding_repo: IForwardingRepository = Depends(get_forwarding_repo),
+) -> list[PublicForwardingResponse]:
+    try:
+        pairs = ListForwardingsForReport(forwarding_repo, report_repo).execute(id)
+    except ReportNotFoundError as e:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
+    return [_to_public_forwarding(fwd, reports) for fwd, reports in pairs]
 
 
 @router.get("/keywords", response_model=KeywordListResponse)
