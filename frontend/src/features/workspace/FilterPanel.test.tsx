@@ -1,5 +1,4 @@
-import { render, fireEvent, act, waitFor, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
+import { render, fireEvent, act, screen } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 
 const applyFilters = vi.fn()

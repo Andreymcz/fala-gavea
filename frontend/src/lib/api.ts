@@ -157,6 +157,12 @@ export const api = {
     return request<ReportSearchResult[]>("GET", `/reports/${id}/similar${q}`);
   },
 
+  similarToSet(reportIds: string[], n?: number): Promise<ReportSearchResult[]> {
+    return request<ReportSearchResult[]>("POST", "/reports/similar-to-set", {
+      body: { report_ids: reportIds, ...(n != null ? { n } : {}) },
+    });
+  },
+
   searchReports(q: string, n?: number): Promise<ReportSearchResult[]> {
     const qs = buildQuery({ q, n: n ?? 50 });
     return request<ReportSearchResult[]>("GET", `/reports/search${qs}`, { public: true });

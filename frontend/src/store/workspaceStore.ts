@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import type { WorkspaceFilters, ReportFilters, UserRole } from '@/lib/types'
 
-export type ViewId = 'map' | 'table' | 'keywords' | 'similars' | 'chat'
+export type ViewId = 'map' | 'table' | 'keywords' | 'similars' | 'chat' | 'cesta'
 
 const FILTER_KEYS: (keyof WorkspaceFilters)[] = [
   'urgency', 'status', 'type_id', 'since', 'until', 'bbox', 'semanticQuery',
@@ -34,6 +34,7 @@ interface WorkspaceState {
   toggleSelect: (id: string) => void
   clearSelection: () => void
   toggleView: (id: ViewId) => void
+  showView: (id: ViewId) => void
   setSimilarSeed: (id: string | null) => void
   togglePanel: () => void
   setLoadedPresetName: (name: string | null) => void
@@ -48,7 +49,7 @@ interface WorkspaceState {
 }
 
 export function defaultViewsForRole(role: UserRole | undefined): ViewId[] {
-  if (role === 'agent' || role === 'admin') return ['map', 'table', 'keywords', 'similars', 'chat']
+  if (role === 'agent' || role === 'admin') return ['map', 'table', 'cesta', 'keywords', 'similars', 'chat']
   return ['map', 'table']
 }
 
@@ -121,6 +122,13 @@ export const useWorkspaceStore = create<WorkspaceState>()((set, get) => ({
         : [...state.activeViews, id]
       return { activeViews: next }
     }),
+
+  showView: (id: ViewId) =>
+    set((state) =>
+      state.activeViews.includes(id)
+        ? state
+        : { activeViews: [...state.activeViews, id] },
+    ),
 
   setSimilarSeed: (id: string | null) => set({ similarSeedId: id }),
 

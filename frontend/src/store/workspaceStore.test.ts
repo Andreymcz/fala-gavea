@@ -1,5 +1,5 @@
 import { describe, it, expect, afterEach } from 'vitest'
-import { useWorkspaceStore } from './workspaceStore'
+import { useWorkspaceStore, defaultViewsForRole } from './workspaceStore'
 
 const resetStore = () =>
   useWorkspaceStore.setState({
@@ -124,6 +124,23 @@ describe('workspaceStore', () => {
     expect(useWorkspaceStore.getState().panelOpen).toBe(true)
     useWorkspaceStore.getState().togglePanel()
     expect(useWorkspaceStore.getState().panelOpen).toBe(false)
+  })
+
+  it("defaultViewsForRole includes 'cesta' for agent/admin, not for citizen", () => {
+    expect(defaultViewsForRole('agent')).toContain('cesta')
+    expect(defaultViewsForRole('admin')).toContain('cesta')
+    expect(defaultViewsForRole('citizen')).not.toContain('cesta')
+    expect(defaultViewsForRole(undefined)).not.toContain('cesta')
+  })
+
+  it("showView adds 'cesta' when absent and is idempotent", () => {
+    useWorkspaceStore.setState({ activeViews: ['map', 'table'] })
+    useWorkspaceStore.getState().showView('cesta')
+    expect(useWorkspaceStore.getState().activeViews).toContain('cesta')
+    const len = useWorkspaceStore.getState().activeViews.length
+    // calling again does not duplicate
+    useWorkspaceStore.getState().showView('cesta')
+    expect(useWorkspaceStore.getState().activeViews.length).toBe(len)
   })
 
   it('setLoadedPresetName and setDraftFilterName work', () => {

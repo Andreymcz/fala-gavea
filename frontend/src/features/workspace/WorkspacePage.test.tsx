@@ -11,6 +11,7 @@
  * pure enough to test at the hook / utility level.
  */
 import { describe, it, expect, vi, afterEach } from 'vitest'
+import workspacePageSource from './WorkspacePage.tsx?raw'
 import { useWorkspaceStore } from '@/store/workspaceStore'
 
 const resetStore = () =>
@@ -27,6 +28,17 @@ const resetStore = () =>
 
 afterEach(() => {
   resetStore()
+})
+
+describe('WorkspacePage — cesta replaces SelectionBar', () => {
+  it('no longer imports or renders the floating SelectionBar', () => {
+    expect(workspacePageSource).not.toContain('SelectionBar')
+  })
+
+  it("renders the 'cesta' view via CestaView", () => {
+    expect(workspacePageSource).toContain('CestaView')
+    expect(workspacePageSource).toContain("viewId === 'cesta'")
+  })
 })
 
 describe('WorkspacePage draft-loss guard — isDirty()', () => {

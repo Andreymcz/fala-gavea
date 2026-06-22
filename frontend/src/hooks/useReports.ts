@@ -10,6 +10,15 @@ export function useReports(filters: ReportFilters = {}) {
   });
 }
 
+export function useReport(id: string | null) {
+  return useQuery({
+    queryKey: ["report", id],
+    queryFn: () => api.getReport(id!),
+    enabled: !!id,
+    staleTime: 30_000,
+  });
+}
+
 export function useCreateReport() {
   const qc = useQueryClient();
   return useMutation({
