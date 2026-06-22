@@ -1,4 +1,5 @@
 # Plan 000140 | FEATURE-X cross-cutting | 2026-06-21 22:44 | Phase C NL filter parser backend and NL assistant UX | Review: standard
+# DONE | 2026-06-22 12:15 UTC |
 plan_format_version: 1
 source: research-000136 -- Phase C NL filter parser backend + NL assistant UX
 
@@ -614,3 +615,30 @@ These are already in the stack but not yet documented in the env-vars section.
 ```
 feat(nl): Phase C NL filter parser — IFilterParser port, LLMFilterParser, ParseNLFilter use case, POST /nl/filter (10 req/min), Section 4 wire-up with suggestion preview zone and Aplicar/Descartar
 ```
+
+---
+
+## Implementation Summary
+
+**Steps completed:** 11/11 | **Iterations:** multi-session (auto mode)
+
+### Key changes
+- **Steps 1-4** (commit d1def9b): `IFilterParser` port + `ParseError`, `LLMFilterParser`, `ParseNLFilter` use case, `NLFilterRequest`/`NLFilterResponse` schemas
+- **Steps 5-7** (commit 3e46854): merged `nl.py` router (chat+filter), `get_filter_parser` dependency, `slowapi` rate limiter, `complete_with_timeout` timeout chain
+- **Steps 8-9** (commit 6351057): `postNLFilter` API function, `nlSuggestion`/`nlWarnings` store state, Section 4 UI wire-up
+- **Steps 10-11** (commit 16dea0b): 4 backend pytest tests + 25 frontend tests (all pass), `CLAUDE.md` env vars updated
+- **Quality gate** (commit fb4f757): arch violation fixed (removed `ReportQueryRequest` import from use case), check logs saved
+
+### Quality gate results
+- Backend tests: 167 passed, 1 pre-existing failure (test_static_spa)
+- Frontend tests: 100 passed, 0 failures
+- Code review: 7 advisory findings (rate limiter scope, singleton thread-safety, error detail in responses, Retry-After headers, thread-pool saturation, LLMFilterParser unit tests, frontend test pattern); 1 critical arch violation resolved inline
+
+### Advisory findings (deferred)
+1. Rate limiter uses IP key behind proxy (HIGH SEC) — local dev scope acceptable
+2. Singleton not thread-safe (HIGH SEC) — pre-existing pattern
+3. Error detail echoed to client (MEDIUM SEC) — future improvement
+4. No Retry-After header on 429 (MEDIUM API) — future improvement
+5. Sync LLM blocks thread pool up to 16s (MEDIUM PERF) — local dev scale acceptable
+6. LLMFilterParser retry path untested (MEDIUM TEST) — out of plan scope
+7. Frontend error-path test pattern fragile (LOW TEST) — tests pass; refactor optional

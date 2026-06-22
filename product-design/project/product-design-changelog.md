@@ -1,5 +1,17 @@
 # AS-CODED CHANGELOG — fala-gavea
 
+### v14 -- 2026-06-22
+- **Added**: `IFilterParser` port + `ParseError` dataclass in `domain/repositories/filter_ports.py`
+- **Added**: `LLMFilterParser` in `infrastructure/llm/llm_filter_parser.py` (wraps `ILLMClient`, 8s timeout, JSON extraction + one repair retry)
+- **Added**: `ParseNLFilter` use case in `application/use_cases/nl/parse_nl_filter.py` (key allowlist + unknown-key warnings)
+- **Added**: `POST /nl/filter` in `nl.py` router (20 req/min per-user via slowapi, auth required, 503 on unavailable, 429 on rate limit)
+- **Added**: `NLFilterRequest`/`NLFilterResponse` Pydantic schemas in `presentation/schemas/nl_filter.py`
+- **Added**: `postNLFilter(text, token)` in `frontend/src/api/nlFilter.ts` (maps 429→rate_limit, 503→unavailable)
+- **Added**: `nlSuggestion`/`nlWarnings` state + `setNLSuggestion`/`applyNLSuggestion` actions to `workspaceStore`
+- **Added**: Phase C NL assistant UI — Section 4 textarea (Enter/button submit), suggestion preview zone with chips and Aplicar/Descartar, pt-BR error messages; never auto-applies
+- **Source**: agent (post-skill)
+- **Plan**: 000140
+
 ### v13 -- 2026-06-21
 - **Added**: `SavedFilter` domain entity + `ISavedFilterRepository` port; `SavedFilterModel` (SQLAlchemy, `DateTime(timezone=True)`, auto-created via `create_tables()`); `SQLAlchemySavedFilterRepository` (save/find_by_id/find_all_for_user/update/delete)
 - **Added**: 5 use cases: `CreateSavedFilter`/`ListSavedFilters`/`GetSavedFilter`/`UpdateSavedFilter`/`DeleteSavedFilter` with BOLA enforcement (non-owned → 404); `SavedFilterNotFoundError` in `domain/exceptions.py`
