@@ -504,6 +504,7 @@ _N/A — projeto greenfield._
 
 ---
 
+<!-- STATUS: implemented | plan-000082 | 2026-06-18 -->
 ### D-007: Frontend SPA React+Vite+TS+Tailwind supersedes D-006
 
 **Context**: O plano wave-1-item-4 recebeu feedback do usuário para usar tecnologias frontend mais modernas ("fugir das páginas estáticas e ficar com um visual mais fluido e moderno"). A decisão D-006 havia especificado HTML estático + Alpine.js + Leaflet.
@@ -514,6 +515,7 @@ _N/A — projeto greenfield._
 
 ---
 
+<!-- STATUS: implemented | plan-000104 | 2026-06-19 -->
 ### D-008: ### D-008: Workspace em grid de ferramentas substitui o modelo map-centric
 
 
@@ -525,6 +527,7 @@ _N/A — projeto greenfield._
 
 *Source: from research-000092 (2026-06-19)*
 
+<!-- STATUS: implemented | plan-000137 | 2026-06-21 -->
 ### D-009: Filtro encenado (draft + Aplicar) substitui o cross-filtering ao vivo do D-008
 
 
@@ -538,6 +541,7 @@ _N/A — projeto greenfield._
 
 *Source: from research-000129 (2026-06-21)*
 
+<!-- STATUS: implemented | plan-000146 | 2026-06-22 -->
 ### D-010: "Relato aberto" = somente status `pendente`
 
 **Context**: A cesta de relatos verifica se o conjunto selecionado tem relatos similares "abertos"; o enum ReportStatus nao possui `aberto`.
@@ -547,6 +551,7 @@ _N/A — projeto greenfield._
 
 *Source: research-000145 (2026-06-22)*
 
+<!-- STATUS: implemented | plan-000146 | 2026-06-22 -->
 ### D-011: Leitura de encaminhamentos e publica (sem login)
 
 **Context**: Jornada de transparencia cidada; endpoints de forwarding eram todos agent+admin.
@@ -556,6 +561,7 @@ _N/A — projeto greenfield._
 
 *Source: research-000145 (2026-06-22)*
 
+<!-- STATUS: implemented | plan-000146 | 2026-06-22 -->
 ### D-012: Lista de relatos do cidadao = todos + filtro "meus relatos"
 
 **Context**: Cidadao quer transparencia geral e tambem acompanhar os proprios relatos.
@@ -565,6 +571,7 @@ _N/A — projeto greenfield._
 
 *Source: research-000145 (2026-06-22)*
 
+<!-- STATUS: implemented | plan-000146 | 2026-06-22 -->
 ### D-013: "Cesta de relatos" eleva `selectedIds` (substitui SelectionBar flutuante)
 
 **Context**: `selectedIds` ja e alimentado por mapa e tabela; faltava uma superficie de primeira classe.
