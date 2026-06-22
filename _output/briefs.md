@@ -1,5 +1,7 @@
 # Briefs Log
 
+DONE | 2026-06-22 19:43 UTC | STARTED | 2026-06-22 19:24 UTC | reflect | on past plans and researchers. now focus on public agent and citizen transparency journeys (citizen: login + create relato via map click + form on main page, see relatos list, see encaminhamentos list, see encaminhamentos-relatos links; agente publico: login + create/edit encaminhamentos)
+
 DONE | 2026-06-22 12:15 UTC | STARTED | 2026-06-22 11:58 UTC | check | validate
 
 DONE | 2026-06-22 12:05 UTC | STARTED | 2026-06-22 00:02 UTC | implement | 140 | PLAN | 000140
