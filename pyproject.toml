@@ -13,6 +13,7 @@ dependencies = [
     "sentence-transformers>=3.0",
     "bertopic>=0.17",
     "anthropic>=0.50",
+    "slowapi>=0.1",
 ]
 
 [project.optional-dependencies]

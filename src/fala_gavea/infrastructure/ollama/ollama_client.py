@@ -31,7 +31,7 @@ class OllamaClient:
         if not self._available:
             raise OllamaUnavailableError()
 
-    def chat(self, messages: list[dict[str, Any]], stream: bool = False) -> str:
+    def chat(self, messages: list[dict[str, Any]], stream: bool = False, timeout: float = 120.0) -> str:
         """Send a chat request to Ollama and return the assistant reply as a string."""
         self._require_available()
         payload: dict[str, Any] = {
@@ -39,7 +39,7 @@ class OllamaClient:
             "messages": messages,
             "stream": stream,
         }
-        with httpx.Client(timeout=120.0) as client:
+        with httpx.Client(timeout=timeout) as client:
             response = client.post(
                 f"{self._base_url}/api/chat",
                 json=payload,

@@ -10,3 +10,9 @@ class OllamaAdapter(ILLMClient):
     def complete(self, system: str, messages: list[dict[str, str]]) -> str:
         full_messages = [{"role": "system", "content": system}] + messages
         return self._client.chat(full_messages)
+
+    def complete_with_timeout(
+        self, system: str, messages: list[dict[str, str]], timeout_s: float = 120.0
+    ) -> str:
+        full_messages = [{"role": "system", "content": system}] + messages
+        return self._client.chat(full_messages, timeout=timeout_s)

@@ -25,7 +25,7 @@ class LLMFilterParser(IFilterParser):
         self._llm = llm_client
 
     def parse(self, text: str) -> dict:
-        raw = self._llm.complete(_SYSTEM_PROMPT, [{"role": "user", "content": text}])
+        raw = self._llm.complete_with_timeout(_SYSTEM_PROMPT, [{"role": "user", "content": text}], timeout_s=8.0)
         result, warnings = self._try_parse(raw)
         if result is not None:
             return result
@@ -34,11 +34,11 @@ class LLMFilterParser(IFilterParser):
             f"O JSON anterior estava malformado: {raw!r}\n"
             "Retorne apenas o JSON válido, sem nenhum texto extra."
         )
-        raw2 = self._llm.complete(_SYSTEM_PROMPT, [
+        raw2 = self._llm.complete_with_timeout(_SYSTEM_PROMPT, [
             {"role": "user", "content": text},
             {"role": "assistant", "content": raw},
             {"role": "user", "content": repair_prompt},
-        ])
+        ], timeout_s=8.0)
         result2, _ = self._try_parse(raw2)
         if result2 is not None:
             return result2

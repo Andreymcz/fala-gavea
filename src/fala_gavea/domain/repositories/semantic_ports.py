@@ -63,3 +63,9 @@ class ITopicModelPort(ABC):
 class ILLMClient(ABC):
     @abstractmethod
     def complete(self, system: str, messages: list[dict[str, str]]) -> str: ...
+
+    def complete_with_timeout(
+        self, system: str, messages: list[dict[str, str]], timeout_s: float = 120.0
+    ) -> str:
+        """Default: delegates to complete(). Override for provider-specific timeout support."""
+        return self.complete(system, messages)

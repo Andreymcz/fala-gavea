@@ -142,6 +142,19 @@ def get_llm_client() -> ILLMClient | None:
     return _llm_client_instance
 
 
+_filter_parser_instance = None
+
+
+def get_filter_parser():
+    global _filter_parser_instance
+    if _filter_parser_instance is None:
+        llm = get_llm_client()
+        if llm is not None:
+            from fala_gavea.infrastructure.llm.llm_filter_parser import LLMFilterParser
+            _filter_parser_instance = LLMFilterParser(llm)
+    return _filter_parser_instance
+
+
 def get_forwarding_repo(db: Session = Depends(get_db)) -> IForwardingRepository:
     from fala_gavea.infrastructure.repositories.sqlalchemy_forwarding_repository import SQLAlchemyForwardingRepository
     return SQLAlchemyForwardingRepository(db)

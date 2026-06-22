@@ -2,8 +2,11 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.responses import FileResponse, JSONResponse
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
+from slowapi.util import get_remote_address
 from sqlalchemy import text
 from fastapi.staticfiles import StaticFiles
 
@@ -12,7 +15,7 @@ from fala_gavea.infrastructure.auth.password_service import PasswordService
 from fala_gavea.infrastructure.database.session import SessionLocal, create_tables
 from fala_gavea.infrastructure.repositories.sqlalchemy_user_repository import SQLAlchemyUserRepository
 from fala_gavea.presentation.api.routers import auth as auth_router
-from fala_gavea.presentation.api.routers import chat as chat_router
+from fala_gavea.presentation.api.routers import nl as nl_router
 from fala_gavea.presentation.api.routers import report_types as report_types_router
 from fala_gavea.presentation.api.routers import reports as reports_router
 from fala_gavea.presentation.api.routers import forwardings as forwardings_router
@@ -50,6 +53,9 @@ def _mount_spa(app: FastAPI) -> None:
 
 def create_app() -> FastAPI:
     app = FastAPI(title="Fala Gavea API", version="0.1.0")
+    limiter = Limiter(key_func=get_remote_address)
+    app.state.limiter = limiter
+    app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)  # type: ignore[arg-type]
     create_tables()
 
     db = SessionLocal()
@@ -59,7 +65,7 @@ def create_app() -> FastAPI:
         db.close()
 
     app.include_router(auth_router.router, prefix="/auth", tags=["auth"])
-    app.include_router(chat_router.router, prefix="/nl", tags=["nl-chat"])
+    app.include_router(nl_router.router, prefix="/nl", tags=["nl"])
     app.include_router(reports_router.router, prefix="/reports", tags=["reports"])
     app.include_router(report_types_router.router, prefix="/report_types", tags=["report_types"])
     app.include_router(forwardings_router.router, prefix="/forwardings", tags=["forwardings"])
