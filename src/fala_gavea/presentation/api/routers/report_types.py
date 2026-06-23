@@ -25,7 +25,7 @@ def list_report_types(
     return [ReportTypeResponse.model_validate(rt) for rt in types]
 
 
-@router.post("/", response_model=ReportTypeResponse, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=ReportTypeResponse, status_code=status.HTTP_201_CREATED)
 def create_report_type(
     body: ReportTypeCreate,
     _current_user=Depends(require_role("admin")),

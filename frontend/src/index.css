@@ -13,4 +13,15 @@
     background-color: #F7FAFC;
     font-family: system-ui, -apple-system, sans-serif;
   }
+
+  /*
+   * Leaflet uses z-indexes up to 800 internally (controls). Without isolation,
+   * those values "leak" and push modals (z-50) behind the map. isolation:isolate
+   * creates a new stacking context scoped to the map container so Leaflet's
+   * internal z-index war stays inside it. DialogPortal renders to <body> and
+   * stacks above the map regardless of Leaflet's internal values.
+   */
+  .leaflet-container {
+    isolation: isolate;
+  }
 }

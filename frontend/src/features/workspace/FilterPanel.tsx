@@ -405,7 +405,15 @@ export function FilterPanel() {
         <DateRangePresets />
 
         <div className="space-y-1">
-          <Label className="text-xs">Busca semântica</Label>
+          <div className="flex items-center gap-1">
+            <Label className="text-xs">Rankeador semântico</Label>
+            <span className="relative group">
+              <span className="text-gray-400 hover:text-gray-600 cursor-default text-xs leading-none select-none">ⓘ</span>
+              <span className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 w-56 rounded bg-gray-800 px-2 py-1.5 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity z-[10001]">
+                Ordena os relatos por similaridade semântica com o texto digitado, usando embeddings vetoriais. Quanto mais próximo do significado buscado, mais alto o relato aparece.
+              </span>
+            </span>
+          </div>
           <Input
             className="h-8 text-xs"
             placeholder="Descreva o que procura..."

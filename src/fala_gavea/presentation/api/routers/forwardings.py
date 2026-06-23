@@ -122,7 +122,7 @@ def get_public_forwarding(
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
 
 
-@router.post("/", response_model=ForwardingResponse, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=ForwardingResponse, status_code=status.HTTP_201_CREATED)
 def create_forwarding(
     body: ForwardingCreate,
     current_user: User = Depends(_agent_or_admin),

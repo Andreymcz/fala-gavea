@@ -31,6 +31,7 @@ from fala_gavea.presentation.api.dependencies import (
     get_report_type_repo,
     get_semantic_search_port,
     require_any_role,
+    require_role,
 )
 from fala_gavea.presentation.schemas.forwarding import PublicForwardingResponse, ReportSummary
 from fala_gavea.presentation.schemas.keyword import KeywordItem, KeywordListResponse
@@ -65,10 +66,13 @@ def _parse_bbox(q: ReportFiltersQuery) -> tuple[float, float, float, float] | No
         )
 
 
-@router.post("/", response_model=ReportResponse, status_code=status.HTTP_201_CREATED)
+_citizen_only = require_role("citizen")
+
+
+@router.post("", response_model=ReportResponse, status_code=status.HTTP_201_CREATED)
 def create_report(
     body: ReportCreate,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(_citizen_only),
     report_repo=Depends(get_report_repo),
     report_type_repo=Depends(get_report_type_repo),
     indexer: IReportIndexer | None = Depends(get_report_indexer),
