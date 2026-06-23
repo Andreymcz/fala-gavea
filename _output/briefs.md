@@ -1,5 +1,7 @@
 # Briefs Log
 
+DONE | 2026-06-23 23:58 UTC | STARTED | 2026-06-23 23:12 UTC | reflect | on last implemented features and see what is pending
+
 DONE | 2026-06-23 21:31 UTC | STARTED | 2026-06-23 21:28 UTC | plan | populate seed of encaminhamentos based on existing api url. filter relatos and build a 50% of relatos encaminhados. | PLAN | 000148
 
 DONE | 2026-06-22 23:41 UTC | STARTED | 2026-06-22 23:32 UTC | explain | spec-drift
