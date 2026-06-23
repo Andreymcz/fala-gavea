@@ -5,7 +5,7 @@
 
 | Date | Type | ID | Title | Status | File |
 |------|------|----|-------|--------|------|
-| 2026-06-23 21:30 UTC | Plan | 000148 | seed encaminhamentos | OPEN | [plan-000148.md](plans/plan-000148.md) |
+| 2026-06-23 21:30 UTC | Plan | 000148 | seed encaminhamentos | DONE | [plan-000148.md](plans/plan-000148.md) |
 | 2026-06-23 12:32 UTC | Other |  | Progress -- Plan 000096 |  | [plan-000096-progress.md](plans/plan-000096-progress.md) |
 | 2026-06-23 12:32 UTC | Other |  | Progress -- Plan 000099 |  | [plan-000099-progress.md](plans/plan-000099-progress.md) |
 | 2026-06-23 12:32 UTC | Other |  | Progress -- Plan 000104 |  | [plan-000104-progress.md](plans/plan-000104-progress.md) |

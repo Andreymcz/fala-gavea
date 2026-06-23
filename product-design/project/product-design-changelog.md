@@ -1,5 +1,10 @@
 # AS-CODED CHANGELOG — fala-gavea
 
+### v15 -- 2026-06-23
+- **Added**: `scripts/seed_forwardings.py` — seed script that authenticates as dev agent, queries pendente reports, draws 50% random sample grouped by report_type_id, and POSTs one Forwarding per sub-batch with institution/solution mapping
+- **Source**: agent (post-skill)
+- **Plan**: plan-000148
+
 ### v14 -- 2026-06-22
 - **Added**: `IFilterParser` port + `ParseError` dataclass in `domain/repositories/filter_ports.py`
 - **Added**: `LLMFilterParser` in `infrastructure/llm/llm_filter_parser.py` (wraps `ILLMClient`, 8s timeout, JSON extraction + one repair retry)
