@@ -1,5 +1,7 @@
 # Briefs Log
 
+STARTED | 2026-06-24 00:26 UTC | plan | --roadmap — plan the implementation of research-000150 (votes + comments + anonymization)
+
 DONE | 2026-06-24 00:10 UTC | STARTED | 2026-06-24 00:06 UTC | research | investigate the citizen feedback mechanism (votes + comments) AND the blueprint gaps (anonymization) before planning. notifications not needed, gps is working on web, photo upload not needed
 
 DONE | 2026-06-23 23:58 UTC | STARTED | 2026-06-23 23:12 UTC | reflect | on last implemented features and see what is pending
