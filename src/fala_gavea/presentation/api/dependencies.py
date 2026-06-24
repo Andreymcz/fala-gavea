@@ -155,6 +155,11 @@ def get_filter_parser():
     return _filter_parser_instance
 
 
+def get_anon_token_repo(db: Session = Depends(get_db)):
+    from fala_gavea.infrastructure.repositories.anonymous_token_repository import SQLAlchemyAnonymousTokenRepository
+    return SQLAlchemyAnonymousTokenRepository(db)
+
+
 def get_forwarding_repo(db: Session = Depends(get_db)) -> IForwardingRepository:
     from fala_gavea.infrastructure.repositories.sqlalchemy_forwarding_repository import SQLAlchemyForwardingRepository
     return SQLAlchemyForwardingRepository(db)

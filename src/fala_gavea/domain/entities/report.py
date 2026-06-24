@@ -28,7 +28,7 @@ class Report:
     urgency: Urgency
     photo_url: str | None
     report_type_id: str
-    author_id: str
+    author_id: str | None
     status: ReportStatus
     created_at: datetime
 
@@ -39,7 +39,7 @@ class Report:
         lon: float,
         urgency: Urgency,
         report_type_id: str,
-        author_id: str,
+        author_id: str | None,
         photo_url: str | None = None,
         created_at: datetime | None = None,
     ) -> Report:

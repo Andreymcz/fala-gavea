@@ -15,6 +15,7 @@ class ReportCreate(BaseModel):
     urgency: str
     report_type_id: str
     photo_url: str | None = None
+    anonymous: bool = False
 
     @field_validator("text")
     @classmethod
@@ -53,10 +54,11 @@ class ReportResponse(BaseModel):
     urgency: str
     status: str
     report_type_id: str
-    author_id: str
+    author_id: str | None
     photo_url: str | None
     created_at: datetime
     votes: VoteSummarySchema | None = None
+    anonymous_claim_token: str | None = None
 
     model_config = {"from_attributes": True}
 

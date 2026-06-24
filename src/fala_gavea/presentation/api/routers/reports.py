@@ -1,6 +1,10 @@
 from __future__ import annotations
 
+from hashlib import sha256
+from typing import Optional
+
 from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi.security import OAuth2PasswordBearer
 
 from fala_gavea.application.use_cases.forwardings.list_forwardings_for_report import (
     ListForwardingsForReport,
@@ -22,7 +26,9 @@ from fala_gavea.domain.exceptions import InvalidInputError, ReportNotFoundError,
 from fala_gavea.domain.repositories.forwarding_repository import IForwardingRepository
 from fala_gavea.domain.repositories.report_repository import IReportRepository, ReportFilters
 from fala_gavea.domain.repositories.semantic_ports import IReportIndexer, ISemanticSearchPort, ITopicModelPort
+from fala_gavea.domain.repositories.anonymous_token_repository import IAnonymousTokenRepository
 from fala_gavea.presentation.api.dependencies import (
+    get_anon_token_repo,
     get_current_user,
     get_forwarding_repo,
     get_keyword_extractor,
@@ -68,36 +74,76 @@ def _parse_bbox(q: ReportFiltersQuery) -> tuple[float, float, float, float] | No
 
 _citizen_only = require_role("citizen")
 
+_optional_oauth2 = OAuth2PasswordBearer(tokenUrl="/auth/token", auto_error=False)
+
+
+def _optional_user(
+    token: Optional[str] = Depends(_optional_oauth2),
+    report_repo=Depends(get_report_repo),
+) -> Optional[User]:
+    """Returns the authenticated user or None if no valid token is provided."""
+    if not token:
+        return None
+    from fala_gavea.infrastructure.auth.jwt_service import JWTService
+    from fala_gavea.infrastructure.repositories.sqlalchemy_user_repository import SQLAlchemyUserRepository
+    try:
+        jwt_service = JWTService()
+        payload = jwt_service.decode_token(token)
+        user_id: str = payload.get("sub", "")
+        from fala_gavea.infrastructure.database.session import SessionLocal
+        db = SessionLocal()
+        try:
+            user_repo = SQLAlchemyUserRepository(db)
+            return user_repo.find_by_id(user_id)
+        finally:
+            db.close()
+    except Exception:
+        return None
+
 
 @router.post("", response_model=ReportResponse, status_code=status.HTTP_201_CREATED)
 def create_report(
     body: ReportCreate,
-    current_user: User = Depends(_citizen_only),
+    current_user: Optional[User] = Depends(_optional_user),
     report_repo=Depends(get_report_repo),
     report_type_repo=Depends(get_report_type_repo),
     indexer: IReportIndexer | None = Depends(get_report_indexer),
+    anon_token_repo: IAnonymousTokenRepository = Depends(get_anon_token_repo),
 ) -> ReportResponse:
+    if not body.anonymous and current_user is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Authentication required for non-anonymous reports",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
     try:
-        report = CreateReport(report_repo, report_type_repo, indexer=indexer).execute(
+        author_id = current_user.id if current_user is not None else None
+        report, claim_token = CreateReport(
+            report_repo, report_type_repo, indexer=indexer, anon_token_repo=anon_token_repo
+        ).execute(
             text=body.text,
             lat=body.lat,
             lon=body.lon,
             urgency=body.urgency,
             report_type_id=body.report_type_id,
-            author_id=current_user.id,
+            author_id=author_id,
             photo_url=body.photo_url,
+            anonymous=body.anonymous,
         )
+        lat_out = round(report.lat, 3) if report.author_id is None else report.lat
+        lon_out = round(report.lon, 3) if report.author_id is None else report.lon
         return ReportResponse(
             id=report.id,
             text=report.text,
-            lat=report.lat,
-            lon=report.lon,
+            lat=lat_out,
+            lon=lon_out,
             urgency=report.urgency.value,
             status=report.status.value,
             report_type_id=report.report_type_id,
             author_id=report.author_id,
             photo_url=report.photo_url,
             created_at=report.created_at,
+            anonymous_claim_token=claim_token,
         )
     except (InvalidInputError, ReportTypeNotFoundError) as e:
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e))
@@ -321,6 +367,34 @@ def get_keywords(
     return KeywordListResponse(keywords=items, total_reports=len(reports))
 
 
+@router.get("/mine", response_model=list[ReportResponse])
+def get_my_anonymous_reports(
+    anonymous_token: str = Query(...),
+    report_repo=Depends(get_report_repo),
+    anon_token_repo: IAnonymousTokenRepository = Depends(get_anon_token_repo),
+) -> list[ReportResponse]:
+    token_hash = sha256(anonymous_token.encode()).hexdigest()
+    report_ids = anon_token_repo.find_report_ids_by_hash(token_hash)
+    if not report_ids:
+        return []
+    reports = report_repo.find_by_ids(report_ids)
+    return [
+        ReportResponse(
+            id=r.id,
+            text=r.text,
+            lat=round(r.lat, 3),
+            lon=round(r.lon, 3),
+            urgency=r.urgency.value,
+            status=r.status.value,
+            report_type_id=r.report_type_id,
+            author_id=r.author_id,
+            photo_url=r.photo_url,
+            created_at=r.created_at,
+        )
+        for r in reports
+    ]
+
+
 @router.get("/{id}", response_model=ReportResponse)
 def get_report(
     id: str,
@@ -329,11 +403,13 @@ def get_report(
 ) -> ReportResponse:
     try:
         report = GetReport(report_repo).execute(id)
+        lat_out = round(report.lat, 3) if report.author_id is None else report.lat
+        lon_out = round(report.lon, 3) if report.author_id is None else report.lon
         return ReportResponse(
             id=report.id,
             text=report.text,
-            lat=report.lat,
-            lon=report.lon,
+            lat=lat_out,
+            lon=lon_out,
             urgency=report.urgency.value,
             status=report.status.value,
             report_type_id=report.report_type_id,

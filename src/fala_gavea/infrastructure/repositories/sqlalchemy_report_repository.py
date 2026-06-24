@@ -33,6 +33,12 @@ class SQLAlchemyReportRepository(IReportRepository):
         model = self._session.get(ReportModel, id)
         return self._to_entity(model) if model else None
 
+    def find_by_ids(self, ids: list[str]) -> list[Report]:
+        if not ids:
+            return []
+        stmt = select(ReportModel).where(ReportModel.id.in_(ids))
+        return [self._to_entity(m) for m in self._session.scalars(stmt).all()]
+
     def find_all(self, filters: ReportFilters) -> list[Report]:
         stmt = select(ReportModel)
         if filters.report_type_ids is not None:

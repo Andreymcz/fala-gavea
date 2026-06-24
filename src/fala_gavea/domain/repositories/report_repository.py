@@ -30,6 +30,9 @@ class IReportRepository(ABC):
     def find_all(self, filters: ReportFilters) -> list[Report]: ...
 
     @abstractmethod
+    def find_by_ids(self, ids: list[str]) -> list[Report]: ...
+
+    @abstractmethod
     def find_page(
         self,
         filters: ReportFilters,
