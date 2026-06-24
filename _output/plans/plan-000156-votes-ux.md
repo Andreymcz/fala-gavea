@@ -42,7 +42,7 @@ Add `VoteSummary` type: `{ upvotes: number; downvotes: number; user_vote: 1 | -1
 
 - **Files**: `frontend/src/api/votes.ts` (create)
 - **Tests**: N/A
-- [ ] Done
+- [x] Done
 
 ### Step 2: VoteButtons component
 
@@ -62,7 +62,7 @@ Renders two buttons: `▲ N` (upvote) and `▼ M` (downvote). Active state highl
 
 - **Files**: `frontend/src/components/VoteButtons.tsx` (create)
 - **Tests**: N/A
-- [ ] Done
+- [x] Done
 
 ### Step 3: Integrate into relato full-text dialog (TableView)
 
@@ -73,16 +73,16 @@ Hide vote buttons when `useAuth().user?.id === report.author_id` (authenticated 
 - **Files**: `frontend/src/features/workspace/views/TableView.tsx` (modify)
 - **Verify**: Opening a relato dialog shows vote counts; clicking upvote increments the count and highlights the button; clicking again retracts
 - **Tests**: N/A
-- [ ] Done
+- [x] Done
 
 ### Step 4: Integrate into forwarding public card (citizen transparency view)
 
 The citizen-facing forwarding list (consuming `GET /forwardings/public`) renders forwarding cards. Add `VoteButtons` to each card. Initialize from `forwarding.votes` field. Authenticated agents/admins see vote buttons; unauthenticated citizens see counts only (no buttons rendered when no JWT token).
 
-- **Files**: `frontend/src/features/workspace/views/CestaView.tsx` or the shared forwarding card component (modify)
-- **Verify**: Forwarding card shows vote counts; agent can upvote; citizen without account sees counts only
+- **Files**: `frontend/src/features/forwardings/PublicForwardingRow.tsx` (modify)
+- **Verify**: Forwarding card shows vote counts when expanded; authenticated user can upvote; unauthenticated user sees counts only
 - **Tests**: N/A
-- [ ] Done
+- [x] Done
 
 ## Pending Actions
 

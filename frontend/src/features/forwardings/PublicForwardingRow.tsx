@@ -1,6 +1,9 @@
-import { useState } from "react";
-import type { PublicForwarding, ForwardingStatus } from "@/lib/types";
+import { useState, useEffect } from "react";
+import type { PublicForwarding, ForwardingStatus, VoteSummary } from "@/lib/types";
 import { Badge } from "@/components/ui/badge";
+import { VoteButtons } from "@/components/VoteButtons";
+import { useAuth } from "@/auth/AuthContext";
+import { castVote, retractVote, getVoteSummary } from "@/api/votes";
 
 const FWD_STATUS_LABELS: Record<ForwardingStatus, string> = {
   aguardando_solucao: "Aguardando solução",
@@ -22,6 +25,42 @@ interface PublicForwardingRowProps {
 export function PublicForwardingRow({ forwarding }: PublicForwardingRowProps) {
   const [expanded, setExpanded] = useState(false);
   const date = new Date(forwarding.created_at).toLocaleDateString("pt-BR");
+
+  const { token } = useAuth();
+  const [voteSummary, setVoteSummary] = useState<VoteSummary | null>(null);
+  const [voteLoading, setVoteLoading] = useState(false);
+
+  // Fetch vote summary when expanded
+  useEffect(() => {
+    if (expanded) {
+      getVoteSummary("forwarding", forwarding.id)
+        .then(setVoteSummary)
+        .catch(() => {});
+    }
+  }, [expanded, forwarding.id]);
+
+  async function handleVote(value: 1 | -1) {
+    if (!token) return;
+    setVoteLoading(true);
+    try {
+      const updated = await castVote("forwarding", forwarding.id, value, token);
+      setVoteSummary(updated);
+    } catch (_) {} finally {
+      setVoteLoading(false);
+    }
+  }
+
+  async function handleRetract() {
+    if (!token) return;
+    setVoteLoading(true);
+    try {
+      await retractVote("forwarding", forwarding.id, token);
+      const updated = await getVoteSummary("forwarding", forwarding.id);
+      setVoteSummary(updated);
+    } catch (_) {} finally {
+      setVoteLoading(false);
+    }
+  }
 
   return (
     <>
@@ -61,6 +100,21 @@ export function PublicForwardingRow({ forwarding }: PublicForwardingRowProps) {
                   ))}
                 </div>
               )}
+              <div className="flex items-center gap-2 pt-1 border-t border-gray-200">
+                <span className="text-xs text-gray-500">Votos:</span>
+                <VoteButtons
+                  summary={voteSummary}
+                  onVote={handleVote}
+                  onRetract={handleRetract}
+                  disabled={!token}
+                  loading={voteLoading}
+                />
+                {!token && (
+                  <span className="text-xs text-gray-400">
+                    ▲ {voteSummary?.upvotes ?? 0} &nbsp; ▼ {voteSummary?.downvotes ?? 0}
+                  </span>
+                )}
+              </div>
             </div>
           </td>
         </tr>

@@ -19,6 +19,10 @@ import {
   DialogTitle,
   DialogClose,
 } from '@/components/ui/dialog'
+import { useAuth } from '@/auth/AuthContext'
+import { VoteButtons } from '@/components/VoteButtons'
+import { castVote, retractVote, getVoteSummary } from '@/api/votes'
+import type { VoteSummary } from '@/lib/types'
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
@@ -124,6 +128,10 @@ export function TableView() {
   const [dialogFeatureId, setDialogFeatureId] = useState<string | null>(null)
   const dialogTriggerRef = useRef<HTMLButtonElement | null>(null)
 
+  const { user, token } = useAuth()
+  const [voteSummary, setVoteSummary] = useState<VoteSummary | null>(null)
+  const [voteLoading, setVoteLoading] = useState(false)
+
   const filters = useWorkspaceStore((s) => s.filters)
   const selectedIds = useWorkspaceStore((s) => s.selectedIds)
   const toggleSelect = useWorkspaceStore((s) => s.toggleSelect)
@@ -189,6 +197,39 @@ export function TableView() {
   }
 
   const dialogFeature = dialogFeatureId ? sorted.find((f) => f.properties.id === dialogFeatureId) : null
+
+  // Fetch vote summary when a report dialog opens
+  useEffect(() => {
+    if (dialogFeatureId) {
+      setVoteSummary(null)
+      getVoteSummary('report', dialogFeatureId)
+        .then(setVoteSummary)
+        .catch(() => {})
+    }
+  }, [dialogFeatureId])
+
+  async function handleVote(value: 1 | -1) {
+    if (!token || !dialogFeatureId) return
+    setVoteLoading(true)
+    try {
+      const updated = await castVote('report', dialogFeatureId, value, token)
+      setVoteSummary(updated)
+    } catch (_) {} finally {
+      setVoteLoading(false)
+    }
+  }
+
+  async function handleRetract() {
+    if (!token || !dialogFeatureId) return
+    setVoteLoading(true)
+    try {
+      await retractVote('report', dialogFeatureId, token)
+      const updated = await getVoteSummary('report', dialogFeatureId)
+      setVoteSummary(updated)
+    } catch (_) {} finally {
+      setVoteLoading(false)
+    }
+  }
 
   if (isLoading) {
     return (
@@ -421,6 +462,15 @@ export function TableView() {
                     </div>
                   </dl>
                   <ReportDetailForwardings reportId={p.id} />
+                  <div className="flex items-center justify-between pt-2 border-t border-gray-100">
+                    <VoteButtons
+                      summary={voteSummary}
+                      onVote={handleVote}
+                      onRetract={handleRetract}
+                      disabled={!token || (user?.id != null && user.id === p.author_id)}
+                      loading={voteLoading}
+                    />
+                  </div>
                   <div className="flex justify-between pt-2">
                     <Button
                       size="sm"

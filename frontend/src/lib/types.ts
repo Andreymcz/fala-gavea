@@ -199,3 +199,9 @@ export interface SavedFilterUpdate {
   name?: string;
   body?: Partial<ReportFilters & { q?: string }>;
 }
+
+export interface VoteSummary {
+  upvotes: number;
+  downvotes: number;
+  user_vote: 1 | -1 | null;
+}
