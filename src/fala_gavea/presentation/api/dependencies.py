@@ -34,6 +34,7 @@ _indexer_instance: IReportIndexer | None = None
 _llm_client_instance: ILLMClient | None = None
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token")
+oauth2_scheme_optional = OAuth2PasswordBearer(tokenUrl="/auth/token", auto_error=False)
 
 
 def get_db() -> Generator[Session, None, None]:
@@ -86,6 +87,21 @@ def get_current_user(
             headers={"WWW-Authenticate": "Bearer"},
         )
     return user
+
+
+def get_optional_user(
+    token: str | None = Depends(oauth2_scheme_optional),
+    user_repo: IUserRepository = Depends(get_user_repo),
+    jwt_service: JWTService = Depends(get_jwt_service),
+) -> User | None:
+    if not token:
+        return None
+    try:
+        payload = jwt_service.decode_token(token)
+        user_id: str = payload.get("sub", "")
+        return user_repo.find_by_id(user_id)
+    except InvalidCredentialsError:
+        return None
 
 
 def require_role(role: str):

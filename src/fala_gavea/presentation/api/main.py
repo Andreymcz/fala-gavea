@@ -35,7 +35,7 @@ from fala_gavea.presentation.api.routers import forwardings as forwardings_route
 from fala_gavea.presentation.api.routers import seed as seed_router
 from fala_gavea.presentation.api.routers import saved_filters as saved_filters_router
 from fala_gavea.presentation.api.routers import comments as comments_router
-from fala_gavea.presentation.api.routers.votes import forwardings_votes_router, reports_votes_router
+from fala_gavea.presentation.api.routers.votes import forwardings_votes_router, reports_votes_router, votes_summary_router
 
 STATIC_DIR = Path(__file__).resolve().parents[4] / "static"
 
@@ -105,6 +105,7 @@ def create_app() -> FastAPI:
     )
     app.include_router(reports_votes_router, prefix="/reports", tags=["votes"])
     app.include_router(forwardings_votes_router, prefix="/forwardings", tags=["votes"])
+    app.include_router(votes_summary_router, prefix="/votes", tags=["votes"])
 
     @app.get("/health", include_in_schema=False)
     def health() -> JSONResponse:

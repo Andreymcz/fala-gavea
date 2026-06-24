@@ -1,6 +1,10 @@
-import type { ReportFeature } from "@/lib/types";
+import { useState, useEffect } from "react";
+import type { ReportFeature, VoteSummary } from "@/lib/types";
 import { Badge } from "@/components/ui/badge";
 import { useReportForwardings } from "@/hooks/useForwardings";
+import { useAuth } from "@/auth/AuthContext";
+import { VoteButtons } from "@/components/VoteButtons";
+import { getVoteSummary, castVote, retractVote } from "@/api/votes";
 
 const URGENCY_LABEL: Record<string, string> = {
   alta: "Alta",
@@ -40,9 +44,28 @@ export function ReportPopup({
   const typeName = typeMap.get(p.report_type_id) ?? p.report_type_id;
   const dateStr = new Date(p.created_at).toLocaleDateString("pt-BR");
 
-  // Lazy: the popup (and this component) only mounts when the marker is opened,
-  // so we do not fire one request per report on initial map render.
+  const { user, token } = useAuth();
+  const [voteSummary, setVoteSummary] = useState<VoteSummary | null>(null);
+
+  // Lazy: the popup only mounts when the marker is opened — one fetch per open is acceptable.
   const { data: forwardings = [] } = useReportForwardings(p.id);
+
+  useEffect(() => {
+    getVoteSummary("report", p.id).then(setVoteSummary).catch(() => {});
+  }, [p.id]);
+
+  async function handleVote(value: 1 | -1) {
+    if (!token) return;
+    const updated = await castVote("report", p.id, value, token);
+    setVoteSummary(updated);
+  }
+
+  async function handleRetract() {
+    if (!token) return;
+    await retractVote("report", p.id, token);
+    const updated = await getVoteSummary("report", p.id);
+    setVoteSummary(updated);
+  }
 
   return (
     <div className="min-w-[200px] space-y-1.5 text-sm">
@@ -66,6 +89,13 @@ export function ReportPopup({
         </div>
       )}
       <p className="text-gray-400 text-xs">{dateStr}</p>
+      <VoteButtons
+        summary={voteSummary}
+        onVote={handleVote}
+        onRetract={handleRetract}
+        disabled={false}
+        readOnly={!token || (user?.id != null && user.id === p.author_id)}
+      />
       {isAgent && onToggleSelect && (
         <label className="flex items-center gap-1.5 cursor-pointer mt-1">
           <input

@@ -44,6 +44,14 @@ export function Header() {
               Novo relato
             </Link>
           )}
+          {user && (
+            <Link
+              to="/?meus_relatos=1"
+              className="text-sm text-gray-600 hover:text-gray-900"
+            >
+              Meus relatos
+            </Link>
+          )}
           <Link
             to="/encaminhamentos"
             className="text-sm text-gray-600 hover:text-gray-900"

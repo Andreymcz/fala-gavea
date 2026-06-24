@@ -1,4 +1,5 @@
 import { lazy, Suspense, useEffect } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '@/auth/AuthContext'
 import { useWorkspaceStore, defaultViewsForRole } from '@/store/workspaceStore'
 import { FilterPanel } from './FilterPanel'
@@ -15,8 +16,22 @@ const CestaView = lazy(() => import('./views/CestaView').then((m) => ({ default:
 
 export function WorkspacePage() {
   const { user } = useAuth()
+  const location = useLocation()
+  const navigate = useNavigate()
   const activeViews = useWorkspaceStore((s) => s.activeViews)
   const isDirty = useWorkspaceStore((s) => s.isDirty())
+  const setDraftFilter = useWorkspaceStore((s) => s.setDraftFilter)
+  const applyFilters = useWorkspaceStore((s) => s.applyFilters)
+
+  // Apply "Meus relatos" filter when navigated via ?meus_relatos=1
+  useEffect(() => {
+    const params = new URLSearchParams(location.search)
+    if (params.get('meus_relatos') === '1' && user) {
+      setDraftFilter({ author_id: user.id })
+      applyFilters()
+      navigate('/', { replace: true })
+    }
+  }, []) // intentional: run once on mount only
 
   // Initialize views for role on mount (only once per role change)
   useEffect(() => {

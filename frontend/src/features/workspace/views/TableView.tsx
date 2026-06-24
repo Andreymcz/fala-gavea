@@ -21,12 +21,12 @@ import {
 } from '@/components/ui/dialog'
 import { useAuth } from '@/auth/AuthContext'
 import { VoteButtons } from '@/components/VoteButtons'
-import { castVote, retractVote, getVoteSummary } from '@/api/votes'
+import { castVote, retractVote, getVoteSummary, getVoteSummaryBatch } from '@/api/votes'
 import type { VoteSummary } from '@/lib/types'
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
-type SortKey = 'text' | 'urgency' | 'status' | 'created_at' | 'score'
+type SortKey = 'text' | 'urgency' | 'status' | 'created_at' | 'score' | 'upvotes'
 type SortDir = 'asc' | 'desc'
 
 interface SortConfig {
@@ -131,6 +131,7 @@ export function TableView() {
   const { user, token } = useAuth()
   const [voteSummary, setVoteSummary] = useState<VoteSummary | null>(null)
   const [voteLoading, setVoteLoading] = useState(false)
+  const [voteSummaries, setVoteSummaries] = useState<Map<string, VoteSummary>>(new Map())
 
   const filters = useWorkspaceStore((s) => s.filters)
   const selectedIds = useWorkspaceStore((s) => s.selectedIds)
@@ -182,6 +183,11 @@ export function TableView() {
         if (sb === null) return -1
         return mult * (sa - sb)
       }
+      case 'upvotes': {
+        const sa = voteSummaries.get(pa.id)?.upvotes ?? 0
+        const sb = voteSummaries.get(pb.id)?.upvotes ?? 0
+        return mult * (sa - sb)
+      }
       default:
         return 0
     }
@@ -198,13 +204,27 @@ export function TableView() {
 
   const dialogFeature = dialogFeatureId ? sorted.find((f) => f.properties.id === dialogFeatureId) : null
 
-  // Fetch vote summary when a report dialog opens
+  // Batch-fetch vote summaries for all visible rows
+  const sortedIds = sorted.map((f) => f.properties.id)
+  useEffect(() => {
+    if (sortedIds.length === 0) return
+    getVoteSummaryBatch(sortedIds, token ?? null)
+      .then((batch) => setVoteSummaries(new Map(Object.entries(batch))))
+      .catch(() => {})
+  }, [sortedIds.join(','), token])
+
+  // Fetch vote summary when a report dialog opens (init from batch map if available)
   useEffect(() => {
     if (dialogFeatureId) {
-      setVoteSummary(null)
-      getVoteSummary('report', dialogFeatureId)
-        .then(setVoteSummary)
-        .catch(() => {})
+      const cached = voteSummaries.get(dialogFeatureId)
+      if (cached) {
+        setVoteSummary(cached)
+      } else {
+        setVoteSummary(null)
+        getVoteSummary('report', dialogFeatureId)
+          .then(setVoteSummary)
+          .catch(() => {})
+      }
     }
   }, [dialogFeatureId])
 
@@ -214,6 +234,7 @@ export function TableView() {
     try {
       const updated = await castVote('report', dialogFeatureId, value, token)
       setVoteSummary(updated)
+      setVoteSummaries((prev) => new Map(prev).set(dialogFeatureId, updated))
     } catch (_) {} finally {
       setVoteLoading(false)
     }
@@ -226,6 +247,7 @@ export function TableView() {
       await retractVote('report', dialogFeatureId, token)
       const updated = await getVoteSummary('report', dialogFeatureId)
       setVoteSummary(updated)
+      setVoteSummaries((prev) => new Map(prev).set(dialogFeatureId, updated))
     } catch (_) {} finally {
       setVoteLoading(false)
     }
@@ -314,6 +336,15 @@ export function TableView() {
                   </button>
                 </TableHead>
               )}
+              <TableHead aria-sort={ariaSortValue('upvotes', sortConfig)}>
+                <button
+                  className="flex items-center gap-1 hover:text-gray-900"
+                  onClick={() => handleSort('upvotes')}
+                  aria-label="Ordenar por Votos"
+                >
+                  Votos {sortIcon('upvotes', sortConfig)}
+                </button>
+              </TableHead>
               <TableHead><span className="sr-only">Ações</span></TableHead>
             </TableRow>
           </TableHeader>
@@ -372,6 +403,27 @@ export function TableView() {
                       ) : '—'}
                     </TableCell>
                   )}
+                  <TableCell className="text-center" onClick={(e) => e.stopPropagation()}>
+                    <VoteButtons
+                      summary={voteSummaries.get(p.id) ?? null}
+                      onVote={async (v) => {
+                        if (!token) return
+                        const updated = await castVote('report', p.id, v, token)
+                        setVoteSummaries((prev) => new Map(prev).set(p.id, updated))
+                        if (dialogFeatureId === p.id) setVoteSummary(updated)
+                      }}
+                      onRetract={async () => {
+                        if (!token) return
+                        await retractVote('report', p.id, token)
+                        const updated = await getVoteSummary('report', p.id)
+                        setVoteSummaries((prev) => new Map(prev).set(p.id, updated))
+                        if (dialogFeatureId === p.id) setVoteSummary(updated)
+                      }}
+                      disabled={false}
+                      readOnly={!token || (user?.id != null && user.id === p.author_id)}
+                      loading={false}
+                    />
+                  </TableCell>
                   <TableCell>
                     <Button
                       size="sm"
@@ -389,7 +441,7 @@ export function TableView() {
             {sorted.length === 0 && (
               <TableRow>
                 <TableCell
-                  colSpan={showScore ? 8 : 7}
+                  colSpan={showScore ? 9 : 8}
                   className="text-center text-sm text-gray-400"
                 >
                   Nenhum relato encontrado.
@@ -467,7 +519,8 @@ export function TableView() {
                       summary={voteSummary}
                       onVote={handleVote}
                       onRetract={handleRetract}
-                      disabled={!token || (user?.id != null && user.id === p.author_id)}
+                      disabled={false}
+                      readOnly={!token || (user?.id != null && user.id === p.author_id)}
                       loading={voteLoading}
                     />
                   </div>

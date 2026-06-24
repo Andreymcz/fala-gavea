@@ -74,3 +74,50 @@ class SQLAlchemyVoteRepository(IVoteRepository):
                 user_vote = model.value
 
         return VoteSummary(upvotes=upvotes, downvotes=downvotes, user_vote=user_vote)
+
+    def get_summaries_batch(
+        self,
+        target_type: str,
+        target_ids: list[str],
+        voter_id: str | None = None,
+    ) -> dict[str, VoteSummary]:
+        if not target_ids:
+            return {}
+        up_rows = self._session.execute(
+            select(VoteModel.target_id, func.count())
+            .where(
+                VoteModel.target_type == target_type,
+                VoteModel.target_id.in_(target_ids),
+                VoteModel.value == 1,
+            )
+            .group_by(VoteModel.target_id)
+        ).all()
+        down_rows = self._session.execute(
+            select(VoteModel.target_id, func.count())
+            .where(
+                VoteModel.target_type == target_type,
+                VoteModel.target_id.in_(target_ids),
+                VoteModel.value == -1,
+            )
+            .group_by(VoteModel.target_id)
+        ).all()
+        upvotes: dict[str, int] = {r[0]: r[1] for r in up_rows}
+        downvotes: dict[str, int] = {r[0]: r[1] for r in down_rows}
+        user_votes: dict[str, int] = {}
+        if voter_id:
+            uv_rows = self._session.execute(
+                select(VoteModel.target_id, VoteModel.value).where(
+                    VoteModel.voter_id == voter_id,
+                    VoteModel.target_type == target_type,
+                    VoteModel.target_id.in_(target_ids),
+                )
+            ).all()
+            user_votes = {r[0]: r[1] for r in uv_rows}
+        return {
+            tid: VoteSummary(
+                upvotes=upvotes.get(tid, 0),
+                downvotes=downvotes.get(tid, 0),
+                user_vote=user_votes.get(tid),
+            )
+            for tid in target_ids
+        }

@@ -16,3 +16,8 @@ class IVoteRepository(ABC):
     def get_summary(
         self, target_type: str, target_id: str, voter_id: str | None
     ) -> VoteSummary: ...
+
+    @abstractmethod
+    def get_summaries_batch(
+        self, target_type: str, target_ids: list[str], voter_id: str | None = None
+    ) -> dict[str, VoteSummary]: ...
