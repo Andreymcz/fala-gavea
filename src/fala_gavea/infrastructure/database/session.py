@@ -1,7 +1,7 @@
 import os
 import sqlite3
 
-from sqlalchemy import create_engine, event
+from sqlalchemy import create_engine, event, text
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import DeclarativeBase, sessionmaker
 
@@ -30,3 +30,8 @@ class Base(DeclarativeBase):
 
 def create_tables() -> None:
     Base.metadata.create_all(bind=engine)
+    with engine.connect() as conn:
+        conn.execute(
+            text("CREATE INDEX IF NOT EXISTS ix_reports_created_at ON reports (created_at DESC)")
+        )
+        conn.commit()

@@ -1,5 +1,7 @@
 # Briefs Log
 
+DONE | 2026-06-24 19:31 UTC | STARTED | 2026-06-24 19:23 UTC | plan | plan fixes | PLAN | 000167
+
 DONE | 2026-06-24 18:37 UTC | STARTED | 2026-06-24 18:12 UTC | implement | 164 | PLAN | 164
 
 DONE | 2026-06-24 18:07 UTC | STARTED | 2026-06-24 18:01 UTC | plan | A e B: meus relatos leva ao workspace com filtro pre-aplicado; votos visiveis na linha da tabela e passiveis de alteracao via tabela e via mapa | PLAN | 000164

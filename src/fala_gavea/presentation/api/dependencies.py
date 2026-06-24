@@ -29,8 +29,12 @@ from fala_gavea.infrastructure.repositories.sqlalchemy_report_repository import 
 from fala_gavea.infrastructure.repositories.sqlalchemy_report_type_repository import SQLAlchemyReportTypeRepository
 from fala_gavea.infrastructure.repositories.sqlalchemy_user_repository import SQLAlchemyUserRepository
 
+import threading
+
 _log = logging.getLogger(__name__)
-_indexer_instance: IReportIndexer | None = None
+_CHROMA_INIT_FAILED = object()
+_indexer_instance: IReportIndexer | None | object = None
+_indexer_lock = threading.Lock()
 _llm_client_instance: ILLMClient | None = None
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token")
@@ -117,14 +121,21 @@ def require_role(role: str):
 
 def get_report_indexer() -> IReportIndexer | None:
     global _indexer_instance
-    if _indexer_instance is None:
+    if _indexer_instance is _CHROMA_INIT_FAILED:
+        return None
+    if _indexer_instance is not None:
+        return _indexer_instance  # type: ignore[return-value]
+    with _indexer_lock:
+        if _indexer_instance is not None:
+            return None if _indexer_instance is _CHROMA_INIT_FAILED else _indexer_instance  # type: ignore[return-value]
         try:
             from fala_gavea.infrastructure.chromadb.chroma_search_client import ChromaSearchClient
             from fala_gavea.infrastructure.embeddings.registry import SemanticConfig
             _indexer_instance = ChromaSearchClient(SemanticConfig())
         except Exception as exc:
             _log.warning("ChromaSearchClient unavailable: %s", exc)
-    return _indexer_instance
+            _indexer_instance = _CHROMA_INIT_FAILED
+    return None if _indexer_instance is _CHROMA_INIT_FAILED else _indexer_instance  # type: ignore[return-value]
 
 
 def get_semantic_search_port() -> ISemanticSearchPort | None:

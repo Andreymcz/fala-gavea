@@ -118,6 +118,12 @@ def create_app() -> FastAPI:
         return JSONResponse({"status": "ok"})
 
     _mount_spa(app)
+
+    @app.on_event("startup")
+    def _warm_up_chroma() -> None:
+        from fala_gavea.presentation.api.dependencies import get_report_indexer
+        get_report_indexer()
+
     return app
 
 
