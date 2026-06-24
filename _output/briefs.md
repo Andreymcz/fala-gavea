@@ -1,5 +1,9 @@
 # Briefs Log
 
+STARTED | 2026-06-24 11:53 UTC | reflect | what was done in roadmap 151 and how to test it in frontend
+
+DONE | 2026-06-24 11:54 UTC | STARTED | 2026-06-24 11:51 UTC | plan | Folowing roadmap 151 i want to run a seed script that will run all seeds existing. also i want to have a account for every possible role: admin, public agent and citzen seeded | PLAN | 000161
+
 DONE | 2026-06-24 11:36 UTC | STARTED | 2026-06-24 11:04 UTC | implement | roadmap 151 Wave 2
 
 DONE | 2026-06-24 00:32 UTC | STARTED | 2026-06-24 00:26 UTC | plan | --roadmap — plan the implementation of research-000150 (votes + comments + anonymization) | PLAN | 000151
