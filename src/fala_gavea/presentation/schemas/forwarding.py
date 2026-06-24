@@ -4,6 +4,8 @@ from datetime import datetime
 
 from pydantic import BaseModel, ConfigDict, field_validator
 
+from fala_gavea.presentation.schemas.votes import VoteSummarySchema
+
 
 class ReportSummary(BaseModel):
     id: str
@@ -96,3 +98,4 @@ class PublicForwardingResponse(BaseModel):
     reports: list[ReportSummary]
     created_at: datetime
     updated_at: datetime
+    votes: VoteSummarySchema | None = None

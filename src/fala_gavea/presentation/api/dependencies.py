@@ -160,9 +160,15 @@ def get_forwarding_repo(db: Session = Depends(get_db)) -> IForwardingRepository:
     return SQLAlchemyForwardingRepository(db)
 
 
+<<<<<<< HEAD
 def get_comment_repo(db: Session = Depends(get_db)):
     from fala_gavea.infrastructure.repositories.comment_repository import SQLAlchemyCommentRepository
     return SQLAlchemyCommentRepository(db)
+=======
+def get_vote_repo(db: Session = Depends(get_db)):
+    from fala_gavea.infrastructure.repositories.vote_repository import SQLAlchemyVoteRepository
+    return SQLAlchemyVoteRepository(db)
+>>>>>>> 8561086 (plan-000153: votes backend — repo, use cases, API endpoints, rate limit)
 
 
 def get_saved_filter_repo(db: Session = Depends(get_db)) -> "ISavedFilterRepository":

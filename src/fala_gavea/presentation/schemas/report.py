@@ -5,6 +5,7 @@ from datetime import datetime
 from pydantic import BaseModel, field_validator
 
 from fala_gavea.domain.entities.report import ReportStatus, Urgency
+from fala_gavea.presentation.schemas.votes import VoteSummarySchema
 
 
 class ReportCreate(BaseModel):
@@ -55,6 +56,7 @@ class ReportResponse(BaseModel):
     author_id: str
     photo_url: str | None
     created_at: datetime
+    votes: VoteSummarySchema | None = None
 
     model_config = {"from_attributes": True}
 
