@@ -133,16 +133,3 @@ class SavedFilterModel(Base):
     created_at = Column(DateTime(timezone=True), nullable=False)
     updated_at = Column(DateTime(timezone=True), nullable=False)
 
-
-class VoteModel(Base):
-    __tablename__ = "votes"
-
-    voter_id = Column(String, ForeignKey("users.id"), nullable=False, primary_key=True)
-    target_type = Column(String, nullable=False, primary_key=True)
-    target_id = Column(String, nullable=False, primary_key=True)
-    value = Column(Integer, nullable=False)  # 1 or -1
-    created_at = Column(DateTime, nullable=False)
-
-    __table_args__ = (
-        UniqueConstraint("voter_id", "target_type", "target_id", name="uq_vote"),
-    )
