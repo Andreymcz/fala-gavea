@@ -1,5 +1,7 @@
 # Briefs Log
 
+DONE | 2026-06-24 18:07 UTC | STARTED | 2026-06-24 18:01 UTC | plan | A e B: meus relatos leva ao workspace com filtro pre-aplicado; votos visiveis na linha da tabela e passiveis de alteracao via tabela e via mapa | PLAN | 000164
+
 STARTED | 2026-06-24 11:53 UTC | reflect | what was done in roadmap 151 and how to test it in frontend
 
 DONE | 2026-06-24 11:54 UTC | STARTED | 2026-06-24 11:51 UTC | plan | Folowing roadmap 151 i want to run a seed script that will run all seeds existing. also i want to have a account for every possible role: admin, public agent and citzen seeded | PLAN | 000161
