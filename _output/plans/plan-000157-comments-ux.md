@@ -1,4 +1,4 @@
-# Plan 000157 | feat/comments-ux | 2026-06-24 00:26 UTC | Comment UX: comment section on forwarding detail | Review: light
+# DONE | 2026-06-24 11:35 UTC | Plan 000157 | feat/comments-ux | 2026-06-24 00:26 UTC | Comment UX: comment section on forwarding detail | Review: light
 plan_format_version: 1
 
 source: roadmap-000151

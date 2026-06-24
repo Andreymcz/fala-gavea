@@ -24,9 +24,9 @@ source: research-000150
 ### Wave 2 — Frontend (parallel, depends on Wave 1)
 | # | ID | Title | Scope | Type | Plan | Depends on | Status |
 |---|-----|-------|-------|------|------|-----------|--------|
-| 5 | votes-ux | Vote buttons UX on relato + forwarding cards | frontend | design | plan-000156 | votes-backend | pending |
-| 6 | comments-ux | Comment section UX on forwarding detail | frontend | design | plan-000157 | comments-backend | pending |
-| 7 | anon-ux | Anonymous toggle on report form + token storage + meus relatos | frontend | design | plan-000158 | anon-backend | pending |
+| 5 | votes-ux | Vote buttons UX on relato + forwarding cards | frontend | design | plan-000156 | votes-backend | done |
+| 6 | comments-ux | Comment section UX on forwarding detail | frontend | design | plan-000157 | comments-backend | done |
+| 7 | anon-ux | Anonymous toggle on report form + token storage + meus relatos | frontend | design | plan-000158 | anon-backend | done |
 
 > The `Plan` column entries are filled with real IDs reserved above. All 7 plans generated inline with this roadmap.
 
@@ -47,3 +47,6 @@ Depends on Wave 1. Execute after all Wave 1 plans complete:
 - `/implement plan-000156` (votes-ux)
 - `/implement plan-000157` (comments-ux)
 - `/implement plan-000158` (anon-ux)
+
+## Completion
+Roadmap completed at 2026-06-24 11:35 UTC. All 7 plans executed across 3 waves.

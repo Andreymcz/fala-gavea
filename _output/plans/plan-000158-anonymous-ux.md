@@ -1,4 +1,4 @@
-# Plan 000158 | feat/anon-ux | 2026-06-24 00:26 UTC | Anonymous UX: toggle on report form, token storage, meus relatos | Review: light
+# DONE | 2026-06-24 11:35 UTC | Plan 000158 | feat/anon-ux | 2026-06-24 00:26 UTC | Anonymous UX: toggle on report form, token storage, meus relatos | Review: light
 plan_format_version: 1
 
 source: roadmap-000151

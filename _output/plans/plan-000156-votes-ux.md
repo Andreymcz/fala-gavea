@@ -1,4 +1,4 @@
-# Plan 000156 | feat/votes-ux | 2026-06-24 00:26 UTC | Vote UX: vote buttons on relato and forwarding cards | Review: light
+# DONE | 2026-06-24 11:35 UTC | Plan 000156 | feat/votes-ux | 2026-06-24 00:26 UTC | Vote UX: vote buttons on relato and forwarding cards | Review: light
 plan_format_version: 1
 
 source: roadmap-000151
