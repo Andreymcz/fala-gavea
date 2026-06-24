@@ -7,6 +7,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query, status
 from fala_gavea.application.use_cases.forwardings.create_forwarding import CreateForwarding
 from fala_gavea.application.use_cases.forwardings.get_forwarding import GetForwarding
 from fala_gavea.application.use_cases.forwardings.list_forwardings import ListForwardings
+from fala_gavea.application.use_cases.forwardings.list_forwardings_for_author import ListForwardingsForAuthor
 from fala_gavea.application.use_cases.forwardings.update_forwarding import UpdateForwarding
 from fala_gavea.application.use_cases.forwardings.update_forwarding_status import UpdateForwardingStatus
 from fala_gavea.domain.entities.forwarding import Forwarding, ForwardingStatus
@@ -16,6 +17,7 @@ from fala_gavea.domain.exceptions import ForwardingNotFoundError, InvalidInputEr
 from fala_gavea.domain.repositories.forwarding_repository import ForwardingFilters, IForwardingRepository
 from fala_gavea.domain.repositories.report_repository import IReportRepository
 from fala_gavea.presentation.api.dependencies import (
+    get_current_user,
     get_forwarding_repo,
     get_report_repo,
     require_any_role,
@@ -179,6 +181,16 @@ def list_forwardings(
             reports = []
         result.append(_build_response(fwd, reports))
     return result
+
+
+@router.get("/mine", response_model=list[PublicForwardingResponse])
+def list_my_forwardings(
+    current_user: User = Depends(get_current_user),
+    forwarding_repo: IForwardingRepository = Depends(get_forwarding_repo),
+    report_repo: IReportRepository = Depends(get_report_repo),
+) -> list[PublicForwardingResponse]:
+    pairs = ListForwardingsForAuthor(forwarding_repo, report_repo).execute(current_user.id)
+    return [_build_public_response(fwd, reports) for fwd, reports in pairs]
 
 
 @router.get("/{id}", response_model=ForwardingResponse)

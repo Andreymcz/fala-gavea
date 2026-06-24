@@ -11,6 +11,7 @@ from fala_gavea.domain.repositories.forwarding_repository import (
 from fala_gavea.infrastructure.database.models import (
     ForwardingModel,
     ForwardingReportModel,
+    ReportModel,
 )
 
 
@@ -81,6 +82,16 @@ class SQLAlchemyForwardingRepository(IForwardingRepository):
                 ForwardingReportModel.forwarding_id == ForwardingModel.id,
             )
             .where(ForwardingReportModel.report_id == report_id)
+        )
+        return [self._to_entity(m) for m in self._session.scalars(stmt).all()]
+
+    def find_by_author_id(self, author_id: str) -> list[Forwarding]:
+        stmt = (
+            select(ForwardingModel)
+            .join(ForwardingReportModel, ForwardingReportModel.forwarding_id == ForwardingModel.id)
+            .join(ReportModel, ReportModel.id == ForwardingReportModel.report_id)
+            .where(ReportModel.author_id == author_id)
+            .distinct()
         )
         return [self._to_entity(m) for m in self._session.scalars(stmt).all()]
 

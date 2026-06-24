@@ -36,3 +36,7 @@ class IForwardingRepository(ABC):
     @abstractmethod
     def find_by_report_id(self, report_id: str) -> list[Forwarding]:
         """Return all forwardings linked to the given report (reverse of add_reports)."""
+
+    @abstractmethod
+    def find_by_author_id(self, author_id: str) -> list[Forwarding]:
+        """Return all forwardings that contain at least one report authored by author_id."""

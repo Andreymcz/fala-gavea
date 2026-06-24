@@ -235,3 +235,36 @@ def test_update_forwarding_institution(client, agent_headers, citizen_headers, s
     get_resp = client.get(f"/forwardings/{fwd['id']}", headers=agent_headers)
     assert get_resp.status_code == 200
     assert get_resp.json()["institution"] == "COMLURB"
+
+
+# --- GET /forwardings/mine ---
+
+def test_mine_returns_forwarding_with_own_reports(client, citizen_headers, agent_headers, sample_report_type):
+    r1 = _create_report(client, citizen_headers, sample_report_type)
+    _create_forwarding(client, agent_headers, [r1["id"]])
+    resp = client.get("/forwardings/mine", headers=citizen_headers)
+    assert resp.status_code == 200
+    data = resp.json()
+    assert len(data) == 1
+    assert "agent_id" not in data[0]
+
+
+def test_mine_excludes_forwardings_of_other_citizens(client, citizen_headers, agent_headers, sample_report_type, db_session):
+    # Register a second citizen and get their token
+    client.post("/auth/register", json={"email": "citizen2@test.com", "password": "pass5678", "name": "Citizen Two"})
+    token_resp = client.post("/auth/token", data={"username": "citizen2@test.com", "password": "pass5678"})
+    citizen2_headers = {"Authorization": f"Bearer {token_resp.json()['access_token']}"}
+
+    # Forwarding linked only to citizen2's report
+    r2 = _create_report(client, citizen2_headers, sample_report_type)
+    _create_forwarding(client, agent_headers, [r2["id"]])
+
+    # citizen1 sees no forwardings
+    resp = client.get("/forwardings/mine", headers=citizen_headers)
+    assert resp.status_code == 200
+    assert resp.json() == []
+
+
+def test_mine_requires_auth(client):
+    resp = client.get("/forwardings/mine")
+    assert resp.status_code == 401

@@ -149,6 +149,10 @@ export const api = {
     return request<PublicForwarding[]>("GET", `/reports/${reportId}/forwardings`, { public: true });
   },
 
+  getMyForwardings(): Promise<PublicForwarding[]> {
+    return request<PublicForwarding[]>("GET", "/forwardings/mine");
+  },
+
   createForwarding(body: CreateForwardingBody): Promise<Forwarding> {
     return request<Forwarding>("POST", "/forwardings", { body });
   },

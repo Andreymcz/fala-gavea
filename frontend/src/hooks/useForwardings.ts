@@ -32,6 +32,15 @@ export function useReportForwardings(reportId: string | null, enabled = true) {
   });
 }
 
+export function useMyForwardings(enabled = true) {
+  return useQuery({
+    queryKey: ["forwardings", "mine"],
+    queryFn: () => api.getMyForwardings(),
+    staleTime: 30_000,
+    enabled,
+  });
+}
+
 export function useCreateForwarding() {
   const qc = useQueryClient();
   return useMutation({

@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { usePublicForwardings } from "@/hooks/useForwardings";
+import { usePublicForwardings, useMyForwardings } from "@/hooks/useForwardings";
+import { useAuth } from "@/auth/AuthContext";
 import { PublicForwardingRow } from "./PublicForwardingRow";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
@@ -11,9 +12,13 @@ import type { ForwardingStatus } from "@/lib/types";
  */
 export function PublicForwardingsPage() {
   const [statusFilter, setStatusFilter] = useState<ForwardingStatus | "">("");
-  const { data: forwardings = [], isLoading } = usePublicForwardings(
-    statusFilter || undefined,
-  );
+  const [showMine, setShowMine] = useState(false);
+  const { user } = useAuth();
+  const publicQuery = usePublicForwardings(statusFilter || undefined);
+  const mineQuery = useMyForwardings(!!user);
+
+  const isLoading = showMine && user ? mineQuery.isLoading : publicQuery.isLoading;
+  const forwardings = showMine && user ? (mineQuery.data ?? []) : (publicQuery.data ?? []);
 
   return (
     <div className="flex flex-1 flex-col p-6">
@@ -24,7 +29,18 @@ export function PublicForwardingsPage() {
             Acompanhe as soluções encaminhadas aos órgãos responsáveis.
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-4">
+          {user && (
+            <label className="flex items-center gap-2 cursor-pointer text-sm text-gray-700">
+              <input
+                type="checkbox"
+                checked={showMine}
+                onChange={(e) => setShowMine(e.target.checked)}
+                className="h-4 w-4 rounded border-gray-300"
+              />
+              Meus encaminhamentos
+            </label>
+          )}
           <Label className="text-sm">Status</Label>
           <Select
             value={statusFilter}
