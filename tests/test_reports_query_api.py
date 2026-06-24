@@ -51,7 +51,7 @@ def test_query_bad_urgency_enum(client, citizen_headers):
 
 def test_query_unauthenticated(client):
     resp = client.post("/reports/query", json={})
-    assert resp.status_code == 401
+    assert resp.status_code == 200
 
 
 def test_query_pagination_envelope(client, citizen_headers, sample_report_type):

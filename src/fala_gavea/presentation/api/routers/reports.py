@@ -1,10 +1,8 @@
 from __future__ import annotations
 
 from hashlib import sha256
-from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
-from fastapi.security import OAuth2PasswordBearer
 
 from fala_gavea.application.use_cases.forwardings.list_forwardings_for_report import (
     ListForwardingsForReport,
@@ -32,6 +30,7 @@ from fala_gavea.presentation.api.dependencies import (
     get_current_user,
     get_forwarding_repo,
     get_keyword_extractor,
+    get_optional_user,
     get_report_indexer,
     get_report_repo,
     get_report_type_repo,
@@ -74,37 +73,10 @@ def _parse_bbox(q: ReportFiltersQuery) -> tuple[float, float, float, float] | No
 
 _citizen_only = require_role("citizen")
 
-_optional_oauth2 = OAuth2PasswordBearer(tokenUrl="/auth/token", auto_error=False)
-
-
-def _optional_user(
-    token: Optional[str] = Depends(_optional_oauth2),
-    report_repo=Depends(get_report_repo),
-) -> Optional[User]:
-    """Returns the authenticated user or None if no valid token is provided."""
-    if not token:
-        return None
-    from fala_gavea.infrastructure.auth.jwt_service import JWTService
-    from fala_gavea.infrastructure.repositories.sqlalchemy_user_repository import SQLAlchemyUserRepository
-    try:
-        jwt_service = JWTService()
-        payload = jwt_service.decode_token(token)
-        user_id: str = payload.get("sub", "")
-        from fala_gavea.infrastructure.database.session import SessionLocal
-        db = SessionLocal()
-        try:
-            user_repo = SQLAlchemyUserRepository(db)
-            return user_repo.find_by_id(user_id)
-        finally:
-            db.close()
-    except Exception:
-        return None
-
-
 @router.post("", response_model=ReportResponse, status_code=status.HTTP_201_CREATED)
 def create_report(
     body: ReportCreate,
-    current_user: Optional[User] = Depends(_optional_user),
+    current_user: User | None = Depends(get_optional_user),
     report_repo=Depends(get_report_repo),
     report_type_repo=Depends(get_report_type_repo),
     indexer: IReportIndexer | None = Depends(get_report_indexer),
@@ -248,7 +220,7 @@ MAX_RESULTS = 500
 @router.post("/query", response_model=ReportQueryResponse)
 def query_reports(
     body: ReportQueryRequest,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_optional_user),
     report_repo=Depends(get_report_repo),
     search_port: ISemanticSearchPort | None = Depends(get_semantic_search_port),
 ) -> ReportQueryResponse:
