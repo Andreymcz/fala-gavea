@@ -37,7 +37,7 @@ Register `get_comment_repo()` in `presentation/api/dependencies.py`.
 
 - **Files**: `src/fala_gavea/infrastructure/repositories/comment_repository.py` (create), `src/fala_gavea/presentation/api/dependencies.py` (modify)
 - **Tests**: `tests/integration/test_comment_repository.py`
-- [ ] Done
+- [x] Done
 
 ### Step 2: Use cases
 
@@ -49,7 +49,7 @@ Implement in `src/fala_gavea/application/use_cases/comments/`:
 
 - **Files**: `src/fala_gavea/application/use_cases/comments/add_comment.py` (create), `src/fala_gavea/application/use_cases/comments/delete_comment.py` (create), `src/fala_gavea/application/use_cases/comments/list_comments.py` (create)
 - **Tests**: `tests/unit/use_cases/test_comments.py`
-- [ ] Done
+- [x] Done
 
 ### Step 3: Schemas and API endpoints
 
@@ -68,7 +68,7 @@ Mount `comments_router` in `main.py`. Return 404 if the forwarding does not exis
 - **Files**: `src/fala_gavea/presentation/schemas/comments.py` (create), `src/fala_gavea/presentation/api/routers/comments.py` (create), `src/fala_gavea/presentation/api/main.py` (modify)
 - **Verify**: POST /forwardings/{id}/comments returns 201 with comment; GET returns the list; DELETE by owner returns 204; DELETE by other citizen returns 403; DELETE by agent returns 204
 - **Tests**: `tests/integration/test_comments_api.py`
-- [ ] Done
+- [x] Done
 
 ## Pending Actions
 

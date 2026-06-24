@@ -34,6 +34,7 @@ from fala_gavea.presentation.api.routers import reports as reports_router
 from fala_gavea.presentation.api.routers import forwardings as forwardings_router
 from fala_gavea.presentation.api.routers import seed as seed_router
 from fala_gavea.presentation.api.routers import saved_filters as saved_filters_router
+from fala_gavea.presentation.api.routers import comments as comments_router
 
 STATIC_DIR = Path(__file__).resolve().parents[4] / "static"
 
@@ -84,6 +85,11 @@ def create_app() -> FastAPI:
     app.include_router(forwardings_router.router, prefix="/forwardings", tags=["forwardings"])
     app.include_router(seed_router.router, prefix="/admin/seed", tags=["seed"])
     app.include_router(saved_filters_router.router, prefix="/saved-filters", tags=["saved-filters"])
+    app.include_router(
+        comments_router.router,
+        prefix="/forwardings/{forwarding_id}/comments",
+        tags=["comments"],
+    )
 
     @app.get("/health", include_in_schema=False)
     def health() -> JSONResponse:

@@ -160,6 +160,11 @@ def get_forwarding_repo(db: Session = Depends(get_db)) -> IForwardingRepository:
     return SQLAlchemyForwardingRepository(db)
 
 
+def get_comment_repo(db: Session = Depends(get_db)):
+    from fala_gavea.infrastructure.repositories.comment_repository import SQLAlchemyCommentRepository
+    return SQLAlchemyCommentRepository(db)
+
+
 def get_saved_filter_repo(db: Session = Depends(get_db)) -> "ISavedFilterRepository":
     from fala_gavea.infrastructure.repositories.sqlalchemy_saved_filter_repository import SQLAlchemySavedFilterRepository
     return SQLAlchemySavedFilterRepository(db)
