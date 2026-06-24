@@ -1,5 +1,7 @@
 # Briefs Log
 
+DONE | 2026-06-24 20:45 UTC | STARTED | 2026-06-24 20:23 UTC | implement | GET /forwardings/mine — encaminhamentos do cidadão logado. plan 000169 | PLAN | 000169
+
 DONE | 2026-06-24 20:04 UTC | STARTED | 2026-06-24 20:00 UTC | plan | GET /forwardings/mine — endpoint auth-required que retorna os encaminhamentos com relatos do cidadão logado. source: research-000168 | PLAN | 000169
 
 DONE | 2026-06-24 20:04 UTC | STARTED | 2026-06-24 19:43 UTC | research | como cidadao logado, como posso acessar os encaminhamentos que possuem relatos meus ???? acho que temos que criar um filtro para encaminhamentos

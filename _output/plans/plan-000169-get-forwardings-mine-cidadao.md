@@ -1,4 +1,4 @@
-# Plan 000169 | fala-gavea | 2026-06-24 20:00 UTC | GET /forwardings/mine — encaminhamentos do cidadão | Review: standard
+# DONE | 2026-06-24 20:45 UTC | Plan 000169 | fala-gavea | 2026-06-24 20:00 UTC | GET /forwardings/mine — encaminhamentos do cidadão | Review: standard
 plan_format_version: 1
 source: research-000168
 
@@ -52,7 +52,7 @@ def find_by_author_id(self, author_id: str) -> list[Forwarding]:
 - **Interface**: `IForwardingRepository.find_by_author_id(author_id: str) -> list[Forwarding]`
 - **Verify**: `uv run pyright src/` passa sem erros relacionados ao método abstrato não implementado (após Step 2 ser concluído)
 - **Tests**: Coberto pelos testes de API do Step 6
-- [ ] Done
+- [x] Done
 
 ---
 
@@ -80,7 +80,7 @@ Importar `ReportModel` de `fala_gavea.infrastructure.database.models` (já dispo
 - **Interface**: N/A
 - **Verify**: `uv run pyright src/` limpo; `uv run pytest tests/test_forwardings.py` passa (após Steps 4+6)
 - **Tests**: Coberto pelos testes de API do Step 6
-- [ ] Done
+- [x] Done
 
 ---
 
@@ -107,7 +107,7 @@ class ListForwardingsForAuthor:
 - **Interface**: `ListForwardingsForAuthor(forwarding_repo, report_repo).execute(author_id: str) -> list[tuple[Forwarding, list[Report]]]`
 - **Verify**: `uv run pyright src/` limpo
 - **Tests**: Coberto pelos testes de API do Step 6
-- [ ] Done
+- [x] Done
 
 ---
 
@@ -137,7 +137,7 @@ Importar `ListForwardingsForAuthor` e verificar se `get_current_user` já está 
 - **Verify**: `curl -H "Authorization: Bearer <citizen_token>" /forwardings/mine` → 200 com lista (incluindo vazia); sem auth → 401
 - **Tests**: Step 6
 - **Docs**: Atualizar as-coded após merge (via post-skill)
-- [ ] Done
+- [x] Done
 
 ---
 
@@ -179,7 +179,7 @@ export function useMyForwardings() {
 - **Interface**: N/A
 - **Verify**: Cidadão logado vê toggle; ao ativar, lista filtra para encaminhamentos dos seus relatos; usuário não logado não vê toggle
 - **Tests**: N/A (testes de UI são manuais neste projeto; lógica de dados coberta pelos testes de API)
-- [ ] Done
+- [x] Done
 
 ---
 
@@ -219,7 +219,7 @@ def test_mine_requires_auth(client):
 - **Interface**: N/A
 - **Verify**: `uv run pytest tests/test_forwardings.py -v` passa com os 3 novos casos
 - **Tests**: N/A (este step É os testes)
-- [ ] Done
+- [x] Done
 
 ---
 
@@ -238,6 +238,19 @@ find_by_author_id repo method (DISTINCT JOIN through forwarding_reports
 
 Resolves research-000168 Option C recommendation.
 ```
+
+## Implementation Summary
+
+**Completed:** 2026-06-24 20:45 UTC | **Steps:** 6/6 | **Iterations:** 1 (manual inline)
+
+- Step 1: Added `find_by_author_id(author_id: str) -> list[Forwarding]` abstract method to `IForwardingRepository`
+- Step 2: Implemented in `SQLAlchemyForwardingRepository` via DISTINCT JOIN `forwarding_reports → reports` on `author_id`; added `ReportModel` import
+- Step 3: Created `list_forwardings_for_author.py` use case mirroring `ListForwardingsForReport`
+- Step 4: Added `GET /forwardings/mine` route before `GET /{id}`; imported `get_current_user` + `ListForwardingsForAuthor`
+- Step 5: Added `api.getMyForwardings()`, `useMyForwardings(enabled)` hook, "Meus encaminhamentos" toggle in `PublicForwardingsPage` (visible only when user is authenticated; `enabled=!!user` prevents unauthenticated requests)
+- Step 6: 3 new tests — all 16 tests pass
+
+Commit: `b45aa78`
 
 ## As-Coded Delta
 
