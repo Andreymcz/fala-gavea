@@ -1,4 +1,4 @@
-# Plan 000164 | feat/meus-relatos-votes-ux | 2026-06-24 18:01 UTC | Meus relatos nav + inline votes (table, map, sort) + vote API fix | Review: standard
+# DONE | 2026-06-24 18:36 UTC | Plan 000164 | feat/meus-relatos-votes-ux | 2026-06-24 18:01 UTC | Meus relatos nav + inline votes (table, map, sort) + vote API fix | Review: standard
 plan_format_version: 1
 
 source: reflection-000163
@@ -57,7 +57,7 @@ def get_optional_user(
 
 - **Files**: `src/fala_gavea/presentation/api/dependencies.py` (modify)
 - **Tests**: N/A (thin wrapper around existing JWT logic)
-- [ ] Done
+- [x] Done
 
 ### Step 2: Backend — batch summary repo method
 
@@ -110,7 +110,7 @@ def get_summaries_batch(
 
 - **Files**: `src/fala_gavea/domain/repositories/vote_repository.py` (modify), `src/fala_gavea/infrastructure/repositories/vote_repository.py` (modify)
 - **Tests**: add `tests/infrastructure/test_vote_repository_batch.py` with a test that inserts 3 report votes and asserts batch summary returns correct upvotes/downvotes counts per id
-- [ ] Done
+- [x] Done
 
 ### Step 3: Backend — add GET summary endpoints + batch router
 
@@ -161,7 +161,7 @@ app.include_router(votes_summary_router, prefix="/votes", tags=["votes"])
 - **Files**: `src/fala_gavea/presentation/api/routers/votes.py` (modify), `src/fala_gavea/presentation/api/main.py` (modify)
 - **Verify**: `curl /reports/{id}/votes` returns `{"upvotes":0,"downvotes":0,"user_vote":null}`; `curl /votes/reports/summary?ids=id1,id2` returns dict
 - **Tests**: add basic route smoke test in existing `tests/api/` suite
-- [ ] Done
+- [x] Done
 
 ### Step 4: Frontend — fix `api/votes.ts` endpoint paths
 
@@ -226,7 +226,7 @@ export async function getVoteSummaryBatch(
 
 - **Files**: `frontend/src/api/votes.ts` (rewrite)
 - **Tests**: N/A (unit test would mock fetch; integration covered by manual verify)
-- [ ] Done
+- [x] Done
 
 ### Step 5: Frontend — update `VoteButtons.tsx` to support `readOnly` mode
 
@@ -283,7 +283,7 @@ export function VoteButtons({ summary, onVote, onRetract, disabled, readOnly, lo
 
 - **Files**: `frontend/src/components/VoteButtons.tsx` (modify)
 - **Tests**: N/A
-- [ ] Done
+- [x] Done
 
 ### Step 6: Frontend — "Meus relatos" header link + WorkspacePage init
 
@@ -326,7 +326,7 @@ useEffect(() => {
 - **Files**: `frontend/src/components/layout/Header.tsx` (modify), `frontend/src/features/workspace/WorkspacePage.tsx` (modify)
 - **Verify**: clicking "Meus relatos" in header navigates to `/` with filter pre-applied; only user's own relatos are shown in table; URL param disappears from address bar after apply
 - **Tests**: N/A
-- [ ] Done
+- [x] Done
 
 ### Step 7: Frontend — inline votes in TableView rows (display + vote + sort by votes)
 
@@ -388,7 +388,7 @@ When the user casts a vote inline and the dialog is open for the same report, al
 - **Files**: `frontend/src/features/workspace/views/TableView.tsx` (modify)
 - **Verify**: table shows ▲ N ▼ M on each row; authenticated non-author can click to vote; author's rows show counts only (readOnly); sort by Votos reorders current page
 - **Tests**: N/A
-- [ ] Done
+- [x] Done
 
 ### Step 8: Frontend — VoteButtons in ReportPopup (map)
 
@@ -438,7 +438,7 @@ Render at the bottom of the popup JSX (after the `{dateStr}` line and before the
 - **Files**: `frontend/src/features/map/ReportPopup.tsx` (modify)
 - **Verify**: opening a map marker popup shows vote counts; authenticated non-author can vote inline; vote count updates immediately
 - **Tests**: N/A
-- [ ] Done
+- [x] Done
 
 ## Docs
 
@@ -447,3 +447,28 @@ No documentation changes required — this plan fixes a bug and adds UX improvem
 ## Pending Actions
 
 - [ ] **test-implementation** — after implementation, test: (1) "Meus relatos" header link applies filter; (2) vote buttons appear in table rows for all users; (3) vote buttons appear in map popup; (4) sort by Votos reorders current page; (5) voting via table/map persists correctly
+
+## Implementation Summary
+
+**Completed:** 2026-06-24 18:36 UTC | 8/8 steps | 0 partial/failed | commit 9175d90
+
+### What was implemented
+
+**Backend (Steps 1-3):**
+- `get_optional_user` dependency in `dependencies.py` — uses `oauth2_scheme_optional` (auto_error=False), catches only `InvalidCredentialsError`
+- `get_summaries_batch` on `IVoteRepository` (abstract) + `SQLAlchemyVoteRepository` (3 queries: upvotes, downvotes, user votes)
+- `GET /reports/{id}/votes` and `GET /forwardings/{id}/votes` (optional auth, returns VoteSummarySchema)
+- `GET /votes/reports/summary?ids=...` batch endpoint (max 200 IDs, registered as `votes_summary_router`)
+
+**Frontend (Steps 4-8):**
+- `api/votes.ts` — fixed all 3 endpoint URLs; added `getVoteSummaryBatch`
+- `VoteButtons.tsx` — added `readOnly` prop; shows counts without click handlers when true
+- `Header.tsx` — "Meus relatos" link (visible to authenticated users) navigates to `/?meus_relatos=1`
+- `WorkspacePage.tsx` — `useEffect` on mount applies `author_id` filter and clears URL param
+- `TableView.tsx` — batch vote fetch on page load; `SortKey` extended with `'upvotes'`; inline VoteButtons per row; `colSpan` corrected; dialog VoteButtons aligned to `readOnly`
+- `ReportPopup.tsx` — vote state + handlers; `VoteButtons` rendered after date line
+
+### Review findings resolved
+- Narrowed `except Exception` → `except InvalidCredentialsError` in `get_optional_user`
+- Added 200-ID cap on batch endpoint
+- Aligned dialog VoteButtons to `readOnly` (was `disabled`, which hides the component)

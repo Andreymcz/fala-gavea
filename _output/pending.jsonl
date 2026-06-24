@@ -77,3 +77,6 @@
 {"created_at": "2026-06-24T11:55:06Z", "description": "Execute plan-000161 seed runner and role accounts", "id": "pa-000055", "last_reminded_at": null, "snooze_until": null, "source": "plan-000161", "status": "pending", "type": "implement"}
 {"closed_at": "2026-06-24T12:05:41Z", "id": "pa-000055", "status": "done"}
 {"created_at": "2026-06-24T18:08:12Z", "description": "Execute plan-000164 Meus relatos nav + inline votes (table, map, sort) + vote API fix", "id": "pa-000056", "last_reminded_at": null, "snooze_until": null, "source": "plan-000164", "status": "pending", "type": "implement"}
+{"closed_at": "2026-06-24T18:37:26Z", "id": "pa-000056", "status": "done"}
+{"created_at": "2026-06-24T18:41:07Z", "description": "Review product-design/product-design-as-coded.md against the real implementation of plan-000164", "id": "pa-000057", "last_reminded_at": null, "snooze_until": null, "source": "plan-000164", "status": "pending", "type": "verify-as-coded"}
+{"created_at": "2026-06-24T18:41:07Z", "description": "Run manual tests per plan-000164 Pending Actions: Meus relatos filter, inline votes in table+map, sort by votes, vote persistence", "id": "pa-000058", "last_reminded_at": null, "snooze_until": null, "source": "plan-000164", "status": "pending", "type": "test-implementation"}

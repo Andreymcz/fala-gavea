@@ -1,5 +1,17 @@
 # AS-CODED CHANGELOG — fala-gavea
 
+### v18 -- 2026-06-24
+- **Fixed**: Vote API URLs corrected in `frontend/src/api/votes.ts` (were `/votes` POST and `/votes/report/{id}/summary` GET; now `/reports/{id}/votes` POST/DELETE/GET and `/forwardings/{id}/votes` POST/DELETE/GET)
+- **Added**: `GET /votes/reports/summary?ids=...` batch summary endpoint (max 200 IDs, optional auth)
+- **Added**: `GET /reports/{id}/votes` and `GET /forwardings/{id}/votes` single-summary GET endpoints (optional auth)
+- **Added**: `get_optional_user` dependency; `get_summaries_batch` on `IVoteRepository`/`SQLAlchemyVoteRepository`
+- **Added**: `VoteButtons.readOnly` prop — shows counts without click handlers
+- **Added**: "Meus relatos" nav link in Header (authenticated users); `WorkspacePage` applies author_id filter on mount via `?meus_relatos=1`
+- **Added**: Inline `VoteButtons` per `TableView` row (batch fetch, readOnly for authors/anon, sort by upvotes)
+- **Added**: `VoteButtons` in `ReportPopup` (map marker popup, per-open fetch)
+- **Source**: agent (post-skill)
+- **Plan**: plan-000164
+
 ### v17 -- 2026-06-24
 - **Added**: `scripts/seed_all.py` — orchestrator that runs all four seed scripts (users → report_types → relatos → forwardings) in dependency order via subprocess; flags: `--count N` (default 100), `--full` (10 000), `--skip-forwardings`
 - **Source**: agent (post-skill)
