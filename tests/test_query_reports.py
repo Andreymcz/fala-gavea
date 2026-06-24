@@ -57,6 +57,9 @@ class FakeReportRepo(IReportRepository):
         # order="none" — return all up to limit/candidate_cap
         return items[:limit], total
 
+    def find_by_ids(self, ids: list[str]) -> list[Report]:
+        return [r for r in self._reports if r.id in ids]
+
 
 class FakeSearchPort(ISemanticSearchPort):
     def __init__(self, scores: dict[str, float]) -> None:

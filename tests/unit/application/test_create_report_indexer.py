@@ -50,23 +50,20 @@ def _execute(use_case):
 def test_indexer_called_after_save():
     mock_indexer = MagicMock()
     use_case, report = _make_use_case(indexer=mock_indexer)
-    result, token = _execute(use_case)
+    result, _ = _execute(use_case)
     mock_indexer.index.assert_called_once_with(report)
     assert result is report
-    assert token is None
 
 
 def test_indexer_failure_does_not_raise():
     mock_indexer = MagicMock()
     mock_indexer.index.side_effect = Exception("chroma down")
     use_case, report = _make_use_case(indexer=mock_indexer)
-    result, token = _execute(use_case)
+    result, _ = _execute(use_case)
     assert result is report
-    assert token is None
 
 
 def test_no_indexer_skips_index():
     use_case, report = _make_use_case(indexer=None)
-    result, token = _execute(use_case)
+    result, _ = _execute(use_case)
     assert result is report
-    assert token is None

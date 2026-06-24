@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+from datetime import datetime
 from hashlib import sha256
 from uuid import uuid4
 
@@ -65,7 +66,7 @@ class CreateReport:
             claim_token = str(uuid4())
             token_hash = sha256(claim_token.encode()).hexdigest()
             self._anon_token_repo.save(
-                AnonymousReportToken.create(token_hash=token_hash, report_id=report.id)
+                AnonymousReportToken(id=str(uuid4()), report_id=report.id, token_hash=token_hash, created_at=datetime.utcnow())
             )
 
         return report, claim_token

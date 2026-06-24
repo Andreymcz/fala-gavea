@@ -26,6 +26,7 @@ def _create_user(db_session) -> str:
 
 def _vote(voter_id: str, target_type: str = "report", target_id: str | None = None, value: int = 1) -> Vote:
     return Vote(
+        id=str(uuid.uuid4()),
         voter_id=voter_id,
         target_type=target_type,
         target_id=target_id or str(uuid.uuid4()),

@@ -41,6 +41,9 @@ from fala_gavea.infrastructure.auth.password_service import PasswordService  # n
 
 @pytest.fixture(autouse=True)
 def reset_db() -> None:
+    # Re-bind in case another test module overwrote _db_mod at import time.
+    _db_mod.engine = _TEST_ENGINE
+    _db_mod.SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=_TEST_ENGINE)
     Base.metadata.drop_all(_TEST_ENGINE)
     Base.metadata.create_all(_TEST_ENGINE)
 

@@ -55,15 +55,27 @@ def _mount_spa(app: FastAPI) -> None:
     if docs.exists():
         app.mount("/docs", StaticFiles(directory=docs, html=True), name="docs")
 
-    @app.get("/{full_path:path}", include_in_schema=False, response_model=None)
-    def spa_fallback(full_path: str) -> FileResponse | JSONResponse:
-        first_segment = full_path.split("/")[0] if full_path else ""
-        if first_segment in _API_PREFIXES:
-            return JSONResponse({"detail": "Not Found"}, status_code=404)
-        candidate = STATIC_DIR / full_path
-        if full_path and candidate.is_file():
-            return FileResponse(candidate)
-        return FileResponse(STATIC_DIR / "index.html")
+    # SPA middleware: intercepts responses AFTER routing. If the status is 404 or 405
+    # for a GET/HEAD request to a non-API path, serve index.html (SPA client routing).
+    # If the status is 404 or 405 for an API path, return 404 JSON.
+    # Using middleware instead of a catch-all route avoids the Starlette 1.3+ issue
+    # where a GET /{path:path} catch-all gives PARTIAL matches for POST requests,
+    # blocking redirect_slashes from redirecting POST /foo/ → POST /foo.
+    index_html = STATIC_DIR / "index.html"
+
+    @app.middleware("http")
+    async def spa_middleware(request: Request, call_next):
+        response = await call_next(request)
+        if response.status_code in (404, 405) and request.method in ("GET", "HEAD"):
+            first_segment = request.url.path.lstrip("/").split("/")[0]
+            if first_segment not in _API_PREFIXES:
+                if index_html.exists():
+                    return FileResponse(str(index_html))
+            elif response.status_code == 405:
+                # Starlette returns 405 for GET on paths where only non-GET method exists.
+                # For API prefixes, translate this to 404 so clients get consistent behavior.
+                return JSONResponse({"detail": "Not Found"}, status_code=404)
+        return response
 
 
 def create_app() -> FastAPI:

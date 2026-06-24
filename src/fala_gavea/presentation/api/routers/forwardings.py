@@ -141,7 +141,7 @@ def create_forwarding(
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e))
 
 
-@router.get("/", response_model=list[ForwardingResponse])
+@router.get("", response_model=list[ForwardingResponse])
 def list_forwardings(
     status_filter: str | None = Query(None, alias="status"),
     institution: str | None = Query(None),

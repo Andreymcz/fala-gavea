@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from datetime import UTC, datetime
+from uuid import uuid4
 
 from fala_gavea.domain.entities.vote import Vote
 from fala_gavea.domain.exceptions import InvalidInputError, SelfVoteError
@@ -47,6 +48,7 @@ class CastVoteUseCase:
             raise SelfVoteError()
 
         vote = Vote(
+            id=str(uuid4()),
             voter_id=voter_id,
             target_type=target_type,
             target_id=target_id,

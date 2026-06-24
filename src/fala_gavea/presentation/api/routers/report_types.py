@@ -17,7 +17,7 @@ from fala_gavea.presentation.schemas.report_type import (
 router = APIRouter()
 
 
-@router.get("/", response_model=list[ReportTypeResponse])
+@router.get("", response_model=list[ReportTypeResponse])
 def list_report_types(
     report_type_repo: IReportTypeRepository = Depends(get_report_type_repo),
 ) -> list[ReportTypeResponse]:
