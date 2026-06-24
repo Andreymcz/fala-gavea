@@ -26,8 +26,8 @@ uv sync --extra dev
 uv run uvicorn fala_gavea.presentation.api.main:app --reload
 
 # Seed all data (users + report types + relatos + forwardings) — API must be running
-uv run python scripts/seed_all.py                     # dev: 100 relatos
-uv run python scripts/seed_all.py --full              # full: 10 000 relatos
+uv run python scripts/seed_all.py                     # uses data/seed_relatos_fala_gavea_5k.csv
+uv run python scripts/seed_all.py --csv data/seed_relatos_fala_gavea_200.csv  # smaller CSV
 uv run python scripts/seed_all.py --skip-forwardings  # skip forwarding seed
 
 ### Frontend (SPA)

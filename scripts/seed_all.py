@@ -1,7 +1,7 @@
 """Orchestrator: run all seed scripts in dependency order.
 
 Usage:
-    uv run python scripts/seed_all.py [--url URL] [--count N] [--full] [--skip-forwardings]
+    uv run python scripts/seed_all.py [--url URL] [--csv PATH] [--skip-forwardings]
 """
 from __future__ import annotations
 
@@ -12,9 +12,10 @@ import sys
 from pathlib import Path
 
 SCRIPTS_DIR = Path(__file__).parent
+DEFAULT_CSV = str(SCRIPTS_DIR.parent / "data" / "seed_relatos_fala_gavea_5k.csv")
 
 DEV_ACCOUNTS = [
-    ("admin@gavea.br", "admin12345", "admin"),
+    ("admin@gavea.br", "admin12345!", "admin"),
     ("citizen01@gavea.br", "citizen01pass", "citizen"),
     ("agente@gavea.br", "agente12345", "agent"),
 ]
@@ -33,14 +34,11 @@ def run_phase(label: str, cmd: list[str], env: dict[str, str] | None = None) -> 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Run all fala-gavea seed scripts in order.")
     parser.add_argument("--url", default="http://localhost:8000", help="API base URL")
-    parser.add_argument("--count", type=int, default=100, help="Number of relatos to seed (default 100)")
-    parser.add_argument("--full", action="store_true", help="Seed full corpus (10 000 relatos)")
+    parser.add_argument("--csv", default=DEFAULT_CSV, help="CSV file for relatos bulk insert")
     parser.add_argument("--skip-forwardings", action="store_true", help="Skip forwarding seed")
     args = parser.parse_args()
 
-    count = 10_000 if args.full else args.count
     url = args.url
-
     py = sys.executable
 
     # Phase 1: users
@@ -51,14 +49,14 @@ def main() -> None:
         **os.environ,
         "FALA_GAVEA_API_URL": url,
         "FALA_GAVEA_ADMIN_EMAIL": "admin@gavea.br",
-        "FALA_GAVEA_ADMIN_PASSWORD": "admin12345",
+        "FALA_GAVEA_ADMIN_PASSWORD": "admin12345!",
     }
     run_phase("Report types", [py, str(SCRIPTS_DIR / "seed_report_types.py")], env=env)
 
-    # Phase 3: relatos
+    # Phase 3: relatos (bulk upload CSV as admin)
     run_phase(
-        f"Relatos ({count})",
-        [py, str(SCRIPTS_DIR / "seed_relatos.py"), "--url", url, "--count", str(count)],
+        "Relatos (bulk from CSV)",
+        [py, str(SCRIPTS_DIR / "seed_relatos.py"), "--url", url, "--csv", args.csv],
     )
 
     # Phase 4: forwardings (optional)
