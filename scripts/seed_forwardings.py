@@ -92,7 +92,7 @@ def _fetch_report_types(client: httpx.Client) -> dict[str, str]:
 
 
 def _has_existing_forwardings(client: httpx.Client, token: str) -> bool:
-    resp = client.get("/forwardings/", headers={"Authorization": f"Bearer {token}"})
+    resp = client.get("/forwardings", headers={"Authorization": f"Bearer {token}"})
     if resp.status_code != 200:
         print(
             f"Warning: could not check existing forwardings ({resp.status_code}); proceeding.",

@@ -1,70 +1,97 @@
-"""Seed script: inserts dev users via the REST API, then promotes roles via the DB.
+"""Seed dev users via the REST API (no direct DB access).
 
-The /auth/register endpoint only creates citizens, so admin/agent promotion is done
-with a direct DB update after registration.
+Creates one account per role:
+  admin@gavea.br      / admin12345!  — admin   (bootstrapped by server env vars)
+  citizen01@gavea.br  / citizen01pass — citizen
+  agente@gavea.br    / agente12345   — agent
 
-Pre-requisites: API server must be running (for registration).
+The admin account must already exist in the API database, created automatically
+by the server on startup via BootstrapAdminUser env vars:
+  FALA_GAVEA_ADMIN_EMAIL=admin@gavea.br
+  FALA_GAVEA_ADMIN_PASSWORD=admin12345!
+
+seed_users.py registers the non-admin accounts and promotes the agent's role via
+PATCH /auth/admin/users/{email}/role (admin-only endpoint).
 
 Usage:
     uv run python scripts/seed_users.py [--url http://localhost:8000]
 """
+from __future__ import annotations
+
 import argparse
-import os
 import sys
 
 import httpx
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
-
-from fala_gavea.infrastructure.database.models import UserModel
-from fala_gavea.infrastructure.database.session import SessionLocal, create_tables
-
-SEED_USERS = [
-    {"email": "admin@gavea.br", "name": "Administrador", "password": "admin12345", "role": "admin"},
-    {"email": "citizen01@gavea.br", "name": "Cidadao01", "password": "citizen01pass", "role": "citizen"},
-    {"email": "agente@gavea.br", "name": "Agente Publico", "password": "agente12345", "role": "agent"},
+NON_ADMIN_USERS = [
+    {"email": "citizen01@gavea.br", "name": "Cidadao01", "password": "citizen01pass"},
+    {"email": "agente@gavea.br", "name": "Agente Publico", "password": "agente12345"},
 ]
+
+ADMIN_EMAIL = "admin@gavea.br"
+ADMIN_PASSWORD = "admin12345!"
+
+AGENT_EMAIL = "agente@gavea.br"
+
+
+def _login(client: httpx.Client, email: str, password: str) -> str:
+    resp = client.post("/auth/token", data={"username": email, "password": password})
+    if resp.status_code != 200:
+        print(f"  Login failed ({resp.status_code}) for {email}: {resp.text}", file=sys.stderr)
+        sys.exit(1)
+    return resp.json()["access_token"]
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Seed users via the Fala Gávea API.")
-    parser.add_argument("--url", default="http://localhost:8000", help="Base URL of the API")
+    parser = argparse.ArgumentParser(description="Seed dev users via the Fala Gávea API.")
+    parser.add_argument("--url", default="http://localhost:8000", help="API base URL")
     args = parser.parse_args()
 
     base = args.url.rstrip("/")
     created = 0
     skipped = 0
-    to_promote: list[tuple[str, str]] = []
 
-    with httpx.Client(base_url=base, timeout=10) as client:
-        for user in SEED_USERS:
-            resp = client.post("/auth/register", json={
-                "email": user["email"],
-                "name": user["name"],
-                "password": user["password"],
-            })
+    with httpx.Client(base_url=base, timeout=15) as client:
+        # Step 1: register non-admin accounts (they start as citizen)
+        for user in NON_ADMIN_USERS:
+            resp = client.post(
+                "/auth/register",
+                json={"email": user["email"], "name": user["name"], "password": user["password"]},
+            )
             if resp.status_code in (200, 201):
-                print(f"  Created: {user['email']} (registered as citizen)")
+                print(f"  Created: {user['email']}")
                 created += 1
             elif resp.status_code == 409:
                 print(f"  Skipped (already exists): {user['email']}")
                 skipped += 1
             else:
-                print(f"  Error {resp.status_code} for {user['email']}: {resp.text}", file=sys.stderr)
-                continue
+                print(
+                    f"  Error {resp.status_code} for {user['email']}: {resp.text}",
+                    file=sys.stderr,
+                )
 
-            if user["role"] != "citizen":
-                to_promote.append((user["email"], user["role"]))
+        # Step 2: login as admin (must be bootstrapped via server env vars)
+        print(f"  Logging in as admin ({ADMIN_EMAIL})...")
+        admin_token = _login(client, ADMIN_EMAIL, ADMIN_PASSWORD)
 
-    # Promote roles that the API cannot set
-    if to_promote:
-        create_tables()
-        session = SessionLocal()
-        for email, role in to_promote:
-            session.query(UserModel).filter_by(email=email).update({"role": role})
-            print(f"  Promoted: {email} → {role}")
-        session.commit()
-        session.close()
+        # Step 3: promote agent role via admin-only API endpoint
+        resp = client.patch(
+            f"/auth/admin/users/{AGENT_EMAIL}/role",
+            json={"role": "agent"},
+            headers={"Authorization": f"Bearer {admin_token}"},
+        )
+        if resp.status_code == 200:
+            print(f"  Promoted: {AGENT_EMAIL} → agent")
+        elif resp.status_code == 404:
+            print(
+                f"  Warning: {AGENT_EMAIL} not found for promotion (registration may have failed)",
+                file=sys.stderr,
+            )
+        else:
+            print(
+                f"  Error promoting {AGENT_EMAIL} ({resp.status_code}): {resp.text}",
+                file=sys.stderr,
+            )
 
     print(f"\nDone. Created: {created}, Skipped: {skipped}")
 

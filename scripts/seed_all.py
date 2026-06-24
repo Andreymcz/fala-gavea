@@ -1,5 +1,9 @@
 """Orchestrator: run all seed scripts in dependency order.
 
+Pre-requisite: API must be running with admin bootstrap env vars:
+    FALA_GAVEA_ADMIN_EMAIL=admin@gavea.br
+    FALA_GAVEA_ADMIN_PASSWORD=admin12345!
+
 Usage:
     uv run python scripts/seed_all.py [--url URL] [--csv PATH] [--skip-forwardings]
 """
