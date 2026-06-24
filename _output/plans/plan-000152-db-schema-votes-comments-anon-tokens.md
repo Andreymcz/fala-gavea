@@ -76,7 +76,7 @@ Add `SelfVoteError` to `src/fala_gavea/domain/exceptions.py`.
 
 - **Files**: `src/fala_gavea/domain/entities/vote.py` (create), `src/fala_gavea/domain/entities/comment.py` (create), `src/fala_gavea/domain/entities/anonymous_report_token.py` (create), `src/fala_gavea/domain/repositories/vote_repository.py` (create), `src/fala_gavea/domain/repositories/comment_repository.py` (create), `src/fala_gavea/domain/repositories/anonymous_token_repository.py` (create), `src/fala_gavea/domain/exceptions.py` (modify)
 - **Tests**: N/A (pure dataclasses and ABCs)
-- [ ] Done
+- [x] Done
 
 ### Step 2: SQLAlchemy models
 
@@ -118,7 +118,7 @@ class AnonymousReportTokenModel(Base):
 - **Files**: `src/fala_gavea/infrastructure/database/models.py` (modify)
 - **Verify**: `from fala_gavea.infrastructure.database.models import VoteModel, CommentModel, AnonymousReportTokenModel` imports cleanly
 - **Tests**: N/A
-- [ ] Done
+- [x] Done
 
 ### Step 3: Wipe DB and re-seed
 

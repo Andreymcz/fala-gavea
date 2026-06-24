@@ -1,12 +1,18 @@
+from datetime import datetime
+from uuid import uuid4
+
 from sqlalchemy import (
     Boolean,
+    CheckConstraint,
     Column,
     DateTime,
     Enum as SAEnum,
     Float,
     ForeignKey,
+    Integer,
     PrimaryKeyConstraint,
     String,
+    UniqueConstraint,
 )
 
 from .session import Base
@@ -43,7 +49,7 @@ class ReportModel(Base):
     urgency = Column(SAEnum("alta", "media", "baixa", name="report_urgency"), nullable=False)
     photo_url = Column(String, nullable=True)
     report_type_id = Column(String, ForeignKey("report_types.id"), nullable=False)
-    author_id = Column(String, ForeignKey("users.id"), nullable=False, index=True)
+    author_id = Column(String, ForeignKey("users.id"), nullable=True, index=True)
     status = Column(
         SAEnum("pendente", "em_analise", "encaminhado", "resolvido", name="report_status"),
         nullable=False,
@@ -79,6 +85,41 @@ class ForwardingReportModel(Base):
     report_id = Column(String, ForeignKey("reports.id"), primary_key=True)
 
     __table_args__ = (PrimaryKeyConstraint("forwarding_id", "report_id"),)
+
+
+class VoteModel(Base):
+    __tablename__ = "votes"
+
+    id = Column(String, primary_key=True, default=lambda: str(uuid4()))
+    voter_id = Column(String, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    target_type = Column(String, nullable=False)
+    target_id = Column(String, nullable=False)
+    value = Column(Integer, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    __table_args__ = (
+        UniqueConstraint("voter_id", "target_type", "target_id", name="uq_vote_per_user_target"),
+        CheckConstraint("value IN (1, -1)", name="ck_vote_value"),
+    )
+
+
+class CommentModel(Base):
+    __tablename__ = "comments"
+
+    id = Column(String, primary_key=True, default=lambda: str(uuid4()))
+    forwarding_id = Column(String, ForeignKey("forwardings.id", ondelete="CASCADE"), nullable=False)
+    author_id = Column(String, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    text = Column(String, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class AnonymousReportTokenModel(Base):
+    __tablename__ = "anonymous_report_tokens"
+
+    id = Column(String, primary_key=True, default=lambda: str(uuid4()))
+    report_id = Column(String, ForeignKey("reports.id", ondelete="CASCADE"), nullable=False, unique=True)
+    token_hash = Column(String, nullable=False, unique=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
 
 
 class SavedFilterModel(Base):

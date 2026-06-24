@@ -55,3 +55,8 @@ class SavedFilterNotFoundError(DomainError):
     def __init__(self, id: str) -> None:
         super().__init__(f"SavedFilter not found: {id}")
         self.id = id
+
+
+class SelfVoteError(DomainError):
+    def __init__(self) -> None:
+        super().__init__("Users cannot vote on their own content")
