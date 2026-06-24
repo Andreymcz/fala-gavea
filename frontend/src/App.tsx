@@ -52,11 +52,9 @@ export default function App() {
               <Route
                 path="/report"
                 element={
-                  <RequireAuth>
-                    <Suspense fallback={<LoadingFallback />}>
-                      <ReportFormPage />
-                    </Suspense>
-                  </RequireAuth>
+                  <Suspense fallback={<LoadingFallback />}>
+                    <ReportFormPage />
+                  </Suspense>
                 }
               />
               <Route

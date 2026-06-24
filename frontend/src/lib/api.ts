@@ -244,6 +244,10 @@ export const api = {
     return request<void>("DELETE", `/saved-filters/${id}`);
   },
 
+  getMyAnonymousReports(token: string): Promise<ReportDetail[]> {
+    return request<ReportDetail[]>("GET", `/reports/mine?anonymous_token=${encodeURIComponent(token)}`, { public: true });
+  },
+
   wipeDatabase(
     includeReportTypes: boolean,
   ): Promise<{ wiped: { reports: number; forwardings: number; report_types: number } }> {

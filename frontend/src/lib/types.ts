@@ -56,6 +56,7 @@ export interface ReportDetail {
   author_id: string;
   photo_url: string | null;
   created_at: string;
+  anonymous_claim_token?: string | null;
 }
 
 export interface ReportSummary {
@@ -83,6 +84,7 @@ export interface CreateReportBody {
   urgency: Urgency;
   report_type_id: string;
   photo_url?: string;
+  anonymous?: boolean;
 }
 
 export interface CreateForwardingBody {

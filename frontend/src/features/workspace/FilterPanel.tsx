@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useWorkspaceStore } from '@/store/workspaceStore'
 import { useReportTypes } from '@/hooks/useReportTypes'
-import { useFilteredReports } from '@/hooks/useFilteredReports'
+import { useFilteredReports, ANON_AUTHOR_SENTINEL } from '@/hooks/useFilteredReports'
 import type { Urgency, ReportStatus, WorkspaceFilters } from '@/lib/types'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Label } from '@/components/ui/label'
@@ -399,6 +399,19 @@ export function FilterPanel() {
               className="h-4 w-4"
             />
             <span className="text-xs text-gray-700">Meus relatos</span>
+          </label>
+        )}
+        {!user && localStorage.getItem('fala_gavea_anon_token') !== null && (
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={draftFilters.author_id === ANON_AUTHOR_SENTINEL}
+              onChange={(e) =>
+                setDraftFilter({ author_id: e.target.checked ? ANON_AUTHOR_SENTINEL : undefined })
+              }
+              className="h-4 w-4"
+            />
+            <span className="text-xs text-gray-700">Meus relatos (anônimos)</span>
           </label>
         )}
 

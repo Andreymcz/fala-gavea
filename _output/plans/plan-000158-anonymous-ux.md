@@ -37,7 +37,7 @@ Update `frontend/src/api/reports.ts`'s `createReport` function to accept `anonym
 
 - **Files**: `frontend/src/pages/ReportFormPage.tsx` (modify), `frontend/src/api/reports.ts` (modify)
 - **Tests**: N/A
-- [ ] Done
+- [x] Done
 
 ### Step 2: Token receipt and localStorage storage
 
@@ -56,7 +56,7 @@ After a successful anonymous submission, the POST /reports response includes `an
 - **Files**: `frontend/src/pages/ReportFormPage.tsx` (modify)
 - **Verify**: Submitting anonymously shows the token dialog; token appears in localStorage after closing
 - **Tests**: N/A
-- [ ] Done
+- [x] Done
 
 ### Step 3: Anonymous "Meus relatos" in WorkspacePage
 
@@ -74,7 +74,7 @@ Add `getMyAnonymousReports(token: string)` to `frontend/src/api/reports.ts`.
 - **Files**: `frontend/src/features/workspace/FilterPanel.tsx` (modify), `frontend/src/api/reports.ts` (modify)
 - **Verify**: Unauthenticated user with a stored token sees their anonymous relato in "Meus relatos" toggle; no stored token → toggle is hidden
 - **Tests**: N/A
-- [ ] Done
+- [x] Done
 
 ## Pending Actions
 
