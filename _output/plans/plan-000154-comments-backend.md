@@ -1,3 +1,4 @@
+# DONE | 2026-06-24 09:35 UTC |
 # Plan 000154 | feat/comments-backend | 2026-06-24 00:26 UTC | Comment feature backend: use cases and endpoints | Review: light
 plan_format_version: 1
 

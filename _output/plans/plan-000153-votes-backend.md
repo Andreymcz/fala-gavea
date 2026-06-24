@@ -1,3 +1,4 @@
+# DONE | 2026-06-24 09:35 UTC |
 # Plan 000153 | feat/votes-backend | 2026-06-24 00:26 UTC | Vote feature backend: use cases, endpoints, rate limit | Review: standard
 plan_format_version: 1
 

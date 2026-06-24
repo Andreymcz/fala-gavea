@@ -12,14 +12,14 @@ source: research-000150
 ### Wave 0 — DB Foundation (sequential)
 | # | ID | Title | Scope | Type | Plan | Status |
 |---|-----|-------|-------|------|------|--------|
-| 1 | db-migrations | Alembic migrations: votes, comments, anon tokens, nullable author_id | backend | technical | plan-000152 | pending |
+| 1 | db-migrations | Alembic migrations: votes, comments, anon tokens, nullable author_id | backend | technical | plan-000152 | done |
 
 ### Wave 1 — Backend (parallel, depends on Wave 0)
 | # | ID | Title | Scope | Type | Plan | Depends on | Status |
 |---|-----|-------|-------|------|------|-----------|--------|
-| 2 | votes-backend | Vote entity + repo + use cases + API endpoints + rate limit | backend | feature | plan-000153 | db-migrations | pending |
-| 3 | comments-backend | Comment entity + repo + use cases + API endpoints | backend | feature | plan-000154 | db-migrations | pending |
-| 4 | anon-backend | AnonymousReportToken entity + repo + CreateReport + query path + geo coarsen | backend | feature | plan-000155 | db-migrations | pending |
+| 2 | votes-backend | Vote entity + repo + use cases + API endpoints + rate limit | backend | feature | plan-000153 | db-migrations | done |
+| 3 | comments-backend | Comment entity + repo + use cases + API endpoints | backend | feature | plan-000154 | db-migrations | done |
+| 4 | anon-backend | AnonymousReportToken entity + repo + CreateReport + query path + geo coarsen | backend | feature | plan-000155 | db-migrations | done |
 
 ### Wave 2 — Frontend (parallel, depends on Wave 1)
 | # | ID | Title | Scope | Type | Plan | Depends on | Status |

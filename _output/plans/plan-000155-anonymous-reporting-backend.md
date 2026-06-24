@@ -1,3 +1,4 @@
+# DONE | 2026-06-24 09:35 UTC |
 # Plan 000155 | feat/anon-backend | 2026-06-24 00:26 UTC | Anonymous reporting backend: token entity, CreateReport, query path, geo coarsen | Review: standard
 plan_format_version: 1
 
