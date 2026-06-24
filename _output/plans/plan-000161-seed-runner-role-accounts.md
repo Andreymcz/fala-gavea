@@ -1,4 +1,4 @@
-# Plan 000161 | chore/scripts | 2026-06-24 11:51 UTC | seed runner and role accounts | Review: light
+# DONE | 2026-06-24 11:56 UTC | Plan 000161 | chore/scripts | 2026-06-24 11:51 UTC | seed runner and role accounts | Review: light
 plan_format_version: 1
 
 ## Brief
@@ -29,9 +29,9 @@ No changes needed to `seed_users.py` — role coverage is complete.
 
 ## Checklist
 
-- [ ] Step 1 — Create `scripts/seed_all.py` orchestrator
-- [ ] Step 2 — Manual smoke-test: run `uv run python scripts/seed_all.py --help`
-- [ ] Step 3 — Update `CLAUDE.md` Build & Run section with the new command
+- [x] Step 1 — Create `scripts/seed_all.py` orchestrator
+- [x] Step 2 — Manual smoke-test: run `uv run python scripts/seed_all.py --help`
+- [x] Step 3 — Update `CLAUDE.md` Build & Run section with the new command
 
 ---
 
@@ -204,3 +204,17 @@ uv run python scripts/seed_all.py [--count N] [--full] [--skip-forwardings]
 ## Docs
 
 No new documentation needed beyond the `CLAUDE.md` update.
+
+---
+
+## Implementation Summary
+
+**Steps completed**: 3/3 | **Iterations used**: 1 | **Partial/Failed**: 0
+
+**Files created/modified**:
+- `scripts/seed_all.py` — new orchestrator script (63 lines)
+- `CLAUDE.md` — added seed runner commands to Build & Run section
+
+**Verification**: `uv run python scripts/seed_all.py --help` printed usage correctly with all 4 flags.
+
+**Notes**: The code from the plan was applied as-is. `sys.executable` ensures correct venv Python is used; env passthrough for `seed_report_types.py` preserves its env-var contract.

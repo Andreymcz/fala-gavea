@@ -25,6 +25,11 @@ uv sync --extra dev
 # Run API server
 uv run uvicorn fala_gavea.presentation.api.main:app --reload
 
+# Seed all data (users + report types + relatos + forwardings) — API must be running
+uv run python scripts/seed_all.py                     # dev: 100 relatos
+uv run python scripts/seed_all.py --full              # full: 10 000 relatos
+uv run python scripts/seed_all.py --skip-forwardings  # skip forwarding seed
+
 ### Frontend (SPA)
 
 ```bash

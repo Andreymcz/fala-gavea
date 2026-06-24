@@ -1,5 +1,10 @@
 # AS-CODED CHANGELOG — fala-gavea
 
+### v17 -- 2026-06-24
+- **Added**: `scripts/seed_all.py` — orchestrator that runs all four seed scripts (users → report_types → relatos → forwardings) in dependency order via subprocess; flags: `--count N` (default 100), `--full` (10 000), `--skip-forwardings`
+- **Source**: agent (post-skill)
+- **Plan**: plan-000161
+
 ### v16 -- 2026-06-24
 - **Added**: Vote UX — `frontend/src/api/votes.ts` (castVote, retractVote, getVoteSummary), `VoteButtons.tsx` component; integrated into TableView relato dialog and PublicForwardingRow expanded card
 - **Added**: Comment UX — `frontend/src/api/comments.ts`, `CommentSection.tsx` component; integrated into ForwardingRow (agent) and PublicForwardingRow (public)
