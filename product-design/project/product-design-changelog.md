@@ -1,5 +1,12 @@
 # AS-CODED CHANGELOG — fala-gavea
 
+### v19 -- 2026-06-24
+- **Added**: `GET /forwardings/mine` endpoint (any authenticated role) returning `PublicForwardingResponse` list of forwardings containing at least one report authored by the current user; backed by new `find_by_author_id` DISTINCT JOIN repository method and `ListForwardingsForAuthor` use case
+- **Added**: `useMyForwardings(enabled)` hook in `frontend/src/hooks/useForwardings.ts`; `api.getMyForwardings()` in `api.ts`
+- **Added**: "Meus encaminhamentos" checkbox toggle in `PublicForwardingsPage` (visible when authenticated; `enabled=!!user` guard prevents unauthenticated 401)
+- **Source**: agent (post-skill)
+- **Plan**: 000169
+
 ### v18 -- 2026-06-24
 - **Fixed**: Vote API URLs corrected in `frontend/src/api/votes.ts` (were `/votes` POST and `/votes/report/{id}/summary` GET; now `/reports/{id}/votes` POST/DELETE/GET and `/forwardings/{id}/votes` POST/DELETE/GET)
 - **Added**: `GET /votes/reports/summary?ids=...` batch summary endpoint (max 200 IDs, optional auth)

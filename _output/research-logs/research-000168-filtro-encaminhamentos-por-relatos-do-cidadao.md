@@ -1,7 +1,7 @@
 # Research 000168 | fala-gavea | 2026-06-24 19:43 UTC | Filtro de encaminhamentos por relatos do cidadão
 
 tags: citizen-access, forwardings, api-design, security, architecture
-spawned: plan-000169
+spawned: plan-000169, plan-000169
 
 ## User Brief
 
