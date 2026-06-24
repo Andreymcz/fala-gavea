@@ -3,6 +3,7 @@ import type { Forwarding } from "@/lib/types";
 import { Badge } from "@/components/ui/badge";
 import { StatusSelect } from "./StatusSelect";
 import type { ForwardingStatus } from "@/lib/types";
+import { CommentSection } from "@/components/CommentSection";
 
 const FWD_STATUS_LABELS: Record<ForwardingStatus, string> = {
   aguardando_solucao: "Aguardando solução",
@@ -42,19 +43,24 @@ export function ForwardingRow({ forwarding }: ForwardingRowProps) {
           <StatusSelect forwardingId={forwarding.id} currentStatus={forwarding.status} />
         </td>
       </tr>
-      {expanded && forwarding.reports.length > 0 && (
+      {expanded && (
         <tr className="bg-gray-50">
           <td colSpan={5} className="px-4 pb-3">
             <div className="space-y-1 pt-2">
-              <p className="text-xs font-semibold text-gray-500 mb-1">Relatos incluídos:</p>
-              {forwarding.reports.map((r) => (
-                <div key={r.id} className="flex items-center gap-2 text-xs text-gray-700">
-                  <Badge variant={`urgency-${r.urgency}` as Parameters<typeof Badge>[0]["variant"]}>
-                    {URGENCY_LABELS[r.urgency] ?? r.urgency}
-                  </Badge>
-                  <span className="line-clamp-1">{r.text}</span>
-                </div>
-              ))}
+              {forwarding.reports.length > 0 && (
+                <>
+                  <p className="text-xs font-semibold text-gray-500 mb-1">Relatos incluídos:</p>
+                  {forwarding.reports.map((r) => (
+                    <div key={r.id} className="flex items-center gap-2 text-xs text-gray-700">
+                      <Badge variant={`urgency-${r.urgency}` as Parameters<typeof Badge>[0]["variant"]}>
+                        {URGENCY_LABELS[r.urgency] ?? r.urgency}
+                      </Badge>
+                      <span className="line-clamp-1">{r.text}</span>
+                    </div>
+                  ))}
+                </>
+              )}
+              <CommentSection forwardingId={forwarding.id} />
             </div>
           </td>
         </tr>

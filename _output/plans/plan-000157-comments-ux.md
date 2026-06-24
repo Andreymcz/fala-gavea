@@ -29,7 +29,7 @@ Add `Comment` type: `{ id: string; forwarding_id: string; author_id: string; tex
 
 - **Files**: `frontend/src/api/comments.ts` (create)
 - **Tests**: N/A
-- [ ] Done
+- [x] Done
 
 ### Step 2: CommentSection component
 
@@ -45,16 +45,16 @@ Create `frontend/src/components/CommentSection.tsx`:
 
 - **Files**: `frontend/src/components/CommentSection.tsx` (create)
 - **Tests**: N/A
-- [ ] Done
+- [x] Done
 
 ### Step 3: Integrate into agent ForwardingsPage
 
 In `frontend/src/pages/ForwardingsPage.tsx`, add `<CommentSection forwardingId={forwarding.id} />` below the expandable row's report list (or inside the detail panel). This gives agents context on community reactions to their forwardings.
 
-- **Files**: `frontend/src/pages/ForwardingsPage.tsx` (modify)
+- **Files**: `frontend/src/features/forwardings/ForwardingRow.tsx` (modify)
 - **Verify**: Expanding a forwarding row shows existing comments and an input; agent can add and delete comments
 - **Tests**: N/A
-- [ ] Done
+- [x] Done
 
 ### Step 4: Integrate into public forwarding detail (citizen view)
 
@@ -62,10 +62,10 @@ In the citizen-facing forwarding detail view (if a modal/page exists consuming `
 
 If no citizen-facing forwarding detail page exists yet, create a minimal `ForwardingDetailPage` at `/forwardings/{id}` that fetches from `GET /forwardings/public/{id}` and renders the details + `<CommentSection>`. Link to it from the citizen relato detail (forwarding list for a relato).
 
-- **Files**: `frontend/src/pages/ForwardingDetailPage.tsx` (create if absent), `frontend/src/main.tsx` (modify — add route `/forwardings/:id`)
-- **Verify**: Citizen can navigate to a forwarding detail and read comments; authenticated citizen can add a comment
+- **Files**: `frontend/src/features/forwardings/PublicForwardingRow.tsx` (modify — added CommentSection inline in expanded row)
+- **Verify**: Citizen expands a forwarding card and sees comments; authenticated citizen can add a comment
 - **Tests**: N/A
-- [ ] Done
+- [x] Done
 
 ## Pending Actions
 

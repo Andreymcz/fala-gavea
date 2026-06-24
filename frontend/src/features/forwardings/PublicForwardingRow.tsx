@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import type { PublicForwarding, ForwardingStatus, VoteSummary } from "@/lib/types";
 import { Badge } from "@/components/ui/badge";
 import { VoteButtons } from "@/components/VoteButtons";
 import { useAuth } from "@/auth/AuthContext";
 import { castVote, retractVote, getVoteSummary } from "@/api/votes";
+import { CommentSection } from "@/components/CommentSection";
 
 const FWD_STATUS_LABELS: Record<ForwardingStatus, string> = {
   aguardando_solucao: "Aguardando solução",
@@ -21,7 +22,6 @@ interface PublicForwardingRowProps {
   forwarding: PublicForwarding;
 }
 
-/** Read-only forwarding row for the public transparency view (no edit actions, no agent_id). */
 export function PublicForwardingRow({ forwarding }: PublicForwardingRowProps) {
   const [expanded, setExpanded] = useState(false);
   const date = new Date(forwarding.created_at).toLocaleDateString("pt-BR");
@@ -30,7 +30,6 @@ export function PublicForwardingRow({ forwarding }: PublicForwardingRowProps) {
   const [voteSummary, setVoteSummary] = useState<VoteSummary | null>(null);
   const [voteLoading, setVoteLoading] = useState(false);
 
-  // Fetch vote summary when expanded
   useEffect(() => {
     if (expanded) {
       getVoteSummary("forwarding", forwarding.id)
@@ -111,10 +110,11 @@ export function PublicForwardingRow({ forwarding }: PublicForwardingRowProps) {
                 />
                 {!token && (
                   <span className="text-xs text-gray-400">
-                    ▲ {voteSummary?.upvotes ?? 0} &nbsp; ▼ {voteSummary?.downvotes ?? 0}
+                    {"▲"} {voteSummary?.upvotes ?? 0} &nbsp; {"▼"} {voteSummary?.downvotes ?? 0}
                   </span>
                 )}
               </div>
+              <CommentSection forwardingId={forwarding.id} />
             </div>
           </td>
         </tr>
