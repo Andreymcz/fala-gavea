@@ -1,5 +1,7 @@
 # Briefs Log
 
+DONE | 2026-06-24 11:36 UTC | STARTED | 2026-06-24 11:04 UTC | implement | roadmap 151 Wave 2
+
 DONE | 2026-06-24 00:32 UTC | STARTED | 2026-06-24 00:26 UTC | plan | --roadmap — plan the implementation of research-000150 (votes + comments + anonymization) | PLAN | 000151
 
 DONE | 2026-06-24 00:10 UTC | STARTED | 2026-06-24 00:06 UTC | research | investigate the citizen feedback mechanism (votes + comments) AND the blueprint gaps (anonymization) before planning. notifications not needed, gps is working on web, photo upload not needed

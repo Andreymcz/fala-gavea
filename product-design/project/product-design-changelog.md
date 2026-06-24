@@ -1,5 +1,14 @@
 # AS-CODED CHANGELOG — fala-gavea
 
+### v16 -- 2026-06-24
+- **Added**: Vote UX — `frontend/src/api/votes.ts` (castVote, retractVote, getVoteSummary), `VoteButtons.tsx` component; integrated into TableView relato dialog and PublicForwardingRow expanded card
+- **Added**: Comment UX — `frontend/src/api/comments.ts`, `CommentSection.tsx` component; integrated into ForwardingRow (agent) and PublicForwardingRow (public)
+- **Added**: Anonymous submission toggle on ReportFormPage; claim token dialog with clipboard copy; `localStorage['fala_gavea_anon_token']` persistence
+- **Added**: Anonymous "Meus relatos" toggle in FilterPanel (shown when anon token exists and user is unauthenticated); `getMyAnonymousReports` in `api.ts`; `ANON_AUTHOR_SENTINEL` path in `useFilteredReports`
+- **Changed**: `/report` route no longer always requires auth (RequireAuth removed; ReportFormPage shows login prompt when anonymous=false and not logged in)
+- **Source**: agent (post-skill)
+- **Plan**: roadmap-000151 (plans 000156, 000157, 000158)
+
 ### v15 -- 2026-06-23
 - **Added**: `scripts/seed_forwardings.py` — seed script that authenticates as dev agent, queries pendente reports, draws 50% random sample grouped by report_type_id, and POSTs one Forwarding per sub-batch with institution/solution mapping
 - **Source**: agent (post-skill)
