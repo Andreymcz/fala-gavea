@@ -1,5 +1,7 @@
 # Briefs Log
 
+DONE | 2026-06-25 21:40 UTC | STARTED | 2026-06-25 21:35 UTC | plan | source:research 172 vamos planejar a implementacao da feature de sugestao de reporttype. vamos arquiteturar de forma que seja simples trocar as 2 abordagens chromadb e distilbert. o fine-tunning sera feito offline | PLAN | 000174
+
 DONE | 2026-06-25 20:43 UTC | STARTED | 2026-06-25 20:34 UTC | reflect | on research 172 and 170 and its differences
 
 DONE | 2026-06-25 19:39 UTC | STARTED | 2026-06-25 19:25 UTC | research | AI-assisted report_type suggestion: map the full design space — nullable report_type_id migration, SuggestReportTypeUseCase via ChromaDB similarity, PATCH /reports/{id}/report-type for agent/admin, ai_source provenance field, and UX for suggestion review
