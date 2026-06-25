@@ -40,6 +40,7 @@ def main() -> None:
     parser.add_argument("--url", default="http://localhost:8000", help="API base URL")
     parser.add_argument("--csv", default=DEFAULT_CSV, help="CSV file for relatos bulk insert")
     parser.add_argument("--skip-forwardings", action="store_true", help="Skip forwarding seed")
+    parser.add_argument("--skip-citizen01", action="store_true", help="Skip citizen01 test data seed")
     args = parser.parse_args()
 
     url = args.url
@@ -69,12 +70,26 @@ def main() -> None:
     else:
         print("\nSkipping forwardings (--skip-forwardings).")
 
+    # Phase 5: citizen01 test data (optional)
+    if not args.skip_citizen01:
+        run_phase(
+            "Citizen01 test data",
+            [py, str(SCRIPTS_DIR / "seed_citizen01.py"), "--url", url],
+        )
+    else:
+        print("\nSkipping citizen01 test data (--skip-citizen01).")
+
     print("\n" + "=" * 60)
     print("  All seeds complete.")
     print("=" * 60)
     print("\nDev accounts (one per role):")
     for email, pwd, role in DEV_ACCOUNTS:
         print(f"  {email:<28} / {pwd:<18} (role: {role})")
+    print()
+    print("Verify citizen01 features:")
+    print("  Login as citizen01@gavea.br / citizen01pass")
+    print("  - Workspace (/): toggle 'Meus relatos'           -> 10 relatos visible")
+    print("  - Encaminhamentos (/encaminhamentos): check 'Meus encaminhamentos' -> 1 forwarding visible")
     print()
 
 

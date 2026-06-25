@@ -1,5 +1,7 @@
 # Briefs Log
 
+STARTED | 2026-06-25 12:15 UTC | implement | seed citizen01 test data and verify features (plan 000170) — add more user relatos and mixed-user encaminhamento
+
 DONE | 2026-06-25 12:09 UTC | STARTED | 2026-06-25 12:04 UTC | plan | seed citizen01@gavea.br. I want to log inas citzen01 and see my relatos and encaminhamentos. update seed scripts in order to create this test data and check the features weve implemented | PLAN | 000170
 
 DONE | 2026-06-24 20:45 UTC | STARTED | 2026-06-24 20:23 UTC | implement | GET /forwardings/mine — encaminhamentos do cidadão logado. plan 000169 | PLAN | 000169
