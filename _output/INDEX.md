@@ -5,7 +5,7 @@
 
 | Date | Type | ID | Title | Status | File |
 |------|------|----|-------|--------|------|
-| 2026-06-25 19:36 | Research | 000170 | BERTopic fine-tuning pipeline and admin tool | DONE | [research-000170-berttopic-fine-tuning-pipeline-admin-tool.md](research-logs/research-000170-berttopic-fine-tuning-pipeline-admin-tool.md) |
+| 2026-06-25 19:36 | Research | 000170 | DistilBERT classification fine-tuning pipeline and admin tool | DONE | [research-000170-distilbert-classification-pipeline-admin-tool.md](research-logs/research-000170-distilbert-classification-pipeline-admin-tool.md) |
 | 2026-06-25 16:12 UTC | Other |  | Progress -- Plan 000140 |  | [plan-000140-progress.md](plans/plan-000140-progress.md) |
 | 2026-06-25 16:12 UTC | Other |  | Progress -- Plan 000156 |  | [plan-000156-progress.md](plans/plan-000156-progress.md) |
 | 2026-06-25 16:12 UTC | Other |  | Progress -- Plan 000161 |  | [plan-000161-progress.md](plans/plan-000161-progress.md) |

@@ -1,6 +1,6 @@
-# Research 000170 | FEATURE-X | 2026-06-25 19:36 | BERTopic fine-tuning pipeline and admin tool
+# Research 000170 | FEATURE-X | 2026-06-25 19:36 | DistilBERT classification fine-tuning pipeline and admin tool
 
-tags: bertopic, ml-pipeline, admin-tool, architecture, nlp
+tags: distilbert, fine-tuning, ml-pipeline, admin-tool, architecture, nlp
 
 ## User Brief
 
