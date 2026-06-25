@@ -9,6 +9,7 @@
 | 2026-06-25 19:14 UTC | reflect | IA tools para sugerir topicos ausentes de relatos. Hoje a plataforma e os dados… | DONE |  |  |  |
 | 2026-06-25 12:15 UTC | implement | seed citizen01 test data and verify features (plan 000170) — add more user rela… | DONE | 000170 |  |  |
 | 2026-06-25 12:04 UTC | plan | seed citizen01@gavea.br. I want to log inas citzen01 and see my relatos and enc… | DONE | 000170 |  |  |
+| 2026-06-25 19:36 UTC | research | como podemos arquiteturar uma solucao usando berttopic para ser usada no contex… | DONE |  |  |  |
 | 2026-06-24 20:23 UTC | implement | GET /forwardings/mine — encaminhamentos do cidadão logado. plan 000169 | DONE | 000169 |  |  |
 | 2026-06-24 20:00 UTC | plan | GET /forwardings/mine — endpoint auth-required que retorna os encaminhamentos c… | DONE | 000169 |  |  |
 | 2026-06-24 19:43 UTC | research | como cidadao logado, como posso acessar os encaminhamentos que possuem relatos … | DONE |  |  |  |

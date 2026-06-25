@@ -1,0 +1,1001 @@
+user_id,texto_relato,latitude,longitude,data,topico,urgency
+citizen060,Equipamentos de ginástica na Estrada da Gávea enferrujados e sem manutenção.,-22.956946,-43.209196,2025-01-04,Espaco publico,baixa
+citizen029,"Vandalizaram o playground na Rua Padre Leonel Franca, crianças sem onde brincar. Muros recém-pintados na Rua Padre Leonel Franca já pichados novamente. Portão da praça na Rua Padre Leonel Franca forçado e quebrado.",-22.960723,-43.226079,2025-05-05,Vandalismo,alta
+citizen023,"Vandalizaram o banco da praça perto do Shopping da Gávea, destruído. Portão da praça perto do Shopping da Gávea forçado e quebrado.",-22.981827,-43.206233,2025-02-03,Vandalismo,baixa
+citizen054,Trânsito parado na Rua Marquês de São Vicente por obra sem aviso prévio.,-22.954557,-43.233963,2025-12-01,Transito e mobilidade,baixa
+citizen019,Não tem bancos na praça na beira da Lagoa pra sentar. Brinquedo do parquinho na beira da Lagoa quebrado há meses. Falta rampa de acessibilidade na beira da Lagoa.,-22.968693,-43.218954,2025-05-01,Espaco publico,media
+citizen026,"Tem um monte de entulho abandonado na Rua Jardim Botânico, absurdo.",-22.958536,-43.223968,2026-04-07,Lixo e conservacao,baixa
+citizen039,"Minha rua virou lixão. Tem lixo na Pista Cláudio Coutinho por todo lado. Cara, o lixo na Pista Cláudio Coutinho tá ridículo. Já liguei pra prefeitura e nada.",-22.951995,-43.231788,2025-09-26,Lixo e conservacao,baixa
+citizen012,"Ponto de ônibus perto do Shopping da Gávea sem cobertura, chuva molha todo mundo. Calçada toda quebrada perto do Shopping da Gávea, impossível pra cadeirante.",-22.972244,-43.227268,2026-01-01,Espaco publico,baixa
+citizen031,"Escrita de gangue pichada logo ali na esquina, intimidatório.",-22.9773,-43.201516,2026-02-22,Vandalismo,alta
+citizen034,Traficantes na esquina na Rua Fonte da Saudade intimidando quem passa. Assalto a pedestres na Rua Fonte da Saudade virou rotina.,-22.970596,-43.202907,2025-10-16,Seguranca e circulacao,alta
+citizen018,Briga feia entre vizinhos no Parque da Cidade que já durou horas. Agressão entre pedestres no Parque da Cidade filmada por testemunhas.,-22.958952,-43.234738,2025-12-10,Conflito social,alta
+citizen054,"Tem um monte de entulho abandonado logo ali na esquina, absurdo.",-22.969649,-43.207659,2025-01-10,Lixo e conservacao,media
+citizen052,Lâmpada queimada na minha rua há quinze dias sem previsão de troca.,-22.959549,-43.203099,2025-06-27,Iluminacao publica,baixa
+citizen012,Trânsito parado perto da PUC-Rio por obra sem aviso prévio. Faixa de pedestres perto da PUC-Rio completamente apagada.,-22.970834,-43.213768,2025-12-16,Transito e mobilidade,baixa
+citizen017,"Esgoto entupido e lixo acumulado perto do Shopping da Gávea, situação precária.",-22.972392,-43.236432,2026-05-22,Lixo e conservacao,media
+citizen010,"Há dias com sacos de lixo rasgados perto do Shopping da Gávea, cheios de inseto. Tô passando perto do Shopping da Gávea e o cheiro de lixo tá insuportável.",-22.962014,-43.231647,2025-02-25,Lixo e conservacao,media
+citizen011,"Animal abandonado na Rua Vice-Governador Rubens Berardo há dias, alguém pode ajudar? Barulho de obra na Rua Vice-Governador Rubens Berardo às seis da manhã todo dia. Evento privado bloqueando a calçada na Rua Vice-Governador Rubens Berardo sem aviso.",-22.977879,-43.218769,2025-03-04,Outro,baixa
+citizen045,Moradores brigando por causa de barulho na Rua Vice-Governador Rubens Berardo todo fim de semana.,-22.975733,-43.222911,2026-01-18,Conflito social,alta
+citizen033,Faixa de pedestres na Pista Cláudio Coutinho completamente apagada.,-22.968301,-43.215089,2025-03-07,Transito e mobilidade,media
+citizen036,"Asfalto esburacado na Praça Santos Dumont, minha suspensão já sofreu.",-22.981925,-43.237631,2025-08-17,Transito e mobilidade,media
+citizen013,"Porta de garagem arrombada na Pista Cláudio Coutinho, terceiro caso.",-22.974078,-43.209432,2025-07-24,Seguranca e circulacao,alta
+citizen032,Lâmpada queimada na Rua Pacheco Leão há quinze dias sem previsão de troca.,-22.978624,-43.206532,2025-01-22,Iluminacao publica,alta
+citizen012,Conflito relacionado a entrega de aplicativo na Rua Vice-Governador Rubens Berardo ficou feio.,-22.979539,-43.22873,2025-12-25,Conflito social,alta
+citizen018,"A praça na Rua Padre Leonel Franca tá abandonada, ninguém cuida.",-22.974823,-43.208967,2025-08-22,Espaco publico,alta
+citizen038,Totem de informação na Praça Santos Dumont quebrado e apagado.,-22.971185,-43.222611,2025-04-30,Espaco publico,baixa
+citizen034,Discussão por vaga de estacionamento perto do Shopping da Gávea virou caso de polícia.,-22.966248,-43.211473,2025-11-01,Conflito social,alta
+citizen031,Buraco na rede de esgoto na Rua Vice-Governador Rubens Berardo com cheiro forte.,-22.957341,-43.212636,2025-04-08,Outro,baixa
+citizen015,Minha filha tem medo de passar aqui no bairro de noite por causa do escuro.,-22.958172,-43.220026,2025-12-26,Iluminacao publica,alta
+citizen006,Equipamento de academia ao ar livre na Rua Casuarina destruído. Grafite obsceno na parede da escola na Rua Casuarina.,-22.95284,-43.236312,2025-11-15,Vandalismo,alta
+citizen003,Tem pessoas suspeitas circulando logo ali na esquina toda noite. Traficantes na esquina logo ali na esquina intimidando quem passa.,-22.96777,-43.229015,2025-03-11,Seguranca e circulacao,alta
+citizen035,"Toda a quadra na beira da Lagoa no escuro. Cadê a Enel? Fiz o chamado pra Enel semana passada sobre o poste na beira da Lagoa e nada. Passando na beira da Lagoa à noite dá medo, zero iluminação.",-22.971212,-43.229571,2025-03-29,Iluminacao publica,alta
+citizen026,"Mato alto na calçada na Rua Casuarina escondendo buracos. Ponto de ônibus na Rua Casuarina sem cobertura, chuva molha todo mundo.",-22.962894,-43.209627,2025-09-02,Espaco publico,alta
+citizen036,"Animal silvestre ferido na Estrada da Gávea, precisa de resgate. Evento privado bloqueando a calçada na Estrada da Gávea sem aviso.",-22.962975,-43.239301,2026-05-11,Outro,media
+citizen037,A coleta de lixo no Parque da Cidade sumiu. O que aconteceu? Tem uma montanha de lixo no Parque da Cidade que ninguém tira. Alguém jogou entulho de obra no Parque da Cidade e deixou largado.,-22.979627,-43.206744,2025-01-10,Lixo e conservacao,baixa
+citizen022,Minha filha tem medo de passar na Rua Marquês de São Vicente de noite por causa do escuro.,-22.965252,-43.225097,2025-06-01,Iluminacao publica,alta
+citizen010,Goteira de prédio na Rua Padre Leonel Franca molhando pedestres embaixo.,-22.957741,-43.224591,2026-02-18,Outro,alta
+citizen014,Preciso sair cedo e na Rua Jardim Botânico tá perigoso antes de amanhecer. Tem pessoas suspeitas circulando na Rua Jardim Botânico toda noite.,-22.978269,-43.20819,2025-04-25,Seguranca e circulacao,media
+citizen025,"Obra irregular acontecendo na Rua Pacheco Leão sem autorização aparente. Animal abandonado na Rua Pacheco Leão há dias, alguém pode ajudar?",-22.981597,-43.215837,2026-03-06,Outro,baixa
+citizen014,Vários postes apagados aqui no bairro. Isso é descaso. Ia sair pra correr mas aqui no bairro tá escuro demais.,-22.97861,-43.234648,2025-05-06,Iluminacao publica,alta
+citizen030,"Ônibus riscado e vandalizado no Parque da Cidade. Bebedouro público no Parque da Cidade vandalizado, sem funcionar. Equipamento de academia ao ar livre no Parque da Cidade destruído.",-22.972334,-43.224011,2026-01-20,Vandalismo,media
+citizen058,Placa de trânsito arrancada na Rua Casuarina por vândalos.,-22.956981,-43.210466,2026-01-27,Vandalismo,baixa
+citizen002,Desentendimento entre grupos na Rua Pacheco Leão que quase virou pancadaria.,-22.954186,-43.238225,2025-01-03,Conflito social,alta
+citizen047,Área verde na Rua Lopes Quintas sendo invadida por carros.,-22.960319,-43.211835,2025-07-18,Espaco publico,baixa
+citizen053,Quebraram as lâmpadas do poste na Rua Vice-Governador Rubens Berardo de propósito.,-22.979704,-43.206277,2025-01-27,Vandalismo,media
+citizen046,"Sem iluminação na Rua Lopes Quintas, fica perigoso à noite. Poste caindo na Rua Lopes Quintas, além de escuro é perigoso. A iluminação na Rua Lopes Quintas simplesmente parou de funcionar.",-22.960584,-43.206087,2025-12-01,Iluminacao publica,alta
+citizen025,Motocicleta subindo calçada na Rua Marquês de São Vicente assustando pedestres.,-22.974041,-43.201549,2025-10-01,Transito e mobilidade,baixa
+citizen060,Picharam toda a parede na Rua Jardim Botânico de madrugada. Grafite obsceno na parede da escola na Rua Jardim Botânico. Portão da praça na Rua Jardim Botânico forçado e quebrado.,-22.960222,-43.20791,2025-06-25,Vandalismo,baixa
+citizen043,"Carro com alarme disparado na Rua Pacheco Leão há horas. Pombos infestando o telhado na Rua Pacheco Leão, situação insalubre.",-22.955316,-43.232615,2025-07-29,Outro,media
+citizen048,"Poste queimado na Rua Álvaro Chaves há mais de uma semana, ninguém conserta. Vários postes apagados na Rua Álvaro Chaves. Isso é descaso.",-22.969525,-43.21897,2025-08-27,Iluminacao publica,media
+citizen018,"Pichação em cima de pichação no Parque da Cidade, ninguém limpa.",-22.976228,-43.237729,2026-04-05,Vandalismo,media
+citizen025,Lona improvisada na Rua Jardim Botânico bloqueando sinalização. Carro com alarme disparado na Rua Jardim Botânico há horas.,-22.962647,-43.217062,2026-02-14,Outro,alta
+citizen036,Ia sair pra correr mas na Rua Álvaro Chaves tá escuro demais.,-22.961957,-43.220579,2025-07-20,Iluminacao publica,alta
+citizen050,"Família brigando na rua na Rua Jardim Botânico, situação constrangedora. Discussão por vaga de estacionamento na Rua Jardim Botânico virou caso de polícia.",-22.952659,-43.234968,2025-07-07,Conflito social,alta
+citizen031,Conflito entre comerciantes e moradores na Rua Marquês de São Vicente sem solução. Briga feia entre vizinhos na Rua Marquês de São Vicente que já durou horas. Confusão no ponto de ônibus na Rua Marquês de São Vicente com gritos e empurra-empurra.,-22.975197,-43.218965,2025-11-03,Conflito social,alta
+citizen060,"Há dias com sacos de lixo rasgados na Estrada da Gávea, cheios de inseto.",-22.966286,-43.223517,2026-01-21,Lixo e conservacao,baixa
+citizen026,Desentendimento entre grupos perto da PUC-Rio que quase virou pancadaria.,-22.96506,-43.227313,2025-07-29,Conflito social,alta
+citizen012,"Escrita de gangue pichada na Rua Lopes Quintas, intimidatório. Grafite obsceno na parede da escola na Rua Lopes Quintas.",-22.98457,-43.206375,2026-01-04,Vandalismo,baixa
+citizen018,"Engarrafamento aqui no bairro todo dia no horário de pico. Semáforo quebrado aqui no bairro há dias, acidentes à vista. O trânsito aqui no bairro tá um caos nessa hora do dia.",-22.970977,-43.231251,2025-04-15,Transito e mobilidade,media
+citizen054,Cano d'água estourando na Pista Cláudio Coutinho e ninguém da Cedae aparece.,-22.964716,-43.210948,2025-06-12,Outro,alta
+citizen019,"Meu vizinho foi roubado na minha rua em plena tarde. Furto de retrovisor na minha rua, segundo da semana.",-22.965778,-43.214647,2025-03-12,Seguranca e circulacao,media
+citizen034,O lixo na Rua Fonte da Saudade tá acumulado há dias e ninguém faz nada. Entulho de construção abandonado na Rua Fonte da Saudade há mais de um mês. A prefeitura precisa agir! O lixo na Rua Fonte da Saudade tá atraindo rato.,-22.984319,-43.20666,2026-04-08,Lixo e conservacao,media
+citizen033,"Lixeiras públicas perto do Shopping da Gávea destruídas, joguei fora.",-22.976716,-43.215347,2026-02-06,Vandalismo,alta
+citizen009,Brinquedo do parquinho na Praça Santos Dumont quebrado há meses.,-22.974499,-43.223394,2025-02-03,Espaco publico,media
+citizen018,Ratos aparecendo por causa do lixo acumulado na Rua Lopes Quintas.,-22.982425,-43.20688,2025-07-31,Lixo e conservacao,media
+citizen017,"Quebraram o espelho do retrovisor do meu carro na Praça Santos Dumont. Picharam o muro do condomínio na Praça Santos Dumont de novo. Lixeiras públicas na Praça Santos Dumont destruídas, joguei fora.",-22.970127,-43.222729,2025-06-03,Vandalismo,media
+citizen048,A praça na Rua Marquês de São Vicente deveria ser pra todos mas tá inacessível. Espaço público na Rua Marquês de São Vicente virou estacionamento irregular.,-22.959783,-43.215225,2025-04-14,Espaco publico,media
+citizen027,"Os postes na Rua Fonte da Saudade estão todos apagados faz dias. Poste caindo na Rua Fonte da Saudade, além de escuro é perigoso.",-22.961535,-43.200815,2026-02-15,Iluminacao publica,alta
+citizen041,Calçada na minha rua com entulho e ninguém desobstrui.,-22.979967,-43.230171,2025-03-21,Espaco publico,baixa
+citizen031,Cheguei em casa e havia marcas de tentativa de arrombamento na minha rua.,-22.975605,-43.208217,2025-03-29,Seguranca e circulacao,baixa
+citizen045,"Veículo abandonado na Rua Padre Leonel Franca há semanas, virou lixo.",-22.968738,-43.238286,2026-05-08,Outro,baixa
+citizen021,Vidro de poste de semáforo quebrado na Rua Pacheco Leão.,-22.96788,-43.234319,2026-05-22,Vandalismo,alta
+citizen013,Tô passando no Parque da Cidade e o cheiro de lixo tá insuportável.,-22.956964,-43.221909,2025-11-30,Lixo e conservacao,baixa
+citizen052,Moradores brigando por causa de barulho na Pista Cláudio Coutinho todo fim de semana. Confusão generalizada na Pista Cláudio Coutinho com xingamentos e empurrão. Barulho de briga na Pista Cláudio Coutinho perturbando todo o quarteirão.,-22.969944,-43.212015,2026-04-17,Conflito social,alta
+citizen023,Briga feia entre vizinhos na Rua Álvaro Chaves que já durou horas.,-22.950836,-43.239883,2026-02-14,Conflito social,alta
+citizen060,Vários postes apagados na Rua Padre Leonel Franca. Isso é descaso.,-22.959041,-43.215676,2025-07-03,Iluminacao publica,baixa
+citizen024,Buraco enorme na Pista Cláudio Coutinho que já danificou dois carros.,-22.967136,-43.216677,2025-07-08,Transito e mobilidade,media
+citizen029,Totem de informação na Rua Marquês de São Vicente quebrado e apagado.,-22.977292,-43.223937,2026-05-30,Espaco publico,media
+citizen036,Calçada na Rua Jardim Botânico com desnível perigoso pra quem corre. Não tem bancos na praça na Rua Jardim Botânico pra sentar.,-22.95159,-43.205759,2025-12-12,Espaco publico,alta
+citizen053,"Lixo espalhado por toda a calçada na Estrada da Gávea, impossível passar.",-22.972836,-43.206171,2026-04-03,Lixo e conservacao,baixa
+citizen003,Entulho de construção abandonado na Rua Padre Leonel Franca há mais de um mês. A limpeza urbana na Rua Padre Leonel Franca foi esquecida completamente.,-22.98036,-43.212004,2026-01-19,Lixo e conservacao,baixa
+citizen022,"Grupo bagunçando na Rua Vice-Governador Rubens Berardo até tarde, moradores com medo.",-22.97449,-43.204318,2025-01-13,Seguranca e circulacao,media
+citizen034,"Carro estacionado em cima da calçada na Estrada da Gávea, pedestres na rua.",-22.977402,-43.209552,2026-01-01,Transito e mobilidade,media
+citizen054,"Goteira de prédio aqui no bairro molhando pedestres embaixo. Animal silvestre ferido aqui no bairro, precisa de resgate.",-22.954538,-43.214748,2026-02-18,Outro,media
+citizen056,Fiz o chamado pra Enel semana passada sobre o poste perto do Shopping da Gávea e nada.,-22.957142,-43.231139,2025-02-28,Iluminacao publica,media
+citizen026,"Cheguei em casa e havia marcas de tentativa de arrombamento na Rua Álvaro Chaves. Furto de bike na Rua Álvaro Chaves, precisamos de mais policiamento.",-22.977789,-43.215925,2026-05-07,Seguranca e circulacao,alta
+citizen003,Toda a quadra na Rua Padre Leonel Franca no escuro. Cadê a Enel?,-22.965173,-43.203136,2026-04-25,Iluminacao publica,media
+citizen028,"Ônibus riscado e vandalizado na Rua Casuarina. Pichação em cima de pichação na Rua Casuarina, ninguém limpa.",-22.967834,-43.234231,2025-09-04,Vandalismo,media
+citizen021,Moradores brigando por causa de barulho na Rua Fonte da Saudade todo fim de semana. Conflito entre comerciantes e moradores na Rua Fonte da Saudade sem solução.,-22.971796,-43.223526,2025-07-31,Conflito social,baixa
+citizen031,"Calçada toda quebrada na beira da Lagoa, impossível pra cadeirante.",-22.976599,-43.2169,2026-03-19,Espaco publico,baixa
+citizen053,Ia sair pra correr mas na Rua Jardim Botânico tá escuro demais.,-22.973156,-43.218857,2025-09-29,Iluminacao publica,alta
+citizen057,"Muros recém-pintados na Rua Lopes Quintas já pichados novamente. Escrita de gangue pichada na Rua Lopes Quintas, intimidatório. Placa de trânsito arrancada na Rua Lopes Quintas por vândalos.",-22.974855,-43.211813,2026-01-18,Vandalismo,baixa
+citizen049,"Viatura não passa na minha rua há dias, abandono policial.",-22.974367,-43.230808,2025-03-29,Seguranca e circulacao,media
+citizen003,"Calçada toda quebrada perto do Shopping da Gávea, impossível pra cadeirante.",-22.98446,-43.202313,2025-07-25,Espaco publico,baixa
+citizen040,"O ônibus linha 583 não para mais na minha rua, abandonaram o ponto. Buraco na minha rua que a prefeitura tampou com areia e abriu de novo.",-22.980122,-43.216379,2026-01-02,Transito e mobilidade,media
+citizen054,"Tapume de obra perto do Shopping da Gávea tomando calçada inteira. Cano d'água estourando perto do Shopping da Gávea e ninguém da Cedae aparece. Fio de alta tensão caído perto do Shopping da Gávea, urgente.",-22.951317,-43.215651,2026-04-16,Outro,media
+citizen052,Conflito entre moradores e ambulantes na Rua Fonte da Saudade.,-22.981236,-43.209651,2025-08-30,Conflito social,media
+citizen012,"Tentativa de assalto na Pista Cláudio Coutinho esta manhã, me assustou muito.",-22.958689,-43.237168,2025-05-07,Seguranca e circulacao,alta
+citizen018,"Ponto de ônibus perto da PUC-Rio sem cobertura, chuva molha todo mundo.",-22.966833,-43.233625,2025-04-22,Espaco publico,baixa
+citizen037,"Motocicleta subindo calçada na Rua Padre Leonel Franca assustando pedestres. Placa de rua caída na Rua Padre Leonel Franca há semanas. Asfalto esburacado na Rua Padre Leonel Franca, minha suspensão já sofreu.",-22.970863,-43.204354,2025-08-31,Transito e mobilidade,media
+citizen043,"Disputa de área na Pista Cláudio Coutinho entre grupos rivais. Família brigando na rua na Pista Cláudio Coutinho, situação constrangedora.",-22.955341,-43.215132,2025-01-20,Conflito social,alta
+citizen047,"Sem luz perto da PUC-Rio à noite, carro entrou em buraco ontem.",-22.969499,-43.239891,2025-08-23,Iluminacao publica,baixa
+citizen001,Tô passando na beira da Lagoa e o cheiro de lixo tá insuportável. Já faz uma semana que o lixo não é coletado na beira da Lagoa.,-22.969648,-43.216506,2026-02-27,Lixo e conservacao,baixa
+citizen032,Quiosque clandestino na Rua Marquês de São Vicente gerando confusão e briga. Atividade suspeita na Rua Marquês de São Vicente toda madrugada.,-22.965944,-43.207529,2025-11-13,Seguranca e circulacao,alta
+citizen050,"Animal silvestre ferido na minha rua, precisa de resgate. Pombos infestando o telhado na minha rua, situação insalubre. Problema que precisa de atenção na minha rua mas não sei pra quem ligar.",-22.967213,-43.234985,2025-02-02,Outro,baixa
+citizen025,Ratos aparecendo por causa do lixo acumulado na Rua Fonte da Saudade.,-22.959179,-43.224969,2025-11-21,Lixo e conservacao,media
+citizen041,Discussão por vaga de estacionamento na Rua Fonte da Saudade virou caso de polícia. Conflito relacionado a entrega de aplicativo na Rua Fonte da Saudade ficou feio. Vizinho colocando som alto na Rua Fonte da Saudade até meia-noite toda noite.,-22.967064,-43.232288,2025-04-14,Conflito social,alta
+citizen049,Confusão generalizada na Estrada da Gávea com xingamentos e empurrão.,-22.958637,-43.221624,2025-10-05,Conflito social,alta
+citizen006,Sacos de lixo espalhados na calçada no Parque da Cidade desde ontem.,-22.961517,-43.231535,2026-03-22,Lixo e conservacao,media
+citizen020,"Viatura não passa na Rua Casuarina há dias, abandono policial.",-22.971368,-43.229666,2026-01-31,Seguranca e circulacao,baixa
+citizen023,Portão da praça na Praça Santos Dumont forçado e quebrado.,-22.984817,-43.212948,2025-07-02,Vandalismo,media
+citizen024,Área verde na minha rua sendo invadida por carros.,-22.957936,-43.206643,2026-02-10,Espaco publico,media
+citizen054,A prefeitura precisa agir! O lixo na beira da Lagoa tá atraindo rato. A coleta de lixo na beira da Lagoa sumiu. O que aconteceu?,-22.969219,-43.217919,2026-01-12,Lixo e conservacao,media
+citizen040,Entulho de construção abandonado na Estrada da Gávea há mais de um mês.,-22.978661,-43.231168,2025-08-21,Lixo e conservacao,media
+citizen030,"Trânsito parado na Rua Jardim Botânico por obra sem aviso prévio. O trânsito na Rua Jardim Botânico tá um caos nessa hora do dia. Desvio de obra na Rua Jardim Botânico sem sinalização adequada, confuso demais.",-22.976618,-43.220689,2025-01-11,Transito e mobilidade,baixa
+citizen035,"O ônibus linha 583 não para mais na Rua Fonte da Saudade, abandonaram o ponto. Desvio de obra na Rua Fonte da Saudade sem sinalização adequada, confuso demais.",-22.964322,-43.209679,2025-02-15,Transito e mobilidade,alta
+citizen057,Minha rua virou lixão. Tem lixo na Estrada da Gávea por todo lado.,-22.963734,-43.212193,2025-04-04,Lixo e conservacao,alta
+citizen015,"Furto de retrovisor na Rua Vice-Governador Rubens Berardo, segundo da semana. Viatura não passa na Rua Vice-Governador Rubens Berardo há dias, abandono policial.",-22.970752,-43.22967,2025-07-10,Seguranca e circulacao,alta
+citizen020,"A praça perto da PUC-Rio tá abandonada, ninguém cuida.",-22.973444,-43.221283,2025-05-13,Espaco publico,media
+citizen010,A rua na Rua Marquês de São Vicente ficou escura e aumentou os furtos.,-22.970012,-43.217147,2026-02-11,Iluminacao publica,baixa
+citizen056,Confusão no ponto de ônibus na Rua Padre Leonel Franca com gritos e empurra-empurra. Conflito entre comerciantes e moradores na Rua Padre Leonel Franca sem solução. Briga entre crianças na Rua Padre Leonel Franca que virou bagunça de adulto.,-22.974331,-43.201908,2025-04-14,Conflito social,baixa
+citizen001,Atividade suspeita perto do Shopping da Gávea toda madrugada. Quiosque clandestino perto do Shopping da Gávea gerando confusão e briga.,-22.953227,-43.207852,2026-03-28,Seguranca e circulacao,media
+citizen001,Já faz uma semana que o lixo não é coletado na beira da Lagoa.,-22.95694,-43.223728,2025-02-25,Lixo e conservacao,baixa
+citizen014,Briga entre crianças na Praça Santos Dumont que virou bagunça de adulto.,-22.953979,-43.227228,2026-03-31,Conflito social,alta
+citizen048,Criança com medo de ir pra escola passando no Parque da Cidade.,-22.970262,-43.225845,2026-05-23,Seguranca e circulacao,media
+citizen024,"Poste caindo no Parque da Cidade, além de escuro é perigoso.",-22.973407,-43.230164,2026-03-18,Iluminacao publica,alta
+citizen010,Minha rua virou lixão. Tem lixo na Estrada da Gávea por todo lado. Jogaram móveis velhos na Estrada da Gávea e ninguém recolhe.,-22.970055,-43.213692,2025-06-24,Lixo e conservacao,media
+citizen047,Quebraram o espelho do retrovisor do meu carro na Rua Fonte da Saudade.,-22.953047,-43.230109,2026-02-16,Vandalismo,media
+citizen038,"Preciso sair cedo e na Estrada da Gávea tá perigoso antes de amanhecer. Furto de retrovisor na Estrada da Gávea, segundo da semana. Fui assaltado na Estrada da Gávea ontem à noite, tá perigoso.",-22.95494,-43.208888,2026-04-10,Seguranca e circulacao,alta
+citizen003,Quebraram o espelho do retrovisor do meu carro na Praça Santos Dumont. Muros recém-pintados na Praça Santos Dumont já pichados novamente.,-22.975197,-43.204804,2026-05-22,Vandalismo,media
+citizen004,Ia sair pra correr mas na beira da Lagoa tá escuro demais.,-22.955846,-43.233045,2025-11-19,Iluminacao publica,alta
+citizen009,Briga feia entre vizinhos na Rua Marquês de São Vicente que já durou horas.,-22.977829,-43.227387,2025-10-06,Conflito social,alta
+citizen027,Briga de bar na Rua Padre Leonel Franca que saiu pro meio da rua.,-22.958975,-43.209654,2025-12-19,Conflito social,alta
+citizen010,A coleta de lixo na Rua Jardim Botânico sumiu. O que aconteceu? Minha rua virou lixão. Tem lixo na Rua Jardim Botânico por todo lado.,-22.961956,-43.233504,2025-11-21,Lixo e conservacao,media
+citizen012,Tapume de obra na Rua Casuarina tomando calçada inteira.,-22.958979,-43.239037,2025-12-15,Outro,media
+citizen058,Terreno abandonado aqui no bairro com mato e lixo acumulado. Problema que precisa de atenção aqui no bairro mas não sei pra quem ligar.,-22.96608,-43.237201,2025-11-27,Outro,alta
+citizen005,"Sem luz na Rua Casuarina à noite, carro entrou em buraco ontem. Voltei do trabalho tarde e a rua na Rua Casuarina tava no breu total.",-22.974539,-43.202943,2025-11-27,Iluminacao publica,media
+citizen003,"Vazamento de gás logo ali na esquina, chamei o Riogas mas demora. Fiação elétrica exposta logo ali na esquina, perigo de choque.",-22.952728,-43.230522,2026-03-15,Outro,baixa
+citizen039,"Drenagem entupida perto da PUC-Rio, qualquer chuva alaga tudo.",-22.979218,-43.228998,2025-08-22,Espaco publico,media
+citizen004,Totem de informação na Rua Jardim Botânico quebrado e apagado.,-22.969539,-43.237796,2025-03-08,Espaco publico,alta
+citizen049,"Vazamento de gás na Rua Álvaro Chaves, chamei o Riogas mas demora. Obra irregular acontecendo na Rua Álvaro Chaves sem autorização aparente. Problema que precisa de atenção na Rua Álvaro Chaves mas não sei pra quem ligar.",-22.979479,-43.208414,2025-01-22,Outro,alta
+citizen046,"Terreno abandonado perto do Shopping da Gávea com mato e lixo acumulado. Evento privado bloqueando a calçada perto do Shopping da Gávea sem aviso. Fio de alta tensão caído perto do Shopping da Gávea, urgente.",-22.959749,-43.22855,2025-04-06,Outro,media
+citizen023,"Desvio de obra na Pista Cláudio Coutinho sem sinalização adequada, confuso demais.",-22.964533,-43.21619,2026-01-30,Transito e mobilidade,media
+citizen027,Falta rampa de acessibilidade na Rua Marquês de São Vicente.,-22.981202,-43.214208,2025-08-06,Espaco publico,media
+citizen060,"Vidro de poste de semáforo quebrado na Rua Vice-Governador Rubens Berardo. Escrita de gangue pichada na Rua Vice-Governador Rubens Berardo, intimidatório.",-22.982011,-43.209592,2025-04-28,Vandalismo,media
+citizen045,"Fui assaltado na Rua Casuarina ontem à noite, tá perigoso.",-22.981017,-43.21531,2026-02-09,Seguranca e circulacao,alta
+citizen029,Muros recém-pintados na Rua Casuarina já pichados novamente.,-22.97697,-43.234903,2025-05-16,Vandalismo,alta
+citizen001,Calçada na Rua Álvaro Chaves com entulho e ninguém desobstrui.,-22.951689,-43.224193,2025-03-12,Espaco publico,baixa
+citizen008,Terreno abandonado na beira da Lagoa com mato e lixo acumulado.,-22.974092,-43.208523,2025-05-19,Outro,media
+citizen012,Discussão por vaga de estacionamento na Rua Pacheco Leão virou caso de polícia.,-22.979164,-43.227841,2025-07-30,Conflito social,alta
+citizen025,"Ônibus riscado e vandalizado na Pista Cláudio Coutinho. Escrita de gangue pichada na Pista Cláudio Coutinho, intimidatório.",-22.97729,-43.23654,2025-10-16,Vandalismo,media
+citizen014,Quebraram o monumento aqui no bairro que estava restaurado. Vidro de poste de semáforo quebrado aqui no bairro.,-22.950711,-43.239657,2025-02-03,Vandalismo,media
+citizen050,Picharam o muro do condomínio na Estrada da Gávea de novo.,-22.96909,-43.215117,2025-05-20,Vandalismo,baixa
+citizen025,"Grupo bagunçando na Rua Marquês de São Vicente até tarde, moradores com medo. Furto de retrovisor na Rua Marquês de São Vicente, segundo da semana. Carro arrombado na Rua Marquês de São Vicente de madrugada, terceiro esse mês.",-22.951111,-43.218496,2026-01-25,Seguranca e circulacao,media
+citizen003,Totem de informação na Praça Santos Dumont quebrado e apagado.,-22.956401,-43.231479,2025-01-01,Espaco publico,baixa
+citizen043,Tapume de obra na beira da Lagoa tomando calçada inteira.,-22.975168,-43.204853,2026-02-01,Outro,baixa
+citizen031,Criança com medo de ir pra escola passando perto do Shopping da Gávea.,-22.975628,-43.234467,2025-09-28,Seguranca e circulacao,media
+citizen003,"Árvore caída no Parque da Cidade desde a última chuva, ninguém tirou. Falta rampa de acessibilidade no Parque da Cidade.",-22.974235,-43.204078,2026-03-29,Espaco publico,media
+citizen014,Confusão no ponto de ônibus na Praça Santos Dumont com gritos e empurra-empurra.,-22.963248,-43.222556,2025-07-13,Conflito social,baixa
+citizen036,"Sem luz na Rua Lopes Quintas à noite, carro entrou em buraco ontem.",-22.978331,-43.2341,2026-04-10,Iluminacao publica,alta
+citizen022,"Os postes na beira da Lagoa estão todos apagados faz dias. Poste queimado na beira da Lagoa há mais de uma semana, ninguém conserta. Acionei a prefeitura sobre o poste na beira da Lagoa e ficou no papel.",-22.966237,-43.234134,2026-05-31,Iluminacao publica,media
+citizen041,"Árvore caída na Praça Santos Dumont desde a última chuva, ninguém tirou. Ponto de ônibus na Praça Santos Dumont sem cobertura, chuva molha todo mundo. Espaço público na Praça Santos Dumont virou estacionamento irregular.",-22.958931,-43.221478,2026-03-21,Espaco publico,baixa
+citizen054,Agressão entre pedestres na Rua Marquês de São Vicente filmada por testemunhas. Confusão generalizada na Rua Marquês de São Vicente com xingamentos e empurrão.,-22.976596,-43.220964,2025-09-15,Conflito social,media
+citizen045,Quebraram o monumento na Praça Santos Dumont que estava restaurado. Ônibus riscado e vandalizado na Praça Santos Dumont.,-22.952033,-43.212886,2025-10-25,Vandalismo,alta
+citizen013,"Bebedouro público na Rua Marquês de São Vicente vandalizado, sem funcionar.",-22.970624,-43.237639,2026-01-28,Vandalismo,alta
+citizen021,"Minha bolsa foi arrancada na beira da Lagoa numa moto. Furto de bike na beira da Lagoa, precisamos de mais policiamento.",-22.973276,-43.227131,2025-02-27,Seguranca e circulacao,alta
+citizen029,"Viatura não passa perto da PUC-Rio há dias, abandono policial.",-22.962232,-43.203353,2025-05-15,Seguranca e circulacao,alta
+citizen030,Criança com medo de ir pra escola passando na beira da Lagoa. Preciso sair cedo e na beira da Lagoa tá perigoso antes de amanhecer.,-22.960669,-43.233371,2026-05-21,Seguranca e circulacao,media
+citizen018,Placa de rua caída logo ali na esquina há semanas. Engarrafamento logo ali na esquina todo dia no horário de pico.,-22.959308,-43.21344,2025-03-18,Transito e mobilidade,media
+citizen012,"Cano d'água estourando na minha rua e ninguém da Cedae aparece. Fiação elétrica exposta na minha rua, perigo de choque.",-22.957252,-43.23021,2025-10-05,Outro,media
+citizen041,"Engarrafamento na Rua Jardim Botânico todo dia no horário de pico. Buraco enorme na Rua Jardim Botânico que já danificou dois carros. Semáforo quebrado na Rua Jardim Botânico há dias, acidentes à vista.",-22.961937,-43.229474,2025-10-05,Transito e mobilidade,media
+citizen051,A rua na Rua Marquês de São Vicente ficou escura e aumentou os furtos.,-22.974778,-43.220838,2025-04-16,Iluminacao publica,baixa
+citizen005,"Carro arrombado aqui no bairro de madrugada, terceiro esse mês. Traficantes na esquina aqui no bairro intimidando quem passa.",-22.971099,-43.208172,2025-08-29,Seguranca e circulacao,media
+citizen030,Placa de rua caída na Praça Santos Dumont há semanas.,-22.98489,-43.204657,2025-05-24,Transito e mobilidade,baixa
+citizen008,"Escrita de gangue pichada na Rua Marquês de São Vicente, intimidatório. Vandalizaram o playground na Rua Marquês de São Vicente, crianças sem onde brincar.",-22.969519,-43.239822,2026-03-15,Vandalismo,baixa
+citizen045,Traficantes na esquina na Pista Cláudio Coutinho intimidando quem passa.,-22.969797,-43.227674,2025-06-15,Seguranca e circulacao,media
+citizen010,O lixo orgânico na Rua Padre Leonel Franca tá fedendo demais com esse calor.,-22.978641,-43.23713,2026-04-02,Lixo e conservacao,baixa
+citizen038,"Pombos infestando o telhado na Rua Fonte da Saudade, situação insalubre.",-22.963128,-43.203499,2025-10-10,Outro,media
+citizen051,Moradores brigando por causa de barulho na Rua Marquês de São Vicente todo fim de semana. Conflito relacionado a entrega de aplicativo na Rua Marquês de São Vicente ficou feio.,-22.950822,-43.210145,2025-12-23,Conflito social,media
+citizen034,"Calçada toda quebrada na Rua Fonte da Saudade, impossível pra cadeirante.",-22.956377,-43.203702,2025-06-09,Espaco publico,baixa
+citizen027,"Quebraram o espelho do retrovisor do meu carro na Pista Cláudio Coutinho. Vandalizaram o banco da praça na Pista Cláudio Coutinho, destruído.",-22.980998,-43.21729,2025-11-02,Vandalismo,baixa
+citizen008,"Barulho de tiro na Rua Álvaro Chaves ontem à noite, assustador.",-22.979318,-43.226154,2025-02-20,Seguranca e circulacao,alta
+citizen021,Acionei a prefeitura sobre o poste perto do Shopping da Gávea e ficou no papel.,-22.965915,-43.219024,2025-07-27,Iluminacao publica,alta
+citizen008,Fiz o chamado pra Enel semana passada sobre o poste na Rua Jardim Botânico e nada. Toda a quadra na Rua Jardim Botânico no escuro. Cadê a Enel?,-22.976594,-43.228294,2025-02-09,Iluminacao publica,media
+citizen038,Minha bolsa foi arrancada na Rua Pacheco Leão numa moto.,-22.971863,-43.23487,2026-05-13,Seguranca e circulacao,alta
+citizen052,O lixo orgânico na Rua Pacheco Leão tá fedendo demais com esse calor. Alguém jogou entulho de obra na Rua Pacheco Leão e deixou largado.,-22.961836,-43.200668,2025-03-08,Lixo e conservacao,alta
+citizen015,Totem de informação na Rua Fonte da Saudade quebrado e apagado. Buraco na calçada na Rua Fonte da Saudade engoliu o salto do sapato da minha mãe.,-22.983589,-43.203129,2025-01-07,Espaco publico,baixa
+citizen043,"Sem iluminação na Rua Lopes Quintas, fica perigoso à noite. A rua na Rua Lopes Quintas ficou escura e aumentou os furtos.",-22.958929,-43.236715,2025-01-23,Iluminacao publica,baixa
+citizen036,"Porta de garagem arrombada na Pista Cláudio Coutinho, terceiro caso.",-22.973438,-43.217487,2025-02-06,Seguranca e circulacao,baixa
+citizen030,A coleta de lixo perto da PUC-Rio sumiu. O que aconteceu? O lixo orgânico perto da PUC-Rio tá fedendo demais com esse calor.,-22.962391,-43.217289,2026-01-06,Lixo e conservacao,media
+citizen001,Tem uma montanha de lixo na Estrada da Gávea que ninguém tira.,-22.976949,-43.228742,2026-05-06,Lixo e conservacao,baixa
+citizen051,Vizinho colocando som alto perto da PUC-Rio até meia-noite toda noite. Denúncia de agressão verbal constante perto da PUC-Rio. Morador perturbando a vizinhança perto da PUC-Rio com ameaças.,-22.978132,-43.212582,2026-04-28,Conflito social,alta
+citizen041,"Poste piscando na Rua Padre Leonel Franca já faz 10 dias, parece discoteca. Vários postes apagados na Rua Padre Leonel Franca. Isso é descaso.",-22.95005,-43.235026,2025-07-21,Iluminacao publica,media
+citizen036,"Ciclista quase atropelado na Rua Casuarina por falta de ciclofaixa. Buraco enorme na Rua Casuarina que já danificou dois carros. Desvio de obra na Rua Casuarina sem sinalização adequada, confuso demais.",-22.984259,-43.234118,2026-03-06,Transito e mobilidade,baixa
+citizen022,Picharam toda a parede na Rua Vice-Governador Rubens Berardo de madrugada. Picharam o muro do condomínio na Rua Vice-Governador Rubens Berardo de novo.,-22.969673,-43.238106,2025-08-04,Vandalismo,media
+citizen056,Área verde perto do Shopping da Gávea sendo invadida por carros.,-22.977229,-43.210315,2025-07-15,Espaco publico,media
+citizen048,Quebraram o monumento perto da PUC-Rio que estava restaurado. Portão da praça perto da PUC-Rio forçado e quebrado.,-22.981417,-43.239849,2026-04-06,Vandalismo,alta
+citizen028,"Lona improvisada na Praça Santos Dumont bloqueando sinalização. Fiação elétrica exposta na Praça Santos Dumont, perigo de choque.",-22.969652,-43.229542,2025-06-28,Outro,media
+citizen045,"Ia sair pra correr mas na Rua Casuarina tá escuro demais. Rua totalmente escura na Rua Casuarina, fácil de assaltar assim.",-22.981552,-43.213324,2025-03-22,Iluminacao publica,media
+citizen034,Câmera de segurança na Rua Álvaro Chaves arrancada propositalmente.,-22.962586,-43.225882,2026-05-03,Vandalismo,media
+citizen051,"O lixo na Rua Marquês de São Vicente tá acumulado há dias e ninguém faz nada. Tem um monte de entulho abandonado na Rua Marquês de São Vicente, absurdo.",-22.979147,-43.227476,2025-12-12,Lixo e conservacao,media
+citizen022,"Lixeiras públicas na Rua Jardim Botânico destruídas, joguei fora. Picharam o muro do condomínio na Rua Jardim Botânico de novo. Bebedouro público na Rua Jardim Botânico vandalizado, sem funcionar.",-22.960585,-43.219194,2025-04-23,Vandalismo,alta
+citizen011,Quiosque clandestino na Rua Álvaro Chaves gerando confusão e briga.,-22.962313,-43.208537,2025-02-28,Seguranca e circulacao,alta
+citizen048,Minha rua virou lixão. Tem lixo na Rua Padre Leonel Franca por todo lado.,-22.979106,-43.232294,2025-06-26,Lixo e conservacao,baixa
+citizen002,Evento privado bloqueando a calçada na minha rua sem aviso.,-22.979986,-43.228245,2025-07-26,Outro,baixa
+citizen014,"Poste piscando na Rua Vice-Governador Rubens Berardo já faz 10 dias, parece discoteca. Três postes apagados em sequência na Rua Vice-Governador Rubens Berardo. Que descuido.",-22.963721,-43.230874,2026-04-10,Iluminacao publica,alta
+citizen016,Traficantes na esquina na Rua Padre Leonel Franca intimidando quem passa. Câmera de segurança na Rua Padre Leonel Franca quebrada há meses.,-22.980643,-43.233636,2026-04-22,Seguranca e circulacao,media
+citizen057,Vidro de poste de semáforo quebrado na Rua Lopes Quintas.,-22.975764,-43.21415,2025-01-03,Vandalismo,media
+citizen010,"Passando perto da PUC-Rio à noite dá medo, zero iluminação. Toda a quadra perto da PUC-Rio no escuro. Cadê a Enel? Sem iluminação perto da PUC-Rio, fica perigoso à noite.",-22.974844,-43.238189,2025-08-25,Iluminacao publica,media
+citizen027,Discussão por vaga de estacionamento na Rua Álvaro Chaves virou caso de polícia. Conflito entre moradores e ambulantes na Rua Álvaro Chaves.,-22.967082,-43.237193,2025-06-20,Conflito social,alta
+citizen059,"Carro arrombado no Parque da Cidade de madrugada, terceiro esse mês. Furto de retrovisor no Parque da Cidade, segundo da semana.",-22.981652,-43.227671,2025-10-02,Seguranca e circulacao,media
+citizen022,Picharam o muro do condomínio na Rua Fonte da Saudade de novo.,-22.975658,-43.205489,2026-04-07,Vandalismo,baixa
+citizen040,Desentendimento entre grupos na Rua Vice-Governador Rubens Berardo que quase virou pancadaria.,-22.959236,-43.211459,2026-01-02,Conflito social,alta
+citizen011,Alguém jogou entulho de obra na Rua Álvaro Chaves e deixou largado. A prefeitura precisa agir! O lixo na Rua Álvaro Chaves tá atraindo rato. O lixo na Rua Álvaro Chaves tá acumulado há dias e ninguém faz nada.,-22.956592,-43.202676,2025-02-20,Lixo e conservacao,baixa
+citizen052,Entupimento de bueiro perto do Shopping da Gávea que alaga tudo.,-22.982234,-43.226717,2026-02-07,Outro,media
+citizen009,"Escrita de gangue pichada logo ali na esquina, intimidatório.",-22.952829,-43.234662,2026-05-18,Vandalismo,baixa
+citizen004,Equipamento de academia ao ar livre na Rua Marquês de São Vicente destruído.,-22.964417,-43.21216,2025-04-27,Vandalismo,alta
+citizen027,Barulho de briga no Parque da Cidade perturbando todo o quarteirão. Discussão de trânsito no Parque da Cidade que desceu pro pessoal.,-22.964427,-43.202687,2025-03-18,Conflito social,media
+citizen053,Preciso sair cedo e na Rua Marquês de São Vicente tá perigoso antes de amanhecer.,-22.951598,-43.203667,2025-12-24,Seguranca e circulacao,baixa
+citizen022,"Motocicleta subindo calçada na Rua Vice-Governador Rubens Berardo assustando pedestres. Calçada destruída na Rua Vice-Governador Rubens Berardo, idosos e cadeirantes sem passagem.",-22.95499,-43.212235,2025-11-06,Transito e mobilidade,media
+citizen027,"Bebedouro público perto do Shopping da Gávea vandalizado, sem funcionar.",-22.975697,-43.218195,2025-08-17,Vandalismo,alta
+citizen018,Terceiro dia seguido sem coleta na Rua Álvaro Chaves. Até quando?,-22.984182,-43.235714,2026-03-07,Lixo e conservacao,media
+citizen001,"Família brigando na rua na Pista Cláudio Coutinho, situação constrangedora. Denúncia de agressão verbal constante na Pista Cláudio Coutinho.",-22.984551,-43.204716,2026-01-28,Conflito social,alta
+citizen057,"Escrita de gangue pichada na Rua Vice-Governador Rubens Berardo, intimidatório. Placa de trânsito arrancada na Rua Vice-Governador Rubens Berardo por vândalos.",-22.969395,-43.219166,2026-03-05,Vandalismo,alta
+citizen017,"Cano d'água estourando na Rua Marquês de São Vicente e ninguém da Cedae aparece. Animal abandonado na Rua Marquês de São Vicente há dias, alguém pode ajudar?",-22.979457,-43.234462,2025-01-23,Outro,baixa
+citizen011,Espaço público na Praça Santos Dumont virou estacionamento irregular. Equipamentos de ginástica na Praça Santos Dumont enferrujados e sem manutenção.,-22.968285,-43.217963,2026-03-31,Espaco publico,baixa
+citizen018,A praça na Estrada da Gávea deveria ser pra todos mas tá inacessível.,-22.96165,-43.229543,2026-04-05,Espaco publico,media
+citizen023,"Grupo bagunçando na Rua Lopes Quintas até tarde, moradores com medo. Porta de garagem arrombada na Rua Lopes Quintas, terceiro caso.",-22.969367,-43.207413,2025-05-10,Seguranca e circulacao,alta
+citizen014,Lâmpada queimada na Rua Fonte da Saudade há quinze dias sem previsão de troca.,-22.952061,-43.208714,2025-05-14,Iluminacao publica,alta
+citizen037,Calçada na minha rua com entulho e ninguém desobstrui.,-22.97579,-43.20249,2025-11-23,Espaco publico,media
+citizen015,"Rua totalmente escura na Estrada da Gávea, fácil de assaltar assim.",-22.970775,-43.206022,2026-05-26,Iluminacao publica,alta
+citizen049,"Drenagem entupida na Rua Marquês de São Vicente, qualquer chuva alaga tudo.",-22.963378,-43.205482,2026-05-13,Espaco publico,media
+citizen004,"Drenagem entupida perto da PUC-Rio, qualquer chuva alaga tudo.",-22.982084,-43.232946,2025-02-19,Espaco publico,media
+citizen051,Briga feia entre vizinhos na Rua Jardim Botânico que já durou horas. Moradores brigando por causa de barulho na Rua Jardim Botânico todo fim de semana.,-22.969607,-43.227773,2026-04-06,Conflito social,alta
+citizen060,"Há dias com sacos de lixo rasgados na minha rua, cheios de inseto. Esgoto entupido e lixo acumulado na minha rua, situação precária.",-22.957627,-43.202087,2025-09-20,Lixo e conservacao,media
+citizen039,"Furto de retrovisor na Pista Cláudio Coutinho, segundo da semana. Quiosque clandestino na Pista Cláudio Coutinho gerando confusão e briga.",-22.984568,-43.215038,2025-09-20,Seguranca e circulacao,alta
+citizen060,"Vandalizaram o playground na beira da Lagoa, crianças sem onde brincar. Quebraram o espelho do retrovisor do meu carro na beira da Lagoa.",-22.954583,-43.205094,2026-05-08,Vandalismo,alta
+citizen012,"Tem um monte de entulho abandonado logo ali na esquina, absurdo.",-22.962661,-43.210045,2026-03-11,Lixo e conservacao,baixa
+citizen009,"Pichação em cima de pichação no Parque da Cidade, ninguém limpa. Picharam toda a parede no Parque da Cidade de madrugada. Quebraram o espelho do retrovisor do meu carro no Parque da Cidade.",-22.968684,-43.224687,2025-04-14,Vandalismo,alta
+citizen003,Assalto a pedestres na Rua Vice-Governador Rubens Berardo virou rotina. Cheguei em casa e havia marcas de tentativa de arrombamento na Rua Vice-Governador Rubens Berardo.,-22.966904,-43.22077,2025-10-01,Seguranca e circulacao,baixa
+citizen028,Lixeira pública na Rua Lopes Quintas transbordando sem coleta. Falta rampa de acessibilidade na Rua Lopes Quintas. Área verde na Rua Lopes Quintas sendo invadida por carros.,-22.965251,-43.222401,2025-11-02,Espaco publico,media
+citizen052,"Traficantes na esquina na Rua Álvaro Chaves intimidando quem passa. Viatura não passa na Rua Álvaro Chaves há dias, abandono policial.",-22.978338,-43.217571,2026-03-15,Seguranca e circulacao,alta
+citizen040,Tô passando na Estrada da Gávea e o cheiro de lixo tá insuportável.,-22.970458,-43.230731,2025-03-12,Lixo e conservacao,alta
+citizen048,"Tapume de obra na Rua Fonte da Saudade tomando calçada inteira. Entupimento de bueiro na Rua Fonte da Saudade que alaga tudo. Animal silvestre ferido na Rua Fonte da Saudade, precisa de resgate.",-22.976356,-43.213441,2026-03-24,Outro,media
+citizen031,"Carro estacionado em cima da calçada na Rua Padre Leonel Franca, pedestres na rua.",-22.969223,-43.239549,2026-01-13,Transito e mobilidade,media
+citizen012,Os postes perto do Shopping da Gávea estão todos apagados faz dias.,-22.975393,-43.208221,2025-04-16,Iluminacao publica,media
+citizen033,Bancos da praça na Rua Marquês de São Vicente todos depredados.,-22.974454,-43.218308,2025-02-05,Vandalismo,baixa
+citizen031,Lona improvisada na Rua Lopes Quintas bloqueando sinalização.,-22.978506,-43.218189,2025-10-26,Outro,baixa
+citizen043,Fiz o chamado pra Enel semana passada sobre o poste na Pista Cláudio Coutinho e nada.,-22.971942,-43.213947,2025-03-04,Iluminacao publica,alta
+citizen005,"Vandalizaram o banco da praça na beira da Lagoa, destruído. Picharam toda a parede na beira da Lagoa de madrugada.",-22.958887,-43.200699,2025-11-10,Vandalismo,media
+citizen054,"Ônibus riscado e vandalizado perto do Shopping da Gávea. Vandalizaram o playground perto do Shopping da Gávea, crianças sem onde brincar. Vidro de poste de semáforo quebrado perto do Shopping da Gávea.",-22.984734,-43.210964,2026-03-13,Vandalismo,baixa
+citizen053,"Drenagem entupida na Rua Fonte da Saudade, qualquer chuva alaga tudo.",-22.975091,-43.237171,2025-05-01,Espaco publico,media
+citizen049,"Cara, o lixo aqui no bairro tá ridículo. Já liguei pra prefeitura e nada. Tem um monte de entulho abandonado aqui no bairro, absurdo. Tem uma montanha de lixo aqui no bairro que ninguém tira.",-22.955797,-43.212299,2025-12-13,Lixo e conservacao,media
+citizen025,Criança com medo de ir pra escola passando na Rua Vice-Governador Rubens Berardo.,-22.957678,-43.205528,2025-04-21,Seguranca e circulacao,media
+citizen011,Quebraram o monumento na Rua Marquês de São Vicente que estava restaurado. Vidro de poste de semáforo quebrado na Rua Marquês de São Vicente.,-22.961036,-43.216291,2025-07-06,Vandalismo,media
+citizen036,Conflito relacionado a entrega de aplicativo na Estrada da Gávea ficou feio. Briga de bar na Estrada da Gávea que saiu pro meio da rua.,-22.965677,-43.233419,2025-04-10,Conflito social,media
+citizen052,"Tem pessoas suspeitas circulando na Rua Casuarina toda noite. Furto de bike na Rua Casuarina, precisamos de mais policiamento. Preciso sair cedo e na Rua Casuarina tá perigoso antes de amanhecer.",-22.964151,-43.234623,2025-01-27,Seguranca e circulacao,baixa
+citizen014,Bancos da praça perto do Shopping da Gávea todos depredados.,-22.960822,-43.211129,2025-01-23,Vandalismo,alta
+citizen056,"Rua totalmente escura perto do Shopping da Gávea, fácil de assaltar assim.",-22.955464,-43.237636,2026-01-27,Iluminacao publica,alta
+citizen055,Goteira de prédio na Estrada da Gávea molhando pedestres embaixo.,-22.97226,-43.232128,2025-03-03,Outro,baixa
+citizen047,O lixo orgânico na Rua Padre Leonel Franca tá fedendo demais com esse calor.,-22.959926,-43.211421,2026-04-11,Lixo e conservacao,media
+citizen049,Buraco enorme na Rua Lopes Quintas que já danificou dois carros.,-22.981427,-43.224005,2026-01-15,Transito e mobilidade,media
+citizen043,"Toda a quadra na Rua Vice-Governador Rubens Berardo no escuro. Cadê a Enel? Poste piscando na Rua Vice-Governador Rubens Berardo já faz 10 dias, parece discoteca.",-22.976387,-43.222357,2025-06-15,Iluminacao publica,alta
+citizen024,"Furto de retrovisor na minha rua, segundo da semana.",-22.982156,-43.209413,2026-05-12,Seguranca e circulacao,media
+citizen035,Agressão entre pedestres perto da PUC-Rio filmada por testemunhas.,-22.958908,-43.211638,2025-11-04,Conflito social,baixa
+citizen006,"Há dias com sacos de lixo rasgados aqui no bairro, cheios de inseto. Jogaram móveis velhos aqui no bairro e ninguém recolhe. Lixo espalhado por toda a calçada aqui no bairro, impossível passar.",-22.964159,-43.208049,2026-05-14,Lixo e conservacao,media
+citizen028,Motocicleta subindo calçada no Parque da Cidade assustando pedestres.,-22.973214,-43.239695,2025-03-29,Transito e mobilidade,media
+citizen057,"Tem um monte de entulho abandonado na Rua Fonte da Saudade, absurdo.",-22.954272,-43.200649,2025-04-28,Lixo e conservacao,media
+citizen020,Disputa de área aqui no bairro entre grupos rivais. Briga de bar aqui no bairro que saiu pro meio da rua.,-22.970265,-43.220323,2026-05-25,Conflito social,alta
+citizen031,"Vazamento de gás aqui no bairro, chamei o Riogas mas demora.",-22.977044,-43.239806,2025-03-13,Outro,baixa
+citizen042,Área verde na Rua Padre Leonel Franca sendo invadida por carros.,-22.983622,-43.205651,2026-03-11,Espaco publico,baixa
+citizen019,Motocicleta subindo calçada na Praça Santos Dumont assustando pedestres.,-22.95257,-43.239116,2025-09-02,Transito e mobilidade,baixa
+citizen039,Placa de trânsito arrancada na Rua Fonte da Saudade por vândalos.,-22.974434,-43.219361,2025-08-25,Vandalismo,media
+citizen056,Os postes na Rua Jardim Botânico estão todos apagados faz dias.,-22.984415,-43.212889,2026-05-05,Iluminacao publica,alta
+citizen002,"A limpeza urbana na Rua Casuarina foi esquecida completamente. Já faz uma semana que o lixo não é coletado na Rua Casuarina. Tem um monte de entulho abandonado na Rua Casuarina, absurdo.",-22.983187,-43.228953,2025-03-01,Lixo e conservacao,media
+citizen021,Sacos de lixo espalhados na calçada na Rua Jardim Botânico desde ontem. A coleta de lixo na Rua Jardim Botânico sumiu. O que aconteceu?,-22.956487,-43.230174,2025-04-23,Lixo e conservacao,baixa
+citizen005,"Lona improvisada na Estrada da Gávea bloqueando sinalização. Fio de alta tensão caído na Estrada da Gávea, urgente.",-22.973549,-43.234714,2026-05-30,Outro,baixa
+citizen037,Terceiro dia seguido sem coleta na minha rua. Até quando? Jogaram móveis velhos na minha rua e ninguém recolhe.,-22.967727,-43.214828,2026-02-19,Lixo e conservacao,media
+citizen005,"Animal abandonado logo ali na esquina há dias, alguém pode ajudar?",-22.957231,-43.22249,2025-08-19,Outro,baixa
+citizen006,Barulho de obra na beira da Lagoa às seis da manhã todo dia. Situação estranha na beira da Lagoa que não sei bem como classificar.,-22.979489,-43.230486,2025-10-01,Outro,baixa
+citizen028,"Carro com alarme disparado na Praça Santos Dumont há horas. Fiação elétrica exposta na Praça Santos Dumont, perigo de choque.",-22.970458,-43.230989,2025-07-15,Outro,baixa
+citizen025,"Lixeiras públicas perto da PUC-Rio destruídas, joguei fora.",-22.980137,-43.225452,2025-12-24,Vandalismo,media
+citizen022,A coleta de lixo logo ali na esquina sumiu. O que aconteceu?,-22.976157,-43.221335,2026-02-15,Lixo e conservacao,alta
+citizen027,"Motocicleta subindo calçada na Pista Cláudio Coutinho assustando pedestres. Lombada na Pista Cláudio Coutinho destruída, carros passando em alta velocidade. Valão aberto na Pista Cláudio Coutinho que já engoliu o pneu do meu carro.",-22.98281,-43.201457,2025-01-01,Transito e mobilidade,media
+citizen055,Falta rampa de acessibilidade perto da PUC-Rio.,-22.960338,-43.215052,2025-09-15,Espaco publico,baixa
+citizen025,"Família brigando na rua perto do Shopping da Gávea, situação constrangedora. Conflito entre comerciantes e moradores perto do Shopping da Gávea sem solução.",-22.965173,-43.221823,2026-02-23,Conflito social,alta
+citizen052,"Sem luz na Rua Casuarina à noite, carro entrou em buraco ontem.",-22.959483,-43.233161,2026-03-18,Iluminacao publica,alta
+citizen020,Buraco na calçada na Rua Jardim Botânico engoliu o salto do sapato da minha mãe.,-22.965327,-43.222751,2025-01-22,Espaco publico,baixa
+citizen036,Quiosque clandestino na Rua Padre Leonel Franca gerando confusão e briga.,-22.96682,-43.225213,2026-03-19,Seguranca e circulacao,alta
+citizen047,Briga feia entre vizinhos na Rua Casuarina que já durou horas.,-22.984,-43.202372,2025-10-27,Conflito social,alta
+citizen024,Minha rua virou lixão. Tem lixo perto da PUC-Rio por todo lado.,-22.96957,-43.201013,2025-09-09,Lixo e conservacao,media
+citizen004,Grupo de jovens causando confusão na Rua Casuarina toda noite. Denúncia de agressão verbal constante na Rua Casuarina. Conflito relacionado a entrega de aplicativo na Rua Casuarina ficou feio.,-22.954301,-43.204913,2025-07-05,Conflito social,baixa
+citizen001,"Poste caindo na Rua Padre Leonel Franca, além de escuro é perigoso. Fiz o chamado pra Enel semana passada sobre o poste na Rua Padre Leonel Franca e nada. Minha filha tem medo de passar na Rua Padre Leonel Franca de noite por causa do escuro.",-22.960182,-43.228773,2026-02-14,Iluminacao publica,media
+citizen021,Moradores brigando por causa de barulho na Rua Álvaro Chaves todo fim de semana.,-22.974013,-43.236533,2025-03-13,Conflito social,alta
+citizen019,"Veículo abandonado na Rua Padre Leonel Franca há semanas, virou lixo. Entupimento de bueiro na Rua Padre Leonel Franca que alaga tudo. Fio de alta tensão caído na Rua Padre Leonel Franca, urgente.",-22.979453,-43.20338,2026-03-12,Outro,alta
+citizen034,Cano d'água estourando na Rua Pacheco Leão e ninguém da Cedae aparece.,-22.966168,-43.236308,2025-01-08,Outro,baixa
+citizen048,Confusão generalizada logo ali na esquina com xingamentos e empurrão.,-22.976783,-43.207494,2026-02-25,Conflito social,baixa
+citizen055,"Viatura não passa na Rua Pacheco Leão há dias, abandono policial.",-22.968163,-43.235707,2025-12-06,Seguranca e circulacao,media
+citizen019,"Asfalto esburacado na Rua Fonte da Saudade, minha suspensão já sofreu.",-22.966655,-43.231707,2025-05-18,Transito e mobilidade,alta
+citizen053,Ratos aparecendo por causa do lixo acumulado na Estrada da Gávea. Alguém jogou entulho de obra na Estrada da Gávea e deixou largado.,-22.970542,-43.234994,2025-06-27,Lixo e conservacao,media
+citizen018,"Calçada toda quebrada perto da PUC-Rio, impossível pra cadeirante.",-22.957687,-43.22648,2025-06-10,Espaco publico,media
+citizen020,"Ciclista quase atropelado na minha rua por falta de ciclofaixa. Carro estacionado em cima da calçada na minha rua, pedestres na rua.",-22.952541,-43.235616,2025-11-01,Transito e mobilidade,media
+citizen018,"Picharam o muro do condomínio na Rua Jardim Botânico de novo. Vandalizaram o banco da praça na Rua Jardim Botânico, destruído. Grafite obsceno na parede da escola na Rua Jardim Botânico.",-22.961382,-43.225228,2025-11-28,Vandalismo,alta
+citizen027,"Viatura não passa na Rua Jardim Botânico há dias, abandono policial.",-22.969012,-43.204152,2026-02-06,Seguranca e circulacao,media
+citizen026,"Tem um monte de entulho abandonado na Praça Santos Dumont, absurdo.",-22.954333,-43.234138,2026-05-10,Lixo e conservacao,alta
+citizen007,Discussão de trânsito na Estrada da Gávea que desceu pro pessoal.,-22.968502,-43.2036,2025-03-29,Conflito social,alta
+citizen011,"Animal abandonado na Rua Fonte da Saudade há dias, alguém pode ajudar?",-22.972877,-43.236474,2025-02-21,Outro,baixa
+citizen027,"Bebedouro público na Rua Álvaro Chaves vandalizado, sem funcionar. Bancos da praça na Rua Álvaro Chaves todos depredados. Picharam toda a parede na Rua Álvaro Chaves de madrugada.",-22.976117,-43.200993,2025-06-18,Vandalismo,media
+citizen008,Criança com medo de ir pra escola passando aqui no bairro.,-22.977436,-43.225746,2026-03-25,Seguranca e circulacao,alta
+citizen052,Briga feia entre vizinhos perto da PUC-Rio que já durou horas. Agressão entre pedestres perto da PUC-Rio filmada por testemunhas.,-22.967207,-43.201743,2025-12-11,Conflito social,media
+citizen044,Equipamento de academia ao ar livre na Rua Lopes Quintas destruído.,-22.967665,-43.228969,2026-05-12,Vandalismo,media
+citizen023,Equipamentos de ginástica na Rua Casuarina enferrujados e sem manutenção. Praça na Rua Casuarina tomada por grama alta e mato.,-22.953533,-43.202489,2026-04-16,Espaco publico,baixa
+citizen031,Bancos da praça na Rua Pacheco Leão todos depredados.,-22.97759,-43.234567,2025-02-13,Vandalismo,alta
+citizen023,Discussão de trânsito perto do Shopping da Gávea que desceu pro pessoal.,-22.975782,-43.238146,2025-02-03,Conflito social,alta
+citizen036,Morador perturbando a vizinhança na Rua Casuarina com ameaças.,-22.965103,-43.200753,2025-10-17,Conflito social,alta
+citizen046,Lâmpada queimada na Rua Vice-Governador Rubens Berardo há quinze dias sem previsão de troca. Acionei a prefeitura sobre o poste na Rua Vice-Governador Rubens Berardo e ficou no papel.,-22.969931,-43.222981,2026-04-26,Iluminacao publica,baixa
+citizen030,"Traficantes na esquina na Estrada da Gávea intimidando quem passa. Furto de bike na Estrada da Gávea, precisamos de mais policiamento.",-22.968222,-43.229659,2025-08-20,Seguranca e circulacao,alta
+citizen008,Minha bolsa foi arrancada na Rua Padre Leonel Franca numa moto. Preciso sair cedo e na Rua Padre Leonel Franca tá perigoso antes de amanhecer.,-22.974615,-43.225199,2026-03-16,Seguranca e circulacao,alta
+citizen025,Tem pessoas suspeitas circulando na Rua Álvaro Chaves toda noite.,-22.95266,-43.211924,2025-08-11,Seguranca e circulacao,media
+citizen050,"Ratos aparecendo por causa do lixo acumulado na Estrada da Gávea. Há dias com sacos de lixo rasgados na Estrada da Gávea, cheios de inseto.",-22.980807,-43.22865,2025-10-08,Lixo e conservacao,media
+citizen040,Discussão de trânsito na Rua Álvaro Chaves que desceu pro pessoal.,-22.951193,-43.216965,2025-11-11,Conflito social,alta
+citizen033,Quebraram o monumento na Rua Marquês de São Vicente que estava restaurado.,-22.978343,-43.229962,2026-01-18,Vandalismo,baixa
+citizen055,Desentendimento entre grupos na Estrada da Gávea que quase virou pancadaria.,-22.95349,-43.234645,2025-11-03,Conflito social,media
+citizen043,Carro com alarme disparado perto da PUC-Rio há horas. Obra irregular acontecendo perto da PUC-Rio sem autorização aparente.,-22.981355,-43.219804,2025-11-27,Outro,media
+citizen042,"Fiação elétrica exposta na Rua Casuarina, perigo de choque.",-22.964233,-43.208919,2025-12-31,Outro,media
+citizen054,"Preciso sair cedo e na Rua Vice-Governador Rubens Berardo tá perigoso antes de amanhecer. Carro arrombado na Rua Vice-Governador Rubens Berardo de madrugada, terceiro esse mês.",-22.983814,-43.217823,2025-06-09,Seguranca e circulacao,alta
+citizen030,"Calçada toda quebrada na minha rua, impossível pra cadeirante.",-22.972024,-43.200213,2025-12-04,Espaco publico,baixa
+citizen057,Situação estranha perto da PUC-Rio que não sei bem como classificar.,-22.98434,-43.214914,2025-02-18,Outro,media
+citizen025,Ratos aparecendo por causa do lixo acumulado na Rua Marquês de São Vicente.,-22.972582,-43.22168,2025-09-24,Lixo e conservacao,alta
+citizen001,"O lixo orgânico na Rua Fonte da Saudade tá fedendo demais com esse calor. Tem um monte de entulho abandonado na Rua Fonte da Saudade, absurdo.",-22.980559,-43.238723,2025-08-02,Lixo e conservacao,baixa
+citizen006,Calçada na Rua Pacheco Leão com entulho e ninguém desobstrui.,-22.973171,-43.227685,2025-04-16,Espaco publico,baixa
+citizen024,"Calçada toda quebrada na Rua Lopes Quintas, impossível pra cadeirante. Praça na Rua Lopes Quintas tomada por grama alta e mato.",-22.984826,-43.208244,2026-02-23,Espaco publico,baixa
+citizen053,Câmera de segurança na Rua Álvaro Chaves quebrada há meses. Quiosque clandestino na Rua Álvaro Chaves gerando confusão e briga. Preciso sair cedo e na Rua Álvaro Chaves tá perigoso antes de amanhecer.,-22.959618,-43.204453,2025-08-26,Seguranca e circulacao,alta
+citizen012,"Barulho de obra na Rua Fonte da Saudade às seis da manhã todo dia. Cano d'água estourando na Rua Fonte da Saudade e ninguém da Cedae aparece. Veículo abandonado na Rua Fonte da Saudade há semanas, virou lixo.",-22.957503,-43.206032,2025-09-30,Outro,baixa
+citizen006,Preciso sair cedo e na Rua Pacheco Leão tá perigoso antes de amanhecer.,-22.983579,-43.231749,2025-04-25,Seguranca e circulacao,media
+citizen049,Discussão de trânsito na Estrada da Gávea que desceu pro pessoal. Grupo de jovens causando confusão na Estrada da Gávea toda noite.,-22.961748,-43.231083,2025-10-11,Conflito social,alta
+citizen011,Totem de informação na Rua Jardim Botânico quebrado e apagado. Espaço público na Rua Jardim Botânico virou estacionamento irregular.,-22.972107,-43.206327,2026-05-28,Espaco publico,media
+citizen052,"Semáforo logo ali na esquina em modo piscante desde segunda. Desvio de obra logo ali na esquina sem sinalização adequada, confuso demais.",-22.957594,-43.223496,2025-09-21,Transito e mobilidade,media
+citizen037,Área verde perto do Shopping da Gávea sendo invadida por carros. Falta rampa de acessibilidade perto do Shopping da Gávea.,-22.982415,-43.230003,2026-05-21,Espaco publico,media
+citizen060,Vizinho colocando som alto na Rua Pacheco Leão até meia-noite toda noite. Conflito entre comerciantes e moradores na Rua Pacheco Leão sem solução.,-22.983107,-43.214262,2026-02-06,Conflito social,alta
+citizen051,"Valão aberto na Estrada da Gávea que já engoliu o pneu do meu carro. Semáforo quebrado na Estrada da Gávea há dias, acidentes à vista.",-22.982429,-43.201768,2025-02-28,Transito e mobilidade,alta
+citizen027,Briga de bar na Rua Pacheco Leão que saiu pro meio da rua. Confusão generalizada na Rua Pacheco Leão com xingamentos e empurrão.,-22.9833,-43.206527,2025-02-12,Conflito social,alta
+citizen052,Minha bolsa foi arrancada na Praça Santos Dumont numa moto.,-22.952411,-43.229945,2025-05-20,Seguranca e circulacao,baixa
+citizen052,"Pombos infestando o telhado na Rua Pacheco Leão, situação insalubre.",-22.975413,-43.224072,2026-04-27,Outro,media
+citizen007,Área verde na Praça Santos Dumont sendo invadida por carros.,-22.95428,-43.219802,2025-02-14,Espaco publico,alta
+citizen037,"Lixeiras públicas na Rua Jardim Botânico destruídas, joguei fora.",-22.965333,-43.207299,2026-03-18,Vandalismo,media
+citizen048,"Trânsito parado na Rua Marquês de São Vicente por obra sem aviso prévio. Desvio de obra na Rua Marquês de São Vicente sem sinalização adequada, confuso demais. Buraco enorme na Rua Marquês de São Vicente que já danificou dois carros.",-22.981245,-43.211635,2026-01-12,Transito e mobilidade,media
+citizen013,"Equipamento de academia ao ar livre na Rua Lopes Quintas destruído. Vandalizaram o playground na Rua Lopes Quintas, crianças sem onde brincar. Picharam o muro do condomínio na Rua Lopes Quintas de novo.",-22.953237,-43.221513,2025-04-23,Vandalismo,alta
+citizen029,"Carro estacionado em cima da calçada na Rua Álvaro Chaves, pedestres na rua. O trânsito na Rua Álvaro Chaves tá um caos nessa hora do dia.",-22.973832,-43.228313,2025-08-07,Transito e mobilidade,media
+citizen022,Conflito entre moradores e ambulantes perto do Shopping da Gávea. Discussão de trânsito perto do Shopping da Gávea que desceu pro pessoal.,-22.980829,-43.208992,2025-04-19,Conflito social,alta
+citizen011,"Buraco na calçada na Praça Santos Dumont engoliu o salto do sapato da minha mãe. A praça na Praça Santos Dumont tá abandonada, ninguém cuida.",-22.972737,-43.232321,2025-02-07,Espaco publico,baixa
+citizen045,Assalto a pedestres aqui no bairro virou rotina. Meu vizinho foi roubado aqui no bairro em plena tarde.,-22.957779,-43.210315,2025-04-08,Seguranca e circulacao,baixa
+citizen002,"Minha bolsa foi arrancada na Rua Pacheco Leão numa moto. Barulho de tiro na Rua Pacheco Leão ontem à noite, assustador. Traficantes na esquina na Rua Pacheco Leão intimidando quem passa.",-22.957316,-43.218951,2026-05-13,Seguranca e circulacao,alta
+citizen029,A coleta de lixo na Rua Padre Leonel Franca sumiu. O que aconteceu?,-22.962527,-43.206381,2025-12-07,Lixo e conservacao,media
+citizen015,Engarrafamento na Rua Marquês de São Vicente todo dia no horário de pico.,-22.968783,-43.232474,2026-02-28,Transito e mobilidade,baixa
+citizen034,"Carro estacionado em cima da calçada na beira da Lagoa, pedestres na rua.",-22.977047,-43.208287,2026-03-17,Transito e mobilidade,media
+citizen060,Briga de bar na Rua Pacheco Leão que saiu pro meio da rua.,-22.953172,-43.210746,2026-01-07,Conflito social,baixa
+citizen025,Vizinho colocando som alto na Pista Cláudio Coutinho até meia-noite toda noite.,-22.970166,-43.214244,2026-05-20,Conflito social,media
+citizen023,"Poste queimado na Rua Lopes Quintas há mais de uma semana, ninguém conserta. Sem iluminação na Rua Lopes Quintas, fica perigoso à noite.",-22.980728,-43.212061,2026-03-11,Iluminacao publica,alta
+citizen040,Vários postes apagados na Rua Casuarina. Isso é descaso.,-22.97007,-43.204959,2025-09-25,Iluminacao publica,alta
+citizen035,Moradores brigando por causa de barulho na Rua Jardim Botânico todo fim de semana. Conflito entre comerciantes e moradores na Rua Jardim Botânico sem solução.,-22.951179,-43.223834,2025-02-04,Conflito social,media
+citizen059,"Praça na minha rua tomada por grama alta e mato. Árvore caída na minha rua desde a última chuva, ninguém tirou.",-22.981456,-43.224343,2026-05-25,Espaco publico,baixa
+citizen046,Ônibus riscado e vandalizado perto do Shopping da Gávea.,-22.977621,-43.228527,2026-04-21,Vandalismo,baixa
+citizen038,"Animal silvestre ferido na Rua Vice-Governador Rubens Berardo, precisa de resgate. Goteira de prédio na Rua Vice-Governador Rubens Berardo molhando pedestres embaixo. Tapume de obra na Rua Vice-Governador Rubens Berardo tomando calçada inteira.",-22.956186,-43.233194,2026-02-07,Outro,baixa
+citizen010,"Picharam toda a parede na Rua Fonte da Saudade de madrugada. Vandalizaram o playground na Rua Fonte da Saudade, crianças sem onde brincar.",-22.972202,-43.228332,2026-02-20,Vandalismo,media
+citizen035,Quiosque clandestino perto da PUC-Rio gerando confusão e briga. Atividade suspeita perto da PUC-Rio toda madrugada.,-22.961664,-43.207045,2025-10-27,Seguranca e circulacao,media
+citizen045,Praça na Rua Pacheco Leão tomada por grama alta e mato.,-22.977621,-43.231748,2025-06-17,Espaco publico,media
+citizen036,"Buraco na rede de esgoto na Rua Padre Leonel Franca com cheiro forte. Pombos infestando o telhado na Rua Padre Leonel Franca, situação insalubre.",-22.970765,-43.223323,2025-10-05,Outro,media
+citizen020,"Calçada na minha rua com entulho e ninguém desobstrui. Árvore caída na minha rua desde a última chuva, ninguém tirou.",-22.958445,-43.210126,2025-04-21,Espaco publico,baixa
+citizen028,"Vários postes apagados na Rua Padre Leonel Franca. Isso é descaso. Três postes apagados em sequência na Rua Padre Leonel Franca. Que descuido. Poste piscando na Rua Padre Leonel Franca já faz 10 dias, parece discoteca.",-22.973823,-43.219887,2025-09-12,Iluminacao publica,alta
+citizen058,Praça na Rua Fonte da Saudade tomada por grama alta e mato. Calçada na Rua Fonte da Saudade com desnível perigoso pra quem corre.,-22.955411,-43.214833,2025-07-17,Espaco publico,media
+citizen036,"Calçada destruída na minha rua, idosos e cadeirantes sem passagem.",-22.958656,-43.230849,2025-08-10,Transito e mobilidade,media
+citizen051,Lixeira pública na Rua Padre Leonel Franca transbordando sem coleta. Praça na Rua Padre Leonel Franca tomada por grama alta e mato. Equipamentos de ginástica na Rua Padre Leonel Franca enferrujados e sem manutenção.,-22.9722,-43.225648,2025-06-10,Espaco publico,media
+citizen037,"Tapume de obra na Rua Marquês de São Vicente tomando calçada inteira. Fiação elétrica exposta na Rua Marquês de São Vicente, perigo de choque.",-22.958499,-43.200559,2026-01-09,Outro,media
+citizen037,"Semáforo quebrado na Rua Marquês de São Vicente há dias, acidentes à vista.",-22.957861,-43.23484,2025-05-05,Transito e mobilidade,media
+citizen021,Terceiro dia seguido sem coleta na Praça Santos Dumont. Até quando? Alguém jogou entulho de obra na Praça Santos Dumont e deixou largado.,-22.969876,-43.215866,2025-07-13,Lixo e conservacao,baixa
+citizen026,Disputa de área na Rua Lopes Quintas entre grupos rivais.,-22.955041,-43.226252,2025-08-13,Conflito social,alta
+citizen048,Picharam o muro do condomínio na Rua Pacheco Leão de novo. Vidro de poste de semáforo quebrado na Rua Pacheco Leão.,-22.970848,-43.207219,2025-01-23,Vandalismo,alta
+citizen002,Barulho de obra na Praça Santos Dumont às seis da manhã todo dia.,-22.980676,-43.222773,2025-12-29,Outro,baixa
+citizen056,Toda a quadra no Parque da Cidade no escuro. Cadê a Enel?,-22.950439,-43.222564,2026-03-01,Iluminacao publica,media
+citizen052,Buraco na rede de esgoto perto do Shopping da Gávea com cheiro forte.,-22.98173,-43.21519,2025-02-01,Outro,baixa
+citizen047,Picharam toda a parede na Rua Lopes Quintas de madrugada.,-22.977418,-43.235463,2025-10-16,Vandalismo,media
+citizen011,"Três postes apagados em sequência na minha rua. Que descuido. Sem iluminação na minha rua, fica perigoso à noite.",-22.969301,-43.201674,2025-11-24,Iluminacao publica,media
+citizen042,"Asfalto esburacado na Rua Vice-Governador Rubens Berardo, minha suspensão já sofreu.",-22.952882,-43.21884,2026-04-21,Transito e mobilidade,alta
+citizen059,Evento privado bloqueando a calçada na Rua Vice-Governador Rubens Berardo sem aviso. Lona improvisada na Rua Vice-Governador Rubens Berardo bloqueando sinalização.,-22.978033,-43.206678,2025-12-26,Outro,media
+citizen022,Grupo de jovens causando confusão perto da PUC-Rio toda noite.,-22.973282,-43.221064,2026-02-03,Conflito social,media
+citizen044,Buraco na calçada perto do Shopping da Gávea engoliu o salto do sapato da minha mãe.,-22.979163,-43.211504,2026-05-09,Espaco publico,alta
+citizen016,O trânsito perto do Shopping da Gávea tá um caos nessa hora do dia. Ciclista quase atropelado perto do Shopping da Gávea por falta de ciclofaixa.,-22.952668,-43.238859,2025-08-08,Transito e mobilidade,media
+citizen057,Totem de informação perto da PUC-Rio quebrado e apagado.,-22.97446,-43.23991,2025-08-09,Espaco publico,media
+citizen059,"Calçada toda quebrada perto do Shopping da Gávea, impossível pra cadeirante.",-22.958748,-43.207174,2025-03-31,Espaco publico,alta
+citizen051,"Ia sair pra correr mas na minha rua tá escuro demais. Rua totalmente escura na minha rua, fácil de assaltar assim.",-22.967746,-43.212968,2026-03-26,Iluminacao publica,alta
+citizen036,"Há dias com sacos de lixo rasgados perto do Shopping da Gávea, cheios de inseto. O lixo perto do Shopping da Gávea tá acumulado há dias e ninguém faz nada. Tem uma montanha de lixo perto do Shopping da Gávea que ninguém tira.",-22.954951,-43.205014,2025-08-14,Lixo e conservacao,media
+citizen029,"Picharam o muro do condomínio na beira da Lagoa de novo. Lixeiras públicas na beira da Lagoa destruídas, joguei fora.",-22.984116,-43.213893,2025-01-15,Vandalismo,media
+citizen011,A limpeza urbana na Rua Vice-Governador Rubens Berardo foi esquecida completamente.,-22.974767,-43.200878,2025-09-08,Lixo e conservacao,baixa
+citizen030,"Terreno abandonado na Rua Lopes Quintas com mato e lixo acumulado. Cano d'água estourando na Rua Lopes Quintas e ninguém da Cedae aparece. Fiação elétrica exposta na Rua Lopes Quintas, perigo de choque.",-22.962506,-43.207712,2025-07-27,Outro,media
+citizen030,"Furto de bike na Rua Marquês de São Vicente, precisamos de mais policiamento. Viatura não passa na Rua Marquês de São Vicente há dias, abandono policial.",-22.96974,-43.22916,2026-03-04,Seguranca e circulacao,alta
+citizen003,Briga entre crianças na Praça Santos Dumont que virou bagunça de adulto. Morador perturbando a vizinhança na Praça Santos Dumont com ameaças.,-22.984621,-43.207864,2025-07-23,Conflito social,media
+citizen057,"Furto de bike na Rua Marquês de São Vicente, precisamos de mais policiamento.",-22.959486,-43.200308,2025-11-16,Seguranca e circulacao,baixa
+citizen016,"Passando na Rua Marquês de São Vicente à noite dá medo, zero iluminação.",-22.954571,-43.211388,2026-03-07,Iluminacao publica,alta
+citizen005,Já faz uma semana que o lixo não é coletado na Rua Casuarina. Entulho de construção abandonado na Rua Casuarina há mais de um mês.,-22.953704,-43.225998,2025-03-19,Lixo e conservacao,alta
+citizen002,Briga feia entre vizinhos no Parque da Cidade que já durou horas. Disputa de área no Parque da Cidade entre grupos rivais. Morador perturbando a vizinhança no Parque da Cidade com ameaças.,-22.951542,-43.228858,2026-04-10,Conflito social,media
+citizen039,"Poste piscando na Rua Pacheco Leão já faz 10 dias, parece discoteca.",-22.981029,-43.214536,2025-12-31,Iluminacao publica,alta
+citizen034,Praça na Rua Casuarina tomada por grama alta e mato. A praça na Rua Casuarina deveria ser pra todos mas tá inacessível. Não tem bancos na praça na Rua Casuarina pra sentar.,-22.984914,-43.231374,2025-12-30,Espaco publico,alta
+citizen029,Tem pessoas suspeitas circulando na Estrada da Gávea toda noite. Quiosque clandestino na Estrada da Gávea gerando confusão e briga.,-22.954783,-43.223381,2025-10-24,Seguranca e circulacao,media
+citizen012,Motocicleta subindo calçada na Rua Álvaro Chaves assustando pedestres.,-22.980959,-43.234431,2026-02-06,Transito e mobilidade,media
+citizen042,Praça na Praça Santos Dumont tomada por grama alta e mato.,-22.971182,-43.22447,2025-03-11,Espaco publico,alta
+citizen027,Vários postes apagados na Pista Cláudio Coutinho. Isso é descaso. Toda a quadra na Pista Cláudio Coutinho no escuro. Cadê a Enel? Nem a lua ilumina tanto quanto deveria os postes na Pista Cláudio Coutinho.,-22.983789,-43.2336,2026-03-05,Iluminacao publica,media
+citizen053,Portão da praça na Pista Cláudio Coutinho forçado e quebrado.,-22.964731,-43.226686,2026-01-07,Vandalismo,media
+citizen043,"Meu vizinho foi roubado perto do Shopping da Gávea em plena tarde. Assalto a pedestres perto do Shopping da Gávea virou rotina. Tentativa de assalto perto do Shopping da Gávea esta manhã, me assustou muito.",-22.978235,-43.205189,2025-03-01,Seguranca e circulacao,alta
+citizen055,Minha rua virou lixão. Tem lixo na Rua Padre Leonel Franca por todo lado. A limpeza urbana na Rua Padre Leonel Franca foi esquecida completamente. Entulho de construção abandonado na Rua Padre Leonel Franca há mais de um mês.,-22.971001,-43.205572,2025-08-20,Lixo e conservacao,alta
+citizen003,"Sem iluminação na Pista Cláudio Coutinho, fica perigoso à noite.",-22.977096,-43.232708,2025-07-09,Iluminacao publica,alta
+citizen033,Brinquedo do parquinho aqui no bairro quebrado há meses. Buraco na calçada aqui no bairro engoliu o salto do sapato da minha mãe.,-22.964282,-43.22513,2025-08-22,Espaco publico,baixa
+citizen032,"Lixo espalhado por toda a calçada na Rua Marquês de São Vicente, impossível passar.",-22.950714,-43.204143,2025-05-17,Lixo e conservacao,alta
+citizen041,"Semáforo quebrado na beira da Lagoa há dias, acidentes à vista.",-22.950151,-43.200159,2025-12-25,Transito e mobilidade,media
+citizen053,Brinquedo do parquinho na Pista Cláudio Coutinho quebrado há meses.,-22.968805,-43.206883,2025-05-05,Espaco publico,baixa
+citizen042,"Lixo espalhado por toda a calçada na Rua Marquês de São Vicente, impossível passar. A prefeitura precisa agir! O lixo na Rua Marquês de São Vicente tá atraindo rato. O lixo orgânico na Rua Marquês de São Vicente tá fedendo demais com esse calor.",-22.959951,-43.204415,2026-03-07,Lixo e conservacao,media
+citizen045,Ônibus parando no meio da rua na Rua Vice-Governador Rubens Berardo e travando tudo.,-22.952353,-43.20725,2025-02-18,Transito e mobilidade,baixa
+citizen034,"Calçada toda quebrada perto do Shopping da Gávea, impossível pra cadeirante.",-22.983566,-43.229293,2025-07-18,Espaco publico,alta
+citizen030,Barulho de obra na Rua Marquês de São Vicente às seis da manhã todo dia.,-22.968975,-43.215283,2025-01-10,Outro,alta
+citizen056,Ia sair pra correr mas na Rua Pacheco Leão tá escuro demais. Lâmpada queimada na Rua Pacheco Leão há quinze dias sem previsão de troca.,-22.95908,-43.21898,2026-02-12,Iluminacao publica,baixa
+citizen046,Buraco enorme na Estrada da Gávea que já danificou dois carros.,-22.968109,-43.214243,2025-08-07,Transito e mobilidade,baixa
+citizen005,"Conflito relacionado a entrega de aplicativo no Parque da Cidade ficou feio. Família brigando na rua no Parque da Cidade, situação constrangedora.",-22.978032,-43.217668,2025-11-17,Conflito social,alta
+citizen045,"Cara, o lixo na Rua Marquês de São Vicente tá ridículo. Já liguei pra prefeitura e nada.",-22.981746,-43.22314,2025-10-29,Lixo e conservacao,baixa
+citizen005,"Escrita de gangue pichada na Rua Fonte da Saudade, intimidatório. Ônibus riscado e vandalizado na Rua Fonte da Saudade.",-22.98015,-43.233065,2025-11-26,Vandalismo,baixa
+citizen052,"Escrita de gangue pichada perto da PUC-Rio, intimidatório.",-22.977273,-43.207345,2025-01-19,Vandalismo,alta
+citizen033,Barulho de briga aqui no bairro perturbando todo o quarteirão.,-22.955469,-43.228183,2025-01-23,Conflito social,alta
+citizen007,Grafite obsceno na parede da escola perto do Shopping da Gávea.,-22.962631,-43.219787,2026-05-19,Vandalismo,alta
+citizen011,Nem a lua ilumina tanto quanto deveria os postes na minha rua. Minha filha tem medo de passar na minha rua de noite por causa do escuro.,-22.955452,-43.204727,2025-11-24,Iluminacao publica,alta
+citizen058,Moradores brigando por causa de barulho na Rua Casuarina todo fim de semana. Desentendimento entre grupos na Rua Casuarina que quase virou pancadaria.,-22.956946,-43.20527,2025-09-14,Conflito social,media
+citizen003,"Problema que precisa de atenção na Pista Cláudio Coutinho mas não sei pra quem ligar. Pombos infestando o telhado na Pista Cláudio Coutinho, situação insalubre.",-22.955986,-43.235033,2026-03-14,Outro,media
+citizen008,Faixa de pedestres na minha rua completamente apagada. Ciclista quase atropelado na minha rua por falta de ciclofaixa. Engarrafamento na minha rua todo dia no horário de pico.,-22.96018,-43.237844,2026-04-18,Transito e mobilidade,media
+citizen045,Terreno abandonado logo ali na esquina com mato e lixo acumulado.,-22.969293,-43.208614,2026-03-27,Outro,baixa
+citizen002,Cheguei em casa e havia marcas de tentativa de arrombamento na minha rua. Assalto a pedestres na minha rua virou rotina.,-22.963737,-43.211263,2025-04-18,Seguranca e circulacao,media
+citizen019,"Lombada na Rua Padre Leonel Franca destruída, carros passando em alta velocidade.",-22.96318,-43.216503,2025-06-23,Transito e mobilidade,media
+citizen037,Carro com alarme disparado na Rua Álvaro Chaves há horas.,-22.966427,-43.221364,2026-01-19,Outro,alta
+citizen009,"Vazamento de gás na Pista Cláudio Coutinho, chamei o Riogas mas demora.",-22.959534,-43.202766,2026-03-15,Outro,alta
+citizen057,"Placa de trânsito arrancada aqui no bairro por vândalos. Escrita de gangue pichada aqui no bairro, intimidatório.",-22.962644,-43.221746,2025-03-11,Vandalismo,baixa
+citizen039,"Porta de garagem arrombada na Rua Marquês de São Vicente, terceiro caso. Atividade suspeita na Rua Marquês de São Vicente toda madrugada.",-22.950228,-43.223136,2026-05-07,Seguranca e circulacao,alta
+citizen037,"Calçada destruída na Estrada da Gávea, idosos e cadeirantes sem passagem. Semáforo na Estrada da Gávea em modo piscante desde segunda.",-22.973477,-43.239962,2025-08-04,Transito e mobilidade,media
+citizen006,Área verde perto do Shopping da Gávea sendo invadida por carros. Calçada perto do Shopping da Gávea com desnível perigoso pra quem corre.,-22.956378,-43.221822,2025-10-30,Espaco publico,baixa
+citizen058,"A praça na Rua Marquês de São Vicente tá abandonada, ninguém cuida.",-22.981999,-43.23891,2025-06-12,Espaco publico,alta
+citizen015,Cano d'água estourando na Rua Casuarina e ninguém da Cedae aparece.,-22.953711,-43.205457,2025-02-24,Outro,baixa
+citizen018,"O ônibus linha 583 não para mais na Rua Pacheco Leão, abandonaram o ponto.",-22.984793,-43.213235,2025-07-10,Transito e mobilidade,baixa
+citizen009,Carro com alarme disparado na minha rua há horas.,-22.976278,-43.213154,2025-11-30,Outro,baixa
+citizen054,"Traficantes na esquina na beira da Lagoa intimidando quem passa. Carro arrombado na beira da Lagoa de madrugada, terceiro esse mês. Fui assaltado na beira da Lagoa ontem à noite, tá perigoso.",-22.979411,-43.220922,2025-06-13,Seguranca e circulacao,baixa
+citizen008,Semáforo aqui no bairro em modo piscante desde segunda.,-22.961661,-43.238362,2025-06-13,Transito e mobilidade,media
+citizen037,"Porta de garagem arrombada no Parque da Cidade, terceiro caso. Grupo bagunçando no Parque da Cidade até tarde, moradores com medo.",-22.966892,-43.21579,2025-08-26,Seguranca e circulacao,alta
+citizen057,"Ponto de ônibus na Rua Padre Leonel Franca sem cobertura, chuva molha todo mundo.",-22.980473,-43.220881,2025-05-20,Espaco publico,media
+citizen041,"Esgoto entupido e lixo acumulado perto do Shopping da Gávea, situação precária. Lixo espalhado por toda a calçada perto do Shopping da Gávea, impossível passar.",-22.956979,-43.238145,2025-06-03,Lixo e conservacao,baixa
+citizen047,A praça na Rua Pacheco Leão deveria ser pra todos mas tá inacessível.,-22.96895,-43.211153,2025-08-31,Espaco publico,media
+citizen015,"Vandalizaram o playground perto do Shopping da Gávea, crianças sem onde brincar.",-22.97611,-43.202601,2025-09-10,Vandalismo,alta
+citizen007,A limpeza urbana logo ali na esquina foi esquecida completamente. Tô passando logo ali na esquina e o cheiro de lixo tá insuportável.,-22.984262,-43.204757,2025-05-09,Lixo e conservacao,media
+citizen013,Grafite obsceno na parede da escola na Rua Jardim Botânico.,-22.979231,-43.223674,2026-05-03,Vandalismo,media
+citizen011,Falta rampa de acessibilidade no Parque da Cidade. Área verde no Parque da Cidade sendo invadida por carros.,-22.961657,-43.200988,2025-03-15,Espaco publico,baixa
+citizen035,Desentendimento entre grupos na Rua Fonte da Saudade que quase virou pancadaria.,-22.972039,-43.216978,2025-02-03,Conflito social,media
+citizen060,Atividade suspeita na Rua Lopes Quintas toda madrugada.,-22.97737,-43.230053,2026-05-20,Seguranca e circulacao,media
+citizen034,Ratos aparecendo por causa do lixo acumulado na Rua Álvaro Chaves. A prefeitura precisa agir! O lixo na Rua Álvaro Chaves tá atraindo rato. Alguém jogou entulho de obra na Rua Álvaro Chaves e deixou largado.,-22.971003,-43.223369,2025-12-01,Lixo e conservacao,baixa
+citizen060,"Não tem sinalização nenhuma na Rua Pacheco Leão, é temerário atravessar. Ciclista quase atropelado na Rua Pacheco Leão por falta de ciclofaixa. O ônibus linha 583 não para mais na Rua Pacheco Leão, abandonaram o ponto.",-22.970927,-43.221579,2025-08-30,Transito e mobilidade,baixa
+citizen044,Briga de bar na Rua Fonte da Saudade que saiu pro meio da rua.,-22.960109,-43.239392,2026-05-18,Conflito social,alta
+citizen046,"Minha bolsa foi arrancada na Rua Vice-Governador Rubens Berardo numa moto. Fui assaltado na Rua Vice-Governador Rubens Berardo ontem à noite, tá perigoso.",-22.969827,-43.224415,2025-06-20,Seguranca e circulacao,alta
+citizen001,Faixa de pedestres na Rua Jardim Botânico completamente apagada. Semáforo na Rua Jardim Botânico em modo piscante desde segunda.,-22.973029,-43.208972,2026-04-03,Transito e mobilidade,baixa
+citizen051,Já faz uma semana que o lixo não é coletado na Praça Santos Dumont.,-22.969888,-43.23819,2026-01-31,Lixo e conservacao,media
+citizen030,Bebedouro público na Rua Casuarina sem funcionar faz meses.,-22.966359,-43.212376,2025-05-25,Espaco publico,baixa
+citizen016,Portão da praça na beira da Lagoa forçado e quebrado.,-22.957873,-43.22052,2025-09-26,Vandalismo,baixa
+citizen032,"Calçada destruída perto do Shopping da Gávea, idosos e cadeirantes sem passagem. Desvio de obra perto do Shopping da Gávea sem sinalização adequada, confuso demais. Buraco enorme perto do Shopping da Gávea que já danificou dois carros.",-22.955333,-43.208457,2026-01-28,Transito e mobilidade,alta
+citizen059,Briga entre crianças na Rua Lopes Quintas que virou bagunça de adulto.,-22.956955,-43.233834,2026-03-13,Conflito social,baixa
+citizen028,Valão aberto na Praça Santos Dumont que já engoliu o pneu do meu carro.,-22.973986,-43.239092,2025-07-10,Transito e mobilidade,media
+citizen054,"Animal silvestre ferido na Rua Lopes Quintas, precisa de resgate.",-22.98114,-43.200394,2025-08-30,Outro,alta
+citizen060,Conflito entre comerciantes e moradores na Rua Padre Leonel Franca sem solução.,-22.969861,-43.238256,2025-01-28,Conflito social,baixa
+citizen034,"Goteira de prédio na Rua Pacheco Leão molhando pedestres embaixo. Fiação elétrica exposta na Rua Pacheco Leão, perigo de choque.",-22.957251,-43.201178,2026-01-18,Outro,baixa
+citizen007,Entulho de construção abandonado na minha rua há mais de um mês.,-22.976431,-43.237008,2025-09-05,Lixo e conservacao,media
+citizen043,"Árvore caída na Rua Pacheco Leão desde a última chuva, ninguém tirou.",-22.952506,-43.238382,2025-07-08,Espaco publico,baixa
+citizen021,O lixo aqui no bairro tá acumulado há dias e ninguém faz nada.,-22.983822,-43.218839,2025-11-22,Lixo e conservacao,baixa
+citizen043,Ratos aparecendo por causa do lixo acumulado na Rua Marquês de São Vicente.,-22.963306,-43.206032,2026-01-06,Lixo e conservacao,media
+citizen001,"Asfalto esburacado aqui no bairro, minha suspensão já sofreu. O trânsito aqui no bairro tá um caos nessa hora do dia.",-22.951635,-43.235054,2026-03-26,Transito e mobilidade,alta
+citizen014,Já faz uma semana que o lixo não é coletado na Rua Padre Leonel Franca.,-22.959312,-43.229065,2026-05-19,Lixo e conservacao,media
+citizen037,Engarrafamento na Praça Santos Dumont todo dia no horário de pico.,-22.976253,-43.213398,2025-02-27,Transito e mobilidade,baixa
+citizen052,Desentendimento entre grupos na Rua Casuarina que quase virou pancadaria. Confusão generalizada na Rua Casuarina com xingamentos e empurrão. Discussão por vaga de estacionamento na Rua Casuarina virou caso de polícia.,-22.95311,-43.219662,2025-06-16,Conflito social,media
+citizen031,"Ciclista quase atropelado logo ali na esquina por falta de ciclofaixa. Motocicleta subindo calçada logo ali na esquina assustando pedestres. Desvio de obra logo ali na esquina sem sinalização adequada, confuso demais.",-22.964958,-43.20629,2026-03-02,Transito e mobilidade,alta
+citizen024,"Portão da praça no Parque da Cidade forçado e quebrado. Vandalizaram o banco da praça no Parque da Cidade, destruído.",-22.974769,-43.228727,2025-11-20,Vandalismo,alta
+citizen053,"Fiação elétrica exposta na Rua Pacheco Leão, perigo de choque. Goteira de prédio na Rua Pacheco Leão molhando pedestres embaixo. Barulho de obra na Rua Pacheco Leão às seis da manhã todo dia.",-22.962495,-43.21187,2025-12-27,Outro,media
+citizen053,Preciso sair cedo e aqui no bairro tá perigoso antes de amanhecer.,-22.975396,-43.212669,2025-02-09,Seguranca e circulacao,alta
+citizen027,"Cano d'água estourando na Rua Marquês de São Vicente e ninguém da Cedae aparece. Situação estranha na Rua Marquês de São Vicente que não sei bem como classificar. Veículo abandonado na Rua Marquês de São Vicente há semanas, virou lixo.",-22.968167,-43.204437,2026-01-22,Outro,media
+citizen014,"Vazamento de gás na Praça Santos Dumont, chamei o Riogas mas demora.",-22.969011,-43.212608,2025-07-01,Outro,media
+citizen002,"Escrita de gangue pichada no Parque da Cidade, intimidatório.",-22.963356,-43.239318,2026-05-20,Vandalismo,alta
+citizen026,Grafite obsceno na parede da escola na minha rua. Equipamento de academia ao ar livre na minha rua destruído. Portão da praça na minha rua forçado e quebrado.,-22.950239,-43.205301,2025-04-18,Vandalismo,alta
+citizen058,"A praça na Estrada da Gávea tá abandonada, ninguém cuida.",-22.973724,-43.234749,2025-03-05,Espaco publico,baixa
+citizen026,"Lixeiras públicas na minha rua destruídas, joguei fora.",-22.969654,-43.203588,2025-11-17,Vandalismo,media
+citizen033,"Buraco na minha rua que a prefeitura tampou com areia e abriu de novo. O ônibus linha 583 não para mais na minha rua, abandonaram o ponto.",-22.954884,-43.21997,2025-12-07,Transito e mobilidade,media
+citizen056,"Poste caindo na Rua Jardim Botânico, além de escuro é perigoso.",-22.978875,-43.211912,2026-04-02,Iluminacao publica,baixa
+citizen028,"Três postes apagados em sequência na Rua Casuarina. Que descuido. A rua na Rua Casuarina ficou escura e aumentou os furtos. Poste caindo na Rua Casuarina, além de escuro é perigoso.",-22.957741,-43.208397,2026-04-13,Iluminacao publica,media
+citizen054,Cano d'água estourando na Rua Álvaro Chaves e ninguém da Cedae aparece. Lona improvisada na Rua Álvaro Chaves bloqueando sinalização.,-22.982873,-43.232014,2025-10-10,Outro,baixa
+citizen035,"Sem luz na Rua Lopes Quintas à noite, carro entrou em buraco ontem. Rua totalmente escura na Rua Lopes Quintas, fácil de assaltar assim.",-22.977957,-43.222461,2026-03-04,Iluminacao publica,media
+citizen052,"Asfalto esburacado no Parque da Cidade, minha suspensão já sofreu. Ciclista quase atropelado no Parque da Cidade por falta de ciclofaixa. O ônibus linha 583 não para mais no Parque da Cidade, abandonaram o ponto.",-22.976241,-43.200319,2025-08-19,Transito e mobilidade,media
+citizen002,"A limpeza urbana na Praça Santos Dumont foi esquecida completamente. Esgoto entupido e lixo acumulado na Praça Santos Dumont, situação precária. Tem um monte de entulho abandonado na Praça Santos Dumont, absurdo.",-22.96309,-43.201394,2026-04-20,Lixo e conservacao,media
+citizen003,Equipamentos de ginástica perto da PUC-Rio enferrujados e sem manutenção.,-22.981846,-43.211009,2026-03-25,Espaco publico,baixa
+citizen034,Já faz uma semana que o lixo não é coletado na Praça Santos Dumont. Entulho de construção abandonado na Praça Santos Dumont há mais de um mês.,-22.96034,-43.23768,2025-09-28,Lixo e conservacao,media
+citizen009,"Passando na Rua Fonte da Saudade à noite dá medo, zero iluminação. Sem luz na Rua Fonte da Saudade à noite, carro entrou em buraco ontem.",-22.980387,-43.206597,2025-07-23,Iluminacao publica,alta
+citizen004,"Vandalizaram o playground na Rua Padre Leonel Franca, crianças sem onde brincar.",-22.979829,-43.211418,2026-01-21,Vandalismo,alta
+citizen028,Lona improvisada na Rua Vice-Governador Rubens Berardo bloqueando sinalização. Terreno abandonado na Rua Vice-Governador Rubens Berardo com mato e lixo acumulado.,-22.961227,-43.218542,2025-02-12,Outro,alta
+citizen025,"Carro arrombado na Rua Marquês de São Vicente de madrugada, terceiro esse mês. Minha bolsa foi arrancada na Rua Marquês de São Vicente numa moto.",-22.963305,-43.217597,2025-08-02,Seguranca e circulacao,alta
+citizen020,Terreno abandonado na Pista Cláudio Coutinho com mato e lixo acumulado.,-22.980488,-43.208181,2025-12-20,Outro,alta
+citizen031,"Traficantes na esquina na Rua Casuarina intimidando quem passa. Barulho de tiro na Rua Casuarina ontem à noite, assustador.",-22.952611,-43.235355,2025-10-08,Seguranca e circulacao,alta
+citizen005,A prefeitura precisa agir! O lixo aqui no bairro tá atraindo rato. Alguém jogou entulho de obra aqui no bairro e deixou largado.,-22.969951,-43.209032,2025-11-01,Lixo e conservacao,baixa
+citizen059,Quebraram o monumento na Rua Pacheco Leão que estava restaurado.,-22.957406,-43.211815,2026-03-16,Vandalismo,alta
+citizen009,Toda a quadra no Parque da Cidade no escuro. Cadê a Enel? Os postes no Parque da Cidade estão todos apagados faz dias.,-22.950781,-43.219557,2025-07-04,Iluminacao publica,baixa
+citizen005,Buraco na calçada na Rua Vice-Governador Rubens Berardo engoliu o salto do sapato da minha mãe.,-22.971761,-43.221297,2025-02-28,Espaco publico,media
+citizen019,"Drenagem entupida na Rua Casuarina, qualquer chuva alaga tudo.",-22.972106,-43.235344,2025-09-04,Espaco publico,baixa
+citizen023,"Grupo bagunçando perto da PUC-Rio até tarde, moradores com medo. Viatura não passa perto da PUC-Rio há dias, abandono policial.",-22.968242,-43.212903,2025-06-08,Seguranca e circulacao,alta
+citizen033,Agressão entre pedestres na Pista Cláudio Coutinho filmada por testemunhas. Desentendimento entre grupos na Pista Cláudio Coutinho que quase virou pancadaria. Vizinho colocando som alto na Pista Cláudio Coutinho até meia-noite toda noite.,-22.97331,-43.219668,2026-02-26,Conflito social,alta
+citizen046,A coleta de lixo na Praça Santos Dumont sumiu. O que aconteceu? Alguém jogou entulho de obra na Praça Santos Dumont e deixou largado. A limpeza urbana na Praça Santos Dumont foi esquecida completamente.,-22.974376,-43.21071,2026-04-09,Lixo e conservacao,baixa
+citizen052,"Animal silvestre ferido aqui no bairro, precisa de resgate.",-22.978977,-43.209202,2025-01-12,Outro,baixa
+citizen053,"Carro com alarme disparado na Rua Jardim Botânico há horas. Animal silvestre ferido na Rua Jardim Botânico, precisa de resgate.",-22.955025,-43.210491,2025-12-20,Outro,alta
+citizen028,"Semáforo quebrado na Estrada da Gávea há dias, acidentes à vista. Calçada destruída na Estrada da Gávea, idosos e cadeirantes sem passagem.",-22.958718,-43.222393,2026-04-29,Transito e mobilidade,baixa
+citizen054,"Poste piscando perto da PUC-Rio já faz 10 dias, parece discoteca.",-22.959278,-43.224257,2025-09-14,Iluminacao publica,media
+citizen013,Confusão no ponto de ônibus na beira da Lagoa com gritos e empurra-empurra. Vizinho colocando som alto na beira da Lagoa até meia-noite toda noite.,-22.964121,-43.23646,2025-05-19,Conflito social,media
+citizen012,Assalto a pedestres na beira da Lagoa virou rotina. Minha bolsa foi arrancada na beira da Lagoa numa moto.,-22.959439,-43.22533,2025-07-26,Seguranca e circulacao,media
+citizen004,Confusão generalizada na Rua Álvaro Chaves com xingamentos e empurrão. Morador perturbando a vizinhança na Rua Álvaro Chaves com ameaças.,-22.97408,-43.232321,2025-06-06,Conflito social,baixa
+citizen002,Morador perturbando a vizinhança na Rua Lopes Quintas com ameaças.,-22.980091,-43.225319,2026-01-26,Conflito social,media
+citizen032,Buraco enorme na Rua Vice-Governador Rubens Berardo que já danificou dois carros.,-22.970257,-43.218206,2026-01-29,Transito e mobilidade,alta
+citizen009,"Grupo bagunçando na Rua Fonte da Saudade até tarde, moradores com medo.",-22.970938,-43.229363,2025-12-08,Seguranca e circulacao,baixa
+citizen041,Barulho de obra na Rua Fonte da Saudade às seis da manhã todo dia.,-22.977165,-43.222275,2025-08-22,Outro,alta
+citizen048,Buraco enorme na Rua Padre Leonel Franca que já danificou dois carros.,-22.967132,-43.234282,2025-08-31,Transito e mobilidade,media
+citizen015,Goteira de prédio na Pista Cláudio Coutinho molhando pedestres embaixo.,-22.978955,-43.23949,2025-06-28,Outro,media
+citizen015,"Lixeiras públicas aqui no bairro destruídas, joguei fora. Câmera de segurança aqui no bairro arrancada propositalmente.",-22.958941,-43.226079,2025-01-23,Vandalismo,media
+citizen031,Jogaram móveis velhos na minha rua e ninguém recolhe.,-22.967357,-43.216993,2025-02-27,Lixo e conservacao,baixa
+citizen023,"Poste piscando na Rua Jardim Botânico já faz 10 dias, parece discoteca.",-22.980844,-43.237201,2025-01-08,Iluminacao publica,alta
+citizen026,Conflito relacionado a entrega de aplicativo na Rua Lopes Quintas ficou feio. Barulho de briga na Rua Lopes Quintas perturbando todo o quarteirão. Vizinho colocando som alto na Rua Lopes Quintas até meia-noite toda noite.,-22.95931,-43.221741,2026-03-13,Conflito social,alta
+citizen007,Câmera de segurança na Praça Santos Dumont quebrada há meses.,-22.980728,-43.235302,2025-05-16,Seguranca e circulacao,baixa
+citizen011,A praça na Rua Pacheco Leão deveria ser pra todos mas tá inacessível. Falta rampa de acessibilidade na Rua Pacheco Leão.,-22.980654,-43.232789,2025-10-21,Espaco publico,media
+citizen041,Morador perturbando a vizinhança na Estrada da Gávea com ameaças.,-22.955874,-43.206194,2026-02-21,Conflito social,alta
+citizen050,Vizinho colocando som alto na Rua Vice-Governador Rubens Berardo até meia-noite toda noite.,-22.98429,-43.214592,2025-05-20,Conflito social,media
+citizen006,Picharam o muro do condomínio logo ali na esquina de novo. Portão da praça logo ali na esquina forçado e quebrado. Bancos da praça logo ali na esquina todos depredados.,-22.967347,-43.208328,2025-10-16,Vandalismo,alta
+citizen038,"Tentativa de assalto na beira da Lagoa esta manhã, me assustou muito.",-22.978093,-43.223985,2026-01-06,Seguranca e circulacao,alta
+citizen054,Jogaram móveis velhos na Praça Santos Dumont e ninguém recolhe.,-22.982645,-43.20637,2025-03-02,Lixo e conservacao,baixa
+citizen007,"Fiação elétrica exposta perto do Shopping da Gávea, perigo de choque. Tapume de obra perto do Shopping da Gávea tomando calçada inteira.",-22.978549,-43.209315,2025-05-02,Outro,media
+citizen046,Discussão por vaga de estacionamento na Rua Lopes Quintas virou caso de polícia. Confusão no ponto de ônibus na Rua Lopes Quintas com gritos e empurra-empurra.,-22.955277,-43.236461,2025-04-10,Conflito social,media
+citizen051,A rua na beira da Lagoa ficou escura e aumentou os furtos.,-22.964787,-43.212072,2025-02-15,Iluminacao publica,media
+citizen005,"Drenagem entupida perto da PUC-Rio, qualquer chuva alaga tudo. Calçada toda quebrada perto da PUC-Rio, impossível pra cadeirante.",-22.952348,-43.208321,2025-10-21,Espaco publico,media
+citizen002,A prefeitura precisa agir! O lixo na Rua Marquês de São Vicente tá atraindo rato. Entulho de construção abandonado na Rua Marquês de São Vicente há mais de um mês.,-22.976273,-43.232168,2026-04-26,Lixo e conservacao,media
+citizen025,Portão da praça na Rua Pacheco Leão forçado e quebrado.,-22.953146,-43.212069,2025-12-26,Vandalismo,baixa
+citizen039,"Não tem sinalização nenhuma na Rua Fonte da Saudade, é temerário atravessar.",-22.959048,-43.239337,2025-07-12,Transito e mobilidade,media
+citizen051,Assalto a pedestres na Rua Vice-Governador Rubens Berardo virou rotina.,-22.972577,-43.237171,2025-12-21,Seguranca e circulacao,alta
+citizen030,A iluminação na Rua Jardim Botânico simplesmente parou de funcionar.,-22.9553,-43.209456,2026-05-11,Iluminacao publica,media
+citizen045,Buraco na calçada logo ali na esquina engoliu o salto do sapato da minha mãe.,-22.957974,-43.215451,2025-09-18,Espaco publico,media
+citizen057,Agressão entre pedestres na Rua Jardim Botânico filmada por testemunhas. Confusão generalizada na Rua Jardim Botânico com xingamentos e empurrão.,-22.958938,-43.217424,2026-05-26,Conflito social,alta
+citizen036,"Animal silvestre ferido na Rua Lopes Quintas, precisa de resgate.",-22.984381,-43.210937,2025-06-27,Outro,media
+citizen033,"Poste piscando na Rua Fonte da Saudade já faz 10 dias, parece discoteca. Rua totalmente escura na Rua Fonte da Saudade, fácil de assaltar assim.",-22.967436,-43.215181,2025-01-10,Iluminacao publica,baixa
+citizen051,"Rua totalmente escura na Pista Cláudio Coutinho, fácil de assaltar assim.",-22.964102,-43.216795,2026-01-20,Iluminacao publica,alta
+citizen030,Tem pessoas suspeitas circulando perto da PUC-Rio toda noite.,-22.964137,-43.201679,2026-02-08,Seguranca e circulacao,alta
+citizen013,Não tem bancos na praça logo ali na esquina pra sentar.,-22.963071,-43.22675,2025-09-01,Espaco publico,media
+citizen051,Calçada na Pista Cláudio Coutinho com entulho e ninguém desobstrui.,-22.974107,-43.221853,2026-02-10,Espaco publico,baixa
+citizen023,"Quebraram o monumento na Rua Marquês de São Vicente que estava restaurado. Lixeiras públicas na Rua Marquês de São Vicente destruídas, joguei fora.",-22.96463,-43.213225,2026-03-20,Vandalismo,alta
+citizen055,Câmera de segurança na Rua Vice-Governador Rubens Berardo quebrada há meses.,-22.977455,-43.200598,2025-02-09,Seguranca e circulacao,media
+citizen019,Agressão entre pedestres na Rua Fonte da Saudade filmada por testemunhas.,-22.979488,-43.214854,2026-04-02,Conflito social,alta
+citizen048,Moradores brigando por causa de barulho na Rua Padre Leonel Franca todo fim de semana.,-22.982748,-43.212266,2026-04-05,Conflito social,alta
+citizen025,Situação estranha logo ali na esquina que não sei bem como classificar.,-22.960769,-43.209903,2025-01-11,Outro,media
+citizen035,Terreno abandonado na Rua Padre Leonel Franca com mato e lixo acumulado.,-22.955245,-43.220353,2025-11-08,Outro,baixa
+citizen038,"Pombos infestando o telhado na Rua Lopes Quintas, situação insalubre.",-22.972593,-43.226452,2026-02-06,Outro,baixa
+citizen022,"Portão da praça na Estrada da Gávea forçado e quebrado. Vandalizaram o banco da praça na Estrada da Gávea, destruído.",-22.979347,-43.233517,2025-11-10,Vandalismo,baixa
+citizen023,Não tem bancos na praça na minha rua pra sentar. Lixeira pública na minha rua transbordando sem coleta.,-22.984399,-43.201549,2026-02-24,Espaco publico,media
+citizen048,Tô passando perto da PUC-Rio e o cheiro de lixo tá insuportável. Já faz uma semana que o lixo não é coletado perto da PUC-Rio.,-22.965089,-43.221094,2026-04-06,Lixo e conservacao,baixa
+citizen012,Picharam o muro do condomínio na Estrada da Gávea de novo.,-22.965222,-43.20191,2025-09-19,Vandalismo,media
+citizen016,Preciso sair cedo e na Rua Jardim Botânico tá perigoso antes de amanhecer.,-22.95359,-43.203626,2025-12-27,Seguranca e circulacao,baixa
+citizen056,Tem uma montanha de lixo na Rua Jardim Botânico que ninguém tira.,-22.963833,-43.203327,2026-05-10,Lixo e conservacao,media
+citizen047,Quebraram as lâmpadas do poste logo ali na esquina de propósito.,-22.956679,-43.22417,2026-04-03,Vandalismo,media
+citizen040,Preciso sair cedo e na Rua Pacheco Leão tá perigoso antes de amanhecer.,-22.983907,-43.211244,2025-07-21,Seguranca e circulacao,media
+citizen052,Toda a quadra na Rua Vice-Governador Rubens Berardo no escuro. Cadê a Enel?,-22.965745,-43.227806,2025-04-13,Iluminacao publica,media
+citizen020,"Assalto a pedestres perto do Shopping da Gávea virou rotina. Furto de retrovisor perto do Shopping da Gávea, segundo da semana. Criança com medo de ir pra escola passando perto do Shopping da Gávea.",-22.970916,-43.229914,2026-04-19,Seguranca e circulacao,media
+citizen010,"Pombos infestando o telhado aqui no bairro, situação insalubre.",-22.95402,-43.21,2025-11-02,Outro,media
+citizen015,"Mato alto na calçada na Rua Lopes Quintas escondendo buracos. Não tem bancos na praça na Rua Lopes Quintas pra sentar. Ponto de ônibus na Rua Lopes Quintas sem cobertura, chuva molha todo mundo.",-22.952586,-43.203981,2026-04-20,Espaco publico,baixa
+citizen006,Conflito entre moradores e ambulantes perto da PUC-Rio. Discussão de trânsito perto da PUC-Rio que desceu pro pessoal.,-22.952314,-43.21617,2025-02-21,Conflito social,media
+citizen008,Obra irregular acontecendo na Rua Jardim Botânico sem autorização aparente.,-22.976252,-43.223063,2025-10-12,Outro,baixa
+citizen029,"Passando na Estrada da Gávea à noite dá medo, zero iluminação. Nem a lua ilumina tanto quanto deveria os postes na Estrada da Gávea.",-22.961827,-43.234091,2026-01-14,Iluminacao publica,media
+citizen021,Disputa de área perto da PUC-Rio entre grupos rivais.,-22.966054,-43.230181,2026-01-06,Conflito social,media
+citizen007,Falta rampa de acessibilidade na minha rua. Equipamentos de ginástica na minha rua enferrujados e sem manutenção.,-22.973,-43.225814,2025-07-04,Espaco publico,media
+citizen009,Terreno abandonado na Pista Cláudio Coutinho com mato e lixo acumulado. Cano d'água estourando na Pista Cláudio Coutinho e ninguém da Cedae aparece.,-22.964865,-43.236573,2026-01-20,Outro,media
+citizen048,Lona improvisada aqui no bairro bloqueando sinalização.,-22.978515,-43.220481,2025-08-14,Outro,media
+citizen029,"Tentativa de assalto na Rua Álvaro Chaves esta manhã, me assustou muito. Cheguei em casa e havia marcas de tentativa de arrombamento na Rua Álvaro Chaves.",-22.979238,-43.224437,2025-03-29,Seguranca e circulacao,media
+citizen036,Minha rua virou lixão. Tem lixo na Estrada da Gávea por todo lado.,-22.974229,-43.2081,2025-12-21,Lixo e conservacao,baixa
+citizen046,"Assalto a pedestres logo ali na esquina virou rotina. Tentativa de assalto logo ali na esquina esta manhã, me assustou muito.",-22.9805,-43.221842,2025-09-08,Seguranca e circulacao,baixa
+citizen037,"Há dias com sacos de lixo rasgados na Rua Vice-Governador Rubens Berardo, cheios de inseto.",-22.97906,-43.230717,2025-11-07,Lixo e conservacao,alta
+citizen040,Briga entre crianças na Rua Lopes Quintas que virou bagunça de adulto.,-22.97608,-43.225798,2025-10-08,Conflito social,baixa
+citizen008,"Passando na Pista Cláudio Coutinho à noite dá medo, zero iluminação. Nem a lua ilumina tanto quanto deveria os postes na Pista Cláudio Coutinho. Poste piscando na Pista Cláudio Coutinho já faz 10 dias, parece discoteca.",-22.962318,-43.221284,2025-07-29,Iluminacao publica,media
+citizen010,Tapume de obra na Rua Vice-Governador Rubens Berardo tomando calçada inteira. Buraco na rede de esgoto na Rua Vice-Governador Rubens Berardo com cheiro forte.,-22.969124,-43.218866,2025-03-18,Outro,baixa
+citizen031,Nem a lua ilumina tanto quanto deveria os postes logo ali na esquina.,-22.959027,-43.239,2026-02-09,Iluminacao publica,alta
+citizen017,Ciclista quase atropelado na minha rua por falta de ciclofaixa. Valão aberto na minha rua que já engoliu o pneu do meu carro. Engarrafamento na minha rua todo dia no horário de pico.,-22.973882,-43.209996,2025-04-19,Transito e mobilidade,media
+citizen044,Entulho de construção abandonado na Rua Lopes Quintas há mais de um mês. Ratos aparecendo por causa do lixo acumulado na Rua Lopes Quintas.,-22.983938,-43.22368,2026-05-12,Lixo e conservacao,alta
+citizen032,Vidro de poste de semáforo quebrado na minha rua.,-22.952925,-43.211298,2025-10-07,Vandalismo,media
+citizen030,Disputa de área na Rua Marquês de São Vicente entre grupos rivais.,-22.972958,-43.205801,2026-03-02,Conflito social,alta
+citizen009,Confusão no ponto de ônibus na Rua Marquês de São Vicente com gritos e empurra-empurra. Conflito relacionado a entrega de aplicativo na Rua Marquês de São Vicente ficou feio. Morador perturbando a vizinhança na Rua Marquês de São Vicente com ameaças.,-22.975931,-43.225635,2025-07-14,Conflito social,media
+citizen012,Problema que precisa de atenção na Rua Marquês de São Vicente mas não sei pra quem ligar.,-22.950406,-43.20478,2025-09-23,Outro,media
+citizen045,"Sem iluminação na Rua Lopes Quintas, fica perigoso à noite. Acionei a prefeitura sobre o poste na Rua Lopes Quintas e ficou no papel.",-22.965913,-43.224034,2026-05-18,Iluminacao publica,alta
+citizen059,"Carro estacionado em cima da calçada na Estrada da Gávea, pedestres na rua.",-22.965966,-43.228867,2025-02-16,Transito e mobilidade,media
+citizen059,Picharam o muro do condomínio na Rua Fonte da Saudade de novo. Bancos da praça na Rua Fonte da Saudade todos depredados.,-22.960656,-43.229009,2026-04-01,Vandalismo,alta
+citizen012,Entupimento de bueiro na Rua Lopes Quintas que alaga tudo.,-22.979591,-43.213615,2025-11-11,Outro,baixa
+citizen043,Tem uma montanha de lixo na beira da Lagoa que ninguém tira. Entulho de construção abandonado na beira da Lagoa há mais de um mês.,-22.961149,-43.217555,2026-01-07,Lixo e conservacao,media
+citizen052,Quebraram o espelho do retrovisor do meu carro no Parque da Cidade.,-22.979559,-43.20303,2025-06-19,Vandalismo,alta
+citizen025,"Família brigando na rua na Rua Álvaro Chaves, situação constrangedora.",-22.950849,-43.231369,2026-01-11,Conflito social,alta
+citizen045,Bancos da praça aqui no bairro todos depredados. Picharam toda a parede aqui no bairro de madrugada.,-22.96104,-43.237752,2025-03-09,Vandalismo,media
+citizen035,Semáforo na Rua Álvaro Chaves em modo piscante desde segunda. Valão aberto na Rua Álvaro Chaves que já engoliu o pneu do meu carro.,-22.981235,-43.205732,2025-02-19,Transito e mobilidade,media
+citizen053,Fiz o chamado pra Enel semana passada sobre o poste na Rua Fonte da Saudade e nada. Toda a quadra na Rua Fonte da Saudade no escuro. Cadê a Enel?,-22.960852,-43.208052,2026-05-14,Iluminacao publica,media
+citizen040,"Drenagem entupida na minha rua, qualquer chuva alaga tudo.",-22.959976,-43.239202,2025-12-16,Espaco publico,media
+citizen040,Já faz uma semana que o lixo não é coletado aqui no bairro.,-22.968543,-43.21238,2026-02-13,Lixo e conservacao,alta
+citizen028,Placa de trânsito arrancada na Rua Fonte da Saudade por vândalos. Quebraram as lâmpadas do poste na Rua Fonte da Saudade de propósito.,-22.968229,-43.235778,2025-08-05,Vandalismo,alta
+citizen043,Voltei do trabalho tarde e a rua na Rua Padre Leonel Franca tava no breu total.,-22.958072,-43.202378,2025-10-25,Iluminacao publica,alta
+citizen056,"Faixa de pedestres na Rua Pacheco Leão completamente apagada. O ônibus linha 583 não para mais na Rua Pacheco Leão, abandonaram o ponto. O trânsito na Rua Pacheco Leão tá um caos nessa hora do dia.",-22.96691,-43.238153,2025-06-14,Transito e mobilidade,media
+citizen055,"Mato alto na calçada na Rua Lopes Quintas escondendo buracos. Ponto de ônibus na Rua Lopes Quintas sem cobertura, chuva molha todo mundo.",-22.954652,-43.209569,2025-08-09,Espaco publico,media
+citizen044,Briga entre crianças logo ali na esquina que virou bagunça de adulto.,-22.95826,-43.225677,2026-01-23,Conflito social,baixa
+citizen049,"Equipamentos de ginástica na Rua Pacheco Leão enferrujados e sem manutenção. A praça na Rua Pacheco Leão tá abandonada, ninguém cuida.",-22.978879,-43.234893,2025-06-10,Espaco publico,media
+citizen029,"Calçada destruída na Praça Santos Dumont, idosos e cadeirantes sem passagem.",-22.983284,-43.228474,2026-05-02,Transito e mobilidade,media
+citizen021,"Quebraram o monumento na Praça Santos Dumont que estava restaurado. Portão da praça na Praça Santos Dumont forçado e quebrado. Vandalizaram o playground na Praça Santos Dumont, crianças sem onde brincar.",-22.964006,-43.23279,2026-02-28,Vandalismo,alta
+citizen011,"Furto de bike na Rua Álvaro Chaves, precisamos de mais policiamento.",-22.954004,-43.227538,2025-02-27,Seguranca e circulacao,alta
+citizen021,Discussão por vaga de estacionamento na Rua Vice-Governador Rubens Berardo virou caso de polícia.,-22.958512,-43.234803,2025-08-02,Conflito social,alta
+citizen017,A rua no Parque da Cidade ficou escura e aumentou os furtos. Acionei a prefeitura sobre o poste no Parque da Cidade e ficou no papel. Três postes apagados em sequência no Parque da Cidade. Que descuido.,-22.973803,-43.234431,2025-04-21,Iluminacao publica,baixa
+citizen008,"Brinquedo do parquinho na Rua Pacheco Leão quebrado há meses. Buraco na calçada na Rua Pacheco Leão engoliu o salto do sapato da minha mãe. Calçada toda quebrada na Rua Pacheco Leão, impossível pra cadeirante.",-22.956537,-43.212053,2026-02-15,Espaco publico,media
+citizen009,Quebraram as lâmpadas do poste na Rua Álvaro Chaves de propósito.,-22.980829,-43.224724,2025-06-23,Vandalismo,media
+citizen001,"Veículo abandonado na Rua Lopes Quintas há semanas, virou lixo. Animal silvestre ferido na Rua Lopes Quintas, precisa de resgate. Obra irregular acontecendo na Rua Lopes Quintas sem autorização aparente.",-22.979819,-43.207126,2025-06-19,Outro,media
+citizen018,"Drenagem entupida aqui no bairro, qualquer chuva alaga tudo. Mato alto na calçada aqui no bairro escondendo buracos.",-22.984057,-43.21741,2025-01-17,Espaco publico,media
+citizen031,Buraco enorme na Rua Pacheco Leão que já danificou dois carros.,-22.964523,-43.210434,2026-02-14,Transito e mobilidade,alta
+citizen060,"Poste caindo na beira da Lagoa, além de escuro é perigoso.",-22.955698,-43.214537,2025-04-06,Iluminacao publica,alta
+citizen022,Terceiro dia seguido sem coleta na Rua Vice-Governador Rubens Berardo. Até quando? Tem uma montanha de lixo na Rua Vice-Governador Rubens Berardo que ninguém tira.,-22.961394,-43.232556,2025-06-09,Lixo e conservacao,baixa
+citizen040,Preciso sair cedo e na Rua Pacheco Leão tá perigoso antes de amanhecer. Cheguei em casa e havia marcas de tentativa de arrombamento na Rua Pacheco Leão.,-22.983311,-43.236422,2025-07-25,Seguranca e circulacao,alta
+citizen036,"Asfalto esburacado perto da PUC-Rio, minha suspensão já sofreu.",-22.979316,-43.205249,2025-10-12,Transito e mobilidade,media
+citizen032,Entupimento de bueiro na Rua Jardim Botânico que alaga tudo.,-22.962822,-43.236216,2026-03-16,Outro,media
+citizen038,Três postes apagados em sequência na Rua Vice-Governador Rubens Berardo. Que descuido. A iluminação na Rua Vice-Governador Rubens Berardo simplesmente parou de funcionar.,-22.973393,-43.22806,2025-10-17,Iluminacao publica,baixa
+citizen049,Barulho de obra na Rua Lopes Quintas às seis da manhã todo dia. Cano d'água estourando na Rua Lopes Quintas e ninguém da Cedae aparece. Situação estranha na Rua Lopes Quintas que não sei bem como classificar.,-22.964482,-43.205466,2025-04-22,Outro,media
+citizen003,"Criança com medo de ir pra escola passando na Pista Cláudio Coutinho. Furto de bike na Pista Cláudio Coutinho, precisamos de mais policiamento.",-22.965957,-43.231923,2026-04-11,Seguranca e circulacao,media
+citizen002,"Fui assaltado na minha rua ontem à noite, tá perigoso.",-22.964357,-43.220697,2025-08-10,Seguranca e circulacao,alta
+citizen001,Lixeira pública na Estrada da Gávea transbordando sem coleta.,-22.96606,-43.236201,2025-05-31,Espaco publico,media
+citizen022,"Escrita de gangue pichada perto do Shopping da Gávea, intimidatório.",-22.95679,-43.205414,2025-07-15,Vandalismo,alta
+citizen032,"Grupo bagunçando na Rua Álvaro Chaves até tarde, moradores com medo. Porta de garagem arrombada na Rua Álvaro Chaves, terceiro caso. Preciso sair cedo e na Rua Álvaro Chaves tá perigoso antes de amanhecer.",-22.983595,-43.236216,2025-10-14,Seguranca e circulacao,alta
+citizen053,"Carro arrombado na Rua Jardim Botânico de madrugada, terceiro esse mês.",-22.964577,-43.225349,2025-06-03,Seguranca e circulacao,baixa
+citizen021,"Bancos da praça na Praça Santos Dumont todos depredados. Lixeiras públicas na Praça Santos Dumont destruídas, joguei fora.",-22.972432,-43.213397,2025-05-11,Vandalismo,baixa
+citizen053,Lâmpada queimada na beira da Lagoa há quinze dias sem previsão de troca.,-22.959562,-43.22418,2025-09-19,Iluminacao publica,media
+citizen036,Confusão no ponto de ônibus na Pista Cláudio Coutinho com gritos e empurra-empurra.,-22.980714,-43.20232,2025-10-21,Conflito social,alta
+citizen013,"Vazamento de gás na Rua Vice-Governador Rubens Berardo, chamei o Riogas mas demora.",-22.973619,-43.233827,2025-09-08,Outro,baixa
+citizen052,"Grupo bagunçando na minha rua até tarde, moradores com medo. Criança com medo de ir pra escola passando na minha rua.",-22.953758,-43.22645,2025-09-15,Seguranca e circulacao,alta
+citizen057,"Família brigando na rua perto do Shopping da Gávea, situação constrangedora. Conflito relacionado a entrega de aplicativo perto do Shopping da Gávea ficou feio. Disputa de área perto do Shopping da Gávea entre grupos rivais.",-22.970278,-43.212181,2025-01-30,Conflito social,media
+citizen024,Confusão no ponto de ônibus na Rua Marquês de São Vicente com gritos e empurra-empurra.,-22.952248,-43.234757,2025-01-29,Conflito social,alta
+citizen023,O lixo na Pista Cláudio Coutinho tá acumulado há dias e ninguém faz nada. Jogaram móveis velhos na Pista Cláudio Coutinho e ninguém recolhe.,-22.964,-43.230892,2025-05-12,Lixo e conservacao,media
+citizen028,"Ônibus parando no meio da rua na Rua Padre Leonel Franca e travando tudo. Não tem sinalização nenhuma na Rua Padre Leonel Franca, é temerário atravessar. Engarrafamento na Rua Padre Leonel Franca todo dia no horário de pico.",-22.95557,-43.202548,2026-04-11,Transito e mobilidade,media
+citizen046,Equipamentos de ginástica na Rua Marquês de São Vicente enferrujados e sem manutenção. Totem de informação na Rua Marquês de São Vicente quebrado e apagado.,-22.981042,-43.238873,2025-03-19,Espaco publico,baixa
+citizen001,Ônibus parando no meio da rua na Rua Vice-Governador Rubens Berardo e travando tudo. Placa de rua caída na Rua Vice-Governador Rubens Berardo há semanas.,-22.966442,-43.227321,2026-05-11,Transito e mobilidade,media
+citizen056,"Terreno abandonado perto do Shopping da Gávea com mato e lixo acumulado. Veículo abandonado perto do Shopping da Gávea há semanas, virou lixo. Problema que precisa de atenção perto do Shopping da Gávea mas não sei pra quem ligar.",-22.957605,-43.224259,2026-05-20,Outro,baixa
+citizen044,Quebraram o espelho do retrovisor do meu carro na Rua Vice-Governador Rubens Berardo.,-22.955429,-43.20729,2025-06-23,Vandalismo,alta
+citizen060,Meu vizinho foi roubado na Rua Álvaro Chaves em plena tarde.,-22.982802,-43.222684,2025-03-21,Seguranca e circulacao,alta
+citizen011,Confusão no ponto de ônibus perto do Shopping da Gávea com gritos e empurra-empurra.,-22.965737,-43.237143,2026-02-10,Conflito social,media
+citizen043,Barulho de briga na Rua Fonte da Saudade perturbando todo o quarteirão. Briga entre crianças na Rua Fonte da Saudade que virou bagunça de adulto.,-22.964563,-43.215559,2025-02-14,Conflito social,media
+citizen038,"Criança com medo de ir pra escola passando na Rua Pacheco Leão. Barulho de tiro na Rua Pacheco Leão ontem à noite, assustador.",-22.955513,-43.203247,2025-04-26,Seguranca e circulacao,media
+citizen049,"Ponto de ônibus no Parque da Cidade sem cobertura, chuva molha todo mundo.",-22.966967,-43.215139,2025-04-17,Espaco publico,media
+citizen031,"Poste caindo na Rua Casuarina, além de escuro é perigoso.",-22.959748,-43.208815,2025-06-09,Iluminacao publica,alta
+citizen025,Vizinho colocando som alto na Rua Álvaro Chaves até meia-noite toda noite.,-22.961842,-43.204328,2025-11-24,Conflito social,alta
+citizen057,Tem uma montanha de lixo na Rua Marquês de São Vicente que ninguém tira. Alguém jogou entulho de obra na Rua Marquês de São Vicente e deixou largado.,-22.96939,-43.208899,2025-11-14,Lixo e conservacao,baixa
+citizen059,Equipamento de academia ao ar livre na Rua Marquês de São Vicente destruído.,-22.979004,-43.237956,2025-08-12,Vandalismo,media
+citizen006,"Cheguei em casa e havia marcas de tentativa de arrombamento na beira da Lagoa. Furto de bike na beira da Lagoa, precisamos de mais policiamento.",-22.981856,-43.229738,2026-05-31,Seguranca e circulacao,media
+citizen060,"Vandalizaram o banco da praça na Rua Casuarina, destruído.",-22.969144,-43.205216,2026-04-27,Vandalismo,alta
+citizen033,"Escrita de gangue pichada na Rua Vice-Governador Rubens Berardo, intimidatório.",-22.96698,-43.216947,2025-05-19,Vandalismo,media
+citizen040,Ratos aparecendo por causa do lixo acumulado perto da PUC-Rio. O lixo perto da PUC-Rio tá acumulado há dias e ninguém faz nada.,-22.971847,-43.238276,2025-02-17,Lixo e conservacao,baixa
+citizen046,"Árvore caída na Rua Marquês de São Vicente desde a última chuva, ninguém tirou.",-22.975978,-43.222087,2025-03-27,Espaco publico,baixa
+citizen023,Tem pessoas suspeitas circulando no Parque da Cidade toda noite. Atividade suspeita no Parque da Cidade toda madrugada.,-22.982174,-43.215176,2025-04-11,Seguranca e circulacao,media
+citizen008,"Minha bolsa foi arrancada na Rua Fonte da Saudade numa moto. Grupo bagunçando na Rua Fonte da Saudade até tarde, moradores com medo.",-22.982581,-43.223553,2025-11-03,Seguranca e circulacao,alta
+citizen012,"Vazamento de gás na Rua Fonte da Saudade, chamei o Riogas mas demora. Pombos infestando o telhado na Rua Fonte da Saudade, situação insalubre.",-22.962365,-43.219896,2025-10-25,Outro,media
+citizen052,A coleta de lixo na Praça Santos Dumont sumiu. O que aconteceu?,-22.967248,-43.239945,2026-02-15,Lixo e conservacao,media
+citizen030,Discussão de trânsito na Rua Padre Leonel Franca que desceu pro pessoal. Confusão generalizada na Rua Padre Leonel Franca com xingamentos e empurrão.,-22.980852,-43.209973,2025-11-28,Conflito social,alta
+citizen049,"Grupo bagunçando perto do Shopping da Gávea até tarde, moradores com medo.",-22.961139,-43.229227,2026-03-09,Seguranca e circulacao,media
+citizen027,Minha rua virou lixão. Tem lixo na Rua Pacheco Leão por todo lado. Já faz uma semana que o lixo não é coletado na Rua Pacheco Leão.,-22.982378,-43.218978,2026-05-17,Lixo e conservacao,baixa
+citizen015,Moradores brigando por causa de barulho na Rua Pacheco Leão todo fim de semana. Agressão entre pedestres na Rua Pacheco Leão filmada por testemunhas.,-22.962667,-43.206862,2025-12-17,Conflito social,alta
+citizen034,Minha filha tem medo de passar na Rua Pacheco Leão de noite por causa do escuro.,-22.97743,-43.214378,2026-01-26,Iluminacao publica,media
+citizen034,Barulho de briga na Rua Padre Leonel Franca perturbando todo o quarteirão.,-22.959711,-43.215603,2025-08-05,Conflito social,media
+citizen051,"Cara, o lixo na beira da Lagoa tá ridículo. Já liguei pra prefeitura e nada.",-22.962635,-43.231908,2025-11-24,Lixo e conservacao,alta
+citizen049,Obra irregular acontecendo na Praça Santos Dumont sem autorização aparente. Cano d'água estourando na Praça Santos Dumont e ninguém da Cedae aparece.,-22.968822,-43.210021,2025-09-14,Outro,alta
+citizen035,A prefeitura precisa agir! O lixo perto do Shopping da Gávea tá atraindo rato.,-22.951954,-43.237263,2025-02-27,Lixo e conservacao,baixa
+citizen006,"Acionei a prefeitura sobre o poste na Rua Padre Leonel Franca e ficou no papel. Passando na Rua Padre Leonel Franca à noite dá medo, zero iluminação.",-22.969299,-43.229014,2025-05-26,Iluminacao publica,media
+citizen046,Calçada na Rua Lopes Quintas com entulho e ninguém desobstrui.,-22.962232,-43.225521,2026-05-15,Espaco publico,baixa
+citizen050,O trânsito na minha rua tá um caos nessa hora do dia.,-22.965374,-43.204858,2025-11-30,Transito e mobilidade,baixa
+citizen024,Entupimento de bueiro na Rua Vice-Governador Rubens Berardo que alaga tudo.,-22.975673,-43.203477,2025-07-13,Outro,media
+citizen038,O trânsito na Praça Santos Dumont tá um caos nessa hora do dia. Ônibus parando no meio da rua na Praça Santos Dumont e travando tudo.,-22.984848,-43.214088,2026-02-11,Transito e mobilidade,alta
+citizen057,"Ia sair pra correr mas aqui no bairro tá escuro demais. Nem a lua ilumina tanto quanto deveria os postes aqui no bairro. Rua totalmente escura aqui no bairro, fácil de assaltar assim.",-22.960788,-43.214336,2025-12-02,Iluminacao publica,baixa
+citizen034,Falta rampa de acessibilidade na Rua Fonte da Saudade. Mato alto na calçada na Rua Fonte da Saudade escondendo buracos.,-22.980121,-43.212274,2026-04-26,Espaco publico,alta
+citizen051,"Picharam o muro do condomínio aqui no bairro de novo. Bebedouro público aqui no bairro vandalizado, sem funcionar.",-22.971109,-43.207637,2025-10-07,Vandalismo,baixa
+citizen039,Atividade suspeita na Rua Padre Leonel Franca toda madrugada. Câmera de segurança na Rua Padre Leonel Franca quebrada há meses.,-22.951282,-43.236666,2026-05-22,Seguranca e circulacao,alta
+citizen050,Quebraram as lâmpadas do poste na minha rua de propósito.,-22.961234,-43.234918,2025-10-24,Vandalismo,media
+citizen037,Portão da praça perto da PUC-Rio forçado e quebrado.,-22.983463,-43.222834,2025-04-06,Vandalismo,alta
+citizen038,"Não tem sinalização nenhuma perto da PUC-Rio, é temerário atravessar. Buraco enorme perto da PUC-Rio que já danificou dois carros.",-22.983348,-43.218414,2025-02-24,Transito e mobilidade,alta
+citizen056,"Cara, o lixo na Pista Cláudio Coutinho tá ridículo. Já liguei pra prefeitura e nada.",-22.950872,-43.202793,2025-06-25,Lixo e conservacao,alta
+citizen038,"Desvio de obra no Parque da Cidade sem sinalização adequada, confuso demais. Faixa de pedestres no Parque da Cidade completamente apagada.",-22.978443,-43.207821,2025-04-21,Transito e mobilidade,baixa
+citizen005,"Calçada destruída na Pista Cláudio Coutinho, idosos e cadeirantes sem passagem.",-22.956739,-43.217392,2025-09-30,Transito e mobilidade,media
+citizen035,Conflito relacionado a entrega de aplicativo na Rua Fonte da Saudade ficou feio.,-22.983246,-43.234386,2025-06-10,Conflito social,alta
+citizen031,"Asfalto esburacado na Estrada da Gávea, minha suspensão já sofreu.",-22.983991,-43.219754,2026-02-15,Transito e mobilidade,baixa
+citizen024,"Cara, o lixo no Parque da Cidade tá ridículo. Já liguei pra prefeitura e nada. Já faz uma semana que o lixo não é coletado no Parque da Cidade.",-22.951305,-43.213058,2025-09-14,Lixo e conservacao,alta
+citizen049,"Tentativa de assalto na Praça Santos Dumont esta manhã, me assustou muito. Viatura não passa na Praça Santos Dumont há dias, abandono policial. Câmera de segurança na Praça Santos Dumont quebrada há meses.",-22.959372,-43.235092,2025-10-12,Seguranca e circulacao,alta
+citizen049,"Sem luz na beira da Lagoa à noite, carro entrou em buraco ontem. Fiz o chamado pra Enel semana passada sobre o poste na beira da Lagoa e nada.",-22.971074,-43.207614,2025-06-22,Iluminacao publica,baixa
+citizen017,Quebraram as lâmpadas do poste na Rua Padre Leonel Franca de propósito.,-22.982844,-43.212736,2025-03-04,Vandalismo,alta
+citizen038,"Bancos da praça na Rua Lopes Quintas todos depredados. Escrita de gangue pichada na Rua Lopes Quintas, intimidatório.",-22.98292,-43.221205,2025-02-17,Vandalismo,media
+citizen058,"Grupo bagunçando na Rua Lopes Quintas até tarde, moradores com medo.",-22.980797,-43.220289,2026-01-07,Seguranca e circulacao,media
+citizen044,Placa de rua caída na Rua Jardim Botânico há semanas.,-22.953729,-43.200911,2025-08-16,Transito e mobilidade,alta
+citizen032,"Lombada na Rua Marquês de São Vicente destruída, carros passando em alta velocidade.",-22.953271,-43.209047,2026-04-20,Transito e mobilidade,media
+citizen005,Mato alto na calçada na minha rua escondendo buracos. Bebedouro público na minha rua sem funcionar faz meses.,-22.950745,-43.222169,2025-05-12,Espaco publico,baixa
+citizen060,"Tem um monte de entulho abandonado na Rua Pacheco Leão, absurdo.",-22.977005,-43.215156,2025-01-16,Lixo e conservacao,alta
+citizen049,Muros recém-pintados na Rua Fonte da Saudade já pichados novamente.,-22.961225,-43.224683,2026-05-07,Vandalismo,media
+citizen042,O trânsito na Rua Álvaro Chaves tá um caos nessa hora do dia.,-22.965603,-43.217608,2025-08-28,Transito e mobilidade,alta
+citizen003,Evento privado bloqueando a calçada na Estrada da Gávea sem aviso.,-22.972558,-43.217588,2025-01-27,Outro,alta
+citizen008,"Fui assaltado na Rua Lopes Quintas ontem à noite, tá perigoso.",-22.955808,-43.227307,2026-02-19,Seguranca e circulacao,media
+citizen018,"O lixo na Pista Cláudio Coutinho tá acumulado há dias e ninguém faz nada. Cara, o lixo na Pista Cláudio Coutinho tá ridículo. Já liguei pra prefeitura e nada.",-22.952261,-43.226529,2025-01-31,Lixo e conservacao,media
+citizen038,Entulho de construção abandonado no Parque da Cidade há mais de um mês. Terceiro dia seguido sem coleta no Parque da Cidade. Até quando?,-22.984154,-43.217832,2025-10-16,Lixo e conservacao,media
+citizen050,Vários postes apagados perto do Shopping da Gávea. Isso é descaso. Os postes perto do Shopping da Gávea estão todos apagados faz dias.,-22.960471,-43.208098,2025-03-25,Iluminacao publica,media
+citizen020,Trânsito parado na Rua Jardim Botânico por obra sem aviso prévio. Placa de rua caída na Rua Jardim Botânico há semanas.,-22.954405,-43.223646,2025-02-22,Transito e mobilidade,media
+citizen008,"Ponto de ônibus na Rua Fonte da Saudade sem cobertura, chuva molha todo mundo.",-22.984148,-43.21073,2025-06-08,Espaco publico,baixa
+citizen035,Briga feia entre vizinhos aqui no bairro que já durou horas. Confusão no ponto de ônibus aqui no bairro com gritos e empurra-empurra.,-22.971544,-43.207726,2026-05-16,Conflito social,media
+citizen036,Engarrafamento na Rua Álvaro Chaves todo dia no horário de pico.,-22.984074,-43.204641,2026-03-12,Transito e mobilidade,media
+citizen005,A praça na Rua Pacheco Leão deveria ser pra todos mas tá inacessível. Calçada na Rua Pacheco Leão com desnível perigoso pra quem corre.,-22.962256,-43.201746,2026-03-19,Espaco publico,alta
+citizen001,"Lâmpada queimada na minha rua há quinze dias sem previsão de troca. Nem a lua ilumina tanto quanto deveria os postes na minha rua. Passando na minha rua à noite dá medo, zero iluminação.",-22.959717,-43.206743,2026-02-09,Iluminacao publica,media
+citizen023,"Escrita de gangue pichada perto do Shopping da Gávea, intimidatório. Picharam o muro do condomínio perto do Shopping da Gávea de novo.",-22.97183,-43.216063,2025-04-11,Vandalismo,media
+citizen009,Praça na Rua Álvaro Chaves tomada por grama alta e mato. Lixeira pública na Rua Álvaro Chaves transbordando sem coleta.,-22.970401,-43.207921,2025-07-31,Espaco publico,media
+citizen031,"Placa de trânsito arrancada no Parque da Cidade por vândalos. Escrita de gangue pichada no Parque da Cidade, intimidatório. Lixeiras públicas no Parque da Cidade destruídas, joguei fora.",-22.963411,-43.23971,2025-02-15,Vandalismo,alta
+citizen047,Equipamentos de ginástica na Pista Cláudio Coutinho enferrujados e sem manutenção. Calçada na Pista Cláudio Coutinho com desnível perigoso pra quem corre.,-22.953167,-43.232295,2026-01-15,Espaco publico,baixa
+citizen044,"Não tem sinalização nenhuma na Rua Marquês de São Vicente, é temerário atravessar. Buraco enorme na Rua Marquês de São Vicente que já danificou dois carros.",-22.956467,-43.202246,2026-01-03,Transito e mobilidade,media
+citizen058,"Não tem bancos na praça no Parque da Cidade pra sentar. Drenagem entupida no Parque da Cidade, qualquer chuva alaga tudo.",-22.97139,-43.233296,2025-10-24,Espaco publico,media
+citizen021,Confusão no ponto de ônibus perto da PUC-Rio com gritos e empurra-empurra. Discussão de trânsito perto da PUC-Rio que desceu pro pessoal. Conflito relacionado a entrega de aplicativo perto da PUC-Rio ficou feio.,-22.980674,-43.232904,2026-04-19,Conflito social,baixa
+citizen050,Bebedouro público na Rua Padre Leonel Franca sem funcionar faz meses.,-22.98225,-43.237842,2025-09-20,Espaco publico,media
+citizen007,A rua aqui no bairro ficou escura e aumentou os furtos.,-22.973813,-43.217042,2026-03-15,Iluminacao publica,media
+citizen024,Câmera de segurança perto do Shopping da Gávea arrancada propositalmente. Equipamento de academia ao ar livre perto do Shopping da Gávea destruído. Ônibus riscado e vandalizado perto do Shopping da Gávea.,-22.9669,-43.225085,2025-05-08,Vandalismo,baixa
+citizen008,"Lixeiras públicas na Rua Padre Leonel Franca destruídas, joguei fora.",-22.974545,-43.231081,2025-06-09,Vandalismo,media
+citizen053,Barulho de briga logo ali na esquina perturbando todo o quarteirão.,-22.952312,-43.201962,2025-09-04,Conflito social,media
+citizen042,Acionei a prefeitura sobre o poste aqui no bairro e ficou no papel. Nem a lua ilumina tanto quanto deveria os postes aqui no bairro.,-22.96938,-43.200877,2025-03-05,Iluminacao publica,alta
+citizen002,"Situação estranha na Rua Lopes Quintas que não sei bem como classificar. Veículo abandonado na Rua Lopes Quintas há semanas, virou lixo. Vazamento de gás na Rua Lopes Quintas, chamei o Riogas mas demora.",-22.952894,-43.221398,2025-11-20,Outro,baixa
+citizen036,Briga feia entre vizinhos aqui no bairro que já durou horas. Denúncia de agressão verbal constante aqui no bairro. Discussão por vaga de estacionamento aqui no bairro virou caso de polícia.,-22.951378,-43.209883,2025-09-20,Conflito social,media
+citizen051,Meu vizinho foi roubado na Rua Padre Leonel Franca em plena tarde. Minha bolsa foi arrancada na Rua Padre Leonel Franca numa moto.,-22.984951,-43.232207,2025-10-25,Seguranca e circulacao,alta
+citizen044,"Poste caindo no Parque da Cidade, além de escuro é perigoso. Nem a lua ilumina tanto quanto deveria os postes no Parque da Cidade. Ia sair pra correr mas no Parque da Cidade tá escuro demais.",-22.968052,-43.231027,2026-02-06,Iluminacao publica,baixa
+citizen007,"Poste caindo na Pista Cláudio Coutinho, além de escuro é perigoso. Poste queimado na Pista Cláudio Coutinho há mais de uma semana, ninguém conserta. Toda a quadra na Pista Cláudio Coutinho no escuro. Cadê a Enel?",-22.983522,-43.201197,2026-05-20,Iluminacao publica,alta
+citizen038,"Furto de retrovisor na Rua Casuarina, segundo da semana.",-22.980458,-43.222898,2025-05-24,Seguranca e circulacao,baixa
+citizen051,O lixo orgânico na Rua Marquês de São Vicente tá fedendo demais com esse calor. Minha rua virou lixão. Tem lixo na Rua Marquês de São Vicente por todo lado. A prefeitura precisa agir! O lixo na Rua Marquês de São Vicente tá atraindo rato.,-22.962463,-43.208215,2025-02-16,Lixo e conservacao,baixa
+citizen012,Placa de trânsito arrancada aqui no bairro por vândalos. Quebraram o monumento aqui no bairro que estava restaurado.,-22.980604,-43.213809,2026-03-10,Vandalismo,alta
+citizen037,"Desvio de obra perto do Shopping da Gávea sem sinalização adequada, confuso demais. Engarrafamento perto do Shopping da Gávea todo dia no horário de pico. Calçada destruída perto do Shopping da Gávea, idosos e cadeirantes sem passagem.",-22.984249,-43.202134,2025-03-05,Transito e mobilidade,alta
+citizen003,"Drenagem entupida na beira da Lagoa, qualquer chuva alaga tudo. Calçada na beira da Lagoa com entulho e ninguém desobstrui. Não tem bancos na praça na beira da Lagoa pra sentar.",-22.96481,-43.233298,2025-01-03,Espaco publico,baixa
+citizen006,Cheguei em casa e havia marcas de tentativa de arrombamento perto da PUC-Rio.,-22.951018,-43.23789,2026-04-28,Seguranca e circulacao,alta
+citizen054,"Animal abandonado na Rua Pacheco Leão há dias, alguém pode ajudar?",-22.967815,-43.233736,2026-01-16,Outro,media
+citizen043,"Viatura não passa na Rua Jardim Botânico há dias, abandono policial.",-22.952543,-43.22239,2026-05-28,Seguranca e circulacao,alta
+citizen031,"Tem um monte de entulho abandonado aqui no bairro, absurdo.",-22.958379,-43.238851,2026-06-01,Lixo e conservacao,media
+citizen056,Picharam toda a parede na Rua Padre Leonel Franca de madrugada. Quebraram o monumento na Rua Padre Leonel Franca que estava restaurado.,-22.974997,-43.236484,2026-05-31,Vandalismo,media
+citizen041,A iluminação na Praça Santos Dumont simplesmente parou de funcionar.,-22.964413,-43.222794,2025-04-21,Iluminacao publica,alta
+citizen028,A rua na Rua Marquês de São Vicente ficou escura e aumentou os furtos.,-22.958616,-43.212144,2026-05-26,Iluminacao publica,alta
+citizen012,Buraco na rede de esgoto na Rua Casuarina com cheiro forte.,-22.952252,-43.21683,2025-11-05,Outro,baixa
+citizen017,Já faz uma semana que o lixo não é coletado na Rua Padre Leonel Franca.,-22.958346,-43.213617,2025-04-14,Lixo e conservacao,alta
+citizen043,"Lixeira pública na Rua Casuarina transbordando sem coleta. Drenagem entupida na Rua Casuarina, qualquer chuva alaga tudo.",-22.964717,-43.212392,2025-06-20,Espaco publico,baixa
+citizen034,Ratos aparecendo por causa do lixo acumulado na Rua Marquês de São Vicente.,-22.962239,-43.231161,2025-08-26,Lixo e conservacao,baixa
+citizen035,Trânsito parado na Rua Jardim Botânico por obra sem aviso prévio.,-22.980799,-43.209103,2025-01-28,Transito e mobilidade,baixa
+citizen035,Briga entre crianças na Pista Cláudio Coutinho que virou bagunça de adulto.,-22.970854,-43.22096,2026-01-26,Conflito social,baixa
+citizen059,Alguém jogou entulho de obra na Rua Álvaro Chaves e deixou largado. Jogaram móveis velhos na Rua Álvaro Chaves e ninguém recolhe.,-22.950867,-43.206738,2025-06-03,Lixo e conservacao,media
+citizen041,"Poste queimado na Rua Vice-Governador Rubens Berardo há mais de uma semana, ninguém conserta.",-22.980033,-43.207043,2026-02-11,Iluminacao publica,alta
+citizen023,"Sem iluminação na Rua Lopes Quintas, fica perigoso à noite. Vários postes apagados na Rua Lopes Quintas. Isso é descaso.",-22.976417,-43.208746,2026-01-11,Iluminacao publica,media
+citizen028,"Barulho de obra na Praça Santos Dumont às seis da manhã todo dia. Terreno abandonado na Praça Santos Dumont com mato e lixo acumulado. Animal silvestre ferido na Praça Santos Dumont, precisa de resgate.",-22.976563,-43.20144,2025-10-07,Outro,alta
+citizen046,Buraco na calçada perto do Shopping da Gávea engoliu o salto do sapato da minha mãe. Praça perto do Shopping da Gávea tomada por grama alta e mato. Calçada perto do Shopping da Gávea com entulho e ninguém desobstrui.,-22.959612,-43.217104,2025-03-06,Espaco publico,media
+citizen003,Briga de bar na minha rua que saiu pro meio da rua. Vizinho colocando som alto na minha rua até meia-noite toda noite.,-22.965586,-43.220803,2025-12-31,Conflito social,media
+citizen014,Lâmpada queimada na Praça Santos Dumont há quinze dias sem previsão de troca.,-22.973438,-43.207662,2025-07-23,Iluminacao publica,alta
+citizen013,Espaço público na Rua Casuarina virou estacionamento irregular. Mato alto na calçada na Rua Casuarina escondendo buracos.,-22.962188,-43.22272,2025-05-16,Espaco publico,media
+citizen030,A rua aqui no bairro ficou escura e aumentou os furtos. Lâmpada queimada aqui no bairro há quinze dias sem previsão de troca.,-22.982363,-43.235887,2026-05-23,Iluminacao publica,media
+citizen055,Ratos aparecendo por causa do lixo acumulado na Pista Cláudio Coutinho.,-22.960249,-43.208445,2025-08-29,Lixo e conservacao,baixa
+citizen036,Minha bolsa foi arrancada na Rua Vice-Governador Rubens Berardo numa moto.,-22.952535,-43.232931,2025-12-14,Seguranca e circulacao,media
+citizen015,Buraco na Rua Marquês de São Vicente que a prefeitura tampou com areia e abriu de novo. Placa de rua caída na Rua Marquês de São Vicente há semanas.,-22.952108,-43.225162,2026-05-25,Transito e mobilidade,media
+citizen060,"Não tem sinalização nenhuma na Pista Cláudio Coutinho, é temerário atravessar. Placa de rua caída na Pista Cláudio Coutinho há semanas.",-22.973635,-43.202207,2025-07-17,Transito e mobilidade,baixa
+citizen054,Buraco na Rua Casuarina que a prefeitura tampou com areia e abriu de novo.,-22.97673,-43.230329,2025-06-20,Transito e mobilidade,baixa
+citizen040,"Tentativa de assalto na Rua Fonte da Saudade esta manhã, me assustou muito. Furto de bike na Rua Fonte da Saudade, precisamos de mais policiamento.",-22.976053,-43.22965,2025-03-21,Seguranca e circulacao,alta
+citizen007,"Calçada toda quebrada na Rua Fonte da Saudade, impossível pra cadeirante.",-22.975752,-43.238116,2025-04-12,Espaco publico,baixa
+citizen014,"Quebraram o monumento na Rua Pacheco Leão que estava restaurado. Vandalizaram o playground na Rua Pacheco Leão, crianças sem onde brincar.",-22.969092,-43.230384,2026-04-28,Vandalismo,media
+citizen006,Discussão por vaga de estacionamento na Rua Marquês de São Vicente virou caso de polícia. Morador perturbando a vizinhança na Rua Marquês de São Vicente com ameaças. Disputa de área na Rua Marquês de São Vicente entre grupos rivais.,-22.971969,-43.204604,2025-06-01,Conflito social,alta
+citizen041,"Asfalto esburacado na Rua Álvaro Chaves, minha suspensão já sofreu. Placa de rua caída na Rua Álvaro Chaves há semanas.",-22.959939,-43.217515,2026-05-06,Transito e mobilidade,baixa
+citizen005,Carro com alarme disparado na Rua Álvaro Chaves há horas.,-22.982211,-43.207355,2025-07-20,Outro,media
+citizen019,Tem uma montanha de lixo na Rua Jardim Botânico que ninguém tira.,-22.980049,-43.202115,2026-04-03,Lixo e conservacao,alta
+citizen033,"Família brigando na rua na Pista Cláudio Coutinho, situação constrangedora.",-22.952747,-43.200387,2026-04-27,Conflito social,alta
+citizen005,Problema que precisa de atenção na Rua Álvaro Chaves mas não sei pra quem ligar.,-22.980584,-43.2207,2025-09-14,Outro,baixa
+citizen049,A limpeza urbana na Rua Fonte da Saudade foi esquecida completamente.,-22.966681,-43.238455,2025-08-14,Lixo e conservacao,baixa
+citizen033,Disputa de área na Rua Álvaro Chaves entre grupos rivais.,-22.953756,-43.236016,2025-08-19,Conflito social,baixa
+citizen013,"Semáforo quebrado na Rua Marquês de São Vicente há dias, acidentes à vista. Semáforo na Rua Marquês de São Vicente em modo piscante desde segunda.",-22.952047,-43.200683,2026-01-30,Transito e mobilidade,media
+citizen003,Briga feia entre vizinhos na Rua Marquês de São Vicente que já durou horas. Discussão por vaga de estacionamento na Rua Marquês de São Vicente virou caso de polícia. Vizinho colocando som alto na Rua Marquês de São Vicente até meia-noite toda noite.,-22.976691,-43.235266,2026-02-14,Conflito social,alta
+citizen045,"Vandalizaram o banco da praça na Praça Santos Dumont, destruído.",-22.979092,-43.238447,2025-04-12,Vandalismo,alta
+citizen005,"Sem luz na Estrada da Gávea à noite, carro entrou em buraco ontem.",-22.975622,-43.203811,2025-07-05,Iluminacao publica,alta
+citizen016,Discussão por vaga de estacionamento na Rua Marquês de São Vicente virou caso de polícia. Agressão entre pedestres na Rua Marquês de São Vicente filmada por testemunhas. Confusão no ponto de ônibus na Rua Marquês de São Vicente com gritos e empurra-empurra.,-22.973899,-43.232671,2026-01-15,Conflito social,alta
+citizen035,"Goteira de prédio na beira da Lagoa molhando pedestres embaixo. Pombos infestando o telhado na beira da Lagoa, situação insalubre. Veículo abandonado na beira da Lagoa há semanas, virou lixo.",-22.950899,-43.232621,2025-02-26,Outro,alta
+citizen037,Bebedouro público na Estrada da Gávea sem funcionar faz meses. Falta rampa de acessibilidade na Estrada da Gávea.,-22.970234,-43.233215,2026-04-05,Espaco publico,baixa
+citizen012,Equipamento de academia ao ar livre na Rua Padre Leonel Franca destruído. Vidro de poste de semáforo quebrado na Rua Padre Leonel Franca.,-22.952121,-43.211761,2025-11-26,Vandalismo,media
+citizen030,Problema que precisa de atenção na minha rua mas não sei pra quem ligar.,-22.968713,-43.227386,2026-01-06,Outro,media
+citizen027,Equipamentos de ginástica na Rua Vice-Governador Rubens Berardo enferrujados e sem manutenção.,-22.960094,-43.208096,2025-12-28,Espaco publico,baixa
+citizen003,Câmera de segurança logo ali na esquina arrancada propositalmente. Placa de trânsito arrancada logo ali na esquina por vândalos.,-22.954132,-43.234126,2026-04-29,Vandalismo,media
+citizen057,"Esgoto entupido e lixo acumulado no Parque da Cidade, situação precária.",-22.984234,-43.21947,2025-04-28,Lixo e conservacao,media
+citizen012,Já faz uma semana que o lixo não é coletado na Rua Pacheco Leão. A coleta de lixo na Rua Pacheco Leão sumiu. O que aconteceu?,-22.96316,-43.230332,2025-09-13,Lixo e conservacao,alta
+citizen014,"Fui assaltado na Rua Lopes Quintas ontem à noite, tá perigoso. Traficantes na esquina na Rua Lopes Quintas intimidando quem passa.",-22.950048,-43.229625,2025-02-03,Seguranca e circulacao,alta
+citizen051,"Semáforo quebrado na Rua Lopes Quintas há dias, acidentes à vista. Ciclista quase atropelado na Rua Lopes Quintas por falta de ciclofaixa.",-22.965803,-43.224128,2025-12-12,Transito e mobilidade,alta
+citizen018,"Animal abandonado perto da PUC-Rio há dias, alguém pode ajudar?",-22.976007,-43.207553,2025-03-15,Outro,baixa
+citizen018,Ônibus parando no meio da rua no Parque da Cidade e travando tudo.,-22.968087,-43.20205,2025-04-02,Transito e mobilidade,media
+citizen001,O trânsito na minha rua tá um caos nessa hora do dia.,-22.965648,-43.228996,2026-03-31,Transito e mobilidade,baixa
+citizen016,"Fiz o chamado pra Enel semana passada sobre o poste na Rua Fonte da Saudade e nada. Ia sair pra correr mas na Rua Fonte da Saudade tá escuro demais. Sem iluminação na Rua Fonte da Saudade, fica perigoso à noite.",-22.95766,-43.207252,2025-08-29,Iluminacao publica,alta
+citizen049,"O lixo orgânico logo ali na esquina tá fedendo demais com esse calor. Tem uma montanha de lixo logo ali na esquina que ninguém tira. Lixo espalhado por toda a calçada logo ali na esquina, impossível passar.",-22.981337,-43.223408,2025-12-08,Lixo e conservacao,media
+citizen022,Nem a lua ilumina tanto quanto deveria os postes perto do Shopping da Gávea.,-22.980423,-43.23713,2025-03-24,Iluminacao publica,media
+citizen009,Muros recém-pintados na Rua Pacheco Leão já pichados novamente.,-22.95162,-43.214286,2026-05-01,Vandalismo,baixa
+citizen044,Confusão generalizada na Pista Cláudio Coutinho com xingamentos e empurrão. Briga de bar na Pista Cláudio Coutinho que saiu pro meio da rua. Conflito relacionado a entrega de aplicativo na Pista Cláudio Coutinho ficou feio.,-22.952224,-43.239974,2025-10-03,Conflito social,media
+citizen023,O lixo orgânico na Estrada da Gávea tá fedendo demais com esse calor.,-22.978458,-43.223437,2026-04-28,Lixo e conservacao,media
+citizen046,"Fio de alta tensão caído na Praça Santos Dumont, urgente. Entupimento de bueiro na Praça Santos Dumont que alaga tudo.",-22.961376,-43.234284,2025-09-06,Outro,baixa
+citizen003,"Asfalto esburacado na Rua Padre Leonel Franca, minha suspensão já sofreu. Calçada destruída na Rua Padre Leonel Franca, idosos e cadeirantes sem passagem. Placa de rua caída na Rua Padre Leonel Franca há semanas.",-22.982648,-43.215325,2025-02-03,Transito e mobilidade,media
+citizen038,Ciclista quase atropelado na Rua Vice-Governador Rubens Berardo por falta de ciclofaixa.,-22.950156,-43.229662,2025-10-04,Transito e mobilidade,alta
+citizen031,Conflito relacionado a entrega de aplicativo no Parque da Cidade ficou feio. Disputa de área no Parque da Cidade entre grupos rivais.,-22.960103,-43.223598,2026-03-05,Conflito social,media
+citizen042,"Animal abandonado na Rua Marquês de São Vicente há dias, alguém pode ajudar? Evento privado bloqueando a calçada na Rua Marquês de São Vicente sem aviso.",-22.967541,-43.202809,2025-11-29,Outro,media
+citizen042,Briga feia entre vizinhos perto da PUC-Rio que já durou horas.,-22.975171,-43.230048,2026-02-22,Conflito social,alta
+citizen051,"Viatura não passa no Parque da Cidade há dias, abandono policial.",-22.980261,-43.23507,2025-10-15,Seguranca e circulacao,alta
+citizen001,O trânsito na Rua Pacheco Leão tá um caos nessa hora do dia.,-22.973733,-43.236969,2025-02-01,Transito e mobilidade,baixa
+citizen048,Trânsito parado na Rua Casuarina por obra sem aviso prévio.,-22.953376,-43.23351,2025-07-14,Transito e mobilidade,baixa
+citizen057,"Esgoto entupido e lixo acumulado na Rua Álvaro Chaves, situação precária.",-22.9545,-43.227406,2025-04-12,Lixo e conservacao,baixa
+citizen031,O lixo orgânico perto da PUC-Rio tá fedendo demais com esse calor.,-22.972311,-43.209644,2025-12-11,Lixo e conservacao,media
+citizen045,Confusão no ponto de ônibus na Rua Fonte da Saudade com gritos e empurra-empurra. Desentendimento entre grupos na Rua Fonte da Saudade que quase virou pancadaria.,-22.963266,-43.224558,2026-01-01,Conflito social,alta
+citizen041,Espaço público na Rua Lopes Quintas virou estacionamento irregular.,-22.981692,-43.208076,2025-02-08,Espaco publico,alta
+citizen049,Minha bolsa foi arrancada na Praça Santos Dumont numa moto.,-22.95556,-43.2145,2025-07-12,Seguranca e circulacao,alta
+citizen021,"Totem de informação perto do Shopping da Gávea quebrado e apagado. Árvore caída perto do Shopping da Gávea desde a última chuva, ninguém tirou.",-22.976243,-43.200482,2025-09-21,Espaco publico,baixa
+citizen044,A praça na minha rua deveria ser pra todos mas tá inacessível.,-22.971404,-43.237053,2025-04-21,Espaco publico,alta
+citizen046,Desentendimento entre grupos na minha rua que quase virou pancadaria. Confusão generalizada na minha rua com xingamentos e empurrão.,-22.977955,-43.231119,2025-04-29,Conflito social,alta
+citizen054,Grafite obsceno na parede da escola perto do Shopping da Gávea.,-22.961836,-43.205364,2025-02-08,Vandalismo,alta
+citizen030,"Criança com medo de ir pra escola passando na Rua Álvaro Chaves. Grupo bagunçando na Rua Álvaro Chaves até tarde, moradores com medo.",-22.984802,-43.202532,2025-05-20,Seguranca e circulacao,baixa
+citizen006,Mato alto na calçada na Rua Pacheco Leão escondendo buracos.,-22.958131,-43.215524,2026-05-01,Espaco publico,alta
+citizen060,Engarrafamento na Rua Marquês de São Vicente todo dia no horário de pico. Placa de rua caída na Rua Marquês de São Vicente há semanas.,-22.952559,-43.202467,2025-02-07,Transito e mobilidade,media
+citizen015,Área verde na Rua Vice-Governador Rubens Berardo sendo invadida por carros.,-22.976458,-43.23933,2026-03-17,Espaco publico,media
+citizen016,Conflito entre comerciantes e moradores na Pista Cláudio Coutinho sem solução.,-22.963561,-43.2223,2025-07-05,Conflito social,alta
+citizen044,Discussão de trânsito na Rua Vice-Governador Rubens Berardo que desceu pro pessoal.,-22.973635,-43.208979,2025-05-31,Conflito social,media
+citizen002,Bebedouro público na Rua Álvaro Chaves sem funcionar faz meses.,-22.977945,-43.238039,2025-08-17,Espaco publico,media
+citizen018,Acionei a prefeitura sobre o poste na Rua Marquês de São Vicente e ficou no papel. Minha filha tem medo de passar na Rua Marquês de São Vicente de noite por causa do escuro.,-22.953798,-43.235992,2025-04-18,Iluminacao publica,media
+citizen057,Assalto a pedestres na Rua Jardim Botânico virou rotina.,-22.980801,-43.222196,2025-11-01,Seguranca e circulacao,media
+citizen040,"Poste queimado na beira da Lagoa há mais de uma semana, ninguém conserta.",-22.950379,-43.208697,2026-05-17,Iluminacao publica,media
+citizen027,Semáforo na Rua Pacheco Leão em modo piscante desde segunda.,-22.963358,-43.225562,2025-07-03,Transito e mobilidade,baixa
+citizen020,Três postes apagados em sequência na Rua Fonte da Saudade. Que descuido. Voltei do trabalho tarde e a rua na Rua Fonte da Saudade tava no breu total.,-22.984531,-43.204435,2025-03-11,Iluminacao publica,media
+citizen050,O lixo perto do Shopping da Gávea tá acumulado há dias e ninguém faz nada.,-22.961568,-43.220283,2026-01-29,Lixo e conservacao,alta
+citizen057,O trânsito na Rua Álvaro Chaves tá um caos nessa hora do dia.,-22.984119,-43.203776,2025-06-19,Transito e mobilidade,baixa
+citizen048,Lona improvisada logo ali na esquina bloqueando sinalização.,-22.953313,-43.215916,2025-02-05,Outro,alta
+citizen010,"Poste queimado perto do Shopping da Gávea há mais de uma semana, ninguém conserta. Passando perto do Shopping da Gávea à noite dá medo, zero iluminação.",-22.959337,-43.218481,2025-11-01,Iluminacao publica,media
+citizen011,"Carro arrombado aqui no bairro de madrugada, terceiro esse mês. Tentativa de assalto aqui no bairro esta manhã, me assustou muito.",-22.958646,-43.214008,2025-01-30,Seguranca e circulacao,media
+citizen047,Câmera de segurança perto da PUC-Rio arrancada propositalmente. Muros recém-pintados perto da PUC-Rio já pichados novamente.,-22.955954,-43.236448,2025-01-30,Vandalismo,media
+citizen006,Moradores brigando por causa de barulho na Praça Santos Dumont todo fim de semana.,-22.95685,-43.222951,2026-05-06,Conflito social,baixa
+citizen034,Evento privado bloqueando a calçada na beira da Lagoa sem aviso.,-22.958495,-43.233244,2025-10-06,Outro,alta
+citizen019,"Furto de retrovisor na Rua Vice-Governador Rubens Berardo, segundo da semana.",-22.957063,-43.225051,2025-11-24,Seguranca e circulacao,media
+citizen053,Meu vizinho foi roubado perto do Shopping da Gávea em plena tarde.,-22.972916,-43.217384,2025-01-07,Seguranca e circulacao,media
+citizen058,"A prefeitura precisa agir! O lixo perto da PUC-Rio tá atraindo rato. Cara, o lixo perto da PUC-Rio tá ridículo. Já liguei pra prefeitura e nada. A coleta de lixo perto da PUC-Rio sumiu. O que aconteceu?",-22.961523,-43.205782,2026-01-10,Lixo e conservacao,media
+citizen037,"Poste caindo na Pista Cláudio Coutinho, além de escuro é perigoso. Ia sair pra correr mas na Pista Cláudio Coutinho tá escuro demais.",-22.983755,-43.239652,2026-04-05,Iluminacao publica,baixa
+citizen046,"Calçada destruída na Rua Pacheco Leão, idosos e cadeirantes sem passagem.",-22.983992,-43.226418,2026-04-07,Transito e mobilidade,baixa
+citizen020,Falta rampa de acessibilidade na Rua Álvaro Chaves. Espaço público na Rua Álvaro Chaves virou estacionamento irregular.,-22.982117,-43.234361,2025-01-30,Espaco publico,baixa
+citizen023,Barulho de obra perto do Shopping da Gávea às seis da manhã todo dia.,-22.956379,-43.202059,2025-10-07,Outro,baixa
+citizen012,"Lombada na Estrada da Gávea destruída, carros passando em alta velocidade.",-22.984384,-43.235217,2026-04-05,Transito e mobilidade,baixa
+citizen045,"Porta de garagem arrombada na Rua Marquês de São Vicente, terceiro caso. Meu vizinho foi roubado na Rua Marquês de São Vicente em plena tarde.",-22.981482,-43.235877,2025-07-05,Seguranca e circulacao,media
+citizen003,O trânsito logo ali na esquina tá um caos nessa hora do dia. Placa de rua caída logo ali na esquina há semanas.,-22.971036,-43.201631,2025-02-05,Transito e mobilidade,baixa
+citizen049,Disputa de área na Estrada da Gávea entre grupos rivais.,-22.971012,-43.20695,2026-04-02,Conflito social,alta
+citizen057,Voltei do trabalho tarde e a rua na Rua Fonte da Saudade tava no breu total.,-22.968192,-43.238873,2025-05-20,Iluminacao publica,media
+citizen011,"Ponto de ônibus perto da PUC-Rio sem cobertura, chuva molha todo mundo. Falta rampa de acessibilidade perto da PUC-Rio.",-22.963166,-43.209352,2025-04-09,Espaco publico,baixa
+citizen050,Tem pessoas suspeitas circulando na Rua Pacheco Leão toda noite. Traficantes na esquina na Rua Pacheco Leão intimidando quem passa.,-22.978611,-43.221664,2026-01-17,Seguranca e circulacao,media
+citizen054,Carro com alarme disparado na minha rua há horas.,-22.953114,-43.225743,2025-11-02,Outro,baixa
+citizen005,"Os postes perto da PUC-Rio estão todos apagados faz dias. Sem luz perto da PUC-Rio à noite, carro entrou em buraco ontem. A iluminação perto da PUC-Rio simplesmente parou de funcionar.",-22.983572,-43.222847,2026-01-09,Iluminacao publica,media
+citizen047,Picharam toda a parede aqui no bairro de madrugada. Grafite obsceno na parede da escola aqui no bairro. Vidro de poste de semáforo quebrado aqui no bairro.,-22.981749,-43.213022,2026-01-18,Vandalismo,baixa
+citizen024,Conflito entre moradores e ambulantes na Rua Lopes Quintas.,-22.963292,-43.231925,2025-05-15,Conflito social,media
+citizen013,Tapume de obra aqui no bairro tomando calçada inteira.,-22.980045,-43.228301,2026-02-26,Outro,baixa
+citizen042,Placa de rua caída na minha rua há semanas.,-22.978018,-43.236873,2026-05-02,Transito e mobilidade,alta
+citizen018,Buraco na Estrada da Gávea que a prefeitura tampou com areia e abriu de novo. Ônibus parando no meio da rua na Estrada da Gávea e travando tudo.,-22.95541,-43.236897,2025-05-17,Transito e mobilidade,media
+citizen039,"Fio de alta tensão caído na Rua Fonte da Saudade, urgente. Entupimento de bueiro na Rua Fonte da Saudade que alaga tudo.",-22.956106,-43.206685,2025-06-21,Outro,media
+citizen035,O lixo orgânico na Rua Jardim Botânico tá fedendo demais com esse calor.,-22.950574,-43.20528,2026-04-06,Lixo e conservacao,baixa
+citizen018,Engarrafamento aqui no bairro todo dia no horário de pico. Motocicleta subindo calçada aqui no bairro assustando pedestres.,-22.967435,-43.216045,2025-03-22,Transito e mobilidade,media
+citizen024,"Não tem sinalização nenhuma no Parque da Cidade, é temerário atravessar.",-22.961044,-43.236589,2026-04-30,Transito e mobilidade,media
+citizen039,Nem a lua ilumina tanto quanto deveria os postes na Rua Jardim Botânico. A rua na Rua Jardim Botânico ficou escura e aumentou os furtos.,-22.959121,-43.224354,2025-03-19,Iluminacao publica,media
+citizen030,"Semáforo na Rua Padre Leonel Franca em modo piscante desde segunda. Desvio de obra na Rua Padre Leonel Franca sem sinalização adequada, confuso demais. Ciclista quase atropelado na Rua Padre Leonel Franca por falta de ciclofaixa.",-22.978163,-43.225804,2025-03-06,Transito e mobilidade,baixa
+citizen022,Sacos de lixo espalhados na calçada na Estrada da Gávea desde ontem. Entulho de construção abandonado na Estrada da Gávea há mais de um mês. O lixo na Estrada da Gávea tá acumulado há dias e ninguém faz nada.,-22.954139,-43.217262,2025-02-03,Lixo e conservacao,baixa
+citizen046,"Carro arrombado na Rua Vice-Governador Rubens Berardo de madrugada, terceiro esse mês.",-22.96579,-43.208155,2026-02-28,Seguranca e circulacao,baixa
+citizen030,"Equipamento de academia ao ar livre na Pista Cláudio Coutinho destruído. Câmera de segurança na Pista Cláudio Coutinho arrancada propositalmente. Pichação em cima de pichação na Pista Cláudio Coutinho, ninguém limpa.",-22.959349,-43.234949,2025-07-06,Vandalismo,alta
+citizen047,Já faz uma semana que o lixo não é coletado na Rua Marquês de São Vicente. Sacos de lixo espalhados na calçada na Rua Marquês de São Vicente desde ontem.,-22.967719,-43.209548,2026-03-02,Lixo e conservacao,baixa
+citizen014,Câmera de segurança na Rua Fonte da Saudade arrancada propositalmente. Quebraram o monumento na Rua Fonte da Saudade que estava restaurado.,-22.974327,-43.216466,2026-05-02,Vandalismo,media
+citizen018,"Desvio de obra perto da PUC-Rio sem sinalização adequada, confuso demais. O trânsito perto da PUC-Rio tá um caos nessa hora do dia. Semáforo quebrado perto da PUC-Rio há dias, acidentes à vista.",-22.983742,-43.231188,2026-05-15,Transito e mobilidade,baixa
+citizen031,Mato alto na calçada na Praça Santos Dumont escondendo buracos. Equipamentos de ginástica na Praça Santos Dumont enferrujados e sem manutenção. Lixeira pública na Praça Santos Dumont transbordando sem coleta.,-22.963131,-43.207349,2025-01-13,Espaco publico,media
+citizen059,A rua logo ali na esquina ficou escura e aumentou os furtos. Acionei a prefeitura sobre o poste logo ali na esquina e ficou no papel.,-22.966718,-43.205666,2026-04-09,Iluminacao publica,media
+citizen003,Já faz uma semana que o lixo não é coletado na Estrada da Gávea.,-22.967849,-43.22749,2025-08-16,Lixo e conservacao,media
+citizen012,Grafite obsceno na parede da escola na Rua Casuarina.,-22.969279,-43.236742,2025-06-25,Vandalismo,alta
+citizen025,O lixo orgânico na Estrada da Gávea tá fedendo demais com esse calor.,-22.9604,-43.225038,2025-09-04,Lixo e conservacao,baixa
+citizen057,"Semáforo quebrado na Rua Fonte da Saudade há dias, acidentes à vista.",-22.975792,-43.225072,2025-05-10,Transito e mobilidade,media
+citizen022,"Picharam toda a parede na Praça Santos Dumont de madrugada. Pichação em cima de pichação na Praça Santos Dumont, ninguém limpa.",-22.952039,-43.222852,2025-06-17,Vandalismo,media
+citizen012,Semáforo no Parque da Cidade em modo piscante desde segunda. Motocicleta subindo calçada no Parque da Cidade assustando pedestres.,-22.980787,-43.23399,2026-02-22,Transito e mobilidade,baixa
+citizen059,Conflito entre comerciantes e moradores na Rua Vice-Governador Rubens Berardo sem solução.,-22.975996,-43.237389,2025-12-03,Conflito social,alta
+citizen006,"Ônibus riscado e vandalizado aqui no bairro. Lixeiras públicas aqui no bairro destruídas, joguei fora.",-22.966255,-43.220887,2025-03-26,Vandalismo,alta
+citizen012,Não tem bancos na praça na Rua Casuarina pra sentar.,-22.965222,-43.203213,2026-04-21,Espaco publico,media
+citizen018,Alguém jogou entulho de obra na Rua Lopes Quintas e deixou largado. Sacos de lixo espalhados na calçada na Rua Lopes Quintas desde ontem.,-22.972491,-43.223831,2025-06-16,Lixo e conservacao,baixa
+citizen024,Vários postes apagados perto da PUC-Rio. Isso é descaso. Voltei do trabalho tarde e a rua perto da PUC-Rio tava no breu total.,-22.978093,-43.212589,2025-03-21,Iluminacao publica,alta
+citizen051,"Porta de garagem arrombada na minha rua, terceiro caso.",-22.976849,-43.20264,2025-09-01,Seguranca e circulacao,alta
+citizen024,Vários postes apagados na minha rua. Isso é descaso. Voltei do trabalho tarde e a rua na minha rua tava no breu total.,-22.979255,-43.225017,2025-08-30,Iluminacao publica,media
+citizen029,"Drenagem entupida na Rua Lopes Quintas, qualquer chuva alaga tudo. Falta rampa de acessibilidade na Rua Lopes Quintas.",-22.950022,-43.20982,2025-09-08,Espaco publico,baixa
+citizen060,"Evento privado bloqueando a calçada logo ali na esquina sem aviso. Barulho de obra logo ali na esquina às seis da manhã todo dia. Pombos infestando o telhado logo ali na esquina, situação insalubre.",-22.97173,-43.206624,2026-02-27,Outro,media
+citizen034,Voltei do trabalho tarde e a rua no Parque da Cidade tava no breu total. A iluminação no Parque da Cidade simplesmente parou de funcionar. Nem a lua ilumina tanto quanto deveria os postes no Parque da Cidade.,-22.958546,-43.225188,2025-02-23,Iluminacao publica,media
+citizen003,Ia sair pra correr mas no Parque da Cidade tá escuro demais.,-22.958783,-43.207412,2025-02-18,Iluminacao publica,alta
+citizen001,"Buraco na rede de esgoto na Rua Vice-Governador Rubens Berardo com cheiro forte. Fiação elétrica exposta na Rua Vice-Governador Rubens Berardo, perigo de choque.",-22.971266,-43.215513,2025-06-22,Outro,baixa
+citizen055,"Pombos infestando o telhado na Estrada da Gávea, situação insalubre. Problema que precisa de atenção na Estrada da Gávea mas não sei pra quem ligar.",-22.977748,-43.21789,2025-04-12,Outro,baixa
+citizen002,Buraco na rede de esgoto na Rua Vice-Governador Rubens Berardo com cheiro forte.,-22.952573,-43.237095,2025-03-30,Outro,media
+citizen051,"Calçada toda quebrada na Rua Vice-Governador Rubens Berardo, impossível pra cadeirante. Praça na Rua Vice-Governador Rubens Berardo tomada por grama alta e mato.",-22.975267,-43.210173,2025-10-04,Espaco publico,media
+citizen024,Ônibus riscado e vandalizado na minha rua.,-22.978166,-43.20166,2025-07-21,Vandalismo,baixa
+citizen055,"Passando na Estrada da Gávea à noite dá medo, zero iluminação. A iluminação na Estrada da Gávea simplesmente parou de funcionar. Rua totalmente escura na Estrada da Gávea, fácil de assaltar assim.",-22.970184,-43.222267,2025-03-27,Iluminacao publica,alta
+citizen024,Buraco na Pista Cláudio Coutinho que a prefeitura tampou com areia e abriu de novo.,-22.951389,-43.200566,2025-05-29,Transito e mobilidade,alta
+citizen006,Conflito entre comerciantes e moradores na Rua Pacheco Leão sem solução.,-22.951317,-43.222991,2025-12-08,Conflito social,alta
+citizen059,Goteira de prédio na Rua Jardim Botânico molhando pedestres embaixo. Problema que precisa de atenção na Rua Jardim Botânico mas não sei pra quem ligar.,-22.956747,-43.223635,2026-02-03,Outro,alta
+citizen030,"Veículo abandonado na Rua Marquês de São Vicente há semanas, virou lixo. Obra irregular acontecendo na Rua Marquês de São Vicente sem autorização aparente.",-22.984557,-43.232202,2025-08-28,Outro,baixa
+citizen026,"Lombada na Rua Lopes Quintas destruída, carros passando em alta velocidade. Semáforo quebrado na Rua Lopes Quintas há dias, acidentes à vista.",-22.97201,-43.226574,2026-04-14,Transito e mobilidade,alta
+citizen055,Voltei do trabalho tarde e a rua na Rua Pacheco Leão tava no breu total. Os postes na Rua Pacheco Leão estão todos apagados faz dias. Nem a lua ilumina tanto quanto deveria os postes na Rua Pacheco Leão.,-22.973095,-43.215938,2025-02-08,Iluminacao publica,media
+citizen058,"Barulho de tiro na Rua Casuarina ontem à noite, assustador. Tentativa de assalto na Rua Casuarina esta manhã, me assustou muito.",-22.961063,-43.212884,2026-05-11,Seguranca e circulacao,media
+citizen042,Tem pessoas suspeitas circulando na Rua Fonte da Saudade toda noite.,-22.977825,-43.212806,2026-01-06,Seguranca e circulacao,alta
+citizen038,O lixo orgânico na Rua Pacheco Leão tá fedendo demais com esse calor.,-22.965571,-43.210834,2026-04-29,Lixo e conservacao,alta
+citizen010,Fiz o chamado pra Enel semana passada sobre o poste na Praça Santos Dumont e nada.,-22.952844,-43.228583,2026-05-10,Iluminacao publica,alta
+citizen036,Terreno abandonado logo ali na esquina com mato e lixo acumulado. Obra irregular acontecendo logo ali na esquina sem autorização aparente.,-22.953403,-43.220436,2026-01-29,Outro,alta
+citizen039,"Ciclista quase atropelado na Rua Lopes Quintas por falta de ciclofaixa. Semáforo na Rua Lopes Quintas em modo piscante desde segunda. O ônibus linha 583 não para mais na Rua Lopes Quintas, abandonaram o ponto.",-22.957297,-43.204604,2025-03-18,Transito e mobilidade,media
+citizen028,Discussão por vaga de estacionamento no Parque da Cidade virou caso de polícia. Briga feia entre vizinhos no Parque da Cidade que já durou horas. Confusão no ponto de ônibus no Parque da Cidade com gritos e empurra-empurra.,-22.973588,-43.205258,2025-06-09,Conflito social,alta
+citizen052,Faixa de pedestres na Rua Marquês de São Vicente completamente apagada. Engarrafamento na Rua Marquês de São Vicente todo dia no horário de pico.,-22.966576,-43.238694,2025-06-01,Transito e mobilidade,media
+citizen038,"Esgoto entupido e lixo acumulado na beira da Lagoa, situação precária.",-22.964978,-43.214088,2026-02-26,Lixo e conservacao,baixa
+citizen058,"Animal abandonado perto do Shopping da Gávea há dias, alguém pode ajudar?",-22.969469,-43.21661,2025-11-10,Outro,baixa
+citizen030,Tem uma montanha de lixo na Rua Pacheco Leão que ninguém tira.,-22.95758,-43.231125,2025-12-09,Lixo e conservacao,baixa
+citizen034,Bebedouro público na Praça Santos Dumont sem funcionar faz meses.,-22.976418,-43.239186,2025-09-21,Espaco publico,media
+citizen037,"Obra irregular acontecendo na Rua Marquês de São Vicente sem autorização aparente. Fio de alta tensão caído na Rua Marquês de São Vicente, urgente. Buraco na rede de esgoto na Rua Marquês de São Vicente com cheiro forte.",-22.977887,-43.211567,2025-11-13,Outro,baixa
+citizen054,"Carro arrombado na Rua Pacheco Leão de madrugada, terceiro esse mês.",-22.952897,-43.231562,2025-01-15,Seguranca e circulacao,alta
+citizen040,Obra irregular acontecendo na Praça Santos Dumont sem autorização aparente.,-22.979767,-43.239347,2026-05-15,Outro,alta
+citizen045,"Barulho de tiro na Rua Lopes Quintas ontem à noite, assustador. Preciso sair cedo e na Rua Lopes Quintas tá perigoso antes de amanhecer.",-22.968795,-43.202639,2025-09-06,Seguranca e circulacao,baixa
+citizen048,"Asfalto esburacado na Rua Marquês de São Vicente, minha suspensão já sofreu.",-22.969292,-43.203996,2026-03-06,Transito e mobilidade,media
+citizen022,"Placa de rua caída na Rua Casuarina há semanas. Calçada destruída na Rua Casuarina, idosos e cadeirantes sem passagem. Asfalto esburacado na Rua Casuarina, minha suspensão já sofreu.",-22.953129,-43.238063,2025-02-08,Transito e mobilidade,alta
+citizen013,Briga de bar na Estrada da Gávea que saiu pro meio da rua.,-22.951906,-43.206919,2026-02-02,Conflito social,alta
+citizen046,Tô passando na Rua Casuarina e o cheiro de lixo tá insuportável.,-22.978776,-43.236275,2025-01-10,Lixo e conservacao,media
+citizen031,"Cano d'água estourando logo ali na esquina e ninguém da Cedae aparece. Vazamento de gás logo ali na esquina, chamei o Riogas mas demora.",-22.952269,-43.212576,2026-01-16,Outro,media
+citizen029,"Passando na Rua Lopes Quintas à noite dá medo, zero iluminação. Sem iluminação na Rua Lopes Quintas, fica perigoso à noite.",-22.982294,-43.200875,2026-02-09,Iluminacao publica,baixa
+citizen007,Denúncia de agressão verbal constante na Rua Casuarina. Disputa de área na Rua Casuarina entre grupos rivais.,-22.981731,-43.216879,2025-03-05,Conflito social,alta
+citizen017,"Poste caindo na Rua Álvaro Chaves, além de escuro é perigoso.",-22.952601,-43.233708,2026-02-23,Iluminacao publica,baixa
+citizen023,Mato alto na calçada na Rua Padre Leonel Franca escondendo buracos.,-22.966283,-43.205271,2026-01-05,Espaco publico,baixa
+citizen057,"Lombada no Parque da Cidade destruída, carros passando em alta velocidade. Desvio de obra no Parque da Cidade sem sinalização adequada, confuso demais.",-22.962134,-43.239777,2026-05-25,Transito e mobilidade,alta
+citizen024,Entulho de construção abandonado na Rua Lopes Quintas há mais de um mês.,-22.954607,-43.207225,2026-02-09,Lixo e conservacao,media
+citizen037,"Valão aberto na beira da Lagoa que já engoliu o pneu do meu carro. Calçada destruída na beira da Lagoa, idosos e cadeirantes sem passagem.",-22.973667,-43.219358,2025-11-11,Transito e mobilidade,baixa
+citizen009,Três postes apagados em sequência na Rua Marquês de São Vicente. Que descuido.,-22.971879,-43.235738,2025-10-22,Iluminacao publica,media
+citizen035,O trânsito na Pista Cláudio Coutinho tá um caos nessa hora do dia.,-22.953943,-43.204467,2025-05-19,Transito e mobilidade,media
+citizen052,Cheguei em casa e havia marcas de tentativa de arrombamento na minha rua. Criança com medo de ir pra escola passando na minha rua.,-22.967705,-43.216456,2026-05-31,Seguranca e circulacao,media
+citizen025,Discussão por vaga de estacionamento perto do Shopping da Gávea virou caso de polícia. Agressão entre pedestres perto do Shopping da Gávea filmada por testemunhas.,-22.96886,-43.201091,2026-05-06,Conflito social,media
+citizen036,"Passando na Pista Cláudio Coutinho à noite dá medo, zero iluminação.",-22.957892,-43.214747,2025-12-28,Iluminacao publica,alta
+citizen015,"Poste piscando no Parque da Cidade já faz 10 dias, parece discoteca. A rua no Parque da Cidade ficou escura e aumentou os furtos.",-22.975913,-43.217002,2026-02-20,Iluminacao publica,alta
+citizen004,Briga entre crianças na Rua Marquês de São Vicente que virou bagunça de adulto. Confusão no ponto de ônibus na Rua Marquês de São Vicente com gritos e empurra-empurra.,-22.968627,-43.218013,2025-07-31,Conflito social,media
+citizen011,Assalto a pedestres na Pista Cláudio Coutinho virou rotina.,-22.958657,-43.21094,2025-03-29,Seguranca e circulacao,alta
+citizen021,Terceiro dia seguido sem coleta no Parque da Cidade. Até quando?,-22.959922,-43.212359,2026-03-20,Lixo e conservacao,media
+citizen059,Situação estranha na Rua Marquês de São Vicente que não sei bem como classificar. Entupimento de bueiro na Rua Marquês de São Vicente que alaga tudo.,-22.978873,-43.227012,2025-10-14,Outro,media
+citizen010,"Sem iluminação no Parque da Cidade, fica perigoso à noite. Sem luz no Parque da Cidade à noite, carro entrou em buraco ontem.",-22.956043,-43.226028,2025-11-26,Iluminacao publica,media
+citizen060,Vários postes apagados na Praça Santos Dumont. Isso é descaso.,-22.960921,-43.23695,2026-04-23,Iluminacao publica,alta
+citizen017,Placa de rua caída na Rua Lopes Quintas há semanas.,-22.982902,-43.208003,2025-10-13,Transito e mobilidade,media
+citizen046,A iluminação na Pista Cláudio Coutinho simplesmente parou de funcionar.,-22.951993,-43.227648,2026-02-17,Iluminacao publica,media
+citizen037,Confusão generalizada perto da PUC-Rio com xingamentos e empurrão.,-22.960513,-43.214916,2025-11-03,Conflito social,alta
+citizen034,"Calçada destruída perto da PUC-Rio, idosos e cadeirantes sem passagem.",-22.951716,-43.201325,2025-10-14,Transito e mobilidade,media
+citizen003,Valão aberto na Rua Álvaro Chaves que já engoliu o pneu do meu carro.,-22.951288,-43.235953,2026-04-16,Transito e mobilidade,media
+citizen045,"Calçada destruída aqui no bairro, idosos e cadeirantes sem passagem.",-22.950788,-43.202707,2025-07-30,Transito e mobilidade,media
+citizen035,Praça no Parque da Cidade tomada por grama alta e mato.,-22.954894,-43.238267,2026-03-27,Espaco publico,baixa
+citizen055,Conflito entre comerciantes e moradores na Rua Lopes Quintas sem solução.,-22.96595,-43.218329,2026-05-21,Conflito social,baixa
+citizen058,Tapume de obra na Rua Pacheco Leão tomando calçada inteira. Carro com alarme disparado na Rua Pacheco Leão há horas.,-22.956458,-43.220682,2026-05-15,Outro,alta
+citizen005,Quebraram o espelho do retrovisor do meu carro na Rua Casuarina. Portão da praça na Rua Casuarina forçado e quebrado.,-22.964178,-43.210286,2025-02-28,Vandalismo,baixa
+citizen037,Ratos aparecendo por causa do lixo acumulado na Rua Fonte da Saudade.,-22.95365,-43.217082,2025-10-25,Lixo e conservacao,alta
+citizen033,Confusão generalizada na Estrada da Gávea com xingamentos e empurrão. Briga de bar na Estrada da Gávea que saiu pro meio da rua.,-22.984312,-43.208059,2026-04-01,Conflito social,alta
+citizen024,Mato alto na calçada na Rua Álvaro Chaves escondendo buracos.,-22.977458,-43.225718,2025-05-29,Espaco publico,baixa
+citizen059,"Não tem sinalização nenhuma na Rua Padre Leonel Franca, é temerário atravessar.",-22.964597,-43.228259,2026-04-13,Transito e mobilidade,media
+citizen021,"A praça na Rua Marquês de São Vicente tá abandonada, ninguém cuida.",-22.95412,-43.236177,2026-05-27,Espaco publico,media
+citizen025,"Minha rua virou lixão. Tem lixo perto da PUC-Rio por todo lado. Há dias com sacos de lixo rasgados perto da PUC-Rio, cheios de inseto. Ratos aparecendo por causa do lixo acumulado perto da PUC-Rio.",-22.975104,-43.203001,2026-01-22,Lixo e conservacao,media
+citizen025,"Carro com alarme disparado logo ali na esquina há horas. Terreno abandonado logo ali na esquina com mato e lixo acumulado. Vazamento de gás logo ali na esquina, chamei o Riogas mas demora.",-22.957778,-43.203292,2025-09-20,Outro,baixa
+citizen043,"A praça na Praça Santos Dumont tá abandonada, ninguém cuida. Buraco na calçada na Praça Santos Dumont engoliu o salto do sapato da minha mãe.",-22.960047,-43.207426,2025-08-20,Espaco publico,baixa
+citizen035,Ia sair pra correr mas na Rua Fonte da Saudade tá escuro demais.,-22.980296,-43.22638,2026-02-06,Iluminacao publica,alta
+citizen033,"Vidro de poste de semáforo quebrado na Rua Marquês de São Vicente. Bebedouro público na Rua Marquês de São Vicente vandalizado, sem funcionar. Placa de trânsito arrancada na Rua Marquês de São Vicente por vândalos.",-22.956526,-43.204142,2026-01-13,Vandalismo,alta
+citizen032,Nem a lua ilumina tanto quanto deveria os postes no Parque da Cidade.,-22.959297,-43.203969,2025-09-05,Iluminacao publica,media
+citizen030,"Poste caindo na Estrada da Gávea, além de escuro é perigoso.",-22.97696,-43.229943,2025-08-11,Iluminacao publica,media
+citizen051,Quebraram o espelho do retrovisor do meu carro perto do Shopping da Gávea.,-22.975172,-43.217964,2025-07-30,Vandalismo,alta
+citizen057,A iluminação na Rua Casuarina simplesmente parou de funcionar.,-22.97359,-43.233622,2025-08-16,Iluminacao publica,alta
+citizen042,Disputa de área na beira da Lagoa entre grupos rivais.,-22.966398,-43.226335,2025-06-15,Conflito social,alta
+citizen030,Terreno abandonado na Rua Marquês de São Vicente com mato e lixo acumulado.,-22.958692,-43.222733,2025-12-20,Outro,alta
+citizen019,Fiz o chamado pra Enel semana passada sobre o poste na minha rua e nada.,-22.967914,-43.217915,2026-04-03,Iluminacao publica,alta
+citizen054,Faixa de pedestres na Rua Lopes Quintas completamente apagada. Ciclista quase atropelado na Rua Lopes Quintas por falta de ciclofaixa.,-22.956397,-43.205434,2025-10-21,Transito e mobilidade,alta
+citizen045,Trânsito parado na Rua Jardim Botânico por obra sem aviso prévio.,-22.963356,-43.222648,2026-04-27,Transito e mobilidade,alta
+citizen042,Quebraram o monumento na Pista Cláudio Coutinho que estava restaurado. Câmera de segurança na Pista Cláudio Coutinho arrancada propositalmente.,-22.978964,-43.239325,2025-12-08,Vandalismo,alta
+citizen053,"Asfalto esburacado perto do Shopping da Gávea, minha suspensão já sofreu.",-22.981383,-43.211121,2026-02-24,Transito e mobilidade,media
+citizen009,A praça na Rua Casuarina deveria ser pra todos mas tá inacessível.,-22.975373,-43.219644,2026-04-07,Espaco publico,baixa
+citizen059,"Buraco na rede de esgoto na beira da Lagoa com cheiro forte. Vazamento de gás na beira da Lagoa, chamei o Riogas mas demora.",-22.971213,-43.201382,2025-04-02,Outro,alta
+citizen029,"Barulho de tiro na Estrada da Gávea ontem à noite, assustador. Tem pessoas suspeitas circulando na Estrada da Gávea toda noite.",-22.959665,-43.205443,2026-04-28,Seguranca e circulacao,baixa
+citizen029,A praça perto da PUC-Rio deveria ser pra todos mas tá inacessível.,-22.97589,-43.21998,2026-04-20,Espaco publico,media
+citizen039,"Fio de alta tensão caído na Praça Santos Dumont, urgente.",-22.984027,-43.215781,2026-04-25,Outro,alta
+citizen002,"Assalto a pedestres na Rua Padre Leonel Franca virou rotina. Furto de bike na Rua Padre Leonel Franca, precisamos de mais policiamento.",-22.957898,-43.230431,2026-01-01,Seguranca e circulacao,media
+citizen043,Desentendimento entre grupos aqui no bairro que quase virou pancadaria. Briga entre crianças aqui no bairro que virou bagunça de adulto. Grupo de jovens causando confusão aqui no bairro toda noite.,-22.954591,-43.233827,2025-09-10,Conflito social,alta
+citizen022,"Poste queimado na Rua Casuarina há mais de uma semana, ninguém conserta.",-22.979294,-43.217953,2025-08-25,Iluminacao publica,media
+citizen001,Evento privado bloqueando a calçada na Pista Cláudio Coutinho sem aviso. Situação estranha na Pista Cláudio Coutinho que não sei bem como classificar. Lona improvisada na Pista Cláudio Coutinho bloqueando sinalização.,-22.969096,-43.215092,2025-07-27,Outro,media
+citizen029,"Semáforo quebrado aqui no bairro há dias, acidentes à vista.",-22.968356,-43.239915,2025-11-17,Transito e mobilidade,baixa
+citizen008,Entupimento de bueiro na Praça Santos Dumont que alaga tudo.,-22.95472,-43.21115,2026-05-20,Outro,media
+citizen007,"Portão da praça na Rua Padre Leonel Franca forçado e quebrado. Quebraram as lâmpadas do poste na Rua Padre Leonel Franca de propósito. Vandalizaram o playground na Rua Padre Leonel Franca, crianças sem onde brincar.",-22.959711,-43.225145,2025-07-30,Vandalismo,media
+citizen054,"Poste piscando na Rua Lopes Quintas já faz 10 dias, parece discoteca. Fiz o chamado pra Enel semana passada sobre o poste na Rua Lopes Quintas e nada. Passando na Rua Lopes Quintas à noite dá medo, zero iluminação.",-22.980636,-43.236966,2025-06-22,Iluminacao publica,baixa
+citizen034,"A prefeitura precisa agir! O lixo aqui no bairro tá atraindo rato. Lixo espalhado por toda a calçada aqui no bairro, impossível passar.",-22.961571,-43.236466,2026-05-12,Lixo e conservacao,baixa
+citizen022,Briga entre crianças logo ali na esquina que virou bagunça de adulto. Morador perturbando a vizinhança logo ali na esquina com ameaças.,-22.980138,-43.224667,2025-03-24,Conflito social,baixa
+citizen036,Ratos aparecendo por causa do lixo acumulado na Rua Fonte da Saudade.,-22.971332,-43.203852,2025-08-18,Lixo e conservacao,alta
+citizen035,Praça na Rua Fonte da Saudade tomada por grama alta e mato.,-22.981696,-43.217091,2025-11-18,Espaco publico,media
+citizen037,"Escrita de gangue pichada na Rua Marquês de São Vicente, intimidatório.",-22.978048,-43.216502,2025-01-04,Vandalismo,media
+citizen008,Meu vizinho foi roubado na Rua Marquês de São Vicente em plena tarde.,-22.955867,-43.230505,2025-09-15,Seguranca e circulacao,alta
+citizen003,"Bancos da praça na beira da Lagoa todos depredados. Pichação em cima de pichação na beira da Lagoa, ninguém limpa.",-22.966274,-43.230523,2026-01-28,Vandalismo,alta
+citizen036,"Alguém jogou entulho de obra na Rua Padre Leonel Franca e deixou largado. Esgoto entupido e lixo acumulado na Rua Padre Leonel Franca, situação precária.",-22.965683,-43.202597,2026-03-09,Lixo e conservacao,alta
+citizen051,Traficantes na esquina na beira da Lagoa intimidando quem passa.,-22.971551,-43.225463,2025-02-26,Seguranca e circulacao,alta
+citizen013,"A rua na Pista Cláudio Coutinho ficou escura e aumentou os furtos. Sem luz na Pista Cláudio Coutinho à noite, carro entrou em buraco ontem.",-22.957264,-43.214438,2025-03-12,Iluminacao publica,alta
+citizen059,Cheguei em casa e havia marcas de tentativa de arrombamento na Rua Casuarina.,-22.963987,-43.223562,2025-04-27,Seguranca e circulacao,media
+citizen015,"Tem pessoas suspeitas circulando perto da PUC-Rio toda noite. Viatura não passa perto da PUC-Rio há dias, abandono policial. Furto de retrovisor perto da PUC-Rio, segundo da semana.",-22.967982,-43.204376,2025-12-02,Seguranca e circulacao,alta
+citizen009,"O ônibus linha 583 não para mais na Rua Vice-Governador Rubens Berardo, abandonaram o ponto. Asfalto esburacado na Rua Vice-Governador Rubens Berardo, minha suspensão já sofreu.",-22.969837,-43.217407,2025-07-30,Transito e mobilidade,media
+citizen018,"Área verde na beira da Lagoa sendo invadida por carros. Espaço público na beira da Lagoa virou estacionamento irregular. A praça na beira da Lagoa tá abandonada, ninguém cuida.",-22.962673,-43.238889,2025-08-09,Espaco publico,media
+citizen015,Ratos aparecendo por causa do lixo acumulado perto do Shopping da Gávea.,-22.953554,-43.215219,2025-04-19,Lixo e conservacao,baixa
+citizen027,"Tem um monte de entulho abandonado na Rua Lopes Quintas, absurdo. O lixo orgânico na Rua Lopes Quintas tá fedendo demais com esse calor.",-22.969753,-43.206367,2025-06-27,Lixo e conservacao,media
+citizen041,"Fiação elétrica exposta na Rua Vice-Governador Rubens Berardo, perigo de choque.",-22.958507,-43.229674,2025-02-15,Outro,media
