@@ -1,5 +1,7 @@
 # Briefs Log
 
+DONE | 2026-06-25 19:19 UTC | STARTED | 2026-06-25 19:14 UTC | reflect | IA tools para sugerir topicos ausentes de relatos. Hoje a plataforma e os dados sinteticos assumem que todos os relatos sao existentes.  Quero pensar em como introduzir no app a opcao da IA sugerir topicos para relatos com topicos inexistentes. na tabela de dados, podemos ter colunas especiais ( com algum simbolo indicando a info gerada por IA) hoje ja temos tags. poderemos introduzir topicos também, para relatos sem topicos.
+
 DONE | 2026-06-25 12:19 UTC | STARTED | 2026-06-25 12:15 UTC | implement | seed citizen01 test data and verify features (plan 000170) — add more user relatos and mixed-user encaminhamento | PLAN | 000170
 
 DONE | 2026-06-25 12:09 UTC | STARTED | 2026-06-25 12:04 UTC | plan | seed citizen01@gavea.br. I want to log inas citzen01 and see my relatos and encaminhamentos. update seed scripts in order to create this test data and check the features weve implemented | PLAN | 000170
