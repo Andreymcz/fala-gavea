@@ -1,5 +1,7 @@
 # Briefs Log
 
+DONE | 2026-06-25 20:43 UTC | STARTED | 2026-06-25 20:34 UTC | reflect | on research 172 and 170 and its differences
+
 DONE | 2026-06-25 19:39 UTC | STARTED | 2026-06-25 19:25 UTC | research | AI-assisted report_type suggestion: map the full design space — nullable report_type_id migration, SuggestReportTypeUseCase via ChromaDB similarity, PATCH /reports/{id}/report-type for agent/admin, ai_source provenance field, and UX for suggestion review
 
 DONE | 2026-06-25 19:19 UTC | STARTED | 2026-06-25 19:14 UTC | reflect | IA tools para sugerir topicos ausentes de relatos. Hoje a plataforma e os dados sinteticos assumem que todos os relatos sao existentes.  Quero pensar em como introduzir no app a opcao da IA sugerir topicos para relatos com topicos inexistentes. na tabela de dados, podemos ter colunas especiais ( com algum simbolo indicando a info gerada por IA) hoje ja temos tags. poderemos introduzir topicos também, para relatos sem topicos.
