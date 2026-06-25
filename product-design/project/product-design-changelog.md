@@ -1,5 +1,11 @@
 # AS-CODED CHANGELOG — fala-gavea
 
+### v20 -- 2026-06-25
+- **Added**: `scripts/seed_citizen01.py` — creates 10 relatos as citizen01@gavea.br and 1 forwarding as agente linking citizen01's first 3 relatos plus up to 2 pendente reports from other users; idempotent via `GET /forwardings/mine` guard; `--force` override
+- **Changed**: `scripts/seed_all.py` Phase 5 added (citizen01 test data); `--skip-citizen01` flag added; final summary updated with citizen01 verification instructions
+- **Source**: agent (post-skill)
+- **Plan**: 000170
+
 ### v19 -- 2026-06-24
 - **Added**: `GET /forwardings/mine` endpoint (any authenticated role) returning `PublicForwardingResponse` list of forwardings containing at least one report authored by the current user; backed by new `find_by_author_id` DISTINCT JOIN repository method and `ListForwardingsForAuthor` use case
 - **Added**: `useMyForwardings(enabled)` hook in `frontend/src/hooks/useForwardings.ts`; `api.getMyForwardings()` in `api.ts`
