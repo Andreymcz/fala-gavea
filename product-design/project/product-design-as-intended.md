@@ -581,6 +581,16 @@ _N/A — projeto greenfield._
 
 *Source: research-000145 (2026-06-22)*
 
+### D-014: Chat "helper da plataforma" como bounded context separado do chat de relatos
+
+
+**Context**: Além do chat de exploração de relatos (`/nl/chat`, agent+admin), o time quer um assistente que explica "o que é e como funciona a plataforma", ancorado por RAG sobre a documentação do próprio projeto (corpus SEJA `_output/` + `product-design/`).
+**Decision**: Implementar como feature separada — novo `POST /nl/help` + coleção ChromaDB própria (`falagavea_selfdocs`) + porta dedicada `IDocSearchPort`/`IDocIndexer` (retorna o texto do chunk direto do Chroma, sem hidratação SQL) + use case `AnswerHelpWithRag`, disponível a todos os usuários autenticados. Reusa a factory LLM atual (Ollama padrão).
+**Consequences**: Dois contextos de chat distintos; modelo de embedding e5 carregado uma vez e compartilhado; novo lazy-singleton `get_doc_search_port()`; UI deve distinguir claramente os dois chats.
+**Rejected Alternatives**: sobrecarregar `ISemanticSearchPort` (formato id→SQL não cabe em chunks de doc); estender `/nl/chat` com toggle de modo (acoplamento); substituir o chat de relatos.
+
+*Source: from research-000175 (2026-06-26)*
+
 ## CHANGELOG
 
 2026-06-17 | D-001 | added | - | Decisao de novo projeto independente via python-scaffold (roadmap-000071 D-A)
