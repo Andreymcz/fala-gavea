@@ -1,4 +1,4 @@
-# Plan 000178 | FEATURE-X | 2026-06-26 12:22 | Reusable AiBadge AI-provenance marker | Review: standard
+# DONE | 2026-06-26 19:42 UTC | Plan 000178 | FEATURE-X | 2026-06-26 12:22 | Reusable AiBadge AI-provenance marker | Review: standard
 plan_format_version: 1
 source: research-000176 -- IA markers on AI features + forwarding comment synthesis (Decision D-015)
 revised: 2026-06-26 -- added platform-helper "Ajuda" chat (HelpChat, plan-000177/D-014/D-017) as a 4th marker site; it was implemented after this plan was first written
@@ -51,7 +51,7 @@ Create `frontend/src/components/AiBadge.tsx`. Requirements:
 - **Verify**: `cd frontend && npx tsc --noEmit` exits 0
 - **Tests**: covered in Step 2
 - **Docs**: N/A
-- [ ] Done
+- [x] Done
 
 ### Step 2: Component test for AiBadge
 
@@ -66,7 +66,7 @@ Create `frontend/src/components/AiBadge.test.tsx` (vitest + @testing-library/rea
 - **Verify**: `cd frontend && npx vitest run src/components/AiBadge.test.tsx` passes
 - **Tests**: this step is the test
 - **Docs**: N/A
-- [ ] Done
+- [x] Done
 
 ### Step 3: Apply AiBadge to the Chat view marker (ViewToggleBar)
 
@@ -82,7 +82,7 @@ In `frontend/src/features/workspace/ViewToggleBar.tsx`:
 - **Verify**: `cd frontend && npm run build` exits 0; chat toggle shows the ✨ IA badge and no longer shows literal "(IA)"
 - **Tests**: extend `ViewToggleBar.test.tsx` — assert the chat button contains an element with accessible name "Conteúdo gerado por IA"; assert the literal "(IA)" is gone
 - **Docs**: N/A
-- [ ] Done
+- [x] Done
 
 ### Step 4: Apply AiBadge to the NL filter / semantic search assistant (FilterPanel)
 
@@ -96,7 +96,7 @@ In `frontend/src/features/workspace/FilterPanel.tsx`, Section 4 ("NL assistant f
 - **Verify**: `cd frontend && npm run build` exits 0; the "Assistente de filtros" label shows the ✨ IA badge
 - **Tests**: `cd frontend && npm run test` passes; existing `FilterPanel.test.tsx` still green (badge addition is non-breaking — assert presence of accessible name "Conteúdo gerado por IA" within the assistant section if a test already renders it)
 - **Docs**: N/A
-- [ ] Done
+- [x] Done
 
 ### Step 5: Apply AiBadge to the platform-helper "Ajuda" chat (Header dialog)
 
@@ -113,7 +113,7 @@ The platform-helper chat (`HelpChat`) was implemented after research-000176 (pla
 - **Verify**: `cd frontend && npm run build` exits 0; opening the "Ajuda da plataforma" dialog shows the ✨ IA badge next to the title
 - **Tests**: `cd frontend && npm run test` passes; `HelpChat.test.tsx` still green. If a test renders the help dialog (Header), assert the badge's accessible name "Conteúdo gerado por IA" is present; otherwise a visual check suffices (badge lives in Header, not HelpChat).
 - **Docs**: N/A
-- [ ] Done
+- [x] Done
 
 ---
 
@@ -151,3 +151,22 @@ The platform-helper chat (`HelpChat`) was implemented after research-000176 (pla
 
 ## Notes / Follow-ups
 - When plan-000174 (report-type suggestion) is implemented, drop `<AiBadge />` on the AI-suggested type chip/row instead of inventing a new `<Badge variant="outline">IA</Badge>` (that plan's Step 9 currently proposes an ad-hoc badge — supersede it with `AiBadge`).
+
+
+---
+
+## Implementation Summary (2026-06-26)
+
+All 5 steps completed in manual mode (frontend-only, 5 steps).
+
+- **Created** `frontend/src/components/AiBadge.tsx` — reusable AI-provenance marker: inline SVG sparkles (`aria-hidden`) + visible "IA" text + `aria-label="Conteúdo gerado por IA"` + native `title` tooltip. No new dependency (no `lucide-react`/Tooltip primitive present, as Step 1 verified). Violet pill styled on Badge tokens; `size` prop (`xs`/`sm`).
+- **Created** `frontend/src/components/AiBadge.test.tsx` — 4 tests (accessible name, visible text, tooltip title, aria-hidden icon). Pass.
+- **Modified** `ViewToggleBar.tsx` — removed literal "(IA)" from the chat description; added `ai?: boolean` to `ViewMeta` (`ai: true` on chat); renders `<AiBadge>` in the label row. Test extended (asserts badge present + literal gone). Pass.
+- **Modified** `FilterPanel.tsx` — `<AiBadge>` next to "Assistente de filtros" label.
+- **Modified** `Header.tsx` — `<AiBadge>` next to the "Ajuda da plataforma" dialog title (platform-helper chat).
+
+**Verification**: `npx tsc --noEmit` clean; `eslint` on changed files clean; `npm run build` exits 0; `AiBadge.test.tsx` + `ViewToggleBar.test.tsx` green.
+
+**Pre-existing failures (NOT caused by this plan)**: 15 frontend tests across TableView, ReportPopup, ReportFormPage, PublicForwardingsPage fail with "useAuth must be used within AuthProvider" — confirmed by re-running with this plan's changes stashed (still fail). These are a test-harness gap (auth-consuming components rendered without an `AuthProvider` wrapper), unrelated to AiBadge. Worth a separate fix.
+
+**Rollback**: `git checkout pre-plan-000178`.

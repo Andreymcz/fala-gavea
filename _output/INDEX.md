@@ -15,7 +15,7 @@
 | 2026-06-26 13:44 UTC | Other |  | Progress -- Plan 000177 |  | [plan-000177-progress.md](plans/plan-000177-progress.md) |
 | 2026-06-26 13:10 UTC | Research | 000180 | SEJA methodology in the platform-helper system prompt (dogfooding) | DONE | [research-000180-seja-methodology-in-helper-prompt.md](research-logs/research-000180-seja-methodology-in-helper-prompt.md) |
 | 2026-06-26 12:54 UTC | QA Log |  | plan-000177 | Chat-helper da plataforma: RAG sobre self-docs (D-014) |  | [plan-000177-qa-chat-helper-plataforma-rag-self-docs.md](plans/plan-000177-qa-chat-helper-plataforma-rag-self-docs.md) |
-| 2026-06-26 12:22 | Plan | 000178 | Reusable AiBadge AI-provenance marker | OPEN | [plan-000178-aibadge-provenance-marker.md](plans/plan-000178-aibadge-provenance-marker.md) |
+| 2026-06-26 12:22 | Plan | 000178 | Reusable AiBadge AI-provenance marker | DONE | [plan-000178-aibadge-provenance-marker.md](plans/plan-000178-aibadge-provenance-marker.md) |
 | 2026-06-26 12:22 | Plan | 000179 | Forwarding comment synthesis (agent-only, ephemeral) | OPEN | [plan-000179-forwarding-comment-synthesis.md](plans/plan-000179-forwarding-comment-synthesis.md) |
 | 2026-06-26 11:40 UTC | Research | 000176 | IA markers on AI features + forwarding comment synthesis | DONE | [research-000176-ia-markers-and-comment-synthesis.md](research-logs/research-000176-ia-markers-and-comment-synthesis.md) |
 | 2026-06-25 21:35 | Plan | 000174 | Pluggable report-type suggestion: sentinel + ChromaDB + DistilBERT | OPEN | [plan-000174-pluggable-report-type-suggestion.md](plans/plan-000174-pluggable-report-type-suggestion.md) |

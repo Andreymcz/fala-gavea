@@ -591,6 +591,7 @@ _N/A — projeto greenfield._
 
 *Source: from research-000175 (2026-06-26)*
 
+<!-- STATUS: implemented | plan-000178 | 2026-06-26 -->
 ### D-015: Marcador unificado de proveniência de IA (`AiBadge`)
 
 **Context**: Features de IA hoje carregam rótulos `(IA)` ad-hoc e inconsistentes (ViewToggleBar, FilterPanel); falta sinalização consistente de que o conteúdo é gerado por IA.
