@@ -1,5 +1,12 @@
 # AS-CODED CHANGELOG — fala-gavea
 
+### v21 -- 2026-06-26
+- **Added**: Self-docs platform-helper RAG (plan-000177, D-014) — separate chat bounded context over the project's own docs (`_output/` + `product-design/`), distinct from relatos `/nl/chat`
+- **Added**: `domain/repositories/doc_ports.py` (`DocChunk`/`DocSearchHit`/`IDocSearchPort`/`IDocIndexer`); `infrastructure/docs/markdown_chunker.py` (heading chunker + default-deny `role_visibility` classifier + secret guard + corpus walker); `infrastructure/chromadb/chroma_doc_search_client.py` (`ChromaDocSearchClient`, own `falagavea_selfdocs` collection + path, fail-closed role filter); `application/use_cases/help/answer_help_with_rag.py`; `POST /nl/help` (any auth user, role→visibility, 503, per-IP limit); `scripts/reindex_selfdocs.py`; frontend Header "Ajuda" modal (`features/help/HelpChat.tsx` + `api/helpChat.ts`)
+- **Changed**: `SemanticConfig` (+`selfdocs_collection`/`selfdocs_corpus_roots`/`selfdocs_vectorstore_path`); `dependencies.py` (`get_embedding_model()` shared singleton, `get_doc_search_port()`); `ChromaSearchClient.__init__` accepts optional injected `model`; Dockerfile builds the self-docs index at build time into `/app/selfdocs_chroma` + `.dockerignore` re-includes corpus subdirs
+- **Source**: agent (post-skill)
+- **Plan**: plan-000177
+
 ### v20 -- 2026-06-25
 - **Added**: `scripts/seed_citizen01.py` — creates 10 relatos as citizen01@gavea.br and 1 forwarding as agente linking citizen01's first 3 relatos plus up to 2 pendente reports from other users; idempotent via `GET /forwardings/mine` guard; `--force` override
 - **Changed**: `scripts/seed_all.py` Phase 5 added (citizen01 test data); `--skip-citizen01` flag added; final summary updated with citizen01 verification instructions
