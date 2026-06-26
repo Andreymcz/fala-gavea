@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ActiveFilterChips } from './ActiveFilterChips'
 import { DateRangePresets } from './DateRangePresets'
+import { AiBadge } from '@/components/AiBadge'
 import { api } from '@/lib/api'
 import { useAuth } from '@/auth/useAuth'
 import { postNLFilter } from '@/api/nlFilter'
@@ -465,7 +466,10 @@ export function FilterPanel() {
 
       {/* Section 4 — NL assistant footer */}
       <div className="border-t py-2 px-3 flex flex-col gap-1.5">
-        <p className="text-xs text-gray-500 font-medium">Assistente de filtros</p>
+        <div className="flex items-center gap-1.5">
+          <p className="text-xs text-gray-500 font-medium">Assistente de filtros</p>
+          <AiBadge size="xs" />
+        </div>
         <div className="flex gap-1">
           <textarea
             className="flex-1 text-xs border border-gray-200 rounded px-2 py-1 resize-none focus:outline-none focus:ring-1 focus:ring-blue-400 disabled:opacity-50"

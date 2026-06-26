@@ -12,6 +12,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { HelpChat } from "@/features/help/HelpChat";
+import { AiBadge } from "@/components/AiBadge";
 
 export function Header() {
   const { user, logout } = useAuth();
@@ -124,7 +125,10 @@ export function Header() {
         <Dialog open={helpOpen} onOpenChange={setHelpOpen}>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Ajuda da plataforma</DialogTitle>
+              <DialogTitle className="flex items-center gap-2">
+                Ajuda da plataforma
+                <AiBadge size="xs" />
+              </DialogTitle>
               <DialogDescription>
                 Assistente sobre como usar o Fala-Gávea. Não é o assistente de exploração de
                 relatos.

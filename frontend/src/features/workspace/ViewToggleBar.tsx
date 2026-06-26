@@ -1,12 +1,14 @@
 import { useRef } from 'react'
 import { useAuth } from '@/auth/AuthContext'
 import { useWorkspaceStore, type ViewId } from '@/store/workspaceStore'
+import { AiBadge } from '@/components/AiBadge'
 
 interface ViewMeta {
   id: ViewId
   label: string
   description: string
   agentOnly?: boolean
+  ai?: boolean
 }
 
 const VIEW_META: ViewMeta[] = [
@@ -15,7 +17,7 @@ const VIEW_META: ViewMeta[] = [
   { id: 'cesta', label: 'Cesta', description: 'Revise os relatos selecionados e crie um encaminhamento', agentOnly: true },
   { id: 'keywords', label: 'Palavras-chave', description: 'Palavras-chave extraídas do subconjunto filtrado (TF-IDF)', agentOnly: true },
   { id: 'similars', label: 'Similares', description: 'Relatos parecidos com um relato-semente' },
-  { id: 'chat', label: 'Chat', description: 'Pergunte sobre os relatos em linguagem natural (IA)', agentOnly: true },
+  { id: 'chat', label: 'Chat', description: 'Pergunte sobre os relatos em linguagem natural', agentOnly: true, ai: true },
 ]
 
 export function ViewToggleBar() {
@@ -63,7 +65,10 @@ export function ViewToggleBar() {
                 : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50',
             ].join(' ')}
           >
-            <span className="text-xs font-semibold leading-none">{meta.label}</span>
+            <span className="flex items-center gap-1 text-xs font-semibold leading-none">
+              {meta.label}
+              {meta.ai && <AiBadge size="xs" />}
+            </span>
             <span className={`text-[10px] leading-tight mt-0.5 ${active ? 'text-blue-100' : 'text-gray-400'}`}>
               {meta.description}
             </span>
