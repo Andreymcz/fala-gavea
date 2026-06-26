@@ -4,6 +4,8 @@ import logging
 from typing import TYPE_CHECKING, Generator
 
 if TYPE_CHECKING:
+    from sentence_transformers import SentenceTransformer
+
     from fala_gavea.domain.repositories.saved_filter_repository import ISavedFilterRepository
 
 from fastapi import Depends, HTTPException, status
@@ -15,6 +17,7 @@ from fala_gavea.domain.exceptions import InvalidCredentialsError
 from fala_gavea.domain.repositories.forwarding_repository import IForwardingRepository
 from fala_gavea.domain.repositories.report_repository import IReportRepository
 from fala_gavea.domain.repositories.report_type_repository import IReportTypeRepository
+from fala_gavea.domain.repositories.doc_ports import IDocSearchPort
 from fala_gavea.domain.repositories.semantic_ports import (
     ILLMClient,
     IReportIndexer,
@@ -36,6 +39,13 @@ _CHROMA_INIT_FAILED = object()
 _indexer_instance: IReportIndexer | None | object = None
 _indexer_lock = threading.Lock()
 _llm_client_instance: ILLMClient | None = None
+
+_embedding_model_instance: "SentenceTransformer | None" = None
+_embedding_model_lock = threading.Lock()
+
+_DOC_INIT_FAILED = object()
+_doc_search_instance: IDocSearchPort | None | object = None
+_doc_search_lock = threading.Lock()
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token")
 oauth2_scheme_optional = OAuth2PasswordBearer(tokenUrl="/auth/token", auto_error=False)
@@ -131,11 +141,59 @@ def get_report_indexer() -> IReportIndexer | None:
         try:
             from fala_gavea.infrastructure.chromadb.chroma_search_client import ChromaSearchClient
             from fala_gavea.infrastructure.embeddings.registry import SemanticConfig
-            _indexer_instance = ChromaSearchClient(SemanticConfig())
+            _indexer_instance = ChromaSearchClient(SemanticConfig(), model=get_embedding_model())
         except Exception as exc:
             _log.warning("ChromaSearchClient unavailable: %s", exc)
             _indexer_instance = _CHROMA_INIT_FAILED
     return None if _indexer_instance is _CHROMA_INIT_FAILED else _indexer_instance  # type: ignore[return-value]
+
+
+def get_embedding_model() -> "SentenceTransformer":
+    """Thread-safe lazy singleton for the shared SentenceTransformer.
+
+    Loaded once (from SemanticConfig().embed_model_search) and reused by both the
+    reports search client and the doc search client so the model is held in memory
+    a single time. Import is deferred to call time to avoid the import cost at
+    module load.
+    """
+    global _embedding_model_instance
+    if _embedding_model_instance is not None:
+        return _embedding_model_instance
+    with _embedding_model_lock:
+        if _embedding_model_instance is None:
+            from sentence_transformers import SentenceTransformer
+
+            from fala_gavea.infrastructure.embeddings.registry import SemanticConfig
+            _embedding_model_instance = SentenceTransformer(SemanticConfig().embed_model_search)
+    return _embedding_model_instance
+
+
+def get_doc_search_port() -> IDocSearchPort | None:
+    """Lazy singleton for the self-docs semantic search port.
+
+    Mirrors get_report_indexer: returns None on init failure (sticky) so the server
+    stays up in a degraded mode. Shares the single embedding model via
+    get_embedding_model(), so doc search still works even if the reports Chroma
+    client failed to initialize.
+    """
+    global _doc_search_instance
+    if _doc_search_instance is _DOC_INIT_FAILED:
+        return None
+    if _doc_search_instance is not None:
+        return _doc_search_instance  # type: ignore[return-value]
+    with _doc_search_lock:
+        if _doc_search_instance is not None:
+            return None if _doc_search_instance is _DOC_INIT_FAILED else _doc_search_instance  # type: ignore[return-value]
+        try:
+            from fala_gavea.infrastructure.chromadb.chroma_doc_search_client import (
+                ChromaDocSearchClient,
+            )
+            from fala_gavea.infrastructure.embeddings.registry import SemanticConfig
+            _doc_search_instance = ChromaDocSearchClient(SemanticConfig(), get_embedding_model())
+        except Exception as exc:
+            _log.warning("ChromaDocSearchClient unavailable: %s", exc)
+            _doc_search_instance = _DOC_INIT_FAILED
+    return None if _doc_search_instance is _DOC_INIT_FAILED else _doc_search_instance  # type: ignore[return-value]
 
 
 def get_semantic_search_port() -> ISemanticSearchPort | None:

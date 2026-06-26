@@ -14,10 +14,13 @@ _COLLECTION_NAME = "falagavea_reports_search"
 
 
 class ChromaSearchClient(IReportIndexer, ISemanticSearchPort):
-    def __init__(self, config: SemanticConfig) -> None:
+    def __init__(self, config: SemanticConfig, model: SentenceTransformer | None = None) -> None:
         os.makedirs(config.vectorstore_path, exist_ok=True)
         self._client = chromadb.PersistentClient(path=config.vectorstore_path)
-        self._model = SentenceTransformer(config.embed_model_search)
+        # Accept an injected model so a single SentenceTransformer instance can be
+        # shared with the doc-search client; construct our own when none is given
+        # (backward compat for scripts/tests).
+        self._model = model if model is not None else SentenceTransformer(config.embed_model_search)
         self._collection = self._client.get_or_create_collection(_COLLECTION_NAME)
 
     # ------------------------------------------------------------------
