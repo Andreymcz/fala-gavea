@@ -6,7 +6,7 @@ and casts weighted-random votes on them.
 
 Robustness:
   - 409 (SelfVoteError): a voter cannot vote on their own content — skipped silently.
-  - 429 (rate limit, 20/minute per user): exponential backoff (2→4→8s), then skip.
+  - 429 (rate limit, 20/minute per user): exponential backoff (2->4->8s), then skip.
 A repeat cast is an upsert (no duplicate vote), so re-running is safe.
 
 Pre-requisites:
@@ -150,8 +150,11 @@ def main() -> None:
         print(f"Logged in {len(tokens)} voter(s).")
 
         any_token = next(iter(tokens.values()))
+        # GET /forwardings is agent/admin-only — list with the agent token, not a
+        # citizen's, or it 403s and forwarding votes are silently skipped.
+        agent_token = tokens.get("agente@gavea.br", any_token)
         report_ids = _fetch_reports(client, any_token, args.max_reports)
-        forwarding_ids = _fetch_forwardings(client, any_token)
+        forwarding_ids = _fetch_forwardings(client, agent_token)
         print(f"Targets: {len(report_ids)} report(s), {len(forwarding_ids)} forwarding(s).")
 
         for rid in report_ids:

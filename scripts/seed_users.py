@@ -93,7 +93,7 @@ def main() -> None:
             headers={"Authorization": f"Bearer {admin_token}"},
         )
         if resp.status_code == 200:
-            print(f"  Promoted: {AGENT_EMAIL} → agent")
+            print(f"  Promoted: {AGENT_EMAIL} -> agent")
         elif resp.status_code == 404:
             print(
                 f"  Warning: {AGENT_EMAIL} not found for promotion (registration may have failed)",

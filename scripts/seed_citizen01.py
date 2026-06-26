@@ -212,8 +212,8 @@ def main() -> None:
                 "text": r["text"],
                 "urgency": r["urgency"],
                 "report_type_id": type_id,
-                "latitude": r["lat"],
-                "longitude": r["lon"],
+                "lat": r["lat"],
+                "lon": r["lon"],
             }
             resp = client.post("/reports", json=payload, headers=headers_citizen)
             if resp.status_code not in (200, 201):

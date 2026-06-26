@@ -94,7 +94,10 @@ def main() -> None:
         print(f"Logged in {len(tokens)} commenter(s).")
 
         any_token = next(iter(tokens.values()))
-        forwarding_ids = _fetch_forwardings(client, any_token)[: args.max_forwardings]
+        # GET /forwardings is agent/admin-only — list with the agent token, not a
+        # citizen's, or it 403s and the whole comment seed aborts.
+        agent_token = tokens.get("agente@gavea.br", any_token)
+        forwarding_ids = _fetch_forwardings(client, agent_token)[: args.max_forwardings]
         print(f"Commenting on up to {len(forwarding_ids)} forwarding(s).")
 
         commenter_emails = list(tokens.keys())
