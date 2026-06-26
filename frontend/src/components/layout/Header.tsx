@@ -1,14 +1,24 @@
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/auth/AuthContext";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/toast";
 import { useWorkspaceStore } from "@/store/workspaceStore";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import { HelpChat } from "@/features/help/HelpChat";
 
 export function Header() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const basketCount = useWorkspaceStore((s) => s.selectedIds.size);
   const showView = useWorkspaceStore((s) => s.showView);
+  const [helpOpen, setHelpOpen] = useState(false);
 
   const isAgent = user?.role === "agent" || user?.role === "admin";
 
@@ -74,6 +84,15 @@ export function Header() {
               Painel admin
             </Link>
           )}
+          {user && (
+            <button
+              type="button"
+              onClick={() => setHelpOpen(true)}
+              className="text-sm text-gray-600 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded"
+            >
+              Ajuda
+            </button>
+          )}
           {isAgent && (
             <button
               type="button"
@@ -100,6 +119,21 @@ export function Header() {
           )}
         </nav>
       </div>
+
+      {user && (
+        <Dialog open={helpOpen} onOpenChange={setHelpOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Ajuda da plataforma</DialogTitle>
+              <DialogDescription>
+                Assistente sobre como usar o Fala-Gávea. Não é o assistente de exploração de
+                relatos.
+              </DialogDescription>
+            </DialogHeader>
+            <HelpChat />
+          </DialogContent>
+        </Dialog>
+      )}
     </header>
   );
 }
