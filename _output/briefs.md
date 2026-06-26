@@ -1,5 +1,7 @@
 # Briefs Log
 
+DONE | 2026-06-26 13:19 UTC | STARTED | 2026-06-26 13:03 UTC | research | following chat helper from plan 177, can we add SEJA skill into chat context to harness the chat itself?
+
 STARTED | 2026-06-26 12:55 UTC | implement | plan-000177 chat-helper da plataforma: RAG sobre self-docs (D-014)
 
 DONE | 2026-06-26 12:53 UTC | STARTED | 2026-06-26 11:55 UTC | plan | source:research-000175 Implementar o chat-helper da plataforma (D-014): bounded context próprio (IDocSearchPort/ChromaDocSearchClient coleção falagavea_selfdocs) + AnswerHelpWithRag + POST /nl/help; chunking por heading com role_visibility default-deny; reindex_selfdocs offline + indexação em startup do container | PLAN | 000177
