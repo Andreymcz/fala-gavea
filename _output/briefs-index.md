@@ -5,7 +5,7 @@
 
 | Date | Skill | Brief | Status | Plan | Head SHA | Generated |
 |------|-------|-------|--------|------|----------|-----------|
-| 2026-06-26 11:40 UTC | research | ADD IA marker on all features on site that use IA para sugerir algo (ReportType… | STARTED |  |  |  |
+| 2026-06-26 11:40 UTC | research | ADD IA marker on all features on site that use IA para sugerir algo (ReportType… | DONE |  |  |  |
 | 2026-06-26 14:37 UTC | research | chat helper para usuário acoplado ao sistema que acessa um corpus de documentaç… | DONE |  |  |  |
 | 2026-06-25 21:35 UTC | plan | source:research 172 vamos planejar a implementacao da feature de sugestao de re… | DONE | 000174 |  |  |
 | 2026-06-25 20:34 UTC | reflect | on research 172 and 170 and its differences | DONE |  |  |  |

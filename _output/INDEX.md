@@ -7,7 +7,7 @@
 |------|------|----|-------|--------|------|
 | 2026-06-26 14:37 UTC | Research | 000175 | Chat helper RAG sobre a documentação do projeto | DONE | [research-000175-chat-helper-rag-documentacao.md](research-logs/research-000175-chat-helper-rag-documentacao.md) |
 | 2026-06-26 14:28 UTC | QA Log |  | reflection-000171 |  | [reflection-000171-ia-sugerir-topicos-relatos-sem-topico-qa.md](reflections/reflection-000171-ia-sugerir-topicos-relatos-sem-topico-qa.md) |
-| 2026-06-26 11:40 UTC | RESERVED | 000176 | research: IA markers on AI features + forwarding comment synthesis | RESERVED |  |
+| 2026-06-26 11:40 UTC | Research | 000176 | IA markers on AI features + forwarding comment synthesis | DONE | [research-000176-ia-markers-and-comment-synthesis.md](research-logs/research-000176-ia-markers-and-comment-synthesis.md) |
 | 2026-06-25 21:35 | Plan | 000174 | Pluggable report-type suggestion: sentinel + ChromaDB + DistilBERT | OPEN | [plan-000174-pluggable-report-type-suggestion.md](plans/plan-000174-pluggable-report-type-suggestion.md) |
 | 2026-06-25 20:43 UTC | QA Log |  | reflection-000173 — research 172 vs 170: dois mecanismos de sugestão de report_… |  | [reflection-000173-qa-research-172-vs-170.md](reflections/reflection-000173-qa-research-172-vs-170.md) |
 | 2026-06-25 20:42 UTC | Reflection | 000173 | research 172 vs 170: dois mecanismos de sugestão de report_type |  | [reflection-000173-research-172-vs-170-two-approaches-report-type.md](reflections/reflection-000173-research-172-vs-170-two-approaches-report-type.md) |

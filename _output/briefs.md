@@ -1,6 +1,6 @@
 # Briefs Log
 
-STARTED | 2026-06-26 11:40 UTC | research | ADD IA marker on all features on site that use IA para sugerir algo (ReportTypes), síntese de comentarios de encaminhamentos (não temos — planejar)
+DONE | 2026-06-26 11:55 UTC | STARTED | 2026-06-26 11:40 UTC | research | ADD IA marker on all features on site that use IA para sugerir algo (ReportTypes), síntese de comentarios de encaminhamentos (não temos — planejar)
 
 DONE | 2026-06-26 11:47 UTC | STARTED | 2026-06-26 14:37 UTC | research | chat helper para usuário acoplado ao sistema que acessa um corpus de documentação gerada no projeto (planos/research/communications do SEJA + casos de uso + o que foi implementado), enriquecido com RAG, como assistente de comunicação do que é a plataforma
 
