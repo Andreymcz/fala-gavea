@@ -17,6 +17,8 @@ The platform-helper chat from plan-000177 (`AnswerHelpWithRag` → `POST /nl/hel
 
 **Answer: Yes — this is a cheap, on-theme change that folds into plan-000177 Step 5 (+ a small Step 6 touch), with three guardrails.** It is genuinely a strong SemEng demo *if* the "self-aware" framing is narrowed to **honest provenance disclosure** rather than anthropomorphic identity claims.
 
+> **[REFINED 2026-06-26 — plan-000177 now IMPLEMENTED]** The recommendations below are unchanged in substance, but they are no longer plan amendments — they are concrete edits to shipped code. See the **Follow-up Q&A (2026-06-26)** section at the end for the file/line-level mapping against the real `answer_help_with_rag.py`, `nl.py`, and `chat.py`.
+
 ## Files
 
 Read / relevant:
@@ -74,3 +76,37 @@ A more "aware" persona makes a better demo but pulls the deputy toward ungrounde
 1. Reframe "self-aware" as **honest provenance disclosure** (one grounded transparency line for all roles; drop anthropomorphic construction claims) — this keeps it consistent with the project's committed metamessage ("AI as just another lens... assistance, not decision").
 2. Keep the grounding contract **load-bearing and ordered after** the taxonomy block, so the taxonomy is an interpretation lens, not an answer source (defends the not-found path against hallucinated SDLC facts).
 3. Resolve the role→prompt-variant branch (`meta_mode`) **in the router**, not inside the use case (T2). Admin-gate the full SEJA-taxonomy meta-mode for UX/coherence; surface `doc_type` in citations as the grounded way to make the deputy feel self-aware. Admin meta-mode must not present the hard-excluded sensitive docs as describable.
+
+---
+
+## Follow-up Q&A (2026-06-26)
+
+**Q2:** plan 177 was implemented. update this research with this new info.
+
+**A2:** Plan-000177 shipped, so the helper now exists in code and the five recommendations become **concrete edits to existing files** (not Step 5/6 plan amendments). Verified against the implementation:
+
+- `src/fala_gavea/application/use_cases/help/answer_help_with_rag.py` — `_SYSTEM_PT_BR` (lines 8–15) is a single constant; `execute(self, message, *, roles)` (line 48) builds `system = _SYSTEM_PT_BR + <DOCUMENTOS>` (line 62); `CitedDoc` (lines 24–28) carries `source_path, section_title, score`.
+- `src/fala_gavea/presentation/api/routers/nl.py` — `_ROLE_VISIBILITY` (lines 39–42) + `nl_help` (lines 80–101) already resolve `roles` in the router and map `CitedDoc → CitedDocResponse`.
+- `src/fala_gavea/presentation/schemas/chat.py` — `CitedDocResponse` (the response field to extend).
+
+Two recommendations are **already structurally satisfied** by the shipped code, which is good news:
+- **Rec 3 (T2):** `roles` is already resolved in the router and passed in; `AnswerHelpWithRag` is already auth-agnostic. The `meta_mode` flag just extends the same pattern — no refactor of the boundary needed.
+- **Rec 2 (grounding ordered last):** `execute()` returns `_NOT_FOUND_PT_BR` at lines 53–54 **before** the system prompt is assembled, so a taxonomy/meta block physically cannot bypass the not-found path. Adding the taxonomy keeps this property as long as it's appended to the prompt string, not to the retrieval gate.
+
+### Concrete edit map (each rec → file/line)
+
+| Rec | File | Edit |
+|---|---|---|
+| 1 — honest-provenance line (all roles) | `answer_help_with_rag.py:8–15` | Append one sentence to `_SYSTEM_PT_BR`, e.g. *"Minha base de conhecimento é a própria documentação de design da Fala-Gávea, e sempre cito as fontes."* No anthropomorphic "consciousness" phrasing. |
+| 2 — taxonomy as lens, grounding last | `answer_help_with_rag.py:56–62` | Insert the taxonomy block as a labeled `<TAXONOMIA>` (interpretation guide), then re-assert *"responda APENAS com base em `<DOCUMENTOS>`; a taxonomia só ajuda a interpretar os trechos"* immediately before `<DOCUMENTOS>`. Add a regression test: meta/taxonomy present + zero hits ⇒ still returns `_NOT_FOUND_PT_BR`, no LLM call. |
+| 3 — `meta_mode` in router | `answer_help_with_rag.py:48` + `nl.py:92–93` | Add `meta_mode: bool = False` to `execute(...)`; build a `_META_PT_BR` augment appended only when `meta_mode`. In `nl_help`: `meta_mode = current_user.role.value == "admin"`, pass `..., meta_mode=meta_mode)`. Keep the use case a pure function of `(roles, meta_mode)`. |
+| 4 — admin meta-mode bounds | `answer_help_with_rag.py` (`_META_PT_BR` text) | The augment may explain doc_types/SDLC but must NOT name security-checklists/threat-model as describable (they are hard-excluded from the corpus). |
+| 5 — `doc_type` in citations | `answer_help_with_rag.py:24–28,67–70` + `chat.py` (`CitedDocResponse`) + `nl.py:97–100` | Add `doc_type` to `CitedDoc` (from `hit.chunk.doc_type`), to `CitedDocResponse`, and map it in the router. `DocChunk.doc_type` already flows through retrieval. |
+
+Net: a small, self-contained follow-up touching 3 files (+ tests), no architectural change, no new endpoint. Cleanly captured by **D-017**. Recommend a lightweight `/plan` (or direct implementation) scoped to exactly this edit map.
+
+### Recommendations summary (follow-up)
+
+1. **[ALTA]** Apply Rec 1 + Rec 2 + Rec 3 together as one prompt+router edit (`answer_help_with_rag.py` + `nl.py`), with the not-found regression test — the core of the dogfooding demo, grounded and T2-safe.
+2. **[MÉDIA]** Apply Rec 5 (`doc_type` through `CitedDoc`/`CitedDocResponse`) — the grounded provenance signal in the UI.
+3. **[MÉDIA]** Honor Rec 4 bounds in the `_META_PT_BR` copy (no excluded-doc mentions).
