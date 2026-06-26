@@ -1,5 +1,7 @@
 # Briefs Log
 
+DONE | 2026-06-26 20:25 UTC | STARTED | 2026-06-26 20:15 UTC | plan | create local pipeline for seeding app. create makefile entry receiving url as parameter and create a intial seed of the appplication to showcase features. There is some features that do not have any seed, like upvotes. check recent reflection to see what whas implemented and give suggestions of new seed pipeline entryes | PLAN | 000183
+
 DONE | 2026-06-26 19:45 UTC | STARTED | 2026-06-26 19:37 UTC | implement | 178 — reusable AiBadge AI-provenance marker applied at chat/filter/help surfaces | PLAN | 000178
 
 DONE | 2026-06-26 17:04 UTC | STARTED | 2026-06-26 16:57 UTC | implement | 181 | PLAN | 000181
