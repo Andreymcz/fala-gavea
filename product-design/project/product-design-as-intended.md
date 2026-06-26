@@ -609,6 +609,16 @@ _N/A — projeto greenfield._
 
 *Source: from research-000176 (2026-06-26)*
 
+### D-017: Helper da plataforma como deputy de proveniência honesta (framing SEJA por papel)
+
+
+**Context**: O helper da plataforma (D-014) poderia ser enriquecido com a metodologia/taxonomia SEJA no system prompt para um demo de "dogfooding" do curso. Tensão: tornar o assistente "auto-consciente" (engajamento) vs. preservar o grounding (responder só a partir do contexto recuperado) e o metamessage estabelecido ("a IA é só mais uma lente... assistência, não decisão").
+**Decision**: Enriquecer o system prompt do `AnswerHelpWithRag` com a taxonomia SEJA como LENTE INTERPRETATIVA (não fonte de fatos), sob três guardas: (1) auto-apresentação como DIVULGAÇÃO HONESTA DE PROVENIÊNCIA ("minha base é a própria documentação de design da plataforma, e sempre cito as fontes") para todos os papéis — sem alegações antropomórficas de "consciência"; (2) contrato de grounding mantido carregando por último (a taxonomia só ajuda a interpretar os trechos `<DOCUMENTOS>`; caminho not-found preservado); (3) modo-meta completo (taxonomia + framing SDLC) RESOLVIDO NO ROUTER via flag `meta_mode` derivada do papel admin, mantendo `AnswerHelpWithRag` função pura de `(roles, meta_mode)` (T2); `doc_type` exposto nas citações. Sem indexar `.claude/skills` no corpus; sem invocação de skills em runtime.
+**Consequences**: Demo de dogfooding entregue de forma grounded e on-message; modo-meta gated a admin por coerência de tiers (não como controle de segurança — o filtro Chroma `where` continua a fronteira real); toca plan-000177 Steps 5 e 6 (schema `doc_type` + router `meta_mode`); modo-meta não apresenta docs hard-excluded (security-checklists/threat-model) como descritíveis.
+**Rejected Alternatives**: auto-apresentação antropomórfica ("fui construído com SEJA e tenho consciência disso") — alegação não-grounded que colide com o contrato de contexto; taxonomia como fonte de fatos respondíveis — esvazia a garantia de grounding; branch de papel dentro do use case — viola T2; indexar `.claude/skills` no corpus ou invocação de skills em runtime — escopo explicitamente rejeitado.
+
+*Source: from research-000180 (2026-06-26)*
+
 ## CHANGELOG
 
 2026-06-17 | D-001 | added | - | Decisao de novo projeto independente via python-scaffold (roadmap-000071 D-A)
