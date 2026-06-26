@@ -8,7 +8,6 @@ Idempotent by default: skips if citizen01 already has forwardings (--force to ov
 
 Pre-requisites:
     uv run python scripts/seed_users.py
-    uv run python scripts/seed_report_types.py
     uv run python scripts/seed_relatos.py
     API server must be running.
 

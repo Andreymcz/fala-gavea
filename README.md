@@ -123,12 +123,15 @@ docker build --no-cache -t fala-gavea .
 
 > **Nota Windows:** substitua `$(pwd)` pelo caminho absoluto, ex: `C:/Users/seu-usuario/fala-gavea/local-data:/data`.
 
-### Popular tipos de problema (seed inicial)
+### Seed inicial (showcase)
 
 ```bash
-# Cria os 8 tipos de problema padrão via API
-# (com o servidor rodando)
-uv run python scripts/seed_report_types.py
+# Com o servidor rodando, popula o app com dados de demonstração de todas as
+# features (usuários, relatos, encaminhamentos, votos, comentários, filtros
+# salvos, ciclo de vida). Os tipos de problema são criados automaticamente a
+# partir da coluna `topico` dos relatos do CSV.
+make seed URL=http://localhost:8000            # perfil showcase (CSV de 200 linhas)
+make seed URL=http://localhost:8000 PROFILE=full   # perfil full (CSV de 5k linhas)
 ```
 
 ---

@@ -5,8 +5,8 @@ Default CSV: data/seed_relatos_fala_gavea_5k.csv
 
 Pre-requisites:
     uv run python scripts/seed_users.py
-    uv run python scripts/seed_report_types.py
     API server must be running.
+    (Report types are created automatically from each CSV row's `topico`.)
 
 Usage:
     uv run python scripts/seed_relatos.py [--url URL] [--csv PATH]

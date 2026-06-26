@@ -20,7 +20,6 @@ Usage:
 from __future__ import annotations
 
 import argparse
-import os
 import subprocess
 import sys
 from pathlib import Path
@@ -79,28 +78,21 @@ def main() -> None:
     # Phase 1: users (incl. extra citizens for cross-user votes/comments)
     run_phase("Users (all roles)", [py, str(SCRIPTS_DIR / "seed_users.py"), "--url", url])
 
-    # Phase 2: report types (env-var driven script)
-    env = {
-        **os.environ,
-        "FALA_GAVEA_API_URL": url,
-        "FALA_GAVEA_ADMIN_EMAIL": "admin@gavea.br",
-        "FALA_GAVEA_ADMIN_PASSWORD": "admin12345!",
-    }
-    run_phase("Report types", [py, str(SCRIPTS_DIR / "seed_report_types.py")], env=env)
-
-    # Phase 3: relatos (bulk upload CSV as admin)
+    # Phase 2: relatos (bulk upload CSV as admin). Report types are created
+    # automatically from each row's `topico` during bulk insert, so there is no
+    # separate report-types phase.
     run_phase(
         "Relatos (bulk from CSV)",
         [py, str(SCRIPTS_DIR / "seed_relatos.py"), "--url", url, "--csv", csv],
     )
 
-    # Phase 4: forwardings (optional)
+    # Phase 3: forwardings (optional)
     if not args.skip_forwardings:
         run_phase("Forwardings", [py, str(SCRIPTS_DIR / "seed_forwardings.py"), "--url", url])
     else:
         print("\nSkipping forwardings (--skip-forwardings).")
 
-    # Phase 5: citizen01 test data (optional)
+    # Phase 4: citizen01 test data (optional)
     if not args.skip_citizen01:
         run_phase(
             "Citizen01 test data",
@@ -109,25 +101,25 @@ def main() -> None:
     else:
         print("\nSkipping citizen01 test data (--skip-citizen01).")
 
-    # Phase 6: votes (needs relatos + forwardings)
+    # Phase 5: votes (needs relatos + forwardings)
     if not args.skip_votes:
         run_phase("Votes", [py, str(SCRIPTS_DIR / "seed_votes.py"), "--url", url])
     else:
         print("\nSkipping votes (--skip-votes).")
 
-    # Phase 7: comments (needs forwardings)
+    # Phase 6: comments (needs forwardings)
     if not args.skip_comments:
         run_phase("Comments", [py, str(SCRIPTS_DIR / "seed_comments.py"), "--url", url])
     else:
         print("\nSkipping comments (--skip-comments).")
 
-    # Phase 8: saved filters (needs users)
+    # Phase 7: saved filters (needs users)
     if not args.skip_saved_filters:
         run_phase("Saved filters", [py, str(SCRIPTS_DIR / "seed_saved_filters.py"), "--url", url])
     else:
         print("\nSkipping saved filters (--skip-saved-filters).")
 
-    # Phase 9: forwarding lifecycle (needs forwardings)
+    # Phase 8: forwarding lifecycle (needs forwardings)
     if not args.skip_lifecycle:
         run_phase(
             "Forwarding lifecycle",

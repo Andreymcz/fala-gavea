@@ -11,7 +11,6 @@ A repeat cast is an upsert (no duplicate vote), so re-running is safe.
 
 Pre-requisites:
     uv run python scripts/seed_users.py
-    uv run python scripts/seed_report_types.py
     uv run python scripts/seed_relatos.py
     uv run python scripts/seed_forwardings.py   (for forwarding votes)
     API server must be running.
