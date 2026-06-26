@@ -13,6 +13,7 @@ from fala_gavea.presentation.api.dependencies import (
     get_comment_repo,
     get_current_user,
     get_forwarding_repo,
+    get_optional_user,
 )
 from fala_gavea.presentation.schemas.comments import AddCommentRequest, CommentResponse
 
@@ -23,12 +24,16 @@ router = APIRouter()
 def list_comments(
     forwarding_id: str,  # injected from path by FastAPI when router is mounted with path var
     comment_repo: ICommentRepository = Depends(get_comment_repo),
+    current_user: User | None = Depends(get_optional_user),
 ) -> list[CommentResponse]:
+    # author_id is exposed only to authenticated callers; the public/unauthenticated
+    # forwarding view must never reveal which user authored a comment.
+    expose_author = current_user is not None
     comments = ListCommentsUseCase(comment_repo).execute(forwarding_id)
     return [CommentResponse(
         id=c.id,
         forwarding_id=c.forwarding_id,
-        author_id=c.author_id,
+        author_id=c.author_id if expose_author else None,
         text=c.text,
         created_at=c.created_at,
     ) for c in comments]

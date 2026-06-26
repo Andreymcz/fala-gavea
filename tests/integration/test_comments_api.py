@@ -262,3 +262,25 @@ def test_list_comments_after_post(app, db_session):
     texts = [c["text"] for c in resp.json()]
     assert "Comentário 1" in texts
     assert "Comentário 2" in texts
+
+
+def test_list_comments_public_hides_author_id(app, db_session):
+    """Unauthenticated/public GET must NOT expose author_id (privacy)."""
+    agent = _create_user(db_session, UserRole.agent, "agent@c10.test")
+    citizen = _create_user(db_session, UserRole.citizen, "citizen@c10.test")
+    fwd = _create_forwarding(db_session, agent.id)
+
+    with TestClient(app) as client:
+        headers = _token_headers(client, "citizen@c10.test")
+        client.post(f"/forwardings/{fwd.id}/comments", json={"text": "Olá"}, headers=headers)
+
+        # Public (no Authorization header) — author_id must be null.
+        public_resp = client.get(f"/forwardings/{fwd.id}/comments")
+        # Authenticated — author_id must be present.
+        authed_resp = client.get(f"/forwardings/{fwd.id}/comments", headers=headers)
+
+    assert public_resp.status_code == 200
+    assert public_resp.json()[0]["author_id"] is None
+
+    assert authed_resp.status_code == 200
+    assert authed_resp.json()[0]["author_id"] == citizen.id

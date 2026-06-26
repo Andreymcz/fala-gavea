@@ -8,7 +8,10 @@ from pydantic import BaseModel, ConfigDict, field_validator
 class CommentResponse(BaseModel):
     id: str
     forwarding_id: str
-    author_id: str
+    # Omitted (null) for unauthenticated/public viewers so the public forwarding
+    # view never exposes which user authored a comment. Populated only for
+    # authenticated requests, where it is needed for self-delete and moderation.
+    author_id: str | None = None
     text: str
     created_at: datetime
 

@@ -3,7 +3,8 @@ const BASE_URL = (import.meta.env.VITE_API_URL as string) || "";
 export interface Comment {
   id: string;
   forwarding_id: string;
-  author_id: string;
+  // null for unauthenticated/public viewers — the API hides the author from the public.
+  author_id: string | null;
   text: string;
   created_at: string;
 }

@@ -35,7 +35,7 @@ export function CommentSection({ forwardingId }: Props) {
 
   function canDelete(comment: Comment): boolean {
     if (!user) return false;
-    if (user.id === comment.author_id) return true;
+    if (comment.author_id && user.id === comment.author_id) return true;
     if (user.role === "agent" || user.role === "admin") return true;
     return false;
   }
@@ -55,7 +55,7 @@ export function CommentSection({ forwardingId }: Props) {
             <li key={c.id} className="rounded border border-gray-100 bg-gray-50 px-3 py-2 text-sm">
               <div className="flex items-start justify-between gap-2">
                 <div>
-                  <span className="font-mono text-xs text-gray-500">{c.author_id.slice(0, 8)}</span>
+                  <span className="font-mono text-xs text-gray-500">{c.author_id ? c.author_id.slice(0, 8) : "Anônimo"}</span>
                   <span className="ml-2 text-xs text-gray-400">
                     {new Date(c.created_at).toLocaleDateString("pt-BR")}
                   </span>
