@@ -28,6 +28,10 @@ function makeFeature(overrides: Partial<ReportFeature['properties']> = {}, idx =
 // 60 items for pagination tests
 const sixtyFeatures = Array.from({ length: 60 }, (_, i) => makeFeature({}, i))
 
+vi.mock('@/auth/AuthContext', () => ({
+  useAuth: () => ({ user: null, token: null }),
+}))
+
 const mockUseFilteredReports = vi.fn()
 
 vi.mock('@/hooks/useFilteredReports', () => ({

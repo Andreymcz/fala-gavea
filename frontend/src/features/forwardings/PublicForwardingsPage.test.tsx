@@ -3,6 +3,10 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { PublicForwarding } from "@/lib/types";
 
+vi.mock("@/auth/AuthContext", () => ({
+  useAuth: () => ({ user: null, token: null }),
+}));
+
 const getPublicForwardings = vi.fn();
 vi.mock("@/lib/api", () => ({
   api: {

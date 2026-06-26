@@ -4,6 +4,11 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MemoryRouter } from "react-router-dom";
 import { ReportFormPage } from "./ReportFormPage";
 
+vi.mock("@/auth/AuthContext", () => ({
+  // Authenticated: the form (not the login prompt) renders.
+  useAuth: () => ({ user: { id: "u-1", role: "citizen" }, token: "test-token" }),
+}));
+
 vi.mock("@/hooks/useReportTypes", () => ({
   useReportTypes: () => ({
     data: [

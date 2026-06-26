@@ -3,6 +3,10 @@ import { render, screen } from "@testing-library/react";
 import type { ReportFeature, PublicForwarding } from "@/lib/types";
 import { ReportPopup } from "./ReportPopup";
 
+vi.mock("@/auth/AuthContext", () => ({
+  useAuth: () => ({ user: null, token: null }),
+}));
+
 let mockForwardings: PublicForwarding[] = [];
 vi.mock("@/hooks/useForwardings", () => ({
   useReportForwardings: () => ({ data: mockForwardings, isLoading: false }),
