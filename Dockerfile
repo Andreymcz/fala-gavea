@@ -35,6 +35,10 @@ COPY scripts/ ./scripts/
 COPY product-design/ ./product-design/
 COPY _output/ ./_output/
 
+# Opt in to the background self-docs indexer on startup (container only; local
+# dev and the test suite leave this unset and use scripts/reindex_selfdocs.py).
+ENV FALA_GAVEA_INDEX_SELFDOCS_ON_STARTUP=1
+
 # Copy pre-built SPA into static/ (the path main.py resolves to)
 COPY --from=frontend-build /app/static/ ./static/
 

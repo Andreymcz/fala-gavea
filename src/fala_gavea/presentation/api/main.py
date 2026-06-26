@@ -153,7 +153,11 @@ def create_app() -> FastAPI:
         from fala_gavea.presentation.api.dependencies import get_report_indexer
         get_report_indexer()
         # Index self-docs in the background so it never blocks the healthcheck.
-        threading.Thread(target=_launch_selfdocs_indexer, daemon=True).start()
+        # Opt-in via env (set in the container image) so local dev and the test
+        # suite never trigger the heavy 1415-chunk embed on app startup — they
+        # use scripts/reindex_selfdocs.py explicitly instead.
+        if os.getenv("FALA_GAVEA_INDEX_SELFDOCS_ON_STARTUP", "").strip().lower() in {"1", "true", "yes"}:
+            threading.Thread(target=_launch_selfdocs_indexer, daemon=True).start()
 
     return app
 
