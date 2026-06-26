@@ -1,5 +1,9 @@
 # Briefs Log
 
+DONE | 2026-06-26 12:25 UTC | STARTED | 2026-06-26 12:22 UTC | plan | source: research-000176 Deliverable B — forwarding comment synthesis (SummarizeForwardingComments via ILLMClient, POST /forwardings/{id}/comments/summary agent-only, ephemeral, prompt-injection hardening) | PLAN | 000179
+
+DONE | 2026-06-26 12:25 UTC | STARTED | 2026-06-26 12:22 UTC | plan | source: research-000176 Deliverable A — reusable AiBadge AI-provenance marker component applied at chat/NL-filter+semantic/report-type-suggestion sites | PLAN | 000178
+
 DONE | 2026-06-26 11:55 UTC | STARTED | 2026-06-26 11:40 UTC | research | ADD IA marker on all features on site that use IA para sugerir algo (ReportTypes), síntese de comentarios de encaminhamentos (não temos — planejar)
 
 DONE | 2026-06-26 11:47 UTC | STARTED | 2026-06-26 14:37 UTC | research | chat helper para usuário acoplado ao sistema que acessa um corpus de documentação gerada no projeto (planos/research/communications do SEJA + casos de uso + o que foi implementado), enriquecido com RAG, como assistente de comunicação do que é a plataforma

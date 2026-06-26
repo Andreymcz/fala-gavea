@@ -1,5 +1,6 @@
 # Research 000176 | TB | 2026-06-26 11:40 UTC | IA markers on AI features + forwarding comment synthesis
 tags: metacommunication, ux, accessibility, security-privacy, llm, frontend
+spawned: plan-000178, plan-000179
 
 ## User brief
 
