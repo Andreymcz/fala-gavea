@@ -82,7 +82,9 @@ def test_if_empty_skips_when_collection_not_empty(
         def count(self) -> int:
             return 7
 
-        def reindex_all(self, chunks: list[Any]) -> None:  # pragma: no cover
+        def reindex_all(
+            self, chunks: list[Any], *, show_progress: bool = False
+        ) -> None:  # pragma: no cover
             raise AssertionError("reindex_all must not be called when skipping")
 
     walk_called = False
@@ -121,7 +123,9 @@ def test_index_selfdocs_indexes_when_empty(
         def count(self) -> int:
             return 0
 
-        def reindex_all(self, chunks: list[Any]) -> None:
+        def reindex_all(
+            self, chunks: list[Any], *, show_progress: bool = False
+        ) -> None:
             indexed_chunks.extend(chunks)
 
     fake_chunks = [_Chunk("public", "communication"), _Chunk("internal", "plan")]
