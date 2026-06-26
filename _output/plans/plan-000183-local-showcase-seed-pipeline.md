@@ -1,4 +1,4 @@
-# Plan 000183 | TOOLING-X | 2026-06-26 20:20 | Local showcase seed pipeline + feature seeds (votes/comments/saved-filters/lifecycle) | Review: light
+# DONE | 2026-06-26 20:33 UTC | Plan 000183 | TOOLING-X | 2026-06-26 20:20 | Local showcase seed pipeline + feature seeds (votes/comments/saved-filters/lifecycle) | Review: light
 plan_format_version: 1
 
 ## Brief
@@ -151,3 +151,21 @@ Per the brief's request for *suggestions of new seed pipeline entries* beyond wh
 - "initial seed … to showcase features" → Step 6 (`--profile showcase`, curated 200-row base + all feature phases).
 - "features that do not have any seed, like upvotes" → Steps 2–5 (votes, comments, saved filters, forwarding lifecycle) + Step 1 (voter accounts).
 - "check recent reflection … suggestions of new seed pipeline entries" → Gap analysis (reflection-000163) + Suggestions section.
+
+## Implementation Summary (2026-06-26, manual mode)
+
+All 7 steps implemented. Tooling-only — no `src/`/`tests/` changes; Tests N/A per plan.
+
+| Step | Result | Notes |
+|---|---|---|
+| 1. Extra citizens | ✅ | `seed_users.py` now seeds citizen02–05 (+ docstring); idempotent via existing 409-skip. |
+| 2. `seed_votes.py` | ✅ | Voter pool (citizen01–05 + agente); weighted 70/15/15 up/down/skip; **409 self-vote skip** + **429 backoff** (2→4→8s). |
+| 3. `seed_comments.py` | ✅ | Curated pt-BR comment bank; 1–3 comments on first ~6 forwardings; skips forwardings that already have comments. |
+| 4. `seed_saved_filters.py` | ✅ | 3 presets/user (Urgência alta, Pendentes de iluminação, Encaminhados recentes); skips existing names. |
+| 5. `seed_forwarding_lifecycle.py` | ✅ | Advances ~⅓/⅓/⅓ to aguardando/solucao_em_andamento/finalizado via PATCH; documents the `resolvido` finding. |
+| 6. `seed_all.py` | ✅ | `--profile {showcase,full}` (showcase=200 CSV default), phases 6–9 wired, `--skip-*` flags, updated summary. |
+| 7. `make seed` + docs | ✅ | `make seed URL=... PROFILE=...`, `.PHONY` + `help` updated, `CLAUDE.md § Build & Run` documented. |
+
+**Quality gate:** `py_compile` OK · `ruff check` clean · `pyright` 0 errors · `pytest` 308 passed.
+
+**Not exercised here:** the live end-to-end seed run (`make seed`) needs a running API + Ollama; the plan's per-step `Verify` (vote counts, comments, saved filters, `finalizado` forwardings visible in the UI) should be run against a local server. Filed as a manual verification follow-up.

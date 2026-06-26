@@ -1,5 +1,13 @@
 # AS-CODED CHANGELOG — fala-gavea
 
+### v22 -- 2026-06-26
+- **Added**: Local showcase seed pipeline (plan-000183) — `make seed URL=... PROFILE=...` target driving `seed_all.py` in a new `--profile {showcase,full}` mode (showcase = curated 200-row CSV). No conceptual-design change; tooling only.
+- **Added**: API-driven seed scripts for previously-unseeded features — `scripts/seed_votes.py` (up/down votes with 409 self-vote skip + 429 backoff), `scripts/seed_comments.py` (forwarding comments), `scripts/seed_saved_filters.py` (named filter presets), `scripts/seed_forwarding_lifecycle.py` (advances forwardings to `solucao_em_andamento`/`finalizado`)
+- **Changed**: `scripts/seed_users.py` (+citizen02–05 voter accounts); `scripts/seed_all.py` (phases 6–9 + `--skip-*` flags); `Makefile` (`seed` target); `CLAUDE.md` (Build & Run)
+- **Note**: surfaced that `ReportStatus.resolvido` has no API transition (vestigial); "resolved" is modelled at the forwarding level (`finalizado`)
+- **Source**: agent (post-skill)
+- **Plan**: plan-000183
+
 ### v21 -- 2026-06-26
 - **Added**: Self-docs platform-helper RAG (plan-000177, D-014) — separate chat bounded context over the project's own docs (`_output/` + `product-design/`), distinct from relatos `/nl/chat`
 - **Added**: `domain/repositories/doc_ports.py` (`DocChunk`/`DocSearchHit`/`IDocSearchPort`/`IDocIndexer`); `infrastructure/docs/markdown_chunker.py` (heading chunker + default-deny `role_visibility` classifier + secret guard + corpus walker); `infrastructure/chromadb/chroma_doc_search_client.py` (`ChromaDocSearchClient`, own `falagavea_selfdocs` collection + path, fail-closed role filter); `application/use_cases/help/answer_help_with_rag.py`; `POST /nl/help` (any auth user, role→visibility, 503, per-IP limit); `scripts/reindex_selfdocs.py`; frontend Header "Ajuda" modal (`features/help/HelpChat.tsx` + `api/helpChat.ts`)

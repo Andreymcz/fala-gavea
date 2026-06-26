@@ -6,7 +6,7 @@
 | Date | Type | ID | Title | Status | File |
 |------|------|----|-------|--------|------|
 | 2026-06-26 20:26 UTC | QA Log |  | plan-000183 | Local showcase seed pipeline + feature seeds |  | [plan-000183-qa-local-showcase-seed-pipeline.md](plans/plan-000183-qa-local-showcase-seed-pipeline.md) |
-| 2026-06-26 20:20 | Plan | 000183 | Local showcase seed pipeline + feature seeds (votes/comments/saved-filters/life… | OPEN | [plan-000183-local-showcase-seed-pipeline.md](plans/plan-000183-local-showcase-seed-pipeline.md) |
+| 2026-06-26 20:20 | Plan | 000183 | Local showcase seed pipeline + feature seeds (votes/comments/saved-filters/life… | DONE | [plan-000183-local-showcase-seed-pipeline.md](plans/plan-000183-local-showcase-seed-pipeline.md) |
 | 2026-06-26 18:22 UTC | QA Log |  | implement plan-000181 | Embed SEJA methodology into platform-helper (D-017) |  | [implement-000181-qa-embed-seja-methodology.md](plans/implement-000181-qa-embed-seja-methodology.md) |
 | 2026-06-26 16:41 UTC | QA Log |  | plan-000181 | Embed SEJA methodology into platform-helper (D-017) |  | [plan-000181-qa-embed-seja-methodology.md](plans/plan-000181-qa-embed-seja-methodology.md) |
 | 2026-06-26 16:39 UTC | RESERVED | 000182 | reflection: Entering polishing stage — document, verify pending, reconcile as-intended vs as-coded | RESERVED |  |

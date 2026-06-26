@@ -25,10 +25,16 @@ uv sync --extra dev
 # Run API server
 uv run uvicorn fala_gavea.presentation.api.main:app --reload
 
-# Seed all data (users + report types + relatos + forwardings) — API must be running
-uv run python scripts/seed_all.py                     # uses data/seed_relatos_fala_gavea_5k.csv
-uv run python scripts/seed_all.py --csv data/seed_relatos_fala_gavea_200.csv  # smaller CSV
-uv run python scripts/seed_all.py --skip-forwardings  # skip forwarding seed
+# Seed all data — API must be running with admin bootstrap env vars.
+# Phases: users (admin + citizen01–05 + agente), report types, relatos (CSV),
+# forwardings, citizen01 test data, votes, comments, saved filters, forwarding lifecycle.
+make seed                                             # showcase profile (curated 200-row CSV), URL=http://localhost:8000
+make seed URL=http://localhost:8000 PROFILE=full      # full profile (5k-row CSV)
+uv run python scripts/seed_all.py                     # equivalent to: --profile showcase
+uv run python scripts/seed_all.py --profile full      # 5k-row CSV
+uv run python scripts/seed_all.py --csv data/seed_relatos_fala_gavea_200.csv  # explicit CSV override
+uv run python scripts/seed_all.py --skip-forwardings --skip-votes --skip-comments \
+  --skip-saved-filters --skip-lifecycle               # per-phase skip flags
 
 # (Re)index the project's self-docs corpus into the Chroma self-docs collection
 uv run python scripts/reindex_selfdocs.py             # full (re)index

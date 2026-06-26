@@ -1,9 +1,14 @@
 """Seed dev users via the REST API (no direct DB access).
 
-Creates one account per role:
-  admin@gavea.br      / admin12345!  — admin   (bootstrapped by server env vars)
-  citizen01@gavea.br  / citizen01pass — citizen
-  agente@gavea.br    / agente12345   — agent
+Creates the dev accounts:
+  admin@gavea.br        / admin12345!   — admin   (bootstrapped by server env vars)
+  citizen01@gavea.br    / citizen01pass — citizen
+  citizen02..05@gavea.br/ citizenNNpass — citizen (extra voters/commenters for showcase)
+  agente@gavea.br       / agente12345   — agent
+
+The extra citizen02–citizen05 accounts give the showcase seed enough distinct
+identities for cross-user votes/comments (the vote API rejects self-votes, so
+voters must differ from the content author).
 
 The admin account must already exist in the API database, created automatically
 by the server on startup via BootstrapAdminUser env vars:
@@ -23,8 +28,15 @@ import sys
 
 import httpx
 
+# citizen01–citizen05 plus the agent. The extra citizens (02–05) exist so the
+# showcase seed can cast cross-user votes/comments without tripping the
+# self-vote guard (a user cannot vote on their own content).
 NON_ADMIN_USERS = [
     {"email": "citizen01@gavea.br", "name": "Cidadao01", "password": "citizen01pass"},
+    {"email": "citizen02@gavea.br", "name": "Cidadao02", "password": "citizen02pass"},
+    {"email": "citizen03@gavea.br", "name": "Cidadao03", "password": "citizen03pass"},
+    {"email": "citizen04@gavea.br", "name": "Cidadao04", "password": "citizen04pass"},
+    {"email": "citizen05@gavea.br", "name": "Cidadao05", "password": "citizen05pass"},
     {"email": "agente@gavea.br", "name": "Agente Publico", "password": "agente12345"},
 ]
 

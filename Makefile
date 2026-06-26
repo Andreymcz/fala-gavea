@@ -3,6 +3,11 @@ PORT    := 8000
 DATA    := $(CURDIR)/local-data
 SECRET  := local-dev-secret
 
+# Seed pipeline target (`make seed`). Override on the command line, e.g.:
+#   make seed URL=http://localhost:8000 PROFILE=showcase
+URL     := http://localhost:8000
+PROFILE := showcase
+
 # Dev-only admin bootstrap credentials (created on backend startup).
 # Override on the command line for non-dev use, e.g.:
 #   make run-backend ADMIN_EMAIL=me@example.com ADMIN_PASSWORD=secret
@@ -19,7 +24,7 @@ OLLAMA_MODEL := qwen2.5:7b
 # Override: make run-backend LOG_LEVEL=INFO
 LOG_LEVEL := DEBUG
 
-.PHONY: build run-backend run-frontend run-docker stop rm restart logs shell clean rebuild help
+.PHONY: build run-backend run-frontend run-docker seed stop rm restart logs shell clean rebuild help
 
 build:
 	docker build -t $(IMAGE) .
@@ -43,6 +48,10 @@ run-backend:
 run-frontend:
 	@echo "Running frontend locally at http://localhost:3000"
 	cd frontend && npm install && npm run dev
+
+seed:
+	@echo "Seeding $(URL) (profile=$(PROFILE)) — API must be running with admin bootstrap"
+	uv run python scripts/seed_all.py --url $(URL) --profile $(PROFILE)
 
 run-docker:
 	powershell -Command "New-Item -ItemType Directory -Force '$(DATA)' | Out-Null"
@@ -83,6 +92,7 @@ help:
 	@echo "Targets:"
 	@echo "  run-backend   — run the FastAPI backend locally (uv + uvicorn --reload)"
 	@echo "  run-frontend  — run the Vite frontend locally (http://localhost:3000)"
+	@echo "  seed          — seed the running app via API (override URL=... PROFILE=showcase|full)"
 	@echo "  build         — build the Docker image"
 	@echo "  run-docker    — start the container (detached)"
 	@echo "  stop     — stop the container"
