@@ -31,13 +31,18 @@ COPY src/ ./src/
 COPY scripts/ ./scripts/
 
 # Copy the self-docs corpus (product-design/ + re-included _output/ subdirs) so
-# the startup hook can index it offline without network access.
+# the build-time indexer can embed it offline (model already cached above).
 COPY product-design/ ./product-design/
 COPY _output/ ./_output/
 
-# Opt in to the background self-docs indexer on startup (container only; local
-# dev and the test suite leave this unset and use scripts/reindex_selfdocs.py).
-ENV FALA_GAVEA_INDEX_SELFDOCS_ON_STARTUP=1
+# Build-time self-docs index, baked into the image at a path OUTSIDE the /data
+# volume (a runtime volume mount would shadow an index written under /data).
+# This moves the heavy 1415-chunk embed to build time → /nl/help is ready at
+# boot with zero startup cost and no binaries committed to git. The same env is
+# kept at runtime so the doc client reads this baked path. Startup background
+# indexing stays OFF (FALA_GAVEA_INDEX_SELFDOCS_ON_STARTUP unset).
+ENV FALA_GAVEA_SELFDOCS_PATH=/app/selfdocs_chroma
+RUN uv run python scripts/reindex_selfdocs.py
 
 # Copy pre-built SPA into static/ (the path main.py resolves to)
 COPY --from=frontend-build /app/static/ ./static/

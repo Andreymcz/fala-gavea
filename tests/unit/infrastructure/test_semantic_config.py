@@ -44,3 +44,20 @@ def test_split_roots_trims_and_drops_empty() -> None:
     assert _split_roots(" a , b ,, c ,") == ["a", "b", "c"]
     assert _split_roots("") == []
     assert _split_roots("   ") == []
+
+
+def test_selfdocs_vectorstore_path_explicit_env(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("FALA_GAVEA_SELFDOCS_PATH", "/app/selfdocs_chroma")
+    config = SemanticConfig()
+    assert config.selfdocs_vectorstore_path == "/app/selfdocs_chroma"
+
+
+def test_selfdocs_vectorstore_path_falls_back_to_chroma_data_dir(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.delenv("FALA_GAVEA_SELFDOCS_PATH", raising=False)
+    monkeypatch.setenv("CHROMA_DATA_DIR", "/data")
+    config = SemanticConfig()
+    # With no dedicated self-docs path, it shares the reports store path.
+    assert config.selfdocs_vectorstore_path == "/data"
+    assert config.vectorstore_path == "/data"

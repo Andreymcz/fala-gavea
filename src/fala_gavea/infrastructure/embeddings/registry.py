@@ -38,6 +38,16 @@ class SemanticConfig:
             "FALA_GAVEA_SELFDOCS_COLLECTION", "falagavea_selfdocs"
         )
     )
+    # Self-docs Chroma path. Defaults to the same store as reports (local dev:
+    # one ./chroma_data dir, two collections). In the container it is overridden
+    # to a baked, build-time-populated path OUTSIDE the /data volume (the volume
+    # mount would otherwise shadow an image-baked index) — see Dockerfile.
+    selfdocs_vectorstore_path: str = field(
+        default_factory=lambda: os.getenv("FALA_GAVEA_SELFDOCS_PATH")
+        or os.getenv("CHROMA_DATA_DIR")
+        or os.getenv("FALA_GAVEA_VECTORSTORE_PATH")
+        or "./chroma_data"
+    )
     selfdocs_corpus_roots: list[str] = field(
         default_factory=lambda: _split_roots(os.getenv("FALA_GAVEA_SELFDOCS_ROOTS", ""))
         or _DEFAULT_ROOTS

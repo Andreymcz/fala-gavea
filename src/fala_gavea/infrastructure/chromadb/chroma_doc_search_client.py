@@ -19,13 +19,16 @@ class ChromaDocSearchClient(IDocIndexer, IDocSearchPort):
     """
 
     def __init__(self, config: SemanticConfig, model: SentenceTransformer) -> None:
-        os.makedirs(config.vectorstore_path, exist_ok=True)
-        # selfdocs_collection is added to SemanticConfig in a later step; read defensively
-        # so this client stays independently testable and forward-compatible.
+        # Self-docs live in their own Chroma path so the container can bake a
+        # build-time index OUTSIDE the /data volume. Falls back to vectorstore_path
+        # for config stubs / local dev (one shared ./chroma_data dir).
+        path = getattr(config, "selfdocs_vectorstore_path", None) or config.vectorstore_path
+        os.makedirs(path, exist_ok=True)
+        # read defensively so this client stays independently testable.
         self._collection_name: str = getattr(
             config, "selfdocs_collection", _DEFAULT_COLLECTION_NAME
         )
-        self._client = chromadb.PersistentClient(path=config.vectorstore_path)
+        self._client = chromadb.PersistentClient(path=path)
         self._model = model
         self._collection = self._client.get_or_create_collection(self._collection_name)
 
