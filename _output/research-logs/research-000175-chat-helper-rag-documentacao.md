@@ -1,6 +1,7 @@
 # Research 000175 | fala-gavea | 2026-06-26 14:37 UTC | Chat helper RAG sobre a documentação do projeto
 
 tags: rag, chat-assistant, security, architecture, chromadb, llm
+spawned: plan-000177
 
 ## User brief
 

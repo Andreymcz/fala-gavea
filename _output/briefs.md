@@ -1,5 +1,7 @@
 # Briefs Log
 
+DONE | 2026-06-26 12:53 UTC | STARTED | 2026-06-26 11:55 UTC | plan | source:research-000175 Implementar o chat-helper da plataforma (D-014): bounded context próprio (IDocSearchPort/ChromaDocSearchClient coleção falagavea_selfdocs) + AnswerHelpWithRag + POST /nl/help; chunking por heading com role_visibility default-deny; reindex_selfdocs offline + indexação em startup do container | PLAN | 000177
+
 DONE | 2026-06-26 12:25 UTC | STARTED | 2026-06-26 12:22 UTC | plan | source: research-000176 Deliverable B — forwarding comment synthesis (SummarizeForwardingComments via ILLMClient, POST /forwardings/{id}/comments/summary agent-only, ephemeral, prompt-injection hardening) | PLAN | 000179
 
 DONE | 2026-06-26 12:25 UTC | STARTED | 2026-06-26 12:22 UTC | plan | source: research-000176 Deliverable A — reusable AiBadge AI-provenance marker component applied at chat/NL-filter+semantic/report-type-suggestion sites | PLAN | 000178
