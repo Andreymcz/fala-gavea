@@ -1,5 +1,7 @@
 # Briefs Log
 
+DONE | 2026-06-26 17:04 UTC | STARTED | 2026-06-26 16:57 UTC | implement | 181 | PLAN | 000181
+
 STARTED | 2026-06-26 16:39 UTC | reflect | on this project. we are entering in polishing stage. we dont want to add more features. we want to document, verify pending, update design as intended vs as coded.
 
 DONE | 2026-06-26 16:42 UTC | STARTED | 2026-06-26 16:38 UTC | plan | source: research-000180 — embed SEJA methodology into platform-helper (D-017): role-conditional system prompt (honest-provenance line all roles + admin meta_mode SEJA taxonomy resolved in router), taxonomy-as-lens grounding preserved, doc_type in citations | PLAN | 000181

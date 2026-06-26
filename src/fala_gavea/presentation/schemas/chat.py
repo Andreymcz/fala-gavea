@@ -20,6 +20,7 @@ class CitedDocResponse(BaseModel):
     source_path: str
     section_title: str
     score: float
+    doc_type: str
 
 
 class HelpChatResponse(BaseModel):

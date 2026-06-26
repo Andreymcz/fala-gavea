@@ -90,7 +90,12 @@ def nl_help(
             detail="O assistente de ajuda está indisponível no momento.",
         )
     roles = _ROLE_VISIBILITY.get(current_user.role.value, ["public"])  # default-deny
-    result = AnswerHelpWithRag(search_port, llm_client).execute(body.message, roles=roles)
+    # SEJA "meta mode" (D-017): only admins get the SEJA-taxonomy/SDLC framing.
+    # Resolved here in the router from the role (T2) — the use case stays auth-agnostic.
+    meta_mode = current_user.role.value == "admin"
+    result = AnswerHelpWithRag(search_port, llm_client).execute(
+        body.message, roles=roles, meta_mode=meta_mode
+    )
     return HelpChatResponse(
         response=result.response,
         cited_docs=[
@@ -98,6 +103,7 @@ def nl_help(
                 source_path=c.source_path,
                 section_title=c.section_title,
                 score=c.score,
+                doc_type=c.doc_type,
             )
             for c in result.cited_docs
         ],

@@ -609,6 +609,7 @@ _N/A — projeto greenfield._
 
 *Source: from research-000176 (2026-06-26)*
 
+<!-- STATUS: implemented | plan-000181 | 2026-06-26 -->
 ### D-017: Helper da plataforma como deputy de proveniência honesta (framing SEJA por papel)
 
 

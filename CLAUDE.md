@@ -94,7 +94,7 @@ src/fala_gavea/
 1. **Todas as chamadas LLM e buscas semanticas passam pelo `infrastructure/`** (ChromaClient, OllamaClient) — nenhum acesso direto a ChromaDB ou Ollama em use cases ou routers
 2. **Autenticacao e middleware** — nenhum router acessa JWT diretamente; use `dependencies.py` (get_current_user, require_role)
 3. **Type annotations obrigatorias** em todas as funcoes publicas; configuracao via env vars (FALA_GAVEA_OLLAMA_URL, FALA_GAVEA_OLLAMA_MODEL, DATABASE_URL, FALA_GAVEA_LLM_PROVIDER, ANTHROPIC_API_KEY, FALA_GAVEA_ANTHROPIC_MODEL, FALA_GAVEA_SELFDOCS_COLLECTION, FALA_GAVEA_SELFDOCS_ROOTS)
-4. **Assistente de ajuda da plataforma (self-docs RAG)** — `POST /nl/help` (qualquer role autenticada; busca filtrada por visibilidade citizen/agent=public, admin=public+internal) responde perguntas sobre a plataforma a partir da documentacao do projeto, indexada na colecao Chroma de self-docs (ver `scripts/reindex_selfdocs.py`)
+4. **Assistente de ajuda da plataforma (self-docs RAG)** — `POST /nl/help` (qualquer role autenticada; busca filtrada por visibilidade citizen/agent=public, admin=public+internal) responde perguntas sobre a plataforma a partir da documentacao do projeto, indexada na colecao Chroma de self-docs (ver `scripts/reindex_selfdocs.py`). As citacoes incluem `doc_type`; respostas para **admin** recebem um enquadramento "meta" ciente do SEJA (taxonomia/SDLC) — apenas como lente de interpretacao, resolvido no router (D-017)
 
 ## Skills & Design References
 

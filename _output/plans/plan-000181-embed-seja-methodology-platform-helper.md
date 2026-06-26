@@ -1,4 +1,4 @@
-# Plan 000181 | FEATURE-NL | 2026-06-26 16:38 | Embed SEJA methodology into platform-helper (D-017) | Review: standard
+# DONE | 2026-06-26 17:02 UTC | Plan 000181 | FEATURE-NL | 2026-06-26 16:38 | Embed SEJA methodology into platform-helper (D-017) | Review: standard
 plan_format_version: 1
 source: research-000180 -- SEJA methodology in the platform-helper system prompt (dogfooding); refines D-014 via D-017
 
@@ -55,7 +55,7 @@ Edit `src/fala_gavea/application/use_cases/help/answer_help_with_rag.py`.
 - **Interface**: `AnswerHelpWithRag.execute(message, *, roles, meta_mode: bool = False) -> HelpAnswer`; `CitedDoc(source_path, section_title, score, doc_type)`
 - **Verify**: `uv run pytest tests/ -k "answer_help"` passes; `uv run ruff check src/ tests/` clean; `uv run pyright src/` clean
 - **Tests**: in `tests/application/test_answer_help_with_rag.py`: (a) update the existing `cited_docs` equality to include `doc_type="design"` (the `_chunk` helper already stamps `doc_type="design"`); (b) **meta_mode**: when `meta_mode=True` the system prompt contains the SEJA taxonomy marker (e.g. "SEJA") AND the grounding re-assertion; when `meta_mode=False` (default) it does **not** contain the taxonomy block but still answers; (c) **not-found-with-meta**: `execute(..., meta_mode=True)` with zero hits still returns `_NOT_FOUND_PT_BR` and `llm.call_count == 0` (meta cannot bypass grounding); (d) assert each cited doc exposes `doc_type`
-- [ ] Done
+- [x] Done
 
 ### Step 2: Router meta_mode resolution (T2) + doc_type through the schema
 
@@ -72,7 +72,7 @@ Keep auth resolution in the router only (T2) — the use case never inspects the
 - **Verify**: `uv run pytest tests/ -k "nl_help"` passes; `uv run ruff check src/ tests/` clean; manual: `POST /nl/help` as admin returns a SEJA-aware answer; as citizen returns the product answer; both include `doc_type` in citations
 - **Tests**: in `tests/presentation/test_nl_help_router.py`: extend the `_RecordingSearchPort` chunk to a known `doc_type` and assert `body["cited_docs"][0]["doc_type"]` is present/correct in the citizen test; keep the admin test asserting 200 + `roles == ["public","internal"]` (meta-mode is internal to the prompt, not observable in the role mapping)
 - **Docs**: add a one-line note to `CLAUDE.md` that admin `/nl/help` responses carry a SEJA-aware meta framing; post-skill syncs the `POST /nl/help` surface note in `product-design/project/product-design-as-coded.md`
-- [ ] Done
+- [x] Done
 
 ---
 
@@ -106,3 +106,21 @@ Keep auth resolution in the router only (T2) — the use case never inspects the
 3. `POST /nl/help` as **admin** (same question) → SEJA-aware answer that can reference doc types/the development process, still grounded + cited.
 4. Out-of-corpus question as admin → "não encontrei na documentação", `cited_docs == []`, no hallucinated SDLC facts (not-found path holds even with meta_mode on).
 5. `uv run ruff check src/ tests/` and `uv run pyright src/` clean.
+
+---
+
+## Implementation Summary (2026-06-26, manual mode)
+
+Both steps completed. 2 source files + 1 schema + 2 test files + CLAUDE.md.
+
+- **Step 1 — `answer_help_with_rag.py`**: appended an honest-provenance line to `_SYSTEM_PT_BR` (all roles); added `_META_PT_BR` (admin SEJA-taxonomy lens, lists only safe doc types — no excluded docs) + `_GROUNDING_REASSERT_PT_BR`; `execute(..., meta_mode: bool = False)` assembles base → (meta + re-assertion only when `meta_mode`) → `<DOCUMENTOS>`; `doc_type` added to `CitedDoc` (from `hit.chunk.doc_type`). Refinement vs. plan: the grounding re-assertion is appended **only with the taxonomy** (the base prompt already grounds), avoiding a dangling "a taxonomia acima" reference when meta is off.
+- **Step 2 — `nl.py` + `chat.py`**: `meta_mode = current_user.role.value == "admin"` resolved in the router (T2); passed to `.execute(...)`; `doc_type` added to `CitedDocResponse` and the citation mapping. CLAUDE.md note updated.
+
+**Tests**: `tests/application/test_answer_help_with_rag.py` — updated `CitedDoc` equality (4 fields) + 3 new tests (meta-off omits SEJA; meta-on injects SEJA + re-assertion ordered before `</DOCUMENTOS>`; meta-on + zero hits still returns not-found without calling the LLM). `tests/presentation/test_nl_help_router.py` — asserts `doc_type` in the citizen response.
+
+**Quality gate**: `pytest -k "answer_help or nl_help"` → 11 passed; full suite → **308 passed, 0 failures**; ruff + pyright clean on all touched files. Pre-existing repo-wide ruff errors (22, in untouched files e.g. `tests/test_parse_nl_filter.py`) left as-is — out of scope.
+
+**Deferred / notes**: frontend `HelpChat.tsx` could surface `doc_type` per source ("Fonte: plano …") — scoped out of this plan (the API now exposes it; display-only enhancement). A reindex of `falagavea_selfdocs` is not required (no corpus/embedding change).
+
+- [x] Step 1 — role-conditional SEJA-aware system prompt + doc_type on CitedDoc
+- [x] Step 2 — router meta_mode (T2) + doc_type through the schema

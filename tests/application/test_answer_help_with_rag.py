@@ -70,10 +70,12 @@ def test_hits_present_populate_cited_docs_and_ground_system_prompt() -> None:
 
     assert isinstance(result, HelpAnswer)
     assert result.response == "aqui esta a resposta"
+    # Citations now carry doc_type (the _chunk helper stamps doc_type="design").
     assert result.cited_docs == [
-        CitedDoc("docs/a.md", "Relatos", 0.91),
-        CitedDoc("docs/b.md", "Encaminhamentos", 0.42),
+        CitedDoc("docs/a.md", "Relatos", 0.91, "design"),
+        CitedDoc("docs/b.md", "Encaminhamentos", 0.42, "design"),
     ]
+    assert all(c.doc_type == "design" for c in result.cited_docs)
     # System prompt must contain each chunk's text and the untrusted-data delimiter.
     assert llm.call_count == 1
     assert llm.received_system is not None
@@ -83,6 +85,56 @@ def test_hits_present_populate_cited_docs_and_ground_system_prompt() -> None:
     assert "Como criar um encaminhamento." in llm.received_system
     # User message forwarded as the single user turn.
     assert llm.received_messages == [{"role": "user", "content": "como uso a plataforma?"}]
+
+
+def test_meta_mode_off_by_default_omits_seja_taxonomy() -> None:
+    search = FakeDocSearchPort([DocSearchHit(_chunk(0, "texto da plataforma"), 0.8)])
+    llm = FakeLLMClient()
+    use_case = AnswerHelpWithRag(search, llm)
+
+    use_case.execute("pergunta", roles=["public"])
+
+    assert llm.received_system is not None
+    # Base prompt always carries the honest-provenance line + its own grounding.
+    assert "documentação de design da Fala-Gávea" in llm.received_system
+    assert "usando APENAS os trechos" in llm.received_system
+    # Without meta_mode, the SEJA taxonomy lens (and its re-assertion) are absent.
+    assert "SEJA" not in llm.received_system
+    assert "não é fonte de fatos" not in llm.received_system
+
+
+def test_meta_mode_adds_seja_taxonomy_and_grounding_reassertion() -> None:
+    search = FakeDocSearchPort([DocSearchHit(_chunk(0, "texto da plataforma"), 0.8)])
+    llm = FakeLLMClient()
+    use_case = AnswerHelpWithRag(search, llm)
+
+    use_case.execute("pergunta", roles=["public", "internal"], meta_mode=True)
+
+    assert llm.received_system is not None
+    # Admin meta mode injects the SEJA taxonomy lens...
+    assert "SEJA" in llm.received_system
+    # ...and re-asserts the grounding contract after it, before the retrieved docs.
+    # Anchor on the closing tag (the opening "<DOCUMENTOS>" also appears in the
+    # re-assertion sentence, so it is not a reliable position marker).
+    seja_pos = llm.received_system.index("SEJA")
+    reassert_pos = llm.received_system.index("não é fonte de fatos")
+    docs_close_pos = llm.received_system.index("</DOCUMENTOS>")
+    assert seja_pos < reassert_pos < docs_close_pos
+
+
+def test_meta_mode_with_no_hits_still_returns_not_found_without_llm() -> None:
+    # meta_mode must NOT bypass the grounding not-found path.
+    search = FakeDocSearchPort([])
+    llm = FakeLLMClient()
+    use_case = AnswerHelpWithRag(search, llm)
+
+    result = use_case.execute("pergunta sem contexto", roles=["public", "internal"], meta_mode=True)
+
+    assert result.cited_docs == []
+    assert result.response == (
+        "Não encontrei essa informação na documentação da plataforma Fala-Gávea."
+    )
+    assert llm.call_count == 0
 
 
 def test_no_hits_returns_not_found_without_calling_llm() -> None:

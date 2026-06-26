@@ -139,6 +139,7 @@ def test_citizen_uses_public_only(db_session):
     assert body["cited_docs"][0]["source_path"] == "docs/guide.md"
     assert body["cited_docs"][0]["section_title"] == "Introdução"
     assert body["cited_docs"][0]["score"] == 0.9
+    assert body["cited_docs"][0]["doc_type"] == "guide"
     assert search.received_roles == ["public"]
 
 
