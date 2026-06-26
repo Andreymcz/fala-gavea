@@ -84,7 +84,12 @@ def index_selfdocs(*, if_empty: bool = False, roots: list[str] | None = None) ->
         return {"skipped": True, "reason": "collection not empty", "count": client.count()}
 
     chunks = walk_corpus(corpus_roots, root)
-    client.reindex_all(chunks)
+    print(
+        f"Embedding {len(chunks)} chunks on CPU (batch_size=64) — "
+        "this can take a few minutes; progress bar below.",
+        flush=True,
+    )
+    client.reindex_all(chunks, show_progress=True)
 
     public = sum(1 for c in chunks if c.role_visibility == "public")
     internal = sum(1 for c in chunks if c.role_visibility == "internal")

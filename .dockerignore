@@ -15,4 +15,8 @@ knowledge/vectorstore/
 .env.*
 !.env.example
 _output/
+!_output/plans/
+!_output/research-logs/
+!_output/reflections/
+!_output/communication/
 .git/

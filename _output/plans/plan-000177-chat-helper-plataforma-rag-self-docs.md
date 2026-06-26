@@ -98,7 +98,7 @@ class IDocIndexer(ABC):
 - **Interface**: exports `DocChunk`, `DocSearchHit`, `IDocSearchPort`, `IDocIndexer`
 - **Verify**: `uv run python -c "from fala_gavea.domain.repositories.doc_ports import DocChunk, IDocSearchPort, IDocIndexer, DocSearchHit; print('ok')"` exits 0
 - **Tests**: `tests/domain/test_doc_ports.py` -- assert `DocChunk`/`DocSearchHit` field types; assert `IDocSearchPort`/`IDocIndexer` cannot be instantiated directly (abstract)
-- [ ] Done
+- [x] Done
 
 ### Step 2: Markdown chunker + role-visibility classifier + corpus walker
 
@@ -134,7 +134,7 @@ Corpus roots come from `SemanticConfig.selfdocs_corpus_roots` (Step 4); default 
 - **Interface**: `classify_visibility`, `is_excluded`, `chunk_markdown`, `walk_corpus`
 - **Verify**: `uv run pytest tests/ -k "markdown_chunker"` passes
 - **Tests**: `tests/infrastructure/test_markdown_chunker.py` -- (a) a plan path → `("plan","internal")`; a communication path → `("communication","public")`; (b) `is_excluded` True for a security-checklists path; (c) a 3-heading doc yields 3 chunks with correct `section_title`; (d) an oversized section splits with overlap and contiguous `chunk_index`; (e) **(A3)** a chunk containing a value-shaped token (`sk-…`) is dropped by the content guard, while a chunk merely naming `ANTHROPIC_API_KEY` is retained
-- [ ] Done
+- [x] Done
 
 ### Step 3: ChromaDocSearchClient -- own collection, role-filtered query
 
@@ -174,7 +174,7 @@ The role filter is enforced at the **vector-store query** via Chroma `where` —
 - **Interface**: `ChromaDocSearchClient(config, model)` implements `IDocIndexer` + `IDocSearchPort`
 - **Verify**: `uv run pytest tests/ -k "chroma_doc_search"` passes; a citizen-path (`roles=["public"]`) query against a collection holding internal chunks returns **zero** internal hits
 - **Tests**: `tests/infrastructure/test_chroma_doc_search_client.py` (uses a real ephemeral Chroma in a tmp dir + a tiny fake/stub encoder or the real small model if CI allows) -- index 1 `public` + 1 `internal` chunk; `search(roles=["public"])` returns only the public chunk **and asserts no returned hit has `role_visibility == "internal"`** (verifies the filter, not just the count); `search(roles=["public","internal"])` returns both; `ready()` True after index, correct semantics on empty collection
-- [ ] Done
+- [x] Done
 
 ### Step 4: Config fields + dependency wiring (get_doc_search_port singleton, shared model)
 
@@ -204,7 +204,7 @@ Degraded path: if relatos Chroma init failed, doc search still obtains the model
 - **Interface**: `SemanticConfig.selfdocs_collection: str`, `SemanticConfig.selfdocs_corpus_roots: list[str]`; `get_embedding_model() -> SentenceTransformer`; `get_doc_search_port() -> IDocSearchPort | None`; `ChromaSearchClient(config, model: SentenceTransformer | None = None)`
 - **Verify**: server boots (`uv run uvicorn fala_gavea.presentation.api.main:app`) with **only one** e5 model load in logs; `uv run pytest tests/ -k "semantic_config or dependencies or chroma_search"` passes (incl. existing reports-client tests still green)
 - **Tests**: unit-test `SemanticConfig` defaults + env-var overrides; unit-test `get_doc_search_port()` returns `None` gracefully when Chroma init raises (monkeypatch); assert `ChromaSearchClient` still works when constructed without a `model` arg (backward compat)
-- [ ] Done
+- [x] Done
 
 ### Step 5: AnswerHelpWithRag use case (+ HelpAnswer, hardened prompt, citations)
 
@@ -248,7 +248,7 @@ Grounding hardening (research-000175 Rec 5): the retrieved chunks are wrapped in
 - **Interface**: `AnswerHelpWithRag.execute(message, *, roles) -> HelpAnswer`
 - **Verify**: `uv run pytest tests/ -k "answer_help"` passes
 - **Tests**: `tests/application/test_answer_help_with_rag.py` with a fake `IDocSearchPort` + fake `ILLMClient` -- (a) hits present → `cited_docs` populated, system prompt includes the chunk text; (b) no hits → `cited_docs == []` and response is the not-found message; (c) `roles` is forwarded verbatim to the port
-- [ ] Done
+- [x] Done
 
 ### Step 6: Schemas + POST /nl/help endpoint (all authenticated users)
 
@@ -300,7 +300,7 @@ Default to `["public"]` for any unknown role (default-deny). Error responses nev
 - **Verify**: `uv run pytest tests/ -k "nl_help or help_router"` passes; manual: `POST /nl/help` as citizen returns answer with only public-doc citations; as admin can cite internal docs
 - **Tests**: router tests with FastAPI `TestClient` + dependency overrides (fake search port/LLM) -- (a) 401 without token; (b) citizen call forwards `roles=["public"]`; (c) admin call forwards `roles=["public","internal"]`; (d) 503 when `get_doc_search_port`/`get_llm_client` overridden to `None`
 - **Docs**: add `POST /nl/help` to the API surface in `product-design/project/product-design-as-coded.md` (via post-skill as-coded sync) and CLAUDE.md
-- [ ] Done
+- [x] Done
 
 ### Step 7: scripts/reindex_selfdocs.py -- offline corpus (re)indexer
 
@@ -323,7 +323,7 @@ Flags: `--dry-run` (walk + classify + print counts, no embedding/write); `--root
 - **Verify**: `uv run python scripts/reindex_selfdocs.py --dry-run` prints non-zero chunk counts with a public/internal split and lists excluded sensitive files; full run populates `falagavea_selfdocs` and `GET`-querying via the endpoint returns hits
 - **Tests**: `tests/scripts/test_reindex_selfdocs.py` -- run `--dry-run` against a tiny tmp corpus fixture (1 plan + 1 communication + 1 security-checklists), assert counts (1 internal, 1 public, 1 excluded)
 - **Docs**: add the reindex command to CLAUDE.md Build & Run
-- [ ] Done
+- [x] Done
 
 ### Step 8: Frontend -- platform-helper chat surface
 
@@ -341,7 +341,7 @@ Identify exact file names by inspecting `frontend/src/` during implementation (m
 - **Verify**: `cd frontend && npm run build` exits 0; manual: authenticated user opens "Ajuda", asks "como registro um relato?", gets a grounded answer with a "Fontes" list; unauthenticated users do not see the entry
 - **Tests**: `cd frontend && npm run test` passes; add a test for `HelpChat` rendering the answer + citations from a mocked `postHelpChat`
 - **Docs**: N/A (covered by CLAUDE.md endpoint note in Step 6)
-- [ ] Done
+- [x] Done
 
 ### Step 9: Deploy -- corpus na imagem + indexação em startup (background)
 
@@ -385,7 +385,7 @@ Não bloqueia o uvicorn → o healthcheck `/health` (timeout 30s) passa imediata
 - **Verify**: `docker build` inclui o corpus; container sobe e passa o healthcheck < 30s mesmo com índice vazio; após a indexação em background, `POST /nl/help` retorna hits; restart não re-indexa (log "skip: collection not empty")
 - **Tests**: unit-test `index_selfdocs(if_empty=True)` é no-op quando `count() > 0` (monkeypatch do port); test do startup hook que ele agenda a thread sem lançar exceção quando o corpus está ausente (degrada para 503)
 - **Docs**: nota em CLAUDE.md sobre o build copiar o corpus e a indexação automática em startup
-- [ ] Done
+- [x] Done
 
 ---
 

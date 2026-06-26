@@ -30,6 +30,13 @@ uv run python scripts/seed_all.py                     # uses data/seed_relatos_f
 uv run python scripts/seed_all.py --csv data/seed_relatos_fala_gavea_200.csv  # smaller CSV
 uv run python scripts/seed_all.py --skip-forwardings  # skip forwarding seed
 
+# (Re)index the project's self-docs corpus into the Chroma self-docs collection
+uv run python scripts/reindex_selfdocs.py             # full (re)index
+uv run python scripts/reindex_selfdocs.py --dry-run   # walk + counts only, no model/write
+uv run python scripts/reindex_selfdocs.py --if-empty  # only index when collection is empty
+# NOTE: the container indexes self-docs automatically at startup (daemon thread,
+# --if-empty semantics), so this is only needed for local dev or a forced rebuild.
+
 ### Frontend (SPA)
 
 ```bash
@@ -86,7 +93,8 @@ src/fala_gavea/
 
 1. **Todas as chamadas LLM e buscas semanticas passam pelo `infrastructure/`** (ChromaClient, OllamaClient) — nenhum acesso direto a ChromaDB ou Ollama em use cases ou routers
 2. **Autenticacao e middleware** — nenhum router acessa JWT diretamente; use `dependencies.py` (get_current_user, require_role)
-3. **Type annotations obrigatorias** em todas as funcoes publicas; configuracao via env vars (FALA_GAVEA_OLLAMA_URL, FALA_GAVEA_OLLAMA_MODEL, DATABASE_URL, FALA_GAVEA_LLM_PROVIDER, ANTHROPIC_API_KEY, FALA_GAVEA_ANTHROPIC_MODEL)
+3. **Type annotations obrigatorias** em todas as funcoes publicas; configuracao via env vars (FALA_GAVEA_OLLAMA_URL, FALA_GAVEA_OLLAMA_MODEL, DATABASE_URL, FALA_GAVEA_LLM_PROVIDER, ANTHROPIC_API_KEY, FALA_GAVEA_ANTHROPIC_MODEL, FALA_GAVEA_SELFDOCS_COLLECTION, FALA_GAVEA_SELFDOCS_ROOTS)
+4. **Assistente de ajuda da plataforma (self-docs RAG)** — `POST /nl/help` (qualquer role autenticada; busca filtrada por visibilidade citizen/agent=public, admin=public+internal) responde perguntas sobre a plataforma a partir da documentacao do projeto, indexada na colecao Chroma de self-docs (ver `scripts/reindex_selfdocs.py`)
 
 ## Skills & Design References
 

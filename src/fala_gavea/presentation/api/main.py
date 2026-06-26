@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import importlib.util
 import logging
 import os
+import threading
 from pathlib import Path
 
 # Allow fine-grained log level control via env var, e.g.:
@@ -78,6 +80,33 @@ def _mount_spa(app: FastAPI) -> None:
         return response
 
 
+def _launch_selfdocs_indexer() -> None:
+    """Index the self-docs corpus into Chroma on first boot.
+
+    Runs in a daemon thread so it never blocks startup (Railway healthcheck
+    timeout is 30s). `if_empty=True` makes restarts a cheap no-op once the
+    persistent volume is populated. All failures are swallowed (non-fatal):
+    a missing corpus or model must never take the API down.
+    """
+    try:
+        # main.py lives at src/fala_gavea/presentation/api/main.py; parents[4] = repo root.
+        repo_root = Path(__file__).resolve().parents[4]
+        script = repo_root / "scripts" / "reindex_selfdocs.py"
+        if not script.exists():
+            _fala_logger.info("self-docs indexer skipped: %s not found", script)
+            return
+        spec = importlib.util.spec_from_file_location("reindex_selfdocs", script)
+        if spec is None or spec.loader is None:
+            _fala_logger.warning("self-docs indexer skipped: cannot load %s", script)
+            return
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        result = mod.index_selfdocs(if_empty=True)
+        _fala_logger.info("self-docs index: %s", result)
+    except Exception as exc:  # noqa: BLE001 -- non-fatal: never crash startup
+        _fala_logger.warning("self-docs indexer failed (non-fatal): %s", exc)
+
+
 def create_app() -> FastAPI:
     app = FastAPI(title="Fala Gavea API", version="0.1.0")
     limiter = Limiter(key_func=get_remote_address)
@@ -123,6 +152,8 @@ def create_app() -> FastAPI:
     def _warm_up_chroma() -> None:
         from fala_gavea.presentation.api.dependencies import get_report_indexer
         get_report_indexer()
+        # Index self-docs in the background so it never blocks the healthcheck.
+        threading.Thread(target=_launch_selfdocs_indexer, daemon=True).start()
 
     return app
 

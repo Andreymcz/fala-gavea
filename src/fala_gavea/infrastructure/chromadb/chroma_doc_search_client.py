@@ -33,13 +33,15 @@ class ChromaDocSearchClient(IDocIndexer, IDocSearchPort):
     # IDocIndexer
     # ------------------------------------------------------------------
 
-    def reindex_all(self, chunks: list[DocChunk]) -> None:
+    def reindex_all(self, chunks: list[DocChunk], *, show_progress: bool = False) -> None:
         self._client.delete_collection(self._collection_name)
         self._collection = self._client.get_or_create_collection(self._collection_name)
         if not chunks:
             return
         embeddings = self._model.encode(
-            [f"passage: {c.text}" for c in chunks], batch_size=64, show_progress_bar=False
+            [f"passage: {c.text}" for c in chunks],
+            batch_size=64,
+            show_progress_bar=show_progress,
         ).tolist()
         self._collection.add(
             ids=[c.chunk_id for c in chunks],

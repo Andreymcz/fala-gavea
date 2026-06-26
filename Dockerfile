@@ -30,6 +30,11 @@ RUN uv run python -c \
 COPY src/ ./src/
 COPY scripts/ ./scripts/
 
+# Copy the self-docs corpus (product-design/ + re-included _output/ subdirs) so
+# the startup hook can index it offline without network access.
+COPY product-design/ ./product-design/
+COPY _output/ ./_output/
+
 # Copy pre-built SPA into static/ (the path main.py resolves to)
 COPY --from=frontend-build /app/static/ ./static/
 
