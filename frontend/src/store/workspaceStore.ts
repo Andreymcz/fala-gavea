@@ -48,16 +48,16 @@ interface WorkspaceState {
   isDirty: () => boolean
 }
 
-export function defaultViewsForRole(role: UserRole | undefined): ViewId[] {
-  if (role === 'agent' || role === 'admin') return ['map', 'table', 'cesta', 'keywords', 'similars', 'chat']
-  return ['map', 'table']
+export function defaultViewsForRole(_role: UserRole | undefined): ViewId[] {
+  // Default to map-only for every role; other views are opt-in via the toggle bar.
+  return ['map']
 }
 
 export const useWorkspaceStore = create<WorkspaceState>()((set, get) => ({
   filters: {},
   draftFilters: {},
   selectedIds: new Set<string>(),
-  activeViews: ['map', 'table'],
+  activeViews: ['map'],
   similarSeedId: null,
   panelOpen: true,
   loadedPresetName: null,

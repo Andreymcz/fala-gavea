@@ -126,11 +126,11 @@ describe('workspaceStore', () => {
     expect(useWorkspaceStore.getState().panelOpen).toBe(false)
   })
 
-  it("defaultViewsForRole includes 'cesta' for agent/admin, not for citizen", () => {
-    expect(defaultViewsForRole('agent')).toContain('cesta')
-    expect(defaultViewsForRole('admin')).toContain('cesta')
-    expect(defaultViewsForRole('citizen')).not.toContain('cesta')
-    expect(defaultViewsForRole(undefined)).not.toContain('cesta')
+  it('defaultViewsForRole returns map-only for every role', () => {
+    expect(defaultViewsForRole('agent')).toEqual(['map'])
+    expect(defaultViewsForRole('admin')).toEqual(['map'])
+    expect(defaultViewsForRole('citizen')).toEqual(['map'])
+    expect(defaultViewsForRole(undefined)).toEqual(['map'])
   })
 
   it("showView adds 'cesta' when absent and is idempotent", () => {
