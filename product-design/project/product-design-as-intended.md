@@ -591,6 +591,30 @@ _N/A — projeto greenfield._
 
 *Source: from research-000175 (2026-06-26)*
 
+### D-015: ### D-NEXT: Marcador unificado de proveniência de IA (`AiBadge`)
+
+
+**Context**: Features de IA hoje carregam rótulos `(IA)` ad-hoc e inconsistentes (ViewToggleBar, FilterPanel); falta sinalização consistente de que o conteúdo é gerado por IA.
+**Decision**: Componente reutilizável `AiBadge` (ícone ✨ + texto curto "IA" + tooltip "Conteúdo gerado por IA — pode conter erros. Revise antes de agir.") aplicado em todas as superfícies de IA: chat NL/RAG, assistente de filtros + busca semântica, e sugestão de tipo de relato (quando plan-000174 for implementado). A11y: accessible name obrigatório; o keyword auto-extraction fica fora de escopo por ora.
+**Consequences**: Sinalização consistente; um único componente front-end; sem backend; sem i18n framework (copy pt-BR hardcoded).
+**Rejected Alternatives**: marcador só-ícone sem nome acessível (falha A11y e metacomunicação IIc1 'What's this?'); manter rótulos textuais ad-hoc por feature.
+
+*Source: research-000176 (2026-06-26)*
+
+*Source: from research-000176 (2026-06-26)*
+
+### D-016: ### D-NEXT: Síntese de comentários de encaminhamento (agent-only, efêmera, on-demand)
+
+
+**Context**: Encaminhamentos acumulam comentários (cidadãos + agentes) no `CommentSection`; agentes precisam de um resumo rápido do thread.
+**Decision**: `POST /forwardings/{id}/comments/summary` guardado a agent/admin; use case `SummarizeForwardingComments` via `ILLMClient` (provider configurado); resumo efêmero (não persistido, não indexado em ChromaDB) acionado por botão on-demand; hardening de prompt-injection (texto do comentário delimitado em mensagem `user`, nunca no `system`, output renderizado como texto plano); jamais exposto na visão pública do encaminhamento.
+**Consequences**: Sem mudança de schema; sem obrigações de retenção/right-to-deletion; custo de uma chamada LLM por clique; hint de obsolescência quando novos comentários chegam.
+**Rejected Alternatives**: resumo persistido/cacheado no servidor (cria artefato com PII e deveres de retenção); visível na visão pública (privacidade, conflita com D-011); texto de comentário no system prompt (risco de injeção).
+
+*Source: research-000176 (2026-06-26)*
+
+*Source: from research-000176 (2026-06-26)*
+
 ## CHANGELOG
 
 2026-06-17 | D-001 | added | - | Decisao de novo projeto independente via python-scaffold (roadmap-000071 D-A)
