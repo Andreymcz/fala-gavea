@@ -1,6 +1,7 @@
 # Research 000180 | fala-gavea | 2026-06-26 13:10 UTC | SEJA methodology in the platform-helper system prompt (dogfooding)
 
 source: follows plan-000177 (chat-helper RAG sobre self-docs, D-014)
+spawned: plan-000181
 tags: rag, system-prompt, metacommunication, security, architecture, dogfooding
 
 ## User brief

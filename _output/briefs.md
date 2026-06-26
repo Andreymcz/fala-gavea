@@ -1,8 +1,12 @@
 # Briefs Log
 
+STARTED | 2026-06-26 16:39 UTC | reflect | on this project. we are entering in polishing stage. we dont want to add more features. we want to document, verify pending, update design as intended vs as coded.
+
+DONE | 2026-06-26 16:42 UTC | STARTED | 2026-06-26 16:38 UTC | plan | source: research-000180 — embed SEJA methodology into platform-helper (D-017): role-conditional system prompt (honest-provenance line all roles + admin meta_mode SEJA taxonomy resolved in router), taxonomy-as-lens grounding preserved, doc_type in citations | PLAN | 000181
+
 DONE | 2026-06-26 13:19 UTC | STARTED | 2026-06-26 13:03 UTC | research | following chat helper from plan 177, can we add SEJA skill into chat context to harness the chat itself?
 
-STARTED | 2026-06-26 12:55 UTC | implement | plan-000177 chat-helper da plataforma: RAG sobre self-docs (D-014)
+DONE | 2026-06-26 14:55 UTC | STARTED | 2026-06-26 12:55 UTC | implement | plan-000177 chat-helper da plataforma: RAG sobre self-docs (D-014) | PLAN | 000177
 
 DONE | 2026-06-26 12:53 UTC | STARTED | 2026-06-26 11:55 UTC | plan | source:research-000175 Implementar o chat-helper da plataforma (D-014): bounded context próprio (IDocSearchPort/ChromaDocSearchClient coleção falagavea_selfdocs) + AnswerHelpWithRag + POST /nl/help; chunking por heading com role_visibility default-deny; reindex_selfdocs offline + indexação em startup do container | PLAN | 000177
 
