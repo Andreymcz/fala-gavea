@@ -8,21 +8,39 @@ from slowapi import Limiter
 from slowapi.util import get_remote_address
 
 from fala_gavea.application.use_cases.chat.answer_with_rag import AnswerWithRag
+from fala_gavea.application.use_cases.help.answer_help_with_rag import AnswerHelpWithRag
 from fala_gavea.application.use_cases.nl.parse_nl_filter import ParseNLFilter
 from fala_gavea.domain.entities.user import User
 from fala_gavea.domain.exceptions import OllamaUnavailableError
+from fala_gavea.domain.repositories.doc_ports import IDocSearchPort
 from fala_gavea.domain.repositories.filter_ports import ParseError
 from fala_gavea.domain.repositories.report_repository import IReportRepository
 from fala_gavea.domain.repositories.semantic_ports import ILLMClient, ISemanticSearchPort
 from fala_gavea.presentation.api.dependencies import (
+    get_current_user,
+    get_doc_search_port,
     get_filter_parser,
     get_llm_client,
     get_report_repo,
     get_semantic_search_port,
     require_any_role,
 )
-from fala_gavea.presentation.schemas.chat import ChatRequest, ChatResponse
+from fala_gavea.presentation.schemas.chat import (
+    ChatRequest,
+    ChatResponse,
+    CitedDocResponse,
+    HelpChatRequest,
+    HelpChatResponse,
+)
 from fala_gavea.presentation.schemas.nl_filter import NLFilterRequest, NLFilterResponse
+
+# Role -> document visibility levels. Default-deny: unknown roles fall back to
+# ["public"] in the handler (see _ROLE_VISIBILITY.get(..., ["public"])).
+_ROLE_VISIBILITY = {
+    "citizen": ["public"],
+    "agent": ["public"],
+    "admin": ["public", "internal"],
+}
 
 router = APIRouter()
 _log = logging.getLogger(__name__)
@@ -55,6 +73,35 @@ def nl_chat(
     use_case = AnswerWithRag(search_port, report_repo, llm_client)
     result = use_case.execute(body.message)
     return ChatResponse(response=result.response, cited_report_ids=result.cited_report_ids)
+
+
+@router.post("/help", response_model=HelpChatResponse)
+@limiter.limit("20/minute")
+def nl_help(
+    request: Request,
+    body: HelpChatRequest,
+    current_user: User = Depends(get_current_user),
+    search_port: IDocSearchPort | None = Depends(get_doc_search_port),
+    llm_client: ILLMClient | None = Depends(get_llm_client),
+) -> HelpChatResponse:
+    if llm_client is None or search_port is None:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="O assistente de ajuda está indisponível no momento.",
+        )
+    roles = _ROLE_VISIBILITY.get(current_user.role.value, ["public"])  # default-deny
+    result = AnswerHelpWithRag(search_port, llm_client).execute(body.message, roles=roles)
+    return HelpChatResponse(
+        response=result.response,
+        cited_docs=[
+            CitedDocResponse(
+                source_path=c.source_path,
+                section_title=c.section_title,
+                score=c.score,
+            )
+            for c in result.cited_docs
+        ],
+    )
 
 
 @router.post("/filter", response_model=NLFilterResponse)
