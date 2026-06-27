@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Communication 000184 Academics</title>
+  <style>
+body {
+  max-width: 48em;
+  margin: 2em auto;
+  padding: 0 1em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+               Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #222;
+}
+h1, h2, h3 { margin-top: 1.4em; }
+code { background: #f4f4f4; padding: 0.15em 0.3em; border-radius: 3px; }
+pre  { background: #f4f4f4; padding: 1em; overflow-x: auto; border-radius: 4px; }
+pre code { background: none; padding: 0; }
+table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+th, td { border: 1px solid #ddd; padding: 0.5em 0.75em; text-align: left; }
+th { background: #f8f8f8; }
+blockquote { border-left: 4px solid #ddd; margin: 1em 0; padding: 0.5em 1em; color: #555; }
+a { color: #0366d6; }
+
+  </style>
+</head>
+<body>
+
+<h1 id="communication-000184-acd-2026-06-26-2227-utc-academicos">Communication 000184 | ACD | 2026-06-26 22:27 UTC | Academicos</h1>
+<blockquote>
+<p>Fonte: material-fonte curado de linha do tempo e moldura de design (<code>fala-gavea-timeline-source.md</code>), verificado e enriquecido contra <code>product-design/project/product-design-as-coded.md</code> (## Conceptual Design, ## Metacommunication, ## Journey Maps), <code>product-design-as-intended.md</code> (Decisoes D-001..D-017) e <code>constitution.md</code>.</p>
+</blockquote>
+<p>Material de referencia e explicacao, redigido para ser citado e adaptado diretamente em um relatorio academico final (INF2921/CIS2114 - AI Systems Design, PUC-Rio, 2026.1). O conteudo trata do sistema <strong>fala-gavea</strong> e de seu processo de design e implementacao como artefato de pesquisa em Engenharia Semiotica.</p>
+<hr />
+<h2 id="1-visao-geral-do-projeto">1. Visao geral do projeto</h2>
+<h3 id="identidade-e-missao">Identidade e missao</h3>
+<p>O <strong>fala-gavea</strong> e um sistema de demandas cidadas para seguranca urbana no bairro da Gavea (Rio de Janeiro), construido como prova de conceito para a disciplina INF2921/CIS2114 - AI Systems Design (PUC-Rio, 2026.1). Equipe: Andrey, Mauro, Julia, Herbert, Natali.</p>
+<p>O sistema articula tres papeis em torno de um fluxo unico de tratamento de demandas urbanas:</p>
+<ul>
+<li><strong>Cidadao</strong> registra um problema urbano com localizacao GPS, tipo, urgencia e texto livre (e, opcionalmente, foto e modo anonimo).</li>
+<li><strong>Agente publico</strong> explora as demandas - filtra, agrupa relatos similares, le padroes - e cria encaminhamentos formais para orgaos responsaveis (RioLuz, COMLURB e congeneres).</li>
+<li><strong>Administrador</strong> mantem dinamicamente a taxonomia de tipos de problema.</li>
+</ul>
+<h3 id="fase-atual">Fase atual</h3>
+<p>O projeto encontra-se em <strong>estagio de polimento</strong>: a plataforma nuclear, a camada semantica de IA, o workspace de exploracao, a transparencia cidada e o feedback cidadao estao entregues e funcionando ponta-a-ponta; a fronteira ativa concentra-se em features recentes de proveniencia de IA e no fechamento da lacuna entre intencao de design e implementacao (Secao 4). A janela de desenvolvimento foi de 2026-06-17 (primeiro commit) a 2026-06-26 - cerca de dez dias, 345 commits, 4 roadmaps, 45 planos, 22 ciclos de pesquisa, 11 reflexoes e 17 decisoes de design registradas (D-001..D-017).</p>
+<h3 id="proposta-de-valor-e-diferenciais">Proposta de valor e diferenciais</h3>
+<p>O problema que o sistema endereça e a fricao entre a demanda cidada dispersa e a acao publica coordenada: como transformar um volume alto de relatos heterogeneos em encaminhamentos informados sem que a decisao publica seja terceirizada para uma maquina. Quatro diferenciais sustentam a resposta:</p>
+<ul>
+<li><strong>IA como assistencia, nunca como decisao.</strong> Busca semantica, relatos similares e chat em linguagem natural ajudam o agente a entender padroes; a decisao de encaminhar - para qual orgao, com qual solucao proposta - e sempre humana. Esse e o invariante central de design, atravessando D-005, D-015 e D-017.</li>
+<li><strong>Privacidade local-first.</strong> Por padrao toda inferencia LLM roda localmente via Ollama; os dados cidadaos nao saem da maquina. Isto e um requisito constitucional (principio C1) e nao apenas uma configuracao: <code>FALA_GAVEA_LLM_PROVIDER=ollama</code> mantem o texto dos relatos local; o banco <code>fala_gavea.db</code> e versionado-fora (gitignored, invariantes S2/T4).</li>
+<li><strong>Tipos de problema dinamicos.</strong> A taxonomia de relatos e gerida em tabela (CRUD administrativo, soft-delete), nao codificada como enum - o vocabulario do dominio permanece mutavel sem mudanca de codigo.</li>
+<li><strong>Transparencia cidada.</strong> Leituras publicas de encaminhamentos (sem expor o agente responsavel), visao "Meus relatos" e proveniencia de IA explicita tornam o circuito demanda-&gt;encaminhamento auditavel pelo proprio cidadao.</li>
+</ul>
+<hr />
+<h2 id="2-fundamentacao-teorica-engenharia-semiotica">2. Fundamentacao teorica (Engenharia Semiotica)</h2>
+<p>O fala-gavea pode ser lido como uma operacionalizacao da <strong>Engenharia Semiotica</strong> de Clarisse de Souza, em que a interface e tratada como uma mensagem unidirecional do designer ao usuario - uma metacomunicacao em que o designer diz, em substancia: "este e o sistema que projetei, para voce, para estes fins, e e assim que voce interage com ele". O projeto e particularmente interessante para a tradicao porque insere um terceiro agente - a IA - no canal designer-usuario, e tematiza explicitamente como a IA deve se comunicar para nao corromper essa mensagem.</p>
+<h3 id="a-mensagem-de-metacomunicacao-do-designer">A mensagem de metacomunicacao do designer</h3>
+<p>A mensagem que o fala-gavea emite e estavel entre os tres papeis: "eu, designer, projetei isto para voce - cidadao, agente, administrador - e a IA esta aqui para te ajudar a explorar, nao para decidir por voce". Essa mensagem nao e implicita: ela esta <strong>codificada nos documentos de design-intent</strong> (a visao de metacomunicacao e as intencoes por feature em <code>product-design-as-intended.md</code>) antes de estar materializada na interface. O log de metacomunicacao por feature do as-coded torna isso explicito; para o Workspace Grid (plan-000104), a intencao registrada do designer e:</p>
+<blockquote>
+<p>"Eu te dou um workspace onde <em>voce</em> decide como ler os relatos - o filtro e seu e singular, e cada visao (mapa, tabela, topicos, similares, chat) olha o mesmo conjunto por angulos diferentes. A IA aparece como apenas mais uma lente de exploracao, sempre citando de onde tirou suas respostas - assistencia, nao decisao."</p>
+</blockquote>
+<p>Os documentos de design-intent funcionam, assim, como o <strong>template de metacomunicacao do designer</strong>: o lugar onde a "fala" do designer e redigida e revisada antes de ser emitida pela interface.</p>
+<h3 id="comunicabilidade-da-ia-como-assistencia">Comunicabilidade da IA como assistencia</h3>
+<p>A categoria de <strong>comunicabilidade</strong> - a capacidade da interface de comunicar ao usuario a logica de design pretendida - manifesta-se aqui como um conjunto de <strong>signos metalinguisticos</strong>: a interface fala sobre sua propria IA. Cada decisao concreta abaixo sustenta a mensagem de que a IA assiste mas nao decide:</p>
+<ul>
+<li><strong>Citacoes de proveniencia.</strong> O chat RAG sobre relatos (<code>POST /nl/chat</code>) retorna <code>cited_report_ids</code>; o helper da plataforma (<code>POST /nl/help</code>) retorna <code>cited_docs</code>, renderizados como lista "Fontes". A IA mostra de onde tirou a resposta, em vez de afirma-la sem origem.</li>
+<li><strong>Marcador de proveniencia (AiBadge, D-015).</strong> Conteudo gerado por IA e marcado como tal - sinalizando "pode conter erros, revise antes de agir". (Planejado; ver Secao 4 quanto ao status de implementacao.)</li>
+<li><strong>Nunca-auto-aplica.</strong> A sugestao de tipo de relato nunca e aplicada automaticamente; o filtro em linguagem natural (<code>POST /nl/filter</code>) produz um rascunho de filtro que so toma efeito quando o usuario clica "Aplicar" (filtro encenado, D-009). A acao decisoria permanece um ato humano explicito.</li>
+</ul>
+<p>Esses signos sao a forma pela qual a comunicabilidade e preservada apesar da mediacao da IA: a IA nunca se apresenta como autoridade, e sim como uma lente cuja origem e sempre exibida.</p>
+<h3 id="o-helper-como-deputy-de-proveniencia-honesta-d-017">O helper como deputy de proveniencia honesta (D-017)</h3>
+<p>O assistente de ajuda da plataforma (<code>POST /nl/help</code>, plan-000177) e um <strong>caso de dogfooding semiotico</strong>: o sistema explica a si mesmo a partir do seu proprio corpus de documentacao de design, indexado em uma colecao Chroma separada (<code>falagavea_selfdocs</code>). Ele se apresenta como divulgacao honesta de proveniencia - "minha base e a documentacao de design do projeto e eu sempre cito as fontes" - sem alegacoes antropomorficas. Na terminologia da Engenharia Semiotica, o helper atua como <strong>deputy</strong> (preposto) do designer: ele estende a fala do designer ao usuario em tempo de execucao, e D-017 embute a propria metodologia do projeto no prompt do helper, de modo que a divulgacao de proveniencia seja honesta por papel (a visibilidade dos trechos respeita citizen/agent=public, admin=public+internal, com negacao por padrao).</p>
+<hr />
+<h2 id="3-arquitetura-como-artefato-de-pesquisa">3. Arquitetura como artefato de pesquisa</h2>
+<p>A arquitetura do fala-gavea e relevante para a pesquisa nao apenas pelo que constroi, mas pelo que <strong>torna visivel</strong>.</p>
+<h3 id="arquitetura-limpa-e-o-construto-da-fala-unica-do-designer">Arquitetura limpa e o construto da fala unica do designer</h3>
+<p>O sistema adota arquitetura limpa em quatro camadas - <code>domain</code> (entidades como dataclasses puras, portas como ABCs), <code>application</code> (casos de uso, sem acesso direto a banco ou HTTP), <code>infrastructure</code> (SQLAlchemy, ChromaClient, OllamaClient/AnthropicClient) e <code>presentation</code> (routers FastAPI, schemas Pydantic). Duas convencoes constitucionais sao semioticamente carregadas: <strong>toda chamada LLM e busca semantica passa por <code>infrastructure/</code></strong> (T1) e <strong>nenhum router acessa JWT diretamente</strong> (T2). O efeito e que a "voz" da IA e a "voz" da autorizacao tem, cada uma, um unico ponto de emissao auditavel - substituir o provedor de LLM ou o esquema de autenticacao e uma mudanca localizada, e a mensagem que o sistema emite ao usuario nao se fragmenta em vozes inconsistentes espalhadas pelo codigo.</p>
+<h3 id="as-intended-vs-as-coded-como-mecanismo-de-visibilidade-de-spec-drift">As-intended vs as-coded como mecanismo de visibilidade de spec-drift</h3>
+<p>A contribuicao metodologica mais citavel do projeto e a <strong>separacao explicita entre intencao (as-intended) e implementacao (as-coded)</strong>. O design-intent - mantido por humanos via marcadores - registra o que foi projetado; o as-coded - mantido pelo agente - registra o que foi efetivamente construido. A distancia entre os dois (a deriva de design, ou <em>spec-drift</em>) torna-se um objeto observavel e auditavel, e nao um residuo tacito. O registro de jornadas ilustra: as jornadas projetadas JM-TB-001 (registro), JM-TB-002 (encaminhamento) e JM-TB-003 (exploracao/analise no workspace por multiplas visoes) constam como implementadas ponta-a-ponta no as-coded, com a delta "Differs from Intent" explicitamente vazia - uma afirmacao verificavel, nao uma suposicao.</p>
+<h3 id="decisoes-de-design-d-nnn-como-registro-auditavel">Decisoes de design (D-NNN) como registro auditavel</h3>
+<p>As 17 decisoes de design (D-001..D-017) formam um registro estavel e enderecavel que mapeia escolhas estruturais a construtos semioticos. Exemplos: D-007 (supersede D-006) substitui o frontend HTML estatico por uma SPA React+Vite+TS; D-008 substitui o modelo map-centric por um workspace em grid com visoes intercambiaveis sobre um filtro unico; D-009 introduz o filtro encenado (rascunho + "Aplicar"); D-010..D-013 fecham a transparencia cidada; D-014 introduz o helper auto-documentado; D-015 o marcador de proveniencia; D-017 embute a metodologia no prompt do helper. Cada D-NNN e simultaneamente um registro de engenharia (o que mudou e por que) e um registro semiotico (como a mudanca afeta a mensagem do designer ao usuario). Esse cruzamento - decisao tecnica reversivel ancorada a uma justificativa de metacomunicacao - e o que confere ao processo carater de artefato de pesquisa.</p>
+<hr />
+<h2 id="4-linha-do-tempo-do-projeto-intencao-entrega">4. Linha do tempo do projeto (intencao -&gt; entrega)</h2>
+<p>O desenvolvimento organizou-se em cinco epocas. Cada epoca parte da intencao de um roadmap, desce a planos, e converge (ou nao) em entrega. A leitura intencao-&gt;entrega abaixo e a espinha factual para a secao de processo do relatorio.</p>
+<table>
+<thead>
+<tr>
+<th>Epoca</th>
+<th>Janela</th>
+<th>Intencao do roadmap</th>
+<th>Entregue</th>
+<th>Pivos e lacunas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1 - Plataforma nuclear</strong> (roadmap-00001)</td>
+<td>17-18/jun</td>
+<td>Cidadao registra relato -&gt; agente encaminha -&gt; IA assiste; D-A..D-F</td>
+<td>Scaffold FastAPI + arquitetura limpa (plan-00002); 5 entidades de dominio + auth JWT + reports (plan-000073); CRUD admin de ReportType com soft-delete e seed de 8 tipos (plan-000075); CRUD de Forwarding many-to-many com cascata de status (plan-000079); seed de usuarios + 10k relatos por 1 ano (plan-000084/085)</td>
+<td><strong>PIVO D-006-&gt;D-007</strong> (plan-000082): a intencao era HTML estatico + Alpine + Leaflet; virou SPA React+Vite+TS por feedback do usuario ("visual mais fluido e moderno")</td>
+</tr>
+<tr>
+<td><strong>2 - Espacos semanticos / IA</strong> (roadmap-00002)</td>
+<td>18-19/jun</td>
+<td>Espacos de embedding por proposito, hook de ingestao, BERTopic, RAG</td>
+<td>Registry de embeddings + ChromaClient + portas de dominio (plan-000089); hook de indexacao no CreateReport + backfill dos 10k (plan-000090); busca e similares (plan-000094); chat RAG plugavel Ollama/Anthropic (plan-000100)</td>
+<td><strong>CONSTRUIR-E-ESTACIONAR</strong>: BERTopic (plan-000099) foi implementado e depois aposentado em favor de TF-IDF (plan-000124); o pacote permanece instalado, dormente, reservado para fine-tuning futuro</td>
+</tr>
+<tr>
+<td><strong>3 - Workspace + deploy + transparencia</strong> (roadmap-000146)</td>
+<td>19-23/jun</td>
+<td>Remodelar a UI; fechar a transparencia cidada; D-008..D-013</td>
+<td><strong>PIVO map-centric -&gt; D-008</strong> workspace em grid (store Zustand, visoes intercambiaveis, plan-000104); deploy Docker/Railway, import CSV em massa, painel admin seed/wipe (plan-000096/105/109/112/113/115/120); clusters TF-IDF (plan-000124); endpoint unificado <code>POST /reports/query</code> (plan-000132); filtro encenado D-009 (plan-000137); presets de filtro (plan-000139); parser NL-&gt;filtro (plan-000140); transparencia cidada D-010..D-013, 3 waves no mesmo dia (roadmap-000146); seed de encaminhamentos (plan-000148)</td>
+<td>Entrega ampla; transparencia executada em contextos isolados no mesmo dia</td>
+</tr>
+<tr>
+<td><strong>4 - Feedback cidadao</strong> (roadmap-000151)</td>
+<td>23-25/jun</td>
+<td>Votos + comentarios + anonimizacao</td>
+<td>Migracoes Alembic + backends de votos/comentarios/anonimato (plan-000152-155); UX correspondente (plan-000156-158); seed runner, nav "Meus relatos", <code>GET /forwardings/mine</code> (plan-000161/164/167/169); dados de teste citizen01 (plan-000170)</td>
+<td>Execucao limpa em 3 waves</td>
+</tr>
+<tr>
+<td><strong>5 - Features de IA mais recentes</strong> (fronteira)</td>
+<td>25-26/jun</td>
+<td>Proveniencia de IA, helper auto-documentado, dogfooding</td>
+<td>Helper da plataforma com RAG sobre a propria documentacao, <code>POST /nl/help</code> (D-014, plan-000177, <strong>ENTREGUE</strong>); metodologia embutida no prompt do helper (D-017, plan-000181, <strong>ENTREGUE</strong>)</td>
+<td><strong>A LACUNA</strong>: tres planos planejados-nao-implementados - sugestao plugavel de tipo Chroma+DistilBERT (plan-000174); AiBadge (D-015, plan-000178); sintese de comentarios de encaminhamento (D-016, plan-000179, so agente, efemera)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="leituras-do-processo">Leituras do processo</h3>
+<ul>
+<li><strong>Dois pivos deliberados.</strong> D-006-&gt;D-007 (HTML estatico -&gt; SPA, dia 2) e map-centric -&gt; D-008 (workspace em grid, dia 3) superaram decisoes anteriores do roadmap por feedback do usuario, nao por falha de execucao. Sao casos de revisao de intencao registrada.</li>
+<li><strong>Um caso construir-e-estacionar.</strong> BERTopic foi construido, aposentado e mantido dormente - um exemplo de decisao reversivel deixada explicita no registro, em vez de removida silenciosamente.</li>
+<li><strong>Roadmaps mais apertados ao longo do tempo.</strong> Os primeiros roadmaps eram amplos e multi-wave, com marcadores plan-TBD; os ultimos foram execucoes no mesmo dia com planos reservados inline - uma maturacao do metodo de planejamento.</li>
+<li><strong>A fronteira e a lacuna as-intended vs as-coded.</strong> Os tres planos nao construidos carregam as decisoes D-015 e D-016; o projeto entrou em estagio de polimento precisamente para fechar esse delta de documentacao. Aqui a intencao ultrapassa a entrega, e a metodologia torna esse excesso visivel em vez de oculta-lo.</li>
+</ul>
+<hr />
+<h2 id="5-agenda-de-pesquisa-questoes-em-aberto">5. Agenda de pesquisa / questoes em aberto</h2>
+<p>O fala-gavea, por inserir uma IA mediadora no canal designer-usuario e tematizar sua comunicabilidade, levanta um conjunto de questoes que excedem o escopo da prova de conceito e que servem de agenda para investigacao futura.</p>
+<ul>
+<li>
+<p><strong>Efeito da metacomunicacao estruturada da IA sobre a confianca e a decisao do agente.</strong> O sistema sustenta, por design, que citacoes de proveniencia (<code>cited_report_ids</code>, <code>cited_docs</code>), marcacao de conteudo gerado e o padrao nunca-auto-aplica preservam a agencia humana. Resta empiricamente em aberto se esses signos metalinguisticos de fato calibram a confianca do agente publico - se reduzem a delegacao indevida a maquina sem reduzir a utilidade da assistencia. Um estudo de comunicabilidade com agentes reais (protocolos de interpretacao de signos) seria o caminho natural.</p>
+</li>
+<li>
+<p><strong>Comunicabilidade quando a IA medeia a relacao designer-usuario.</strong> A Engenharia Semiotica classica modela um canal designer-&gt;usuario. Aqui ha um deputy de execucao (a IA) que reformula a mensagem do designer em tempo real, a partir de um corpus. Em que condicoes a fala do deputy permanece fiel a fala do designer? O caso do helper auto-documentado (D-017) oferece um banco de testes concreto: o que acontece com a comunicabilidade quando o sistema explica a si mesmo a partir de seu proprio corpus de design.</p>
+</li>
+<li>
+<p><strong>Onde o modelo "IA-como-assistencia" se rompe.</strong> O invariante "a IA assiste, nunca decide" e nitido no design, mas suas bordas sao questoes de pesquisa: filtros NL pre-preenchidos, sugestoes de tipo e sinteses podem, na pratica, ancorar a decisao humana mesmo sem se auto-aplicarem (efeito de anchoring). Mapear os pontos em que a assistencia se converte de fato em decisao implicita e uma questao em aberto de design de IA.</p>
+</li>
+<li>
+<p><strong>Avaliacao da sugestao automatica de tipo (DistilBERT vs Chroma), ainda nao construida.</strong> O plan-000174 previa uma sugestao plugavel de tipo de relato comparando uma abordagem por embeddings (Chroma) e uma por classificador (DistilBERT). Como o plano nao foi implementado, a comparacao permanece uma questao em aberto: qual abordagem oferece melhor precisao no dominio de seguranca urbana pt-BR, e como a escolha interage com a exigencia de que a sugestao nunca seja auto-aplicada.</p>
+</li>
+</ul>
+<hr />
+<p><em>Personas de referencia: R-P-001 Cidadao (mobile, in loco; jornada JM-TB-001); R-P-002 Agente publico (desktop, plantao; JM-TB-002, JM-TB-003); R-P-003 Administrador (manutencao da taxonomia de tipos). As tres jornadas projetadas estao implementadas ponta-a-ponta no estado as-coded.</em></p>
+
+</body>
+</html>

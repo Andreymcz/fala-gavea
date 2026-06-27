@@ -1,5 +1,7 @@
 # Briefs Log
 
+DONE | 2026-06-26 22:33 UTC | STARTED | 2026-06-26 22:27 UTC | communicate | to Julia, que está fazendo um relatorio final da disciplina
+
 DONE | 2026-06-26 20:34 UTC | STARTED | 2026-06-26 20:27 UTC | implement | plan-000183 Local showcase seed pipeline + votes/comments/saved-filters/lifecycle seeds | PLAN | 000183
 
 DONE | 2026-06-26 20:25 UTC | STARTED | 2026-06-26 20:15 UTC | plan | create local pipeline for seeding app. create makefile entry receiving url as parameter and create a intial seed of the appplication to showcase features. There is some features that do not have any seed, like upvotes. check recent reflection to see what whas implemented and give suggestions of new seed pipeline entryes | PLAN | 000183
