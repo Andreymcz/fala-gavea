@@ -154,3 +154,8 @@
 - **Added**: Frontend — `api.seedRelatos(file)` + "Seed de Relatos" card (CSV upload + pt-BR rules) in AdminPage.tsx
 - **Source**: agent (post-skill)
 - **Plan**: plan-000113
+
+### v9 -- 2026-06-28
+- **Changed**: Seed tooling — coordenadas dos relatos agora clusterizadas em POIs reais da Gávea (Rocinha, PUC, Parque da Cidade, Baixo Gávea, Shopping, Planetário, Jockey; distribuição ponderada + jitter gaussiano ~100m) em vez de amostragem uniforme num retângulo que vazava para Jardim Botânico/Lagoa. Fonte única `scripts/gavea_clusters.py`; gerador e novo `scripts/recluster_coordinates.py` consomem o módulo; teste de regressão `in_gavea` sobre todas as fontes seedadas.
+- **Source**: agent (post-skill)
+- **Plan**: plan-000189

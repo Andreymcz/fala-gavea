@@ -45,6 +45,14 @@ uv run python scripts/seed_all.py --skip-forwardings --skip-votes --skip-comment
 #   forwarding B = finalizado (+conclusion comment); 8 unresolved + 2 resolved.
 uv run python scripts/seed_journey_anchors.py         # standalone (idempotent; --force to re-seed)
 
+# Coordenadas dos relatos são clusterizadas em POIs reais da Gávea (Rocinha,
+# PUC, Parque da Cidade, Baixo Gávea etc.) — fonte única em scripts/gavea_clusters.py
+# (centros + pesos + bounding box). Isso evita pontos vazando para Jardim
+# Botânico/Lagoa. Para regerar os CSVs gerados ou re-clusterizar coordenadas:
+uv run python scripts/generate_natural_relatos.py     # regera o CSV 1k (coords clusterizadas)
+uv run python scripts/recluster_coordinates.py        # reescreve só lat/lon dos 3 CSVs de seed (determinístico)
+uv run python scripts/recluster_coordinates.py --csv data/seed_journey_anchors.csv  # idem para outro CSV
+
 # (Re)index the project's self-docs corpus into the Chroma self-docs collection
 uv run python scripts/reindex_selfdocs.py             # full (re)index
 uv run python scripts/reindex_selfdocs.py --dry-run   # walk + counts only, no model/write

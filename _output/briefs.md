@@ -1,5 +1,9 @@
 # Briefs Log
 
+DONE | 2026-06-28 22:47 UTC | STARTED | 2026-06-28 22:24 UTC | implement | plan-000189 Clusterizar coordenadas dos relatos em POIs reais da Gávea | PLAN | 000189
+
+STARTED | 2026-06-28 22:20 UTC | plan | ajustes no seed: clusterizar relatos em POIs reais da Gávea (Rocinha-Gávea, Parque da Cidade, PUC) para sair do Jardim Botânico/Lagoa
+
 DONE | 2026-06-28 21:42 UTC | STARTED | 2026-06-28 21:40 UTC | research | tem alguns arquivos nao comitados no repositorio
 
 DONE | 2026-06-28 13:15 UTC | STARTED | 2026-06-28 13:12 UTC | communicate | audiência acadêmica (professores INF2921) — material a partir de research-000186, separando entregue vs idealizado

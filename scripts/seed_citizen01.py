@@ -29,8 +29,8 @@ _RELATOS: list[dict] = [
         ),
         "urgency": "alta",
         "type_key": "iluminacao publica",
-        "lat": -22.9601,
-        "lon": -43.2245,
+        "lat": -22.988483,
+        "lon": -43.245068,
     },
     {
         "text": (
@@ -39,8 +39,8 @@ _RELATOS: list[dict] = [
         ),
         "urgency": "alta",
         "type_key": "transito e mobilidade",
-        "lat": -22.9635,
-        "lon": -43.2198,
+        "lat": -22.974006,
+        "lon": -43.227806,
     },
     {
         "text": (
@@ -49,8 +49,8 @@ _RELATOS: list[dict] = [
         ),
         "urgency": "media",
         "type_key": "espaco publico",
-        "lat": -22.9654,
-        "lon": -43.2217,
+        "lat": -22.987409,
+        "lon": -43.245865,
     },
     {
         "text": (
@@ -59,25 +59,25 @@ _RELATOS: list[dict] = [
         ),
         "urgency": "media",
         "type_key": "lixo e conservacao",
-        "lat": -22.9678,
-        "lon": -43.2269,
+        "lat": -22.977580,
+        "lon": -43.224411,
     },
     {
-        "text": "Pixacao extensa no muro do clube prejudicando a paisagem urbana na Rua Sao Clemente",
+        "text": "Pixacao extensa no muro do clube prejudicando a paisagem urbana na Rua Marques de Sao Vicente",
         "urgency": "baixa",
         "type_key": "vandalismo",
-        "lat": -22.9556,
-        "lon": -43.2136,
+        "lat": -22.975188,
+        "lon": -43.225853,
     },
     {
         "text": (
-            "Buraco profundo no asfalto da Rua Sao Clemente proximo ao numero 200 "
+            "Buraco profundo no asfalto da Estrada da Gavea proximo ao numero 200 "
             "causando risco de acidentes para motos e bicicletas"
         ),
         "urgency": "alta",
         "type_key": "espaco publico",
-        "lat": -22.9590,
-        "lon": -43.2180,
+        "lat": -22.977128,
+        "lon": -43.224907,
     },
     {
         "text": (
@@ -86,18 +86,18 @@ _RELATOS: list[dict] = [
         ),
         "urgency": "alta",
         "type_key": "iluminacao publica",
-        "lat": -22.9620,
-        "lon": -43.2230,
+        "lat": -22.979865,
+        "lon": -43.242096,
     },
     {
         "text": (
-            "Ponto de onibus sem cobertura e com banco danificado na Avenida Epitacio "
-            "Pessoa altura do numero 1500"
+            "Ponto de onibus sem cobertura e com banco danificado na Estrada da Gavea "
+            "altura do numero 1500"
         ),
         "urgency": "media",
         "type_key": "transito e mobilidade",
-        "lat": -22.9648,
-        "lon": -43.2155,
+        "lat": -22.989103,
+        "lon": -43.246678,
     },
     {
         "text": (
@@ -106,8 +106,8 @@ _RELATOS: list[dict] = [
         ),
         "urgency": "media",
         "type_key": "espaco publico",
-        "lat": -22.9665,
-        "lon": -43.2290,
+        "lat": -22.986257,
+        "lon": -43.247199,
     },
     {
         "text": (
@@ -116,8 +116,8 @@ _RELATOS: list[dict] = [
         ),
         "urgency": "baixa",
         "type_key": "lixo e conservacao",
-        "lat": -22.9612,
-        "lon": -43.2205,
+        "lat": -22.988096,
+        "lon": -43.245213,
     },
 ]
 

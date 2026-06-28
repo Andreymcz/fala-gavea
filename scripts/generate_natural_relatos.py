@@ -7,9 +7,15 @@ Uso:
 """
 import csv
 import random
+import sys
 from collections import Counter
 from datetime import datetime, timedelta
 from pathlib import Path
+
+# scripts/ não é um pacote; garante que o módulo irmão seja importável quando
+# o script é executado diretamente (`python scripts/generate_natural_relatos.py`).
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from gavea_clusters import sample_coordinate  # noqa: E402
 
 OUTPUT_PATH = Path("data/seed_relatos_fala_gavea_1k.csv")
 TOTAL_PER_TOPIC = 125
@@ -261,10 +267,20 @@ def weighted_urgency(topic: str) -> str:
 def main() -> None:
     rows: list[list] = []
 
+    # Saída opcional via argv[1] (default = OUTPUT_PATH), útil para validar a
+    # geração sem sobrescrever o CSV commitado.
+    out_path = Path(sys.argv[1]) if len(sys.argv) > 1 else OUTPUT_PATH
+
+    # RNG determinístico para que regenerações sejam estáveis e diff-reviewáveis.
+    rng = random.Random(20260628)
+    random.seed(20260628)
+
     for topic in TEMPLATES:
         for _ in range(TOTAL_PER_TOPIC):
-            lat  = round(random.uniform(-22.985, -22.950), 6)
-            lon  = round(random.uniform(-43.240, -43.200), 6)
+            # Coordenadas clusterizadas em POIs reais da Gávea (ver
+            # scripts/gavea_clusters.py) — não mais espalhadas num retângulo
+            # que vazava para o Jardim Botânico/Lagoa.
+            lat, lon = sample_coordinate(rng)
             rows.append([
                 random.choice(USERS),
                 make_relato(topic),
@@ -277,14 +293,14 @@ def main() -> None:
 
     random.shuffle(rows)
 
-    OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
-    with open(OUTPUT_PATH, "w", newline="", encoding="utf-8") as f:
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(out_path, "w", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
         writer.writerow(["user_id", "texto_relato", "latitude", "longitude", "data", "topico", "urgency"])
         writer.writerows(rows)
 
     total = len(rows)
-    print(f"Gerado: {OUTPUT_PATH} ({total} relatos)")
+    print(f"Gerado: {out_path} ({total} relatos)")
     counts = Counter(r[5] for r in rows)
     for t, c in sorted(counts.items()):
         print(f"  {t:<28} {c}")
