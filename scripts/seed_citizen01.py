@@ -121,8 +121,25 @@ _RELATOS: list[dict] = [
     },
 ]
 
-# First 3 of citizen01's relatos go into the forwarding (indices 0-2)
+# First 3 of citizen01's relatos go into forwarding A (indices 0-2);
+# indices 3-4 go into forwarding B (finalized); indices 5-9 stay pendente.
 _CITIZEN01_FORWARDING_SLICE = 3
+_FWD_B_START = 3
+_FWD_B_END = 5  # created_ids[3:5] -> forwarding B
+
+# Deterministic forwarding states for the citizen-progress journey.
+_IN_PROGRESS = "solucao_em_andamento"
+_FINALIZED = "finalizado"
+
+# Agent comments that make the "company progress" readable to the citizen.
+_PROGRESS_COMMENT = (
+    "Equipe RioLuz esteve em campo em 24/06; vistoria concluida, troca das "
+    "lampadas programada para o proximo ciclo de manutencao."
+)
+_CONCLUSION_COMMENT = (
+    "Servico concluido: lampadas substituidas e rede testada em campo. "
+    "Encaminhamento finalizado."
+)
 
 
 def _login(client: httpx.Client, email: str, password: str) -> str:
@@ -165,6 +182,62 @@ def _fetch_other_pendente_reports(
     items = resp.json().get("items", [])
     others = [r["id"] for r in items if r["id"] not in citizen01_ids]
     return others[:limit]
+
+
+def _create_forwarding(
+    client: httpx.Client,
+    headers: dict[str, str],
+    institution: str,
+    proposed_solution: str,
+    report_ids: list[str],
+) -> str:
+    """Create a forwarding as the agent and return its id (exits on error)."""
+    payload = {
+        "institution": institution,
+        "proposed_solution": proposed_solution,
+        "report_ids": report_ids,
+    }
+    resp = client.post("/forwardings", json=payload, headers=headers)
+    if resp.status_code not in (200, 201):
+        print(f"Error creating forwarding ({resp.status_code}): {resp.text}", file=sys.stderr)
+        sys.exit(1)
+    return resp.json()["id"]
+
+
+def _set_forwarding_status(
+    client: httpx.Client, headers: dict[str, str], forwarding_id: str, new_status: str
+) -> None:
+    """PATCH a forwarding to a new lifecycle status (exits on error)."""
+    resp = client.patch(
+        f"/forwardings/{forwarding_id}/status",
+        json={"status": new_status},
+        headers=headers,
+    )
+    if resp.status_code != 200:
+        print(
+            f"Error setting forwarding {forwarding_id} -> {new_status} "
+            f"({resp.status_code}): {resp.text}",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+
+
+def _add_forwarding_comment(
+    client: httpx.Client, headers: dict[str, str], forwarding_id: str, text: str
+) -> None:
+    """POST an agent comment on a forwarding (exits on error)."""
+    resp = client.post(
+        f"/forwardings/{forwarding_id}/comments",
+        json={"text": text},
+        headers=headers,
+    )
+    if resp.status_code not in (200, 201):
+        print(
+            f"Error commenting on forwarding {forwarding_id} "
+            f"({resp.status_code}): {resp.text}",
+            file=sys.stderr,
+        )
+        sys.exit(1)
 
 
 def main() -> None:
@@ -238,30 +311,50 @@ def main() -> None:
         else:
             print("  No other-user pendente reports found; forwarding will be citizen01-only.")
 
-        # --- Create 1 forwarding as agente (citizen01 relatos 1-3 + up to 2 others) ---
+        # --- Forwarding A: citizen01 relatos [0-2] + up to 2 others, IN PROGRESS ---
+        # Demonstrates the citizen-progress journey: the responsible org is working
+        # on it (solucao_em_andamento) and left a concrete progress comment.
         forwarding_ids = created_ids[:_CITIZEN01_FORWARDING_SLICE] + other_ids
-        print(f"\nCreating forwarding as agente@gavea.br ({len(forwarding_ids)} reports)...")
-
-        fwd_payload = {
-            "institution": "CET-Rio / RioLuz",
-            "proposed_solution": (
+        print(f"\nCreating forwarding A as agente@gavea.br ({len(forwarding_ids)} reports)...")
+        fwd_a_id = _create_forwarding(
+            client,
+            headers_agente,
+            institution="CET-Rio / RioLuz",
+            proposed_solution=(
                 "Encaminhamento de teste para verificacao das funcionalidades de "
                 "transparencia cidada. Inclui relatos de citizen01 e de outros usuarios "
                 "para demonstrar agrupamento multi-cidadao. "
                 "Vistoria e reparo programados para o proximo ciclo de manutencao."
             ),
-            "report_ids": forwarding_ids,
-        }
-        resp = client.post("/forwardings", json=fwd_payload, headers=headers_agente)
-        if resp.status_code not in (200, 201):
-            print(
-                f"Error creating forwarding ({resp.status_code}): {resp.text}",
-                file=sys.stderr,
-            )
-            sys.exit(1)
+            report_ids=forwarding_ids,
+        )
+        print(f"  Forwarding A created: id={fwd_a_id}")
+        _set_forwarding_status(client, headers_agente, fwd_a_id, _IN_PROGRESS)
+        _add_forwarding_comment(client, headers_agente, fwd_a_id, _PROGRESS_COMMENT)
+        print(f"  Forwarding A -> {_IN_PROGRESS} (+ progress comment)")
 
-        fwd_id = resp.json()["id"]
-        print(f"  Forwarding created: id={fwd_id}")
+        # --- Forwarding B: citizen01 relatos [3-4], FINALIZED (resolved contrast) ---
+        fwd_b_report_ids = created_ids[_FWD_B_START:_FWD_B_END]
+        print(f"\nCreating forwarding B as agente@gavea.br ({len(fwd_b_report_ids)} reports)...")
+        fwd_b_id = _create_forwarding(
+            client,
+            headers_agente,
+            institution="RioLuz",
+            proposed_solution=(
+                "Encaminhamento de troca de lampadas dos relatos de iluminacao de "
+                "citizen01. Servico executado e validado em campo."
+            ),
+            report_ids=fwd_b_report_ids,
+        )
+        print(f"  Forwarding B created: id={fwd_b_id}")
+        _set_forwarding_status(client, headers_agente, fwd_b_id, _FINALIZED)
+        _add_forwarding_comment(client, headers_agente, fwd_b_id, _CONCLUSION_COMMENT)
+        print(f"  Forwarding B -> {_FINALIZED} (+ conclusion comment)")
+
+        # citizen01 relatos [5-9] are intentionally left without a forwarding
+        # (they stay `pendente`) so "meus relatos nao resolvidos" has a mix.
+        pendentes = created_ids[_FWD_B_END:]
+        print(f"\nLeaving {len(pendentes)} citizen01 relatos as pendente (indices 5-9).")
 
     # --- Summary ---
     print(
@@ -269,18 +362,29 @@ def main() -> None:
 citizen01 test data seeded.
 
   Relatos created : {len(created_ids)} (as citizen01@gavea.br)
-  Other reports   : {len(other_ids)} (from other users, included in forwarding)
-  Forwarding      : 1 (id={fwd_id}, institution=CET-Rio / RioLuz)
+  Other reports   : {len(other_ids)} (from other users, included in forwarding A)
+  Forwarding A    : id={fwd_a_id}, institution=CET-Rio / RioLuz, status={_IN_PROGRESS}
     Linked reports: {len(forwarding_ids)}
-      - citizen01 relatos [1-3]: {created_ids[:_CITIZEN01_FORWARDING_SLICE]}
+      - citizen01 relatos [0-2]: {created_ids[:_CITIZEN01_FORWARDING_SLICE]}
       - other-user reports     : {other_ids}
+    Agent comment   : progress (company working on it)
+  Forwarding B    : id={fwd_b_id}, institution=RioLuz, status={_FINALIZED}
+    Linked reports: {len(fwd_b_report_ids)}
+      - citizen01 relatos [3-4]: {fwd_b_report_ids}
+    Agent comment   : conclusion (service finished)
+  Pendentes       : {len(pendentes)} (citizen01 relatos [5-9], no forwarding)
+
+  -> "Meus relatos nao resolvidos" mix: {len(created_ids[:_CITIZEN01_FORWARDING_SLICE]) + len(pendentes)} unresolved
+     ({len(pendentes)} pendente + {len(created_ids[:_CITIZEN01_FORWARDING_SLICE])} em andamento) / 2 finalized.
 
 To verify in the app:
   1. Login as citizen01@gavea.br / citizen01pass
   2. Go to / (workspace) -> toggle "Meus relatos" in FilterPanel
      Expected: {len(created_ids)} relatos by citizen01 appear in table/map
   3. Go to /encaminhamentos -> check "Meus encaminhamentos"
-     Expected: 1 forwarding (CET-Rio / RioLuz) appears, with {len(forwarding_ids)} linked reports
+     Expected: forwarding A (CET-Rio / RioLuz, em andamento, with agent comment) and
+               forwarding B (RioLuz, finalizado, with conclusion comment).
+     Read the org's progress in A's comment thread.
 """
     )
 

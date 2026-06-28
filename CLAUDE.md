@@ -27,14 +27,23 @@ uv run uvicorn fala_gavea.presentation.api.main:app --reload
 
 # Seed all data — API must be running with admin bootstrap env vars.
 # Phases: users (admin + citizen01–05 + agente), report types, relatos (CSV),
-# forwardings, citizen01 test data, votes, comments, saved filters, forwarding lifecycle.
+# forwardings, citizen01 test data, votes, comments, saved filters, forwarding
+# lifecycle, journey anchors (agent-worklist demo; runs LAST, stays pendente).
 make seed                                             # showcase profile (curated 200-row CSV), URL=http://localhost:8000
 make seed URL=http://localhost:8000 PROFILE=full      # full profile (5k-row CSV)
 uv run python scripts/seed_all.py                     # equivalent to: --profile showcase
 uv run python scripts/seed_all.py --profile full      # 5k-row CSV
 uv run python scripts/seed_all.py --csv data/seed_relatos_fala_gavea_200.csv  # explicit CSV override
 uv run python scripts/seed_all.py --skip-forwardings --skip-votes --skip-comments \
-  --skip-saved-filters --skip-lifecycle               # per-phase skip flags
+  --skip-saved-filters --skip-lifecycle --skip-journey-anchors  # per-phase skip flags
+
+# Demo journeys (deterministic; demo date fixed at 2026-06-27).
+# Agent worklist: curated dated/unresolved relatos (postes apagados/queimados + lixo
+#   + seguranca) so POST /reports/query (statuses pendente/em_analise, since
+#   2026-05-29, report_type "Iluminacao publica") returns >=10 relatos to triage.
+# Citizen progress: citizen01 forwarding A = solucao_em_andamento (+agent comment),
+#   forwarding B = finalizado (+conclusion comment); 8 unresolved + 2 resolved.
+uv run python scripts/seed_journey_anchors.py         # standalone (idempotent; --force to re-seed)
 
 # (Re)index the project's self-docs corpus into the Chroma self-docs collection
 uv run python scripts/reindex_selfdocs.py             # full (re)index

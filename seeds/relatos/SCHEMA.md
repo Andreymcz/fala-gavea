@@ -54,3 +54,37 @@ Escreva em voz de cidadão, mencione a conexão explicitamente:
   ❌ "Lixo acumulado na rua."
   ✓  "Lixo acumulado ha semanas na Rua X. Ja apareceram ratos; temo
       surto de leptospirose — criancas brincam perto todos os dias."
+
+## Âncoras de jornada (demo do agente)
+
+O arquivo curado `data/seed_journey_anchors.csv` (20 linhas: 10 `Iluminacao publica`
++ 5 `Lixo e conservacao` + 5 `Seguranca e circulacao`) alimenta a **jornada do agente
+público**: postes apagados/queimados (e lixo/segurança) reportados e **não resolvidos**
+nos últimos 30 dias. É ingerido por `scripts/seed_journey_anchors.py` e roda como a
+**última fase** do `seed_all.py` (Fase 9, após o lifecycle) — assim o amostrador
+aleatório de encaminhamentos (Fase 3) nunca as encaminha e elas permanecem `pendente`.
+
+- **Demo date fixa: 2026-06-27.** As datas das âncoras vão de **2026-05-29 a 2026-06-26**
+  (janela de 30 dias terminando na véspera da demo). São **datas fixas** — se a demo
+  mudar de mês, regerar/deslocar as datas do CSV (a worklist filtra os últimos 30 dias
+  relativos a *agora*).
+- O CSV puro não suporta comentário de cabeçalho; a demo date é documentada aqui e na
+  docstring de `scripts/seed_journey_anchors.py`.
+
+### Payloads de verificação das jornadas
+
+**Agente (worklist não-vazia)** — login `agente@gavea.br`, `POST /reports/query`:
+
+```json
+{ "report_type_ids": ["<id de 'Iluminacao publica'>"],
+  "statuses": ["pendente", "em_analise"],
+  "since": "2026-05-29" }
+```
+
+Esperado: **≥10** relatos de iluminação não resolvidos para triagem.
+
+**Cidadão (andamento da empresa)** — login `citizen01@gavea.br`:
+`GET /reports/{id}/forwardings` (de um relato do forwarding A) devolve
+`solucao_em_andamento`; `/encaminhamentos` mostra A (em andamento, com comentário do
+agente) e B (finalizado, com comentário de conclusão). "Meus relatos" mostra o mix:
+**8 não resolvidos + 2 resolvidos**.

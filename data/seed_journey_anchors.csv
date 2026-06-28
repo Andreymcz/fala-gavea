@@ -1,0 +1,21 @@
+user_id,texto_relato,latitude,longitude,data,topico,urgency
+anchor01,"Tres postes consecutivos apagados na Rua Professor Saboia Ribeiro altura do numero 120 - a rua inteira fica no escuro e evito passar a pe a noite",-22.9712,-43.2241,2026-05-29,Iluminacao publica,alta
+anchor02,"Poste queimado ha mais de duas semanas em frente a praca na Rua Marques de Sao Vicente proximo ao 200; ja tropecei no meio-fio sem enxergar",-22.9698,-43.2298,2026-06-02,Iluminacao publica,alta
+anchor03,"A luminaria da esquina da Rua Pacheco Leao com a Rua Jardim Botanico nao acende mais; volto do trabalho no escuro total",-22.9655,-43.2233,2026-06-05,Iluminacao publica,media
+anchor01,"Poste apagado na Rua Vice-Governador Rubens Berardo deixa o ponto de onibus sem iluminacao; sinto medo esperando o coletivo a noite",-22.9601,-43.2207,2026-06-08,Iluminacao publica,alta
+anchor04,"Lampada piscando e quase sempre apagada na Estrada da Gavea altura do 300; a calcada estreita fica perigosa sem luz",-22.9734,-43.2329,2026-06-11,Iluminacao publica,media
+anchor05,"Dois postes queimados na Rua Major Rubens Vaz; as criancas saem da escola e a rua ja esta escura no inverno",-22.9667,-43.2185,2026-06-14,Iluminacao publica,alta
+anchor02,"Iluminacao publica totalmente apagada no trecho final da Rua Marques de Sao Vicente perto do morro; ninguem mais circula a pe depois das 18h",-22.9689,-43.2256,2026-06-17,Iluminacao publica,alta
+anchor06,"Poste sem lampada ha um mes na Rua Cupertino Durao; deixei de levar meu cachorro para passear a noite por falta de luz",-22.9623,-43.2164,2026-06-20,Iluminacao publica,baixa
+anchor03,"A luz da Praca Santos Dumont fica acendendo e apagando; varios postes queimados ao redor deixam a praca perigosa a noite",-22.9744,-43.2312,2026-06-23,Iluminacao publica,media
+anchor07,"Poste apagado bem na curva da Rua Marechal Pires Ferreira; carros nao enxergam quem atravessa e ja vi quase atropelamento no escuro",-22.9579,-43.2218,2026-06-26,Iluminacao publica,alta
+anchor04,"Acumulo de lixo ha mais de uma semana na esquina da Rua Marques de Sao Vicente com a Rua Artur Araripe; o cheiro esta insuportavel e ja aparecem ratos",-22.9682,-43.2271,2026-05-31,Lixo e conservacao,media
+anchor05,"A coleta nao passa ha dias na Rua Pacheco Leao; sacos rasgados espalhados pela calcada atraindo urubus e ratos perto das casas",-22.9648,-43.2245,2026-06-04,Lixo e conservacao,media
+anchor08,"Entulho e moveis velhos abandonados na calcada da Rua Vice-Governador Rubens Berardo bloqueiam a passagem ha duas semanas",-22.9612,-43.2199,2026-06-12,Lixo e conservacao,baixa
+anchor06,"Lixeira publica quebrada e transbordando na Praca Santos Dumont; o lixo se espalha com o vento e ninguem recolhe",-22.9739,-43.2305,2026-06-18,Lixo e conservacao,media
+anchor07,"Descarte irregular de lixo no terreno baldio da Rua Major Rubens Vaz vira foco de mosquito da dengue; tenho criancas pequenas em casa",-22.9671,-43.2178,2026-06-24,Lixo e conservacao,alta
+anchor01,"Trecho sem nenhuma iluminacao e mato alto na Rua Cupertino Durao virou ponto de assalto; ja fui abordado voltando para casa a noite",-22.9630,-43.2158,2026-06-01,Seguranca e circulacao,alta
+anchor08,"Calcada esburacada e escura na Estrada da Gavea forca os pedestres a andar na pista; sinto risco de atropelamento todo dia",-22.9728,-43.2334,2026-06-09,Seguranca e circulacao,alta
+anchor02,"Ponto cego sem iluminacao embaixo do viaduto na Rua Marechal Pires Ferreira concentra usuarios de droga; moradores evitam o trecho",-22.9586,-43.2226,2026-06-15,Seguranca e circulacao,media
+anchor05,"Falta de iluminacao e ausencia de ronda na Rua Professor Saboia Ribeiro deixam as moradoras com medo de sair a pe depois do anoitecer",-22.9705,-43.2238,2026-06-21,Seguranca e circulacao,media
+anchor03,"Esquina perigosa sem luz e sem faixa de pedestres na Rua Jardim Botanico com a Rua Pacheco Leao; ja presenciei acidente no escuro",-22.9659,-43.2229,2026-06-25,Seguranca e circulacao,baixa

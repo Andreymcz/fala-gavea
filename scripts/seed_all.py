@@ -66,6 +66,11 @@ def main() -> None:
     parser.add_argument("--skip-comments", action="store_true", help="Skip comments seed")
     parser.add_argument("--skip-saved-filters", action="store_true", help="Skip saved-filters seed")
     parser.add_argument("--skip-lifecycle", action="store_true", help="Skip forwarding-lifecycle seed")
+    parser.add_argument(
+        "--skip-journey-anchors",
+        action="store_true",
+        help="Skip the journey-anchors seed (agent worklist demo relatos)",
+    )
     args = parser.parse_args()
 
     url = args.url
@@ -128,6 +133,17 @@ def main() -> None:
     else:
         print("\nSkipping forwarding lifecycle (--skip-lifecycle).")
 
+    # Phase 9: journey anchors (MUST be last). Curated, dated, unresolved relatos
+    # for the agent-worklist demo. Runs after lifecycle so the phase-3 random
+    # forwarding sampler never sweeps them up — they stay `pendente`.
+    if not args.skip_journey_anchors:
+        run_phase(
+            "Journey anchors (agent worklist demo)",
+            [py, str(SCRIPTS_DIR / "seed_journey_anchors.py"), "--url", url],
+        )
+    else:
+        print("\nSkipping journey anchors (--skip-journey-anchors).")
+
     print("\n" + "=" * 60)
     print("  All seeds complete.")
     print("=" * 60)
@@ -143,6 +159,18 @@ def main() -> None:
     print("  - Encaminhamentos (/encaminhamentos)             -> comments + lifecycle states")
     print("    (some forwardings 'solucao_em_andamento' / 'finalizado')")
     print("  - Filter panel                                   -> saved filters available")
+    print()
+    print("Demo journeys (deterministic; demo date fixed at 2026-06-27):")
+    print("  Agent worklist (postes apagados/queimados, last 30 days, unresolved):")
+    print("    Login as agente@gavea.br / agente12345, then POST /reports/query with")
+    print('      {"statuses": ["pendente","em_analise"], "since": "2026-05-29",')
+    print('       "report_type_ids": ["<id of \'Iluminacao publica\'>"]}')
+    print("    Expected: >=10 unresolved lighting relatos to triage (journey anchors).")
+    print("  Citizen progress (citizen01 sees the responsible org's progress):")
+    print("    Login as citizen01@gavea.br / citizen01pass, go to /encaminhamentos.")
+    print("    Expected: forwarding A 'solucao_em_andamento' (with agent comment) and")
+    print("              forwarding B 'finalizado' (with conclusion comment).")
+    print("    'Meus relatos' shows the mix: 8 unresolved + 2 resolved.")
     print()
 
 
