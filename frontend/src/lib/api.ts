@@ -124,7 +124,7 @@ export const api = {
   },
 
   getReportTypes(): Promise<ReportType[]> {
-    return request<ReportType[]>("GET", "/report_types/", { public: true });
+    return request<ReportType[]>("GET", "/report_types", { public: true });
   },
 
   getForwardings(filters: ForwardingFilters = {}): Promise<Forwarding[]> {

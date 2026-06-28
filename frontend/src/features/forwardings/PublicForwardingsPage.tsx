@@ -21,7 +21,7 @@ export function PublicForwardingsPage() {
   const forwardings = showMine && user ? (mineQuery.data ?? []) : (publicQuery.data ?? []);
 
   return (
-    <div className="flex flex-1 flex-col p-6">
+    <div className="flex flex-1 flex-col overflow-y-auto p-6">
       <div className="mb-4 flex items-center justify-between">
         <div>
           <h1 className="text-xl font-semibold text-gray-900">Encaminhamentos</h1>
