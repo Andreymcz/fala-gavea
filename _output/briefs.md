@@ -1,5 +1,7 @@
 # Briefs Log
 
+DONE | 2026-06-28 12:47 UTC | STARTED | 2026-06-28 12:44 UTC | research | eu quero comunicar para os professores o que foi implementado no fala-gavea. seria interessante um discurso do problema -> casos de uso -> jornadas -> features do sistema. Arquitetura do software -> stack tecnológico suportantdo as features (db, chroma, llm)
+
 DONE | 2026-06-28 12:41 UTC | STARTED | 2026-06-28 12:37 UTC | research | o quanto que o que está implementado difere deste texto da Fase 5 (canal comunitário com busca inteligente)
 
 DONE | 2026-06-26 22:33 UTC | STARTED | 2026-06-26 22:27 UTC | communicate | to Julia, que está fazendo um relatorio final da disciplina
