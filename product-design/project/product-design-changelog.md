@@ -159,3 +159,8 @@
 - **Changed**: Seed tooling — coordenadas dos relatos agora clusterizadas em POIs reais da Gávea (Rocinha, PUC, Parque da Cidade, Baixo Gávea, Shopping, Planetário, Jockey; distribuição ponderada + jitter gaussiano ~100m) em vez de amostragem uniforme num retângulo que vazava para Jardim Botânico/Lagoa. Fonte única `scripts/gavea_clusters.py`; gerador e novo `scripts/recluster_coordinates.py` consomem o módulo; teste de regressão `in_gavea` sobre todas as fontes seedadas.
 - **Source**: agent (post-skill)
 - **Plan**: plan-000189
+
+### v10 -- 2026-06-28
+- **Fixed**: Mapa exibia apenas 200 relatos enquanto o badge mostrava o total real (ex.: 5000), porque `useFilteredReports` plotava a página capada de `POST /reports/query` (limit ≤ 200). Mapa agora consome `GET /reports/geojson` (todos os relatos do filtro, sem cap; clustering aguenta o volume) via novo modo `allPoints`; mantém `/reports/query` ranqueado só para busca semântica. `ListReportsGeoJSON` passou a incluir `author_id`/`photo_url` (paridade com o popup do mapa / guard de auto-voto).
+- **Source**: agent (post-skill)
+- **Plan**: (fix direto — sem plano)

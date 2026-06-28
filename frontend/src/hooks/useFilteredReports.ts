@@ -1,7 +1,13 @@
 import { useQuery, keepPreviousData } from '@tanstack/react-query'
 import { useWorkspaceStore } from '@/store/workspaceStore'
 import { api } from '@/lib/api'
-import type { ReportFeature, ReportSearchResult, ReportQueryBody, ReportDetail } from '@/lib/types'
+import type {
+  ReportFeature,
+  ReportFilters,
+  ReportSearchResult,
+  ReportQueryBody,
+  ReportDetail,
+} from '@/lib/types'
 
 export function intersectByScore(
   features: ReportFeature[],
@@ -42,6 +48,13 @@ function reportsToFeatures(reports: ReportDetail[]): ReportFeature[] {
 export interface UseFilteredReportsOptions {
   limit?: number
   offset?: number
+  /**
+   * When true, fetch ALL matching reports via /reports/geojson (no 200-row
+   * page cap) — used by the map so every relato is plotted. Falls back to the
+   * paginated, ranked /reports/query when a semantic query is active (semantic
+   * search is inherently top-N ranked) or in anonymous "Meus relatos" mode.
+   */
+  allPoints?: boolean
 }
 
 export function useFilteredReports(options?: UseFilteredReportsOptions) {
@@ -62,6 +75,27 @@ export function useFilteredReports(options?: UseFilteredReportsOptions) {
     placeholderData: keepPreviousData,
   })
 
+  // "All points" mode (map): fetch every matching relato via /reports/geojson.
+  // Disabled for semantic search (ranked top-N) and anonymous mode.
+  const allPointsActive = Boolean(options?.allPoints) && !isAnonMode && !semanticActive
+
+  const geoFilters: ReportFilters = {}
+  if (type_id) geoFilters.type_id = type_id
+  if (urgency) geoFilters.urgency = urgency
+  if (status) geoFilters.status = status
+  if (!isAnonMode && author_id) geoFilters.author_id = author_id
+  if (since) geoFilters.since = since
+  if (until) geoFilters.until = until
+  if (bbox) geoFilters.bbox = bbox
+
+  const geoQuery = useQuery({
+    queryKey: ['reports', 'geojson', geoFilters],
+    queryFn: () => api.getReportsGeoJSON(geoFilters),
+    staleTime: 30_000,
+    placeholderData: keepPreviousData,
+    enabled: allPointsActive,
+  })
+
   const body: ReportQueryBody = {
     limit: options?.limit ?? 200,
   }
@@ -80,7 +114,7 @@ export function useFilteredReports(options?: UseFilteredReportsOptions) {
     queryFn: () => api.queryReports(body),
     staleTime: 30_000,
     placeholderData: keepPreviousData,
-    enabled: !isAnonMode,
+    enabled: !isAnonMode && !allPointsActive,
   })
 
   if (isAnonMode) {
@@ -91,6 +125,19 @@ export function useFilteredReports(options?: UseFilteredReportsOptions) {
       total: anonFeatures.length,
       ranked_by: null,
       isLoading: anonQuery.isLoading,
+      semanticActive: false,
+      semanticTruncated: false,
+    }
+  }
+
+  if (allPointsActive) {
+    const geoFeatures = geoQuery.data?.features ?? []
+    return {
+      features: geoFeatures,
+      count: geoFeatures.length,
+      total: geoFeatures.length,
+      ranked_by: null,
+      isLoading: geoQuery.isLoading,
       semanticActive: false,
       semanticTruncated: false,
     }

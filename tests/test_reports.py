@@ -86,6 +86,9 @@ def test_geojson_returns_feature_collection(client: TestClient, citizen_headers:
     feature = data["features"][0]
     assert feature["geometry"]["type"] == "Point"
     assert feature["geometry"]["coordinates"] == [-43.2272, -22.9731]
+    # author_id/photo_url are required by the map popup (self-vote guard).
+    assert "author_id" in feature["properties"]
+    assert "photo_url" in feature["properties"]
 
 
 def test_geojson_urgency_filter(client: TestClient, citizen_headers: dict, sample_report_type: str) -> None:

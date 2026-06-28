@@ -107,7 +107,9 @@ export function MapView() {
   const navigate = useNavigate()
   const isAgent = user?.role === 'agent' || user?.role === 'admin'
 
-  const { features } = useFilteredReports()
+  // allPoints: plot every matching relato (via /reports/geojson), not just the
+  // first 200 page of /reports/query. Clustering handles the marker volume.
+  const { features } = useFilteredReports({ allPoints: true })
   const { data: reportTypes = [] } = useReportTypes()
   const typeMap = new Map(reportTypes.map((rt) => [rt.id, rt.name]))
 

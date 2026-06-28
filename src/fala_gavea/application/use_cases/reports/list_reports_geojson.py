@@ -19,6 +19,8 @@ class ListReportsGeoJSON:
                     "urgency": r.urgency.value,
                     "status": r.status.value,
                     "report_type_id": r.report_type_id,
+                    "author_id": r.author_id,
+                    "photo_url": r.photo_url,
                     "created_at": r.created_at.isoformat(),
                 },
             }
