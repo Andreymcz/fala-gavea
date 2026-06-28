@@ -112,6 +112,52 @@ domain/           entidades (dataclasses puras) + interfaces de repositorio/port
 infrastructure/   repos SQLAlchemy, ChromaDB, LLM (Ollama/Anthropic), embeddings
 ```
 
+O diagrama abaixo detalha camadas, componentes e os dois fluxos que e crucial nao confundir - o fluxo de dados (runtime) e o fluxo de dependencia (codigo):
+
+```
+  LEGENDA    -->  fluxo de dados / requisicao (runtime)      ==>  direcao da dependencia
+
+   Cliente  (SPA React . app movel . curl)
+       |  HTTP (JSON)
+       v
+ +- PRESENTATION -------------------------------------------------------
+ |   routers: reports . forwardings . nl . votes . auth . admin
+ |   dependencies.py (get_current_user, require_role) . schemas Pydantic
+ +---------------------------------------------------------------------
+       |  --> chama o caso de uso (injetado em runtime - DI)
+       v
+ +- APPLICATION . use cases -------------------------------------------
+ |   CreateReport . QueryReports . CreateForwarding
+ |   AnswerWithRag . ParseNLFilter . AnswerHelpWithRag . ...
+ +---------------------------------------------------------------------
+       |  --> usa as PORTAS (interfaces)
+       v
+ +- DOMAIN . nucleo (nao depende de ninguem) -------------------------
+ |   entidades: User . Report . ReportType . Forwarding . Vote . Comment
+ |   portas (ABC): IReportRepository . ISemanticSearchPort
+ |                 . ILLMClient . IReportIndexer . IDocSearchPort
+ +---------------------------------------------------------------------
+       ^
+       =  implementa as portas  (a dependencia da INFRA aponta p/ o dominio)
+       |
+ +- INFRASTRUCTURE . implementacoes concretas ------------------------
+ |   SQLAlchemyRepos                  -->  SQLite
+ |   ChromaSearchClient               -->  ChromaDB
+ |   OllamaAdapter / AnthropicClient  -->  LLM (local ou API)
+ |   EmbeddingProviderRegistry        -->  modelo e5 (sentence-transformers)
+ +---------------------------------------------------------------------
+
+  FLUXO DE DADOS (ida e volta):
+    cliente --> presentation --> application -->[porta]--> infrastructure --> SQLite/Chroma/LLM
+    resultado volta:  infrastructure --> application --> presentation --> cliente (JSON)
+
+  FLUXO DE DEPENDENCIA (tudo aponta para dentro):
+    presentation ==> application ==> domain <== infrastructure
+    (a infra depende do dominio porque IMPLEMENTA suas portas = inversao de dependencia)
+```
+
+As duas setas tem sentidos diferentes de proposito: os dados percorrem as camadas de fora para dentro e voltam, mas as dependencias de codigo apontam todas para o dominio. E isso que permite trocar SQLite, Chroma ou o LLM sem tocar nas regras de negocio - propriedade que a secao 6 mostra em acao sob restricao real de producao.
+
 **Por que arquitetura limpa.** A decisao parte de um compromisso central: separar as regras de negocio das tecnologias que as servem. O core da aplicacao concentra-se nos casos de uso e nas entidades do dominio; toda funcionalidade externa (banco de dados, busca vetorial, LLM, embeddings) e acessada por meio de uma *porta* - uma interface de software declarada no dominio e implementada na infraestrutura. A injecao de dependencias ocorre em tempo de execucao (`dependencies.py`), o que torna o sistema configuravel: a mesma base de codigo se adapta a diferentes requisitos de hardware e as tecnologias disponiveis, bastando trocar a implementacao injetada atras de cada porta. Essa propriedade deixa de ser teorica na secao 6, quando as restricoes de producao nos obrigaram a reconfigurar a stack sem tocar no core.
 
 Dois principios de fronteira merecem destaque, pois sao as decisoes que tornam o sistema testavel e seguro:

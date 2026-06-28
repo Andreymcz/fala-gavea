@@ -86,21 +86,61 @@ Isto é uma tarefa de **estruturação de comunicação ancorada na realidade do
 
 ### 5. Arquitetura do Software
 
-[fala] *Arquitetura limpa em quatro camadas, dependências apontando para dentro:*
+[fala] *Arquitetura limpa em quatro camadas. O ponto sutil: o **fluxo de dados** desce e volta (cliente → REST → caso de uso → infra → e retorna), mas o **fluxo de dependência** aponta sempre para dentro, para o domínio — inclusive a infraestrutura, que depende do domínio ao implementar suas portas (inversão de dependência).*
+
+[mostre — camadas, componentes, fluxo de dados e de dependência [NOVO, follow-up 2026-06-28]]
 
 ```
-presentation/   FastAPI routers, dependencies.py (get_current_user, require_role), schemas Pydantic
-        ↓
-application/     use cases — lógica de negócio pura, sem DB nem HTTP
-        ↓
-domain/          entidades (dataclasses puras) + interfaces de repositório/portas (ABCs)
-        ↑
-infrastructure/  SQLAlchemy repos, ChromaDB, LLM (Ollama/Anthropic), embeddings
+  LEGENDA    ─►  fluxo de dados / requisição (runtime)      =>  direção da dependência
+
+   Cliente  (SPA React · app móvel · curl)
+       │  HTTP (JSON)
+       ▼
+ ┌─ PRESENTATION ──────────────────────────────────────────────────────
+ │   routers: reports · forwardings · nl · votes · auth · admin
+ │   dependencies.py (get_current_user, require_role) · schemas Pydantic
+ └─────────────────────────────────────────────────────────────────────
+       │  ─► chama o caso de uso (injetado em runtime — DI)
+       ▼
+ ┌─ APPLICATION · use cases ───────────────────────────────────────────
+ │   CreateReport · QueryReports · CreateForwarding
+ │   AnswerWithRag · ParseNLFilter · AnswerHelpWithRag · ...
+ └─────────────────────────────────────────────────────────────────────
+       │  ─► usa as PORTAS (interfaces)
+       ▼
+ ┌─ DOMAIN · núcleo (não depende de ninguém) ──────────────────────────
+ │   entidades: User · Report · ReportType · Forwarding · Vote · Comment
+ │   portas (ABC): IReportRepository · ISemanticSearchPort
+ │                 · ILLMClient · IReportIndexer · IDocSearchPort
+ └─────────────────────────────────────────────────────────────────────
+       ▲
+       =  implementa as portas  (a dependência da INFRA aponta p/ o domínio)
+       │
+ ┌─ INFRASTRUCTURE · implementações concretas ─────────────────────────
+ │   SQLAlchemyRepos                  ─►  SQLite
+ │   ChromaSearchClient               ─►  ChromaDB
+ │   OllamaAdapter / AnthropicClient  ─►  LLM (local ou API)
+ │   EmbeddingProviderRegistry        ─►  modelo e5 (sentence-transformers)
+ └─────────────────────────────────────────────────────────────────────
+
+  FLUXO DE DADOS (ida e volta):
+    cliente ─► presentation ─► application ─►[porta]─► infrastructure ─► SQLite/Chroma/LLM
+    resultado volta:  infrastructure ─► application ─► presentation ─► cliente (JSON)
+
+  FLUXO DE DEPENDÊNCIA (tudo aponta para dentro):
+    presentation => application => domain <= infrastructure
+    (a infra depende do domínio porque IMPLEMENTA suas portas = inversão de dependência)
 ```
+
+*Leitura-chave para a banca: as duas setas têm sentidos diferentes de propósito. Os dados percorrem as camadas de fora para dentro e voltam; as dependências de código apontam todas para o domínio. É isso que permite trocar SQLite, Chroma ou o LLM sem tocar nas regras de negócio.*
+
+[fala — racional [NOVO, follow-up 2026-06-28]] *A escolha da arquitetura limpa parte de um compromisso: **separar as regras de negócio das tecnologias**. O core da aplicação se concentra nos casos de uso e nas entidades; toda funcionalidade externa (banco, busca vetorial, LLM, embeddings) é acessada por uma **porta** — interface de software declarada no domínio e implementada na infraestrutura. A **injeção de dependências ocorre em runtime** (`dependencies.py`), o que torna o sistema configurável: a mesma base de código se adapta a diferentes requisitos de hardware e às tecnologias disponíveis, bastando trocar a implementação injetada atrás de cada porta. (Esse racional é comprovado na seção 6 pela história do deploy.)*
 
 Dois princípios de fronteira que vale destacar para professores:
 - **Toda IA e busca semântica passa por `infrastructure/`** (ChromaSearchClient, Ollama/Anthropic) — nenhum use case ou router toca ChromaDB/LLM diretamente. As portas de domínio (`ISemanticSearchPort`, `IReportIndexer`, `ILLMClient`, `IDocSearchPort`) tornam a IA **plugável e testável**.
 - **Autenticação centralizada:** nenhum router lê JWT direto; tudo via `dependencies.py`. Atribuição de autor sempre do token (`author_id = current_user.id`), nunca do corpo da requisição — previne falsificação.
+
+[fala — REST [NOVO, follow-up 2026-06-28]] *A camada de apresentação do backend é **REST**, não um acoplamento a uma única interface gráfica. Isso permite que uma variedade de UIs seja construída sobre o mesmo núcleo de casos de uso — o SPA React entregue é só um cliente possível; app mobile, integrações institucionais ou ferramentas de linha de comando consumiriam os mesmos endpoints. Vai na direção do conceito de **Developer as User** (livro do Prof. Renato, da disciplina): o desenvolvedor que integra/estende o sistema é, ele próprio, um usuário, e o contrato REST é a mensagem que o sistema lhe endereça.*
 
 [mostre] o diagrama de camadas acima + um exemplo de fluxo: `POST /reports` → `CreateReport` use case → `report_repo.save()` → hook opcional `indexer.index(report)` (falha de indexação loga WARNING e **não** aborta o relato).
 
@@ -120,6 +160,8 @@ Dois princípios de fronteira que vale destacar para professores:
 | **Deploy** | Dockerfile multi-stage (node build → python:3.13-slim), Railway, `/health` | Tudo configurável por env var; `/data` é volume persistente. |
 | **Testes** | pytest (backend) + vitest (frontend) | — |
 
+[fala — empacotamento e restrições de produção [NOVO, follow-up 2026-06-28]] *Vale contar a história do deploy, porque ela comprova o racional da seção 5. O sistema é empacotado num **Dockerfile multi-stage** (build do SPA em node → runtime python:3.13-slim) e vai para produção na **Railway**. Lá enfrentamos **uso excessivo de memória em runtime**: o hardware disponível tornava **inviável rodar uma LLM local** (Ollama). Decidimos então **desabilitar as features de IA em produção** — e a arquitetura tornou isso barato: como a IA vive atrás de portas com DI e **degradação graciosa**, basta não configurar o provedor para os endpoints retornarem 503, sem tocar no core de casos de uso e entidades. Foi a configurabilidade da seção 5 pagando dividendos sob restrição real. Separadamente, **trocamos BERTopic por TF-IDF**: o BERT não entregava tópicos úteis porque dependeria de um **fine-tuning que não executamos**; o TF-IDF + K-means é mais leve, interpretável e ainda alivia a pressão de memória. BERTopic segue instalado, porém dormente (trabalho futuro).*
+
 [fala — fecho] *A escolha de stack reflete a tese do projeto: IA local e barata (Ollama, e5-small, TF-IDF) como **assistente auditável** — cada resposta cita sua fonte, nada é auto-aplicado, e a arquitetura limpa mantém a IA atrás de portas plugáveis. O humano permanece no comando da curadoria.*
 
 ---
@@ -137,6 +179,10 @@ Dois princípios de fronteira que vale destacar para professores:
 **Q1 (inicial):** eu quero comunicar para os professores o que foi implementado no fala-gavea — discurso problema → casos de uso → jornadas → features → arquitetura → stack (db, chroma, llm).
 
 **A1:** Montei o roteiro completo acima, em 6 seções alinhadas ao pedido. **Problema:** laço quebrado nas duas pontas — cidadão sem canal/transparência (R-PS-001) e agente sem visão geoespacial/semântica para agrupar demandas similares (R-PS-002). **Casos de uso:** US-001 (registrar relato georreferenciado), US-002 (encaminhar agregando N relatos a 1 órgão), US-003 (explorar por busca semântica + chat que cita fontes). **Jornadas:** JM-TB-001/002/003, todas implementadas ponta a ponta, com o workspace em grid de visões intercambiáveis e defaults por papel. **Features:** registro (com anônimo), mapa público + transparência sem login, votos/comentários, encaminhamento como agregação com ciclo de status, e a camada de IA-assistente (busca semântica, similares, NL→filtro que nunca auto-aplica, chat RAG com citações, palavras-chave TF-IDF, helper da plataforma, AiBadge). **Crucial:** sinalizei o que NÃO foi entregue (sugestão de categoria por IA, evento de curadoria, few-shot loop — hipótese de design, conforme research-000185). **Arquitetura:** clean architecture em 4 camadas com IA sempre atrás de portas em `infrastructure/` e auth centralizada. **Stack:** SQLite/SQLAlchemy (fonte da verdade dos filtros), ChromaDB+e5-small (só ranqueia), TF-IDF/K-means, LLM Ollama-local-ou-Anthropic (RAG com citações), JWT, React SPA servida pelo FastAPI, com degradação graciosa (503) e deploy Docker/Railway.
+
+**Q2 (follow-up, 2026-06-28):** adicionar minhas considerações sobre as escolhas de arquitetura do backend — (a) clean architecture como separação das regras de negócio das tecnologias, core em casos de uso/entidades, acesso externo via portas, DI em runtime tornando o sistema configurável e adaptável a hardware/tecnologias; (b) empacotamento Docker + deploy Railway, com uso excessivo de memória em runtime que inviabilizou LLM local e levou a desabilitar features de IA e trocar BERTopic por TF-IDF (BERT não entregava tópicos sem fine-tuning); (c) camada de apresentação REST permitindo variedade de UIs, em direção ao "Developer as User" (livro do Prof. Renato).
+
+**A2:** Incorporadas as três considerações ao discurso (marcadas `[NOVO, follow-up 2026-06-28]`): na **seção 5**, o racional da arquitetura limpa (separação regra-de-negócio/tecnologia, portas, DI em runtime, configurabilidade) e o parágrafo REST → múltiplas UIs / Developer as User; na **seção 6**, a subseção de empacotamento e restrições de produção (Docker/Railway, teto de memória inviabilizando LLM local, desabilitar IA via degradação graciosa sem tocar no core, troca BERTopic → TF-IDF). A narrativa ganhou coesão: o racional de configurabilidade da seção 5 é *comprovado* pela história do deploy na seção 6 — reconfiguramos a stack sob restrição real sem alterar regras de negócio. As mesmas adições já foram aplicadas ao material acadêmico em `_output/communication/2026-06-28/communication-000187-academics.{md,html}`. Pendências para o usuário confirmar: citação exata de "Developer as User"/Prof. Renato, e se a busca semântica (Chroma) também foi desligada em produção além do LLM.
 
 ## Recommendations summary
 
