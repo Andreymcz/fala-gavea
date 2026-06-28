@@ -204,3 +204,25 @@ A escolha de stack reflete a tese do projeto: **IA local, barata e auditavel** (
 3. **Substituibilidade.** A arquitetura limpa mantem a IA atras de portas plugaveis, com degradacao graciosa quando indisponivel.
 
 O humano permanece no comando da curadoria. O que ficou de fora - sugestao de categoria por IA, evento de curadoria e o loop de few-shot (secao 4) - e a direcao de pesquisa natural a partir desta base entregue, e nao parte do que foi construido.
+
+---
+
+## 7. Maturidade tecnologica (TRL)
+
+Sendo honestos sobre prontidao, o sistema entregue alcanca **TRL 4** na escala de Technology Readiness Level (1 a 9): um prototipo integrado e funcional, validado de ponta a ponta em ambiente controlado, porem com **dados sinteticos**. O empacotamento Docker e o deploy em nuvem (Railway, endpoint `/health`) demonstram uma prontidao tecnica que toca o **TRL 5**, mas tres fatores mantem a solucao sociotecnica completa em TRL 4:
+
+1. **Dados sinteticos, nao reais.** Os relatos sao gerados por scripts de seed (com jitter de coordenadas e datas para cobrir a Gavea ao longo de um ano); nenhum cidadao real registrou conteudo.
+2. **Sem validacao de campo.** A propria pesquisa de UX registra que nenhuma sessao formal foi conduzida ate o momento; personas e jornadas sao projetadas, nao observadas.
+3. **Sem usuarios nem orgao reais.** Nao ha agentes da prefeitura operando o sistema nem integracao com orgaos executores (RioLuz, COMLURB, CET-Rio).
+
+Um ponto digno de nota metodologica: a versao tecnicamente "em producao" roda com **as features de IA desabilitadas** (restricao de memoria, ver secao 6) - ou seja, o ambiente mais maduro em prontidao de deploy e justamente o menos completo em funcionalidade. O diferencial de IA so executa em ambiente local de desenvolvimento. Essa tensao entre prontidao de deploy e completude funcional e, ela propria, um resultado de engenharia que merece registro.
+
+**Trajetoria de amadurecimento.**
+
+| Para alcancar | O que falta |
+|---|---|
+| TRL 5 | rodar a stack completa (incluindo a IA) em ambiente representativo, com um subconjunto de dados reais anonimizados da Gavea |
+| TRL 6 | demonstracao com agentes reais triando demandas representativas (acompanhada de estudo de comunicabilidade / DX) |
+| TRL 7+ | piloto operacional com cidadaos reais e integracao com ao menos um orgao executor |
+
+Em resumo, o projeto entrega uma **base tecnica madura** (arquitetura limpa, integracao end-to-end, testes automatizados, deploy conteinerizado) sobre a qual a validacao com usuarios e dados reais e o proximo passo natural - e nao parte do que foi construido neste ciclo.

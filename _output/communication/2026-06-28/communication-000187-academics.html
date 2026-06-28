@@ -236,6 +236,39 @@ infrastructure/   repos SQLAlchemy, ChromaDB, LLM (Ollama/Anthropic), embeddings
 <li><strong>Substituibilidade.</strong> A arquitetura limpa mantem a IA atras de portas plugaveis, com degradacao graciosa quando indisponivel.</li>
 </ol>
 <p>O humano permanece no comando da curadoria. O que ficou de fora - sugestao de categoria por IA, evento de curadoria e o loop de few-shot (secao 4) - e a direcao de pesquisa natural a partir desta base entregue, e nao parte do que foi construido.</p>
+<hr />
+<h2 id="7-maturidade-tecnologica-trl">7. Maturidade tecnologica (TRL)</h2>
+<p>Sendo honestos sobre prontidao, o sistema entregue alcanca <strong>TRL 4</strong> na escala de Technology Readiness Level (1 a 9): um prototipo integrado e funcional, validado de ponta a ponta em ambiente controlado, porem com <strong>dados sinteticos</strong>. O empacotamento Docker e o deploy em nuvem (Railway, endpoint <code>/health</code>) demonstram uma prontidao tecnica que toca o <strong>TRL 5</strong>, mas tres fatores mantem a solucao sociotecnica completa em TRL 4:</p>
+<ol>
+<li><strong>Dados sinteticos, nao reais.</strong> Os relatos sao gerados por scripts de seed (com jitter de coordenadas e datas para cobrir a Gavea ao longo de um ano); nenhum cidadao real registrou conteudo.</li>
+<li><strong>Sem validacao de campo.</strong> A propria pesquisa de UX registra que nenhuma sessao formal foi conduzida ate o momento; personas e jornadas sao projetadas, nao observadas.</li>
+<li><strong>Sem usuarios nem orgao reais.</strong> Nao ha agentes da prefeitura operando o sistema nem integracao com orgaos executores (RioLuz, COMLURB, CET-Rio).</li>
+</ol>
+<p>Um ponto digno de nota metodologica: a versao tecnicamente "em producao" roda com <strong>as features de IA desabilitadas</strong> (restricao de memoria, ver secao 6) - ou seja, o ambiente mais maduro em prontidao de deploy e justamente o menos completo em funcionalidade. O diferencial de IA so executa em ambiente local de desenvolvimento. Essa tensao entre prontidao de deploy e completude funcional e, ela propria, um resultado de engenharia que merece registro.</p>
+<p><strong>Trajetoria de amadurecimento.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Para alcancar</th>
+<th>O que falta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TRL 5</td>
+<td>rodar a stack completa (incluindo a IA) em ambiente representativo, com um subconjunto de dados reais anonimizados da Gavea</td>
+</tr>
+<tr>
+<td>TRL 6</td>
+<td>demonstracao com agentes reais triando demandas representativas (acompanhada de estudo de comunicabilidade / DX)</td>
+</tr>
+<tr>
+<td>TRL 7+</td>
+<td>piloto operacional com cidadaos reais e integracao com ao menos um orgao executor</td>
+</tr>
+</tbody>
+</table>
+<p>Em resumo, o projeto entrega uma <strong>base tecnica madura</strong> (arquitetura limpa, integracao end-to-end, testes automatizados, deploy conteinerizado) sobre a qual a validacao com usuarios e dados reais e o proximo passo natural - e nao parte do que foi construido neste ciclo.</p>
 
 </body>
 </html>

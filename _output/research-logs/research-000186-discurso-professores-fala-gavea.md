@@ -164,6 +164,18 @@ Dois princípios de fronteira que vale destacar para professores:
 
 [fala — fecho] *A escolha de stack reflete a tese do projeto: IA local e barata (Ollama, e5-small, TF-IDF) como **assistente auditável** — cada resposta cita sua fonte, nada é auto-aplicado, e a arquitetura limpa mantém a IA atrás de portas plugáveis. O humano permanece no comando da curadoria.*
 
+### 7. Maturidade tecnológica (TRL) [NOVO, follow-up 2026-06-28]
+
+[fala — maturidade] *Sendo honestos sobre prontidão, o sistema entregue alcança **TRL 4** (escala 1–9): um protótipo integrado e funcional, validado de ponta a ponta em ambiente controlado, porém com **dados sintéticos**. O empacotamento Docker e o deploy em nuvem (Railway, `/health`) demonstram prontidão técnica que toca o **TRL 5**, mas três fatores mantêm a solução sociotécnica completa em TRL 4: (1) os relatos são gerados por seed — não há dados reais; (2) não houve validação de campo — personas e jornadas são projetadas, não observadas ("nenhuma sessão de pesquisa formal conduzida até o momento"); (3) não há usuários nem órgão executor reais integrados. Ironia que vale citar à banca: a versão "em produção" roda com **as features de IA desligadas** (restrição de memória da Railway) — o ambiente tecnicamente mais maduro é o menos completo em funcionalidade.*
+
+[mostre] trajetória de amadurecimento:
+
+| Para subir | O que falta |
+|---|---|
+| → TRL 5 | rodar a stack completa (com IA) em ambiente representativo, com subconjunto de dados reais anonimizados da Gávea |
+| → TRL 6 | demonstração com agentes reais triando demandas representativas (estudo de comunicabilidade / DX) |
+| → TRL 7+ | piloto operacional com cidadãos reais e integração com ao menos um órgão executor |
+
 ---
 
 ## Recomendações
