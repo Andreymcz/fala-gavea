@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Communication 000187 Academics</title>
+  <style>
+body {
+  max-width: 48em;
+  margin: 2em auto;
+  padding: 0 1em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+               Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #222;
+}
+h1, h2, h3 { margin-top: 1.4em; }
+code { background: #f4f4f4; padding: 0.15em 0.3em; border-radius: 3px; }
+pre  { background: #f4f4f4; padding: 1em; overflow-x: auto; border-radius: 4px; }
+pre code { background: none; padding: 0; }
+table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+th, td { border: 1px solid #ddd; padding: 0.5em 0.75em; text-align: left; }
+th { background: #f8f8f8; }
+blockquote { border-left: 4px solid #ddd; margin: 1em 0; padding: 0.5em 1em; color: #555; }
+a { color: #0366d6; }
+
+  </style>
+</head>
+<body>
+
+<h1 id="communication-000187-acd-2026-06-28-1313-utc-academics">Communication 000187 | ACD | 2026-06-28 13:13 UTC | Academics</h1>
+<blockquote>
+<p>Source: este material reformata e expande o roteiro de apresentacao consolidado em <code>_output/research-logs/research-000186-discurso-professores-fala-gavea.md</code>, com a fronteira "entregue vs. idealizado" auditada em <code>_output/research-logs/research-000185-fase5-text-vs-implementation-gap.md</code>. Toda afirmacao sobre o que existe esta ancorada em <code>product-design/project/product-design-as-coded.md</code> e no codigo em <code>src/fala_gavea/</code>.</p>
+</blockquote>
+<hr />
+<h2 id="visao-geral-do-projeto">Visao geral do projeto</h2>
+<p><strong>fala-gavea</strong> e um sistema de demandas de cidadaos para seguranca urbana no bairro da Gavea (Rio de Janeiro), construido para a disciplina INF2921/CIS2114 - AI Systems Design (2026.1, PUC-Rio). Equipe: Andrey, Mauro, Julia, Herbert, Natali.</p>
+<p><strong>Proposta de valor.</strong> O sistema fecha um laco hoje quebrado: o cidadao registra um problema georreferenciado (localizacao, tipo, urgencia); o agente publico tria e cria um encaminhamento institucional que agrega varios relatos num unico orgao competente, com status e solucao proposta; e uma camada de IA assiste a exploracao da base por busca semantica e chat em linguagem natural.</p>
+<p><strong>Diferencial e tese de projeto.</strong> A IA e tratada como <em>auxiliar auditavel da curadoria, nunca como curador principal</em>. Cada resposta gerada cita sua fonte, nenhuma sugestao da IA e auto-aplicada, e a arquitetura mantem toda a IA atras de portas plugaveis. O humano permanece no comando da decisao. Esta comunicacao narra o que de fato foi entregue, em seis secoes, e separa explicitamente o entregue do idealizado/trabalho futuro - uma distincao que tratamos como exigencia de rigor academico, nao como ressalva.</p>
+<p><strong>Nota terminologica (audiencia interdisciplinar).</strong> Usamos <em>relato</em> para a demanda registrada pelo cidadao; <em>encaminhamento</em> para o ato institucional de agregar relatos e direciona-los a um orgao; <em>RAG</em> (Retrieval-Augmented Generation) para a geracao de texto condicionada a documentos recuperados; <em>embedding</em> para a representacao vetorial densa de um texto. A IA e <em>auditavel</em> no sentido de que toda saida gerada e rastreavel ate as fontes que a produziram.</p>
+<hr />
+<h2 id="1-o-problema">1. O Problema</h2>
+<p>A seguranca urbana na Gavea depende de um fluxo que hoje esta quebrado nas duas pontas, conforme os cenarios levantados na pesquisa de UX (R-PS-001, R-PS-002).</p>
+<p><strong>Do lado do cidadao (persona R-P-001).</strong> O morador ve um problema - poste apagado, buraco, lixo acumulado - e nao tem um canal claro. Tenta o 1746 e fica em espera; pesquisa no Google e cai no orgao errado; manda no WhatsApp da associacao e ninguem responde. Desiste, e o problema persiste por semanas. A frustracao central, registrada na pesquisa, e: <em>"reportei e nunca soube o que aconteceu"</em> - ou seja, ausencia de canal <strong>e</strong> de transparencia.</p>
+<p><strong>Do lado do agente publico (persona R-P-002).</strong> O agente recebe demandas de multiplos canais (telefone, e-mail, WhatsApp, 1746) e tria uma lista de texto plana, sem mapa e sem agrupamento. Tres relatos do mesmo poste - "luz apagada", "poste sem luz", "rua escura" - viram tres encaminhamentos distintos para a RioLuz, que despacha tres equipes ao mesmo local. A triagem manual consome tempo e duplica trabalho, porque o agente nao dispoe de visao geoespacial nem de meios para reconhecer demandas semanticamente equivalentes.</p>
+<p><strong>O laco a fechar.</strong> O problema e, portanto, duplo: o cidadao nao tem onde registrar com transparencia, e o agente nao tem como explorar e agrupar demandas similares de forma eficiente. fala-gavea fecha o laco cidadao -&gt; agente -&gt; cidadao numa unica solucao.</p>
+<hr />
+<h2 id="2-casos-de-uso">2. Casos de Uso</h2>
+<p>Tres casos de uso ancoram o sistema (User Stories, secao 13 do design as-intended):</p>
+<ul>
+<li><strong>US-001 - Cidadao registra um relato georreferenciado.</strong> <em>"Como cidadao, quero registrar um problema (ex.: poste apagado) para que o poder publico tome ciencia."</em> Criterios: login -&gt; formulario (tipo, urgencia, texto livre, GPS automatico) -&gt; o relato aparece no mapa publico com status <code>pendente</code>.</li>
+<li><strong>US-002 - Agente cria encaminhamento institucional.</strong> <em>"Como agente, quero selecionar relatos de postes apagados e encaminhar formalmente a RioLuz."</em> Criterios: filtra por tipo -&gt; seleciona multiplos relatos -&gt; informa instituicao + solucao proposta -&gt; os relatos passam a <code>encaminhado</code>; o encaminhamento nasce no estado <code>aguardando_solucao</code>.</li>
+<li><strong>US-003 - Agente explora por busca semantica.</strong> <em>"Como agente, quero buscar por conteudo em linguagem natural para achar padroes antes de encaminhar."</em> Criterios: busca textual livre -&gt; resultados e relatos similares -&gt; chat em linguagem natural que <strong>cita os IDs dos relatos</strong> usados como contexto.</li>
+</ul>
+<hr />
+<h2 id="3-jornadas">3. Jornadas</h2>
+<p>Cada caso de uso virou uma jornada projetada, e as tres estao implementadas ponta a ponta (frontend React + backend FastAPI). A correspondencia jornada -&gt; implementacao foi auditada em research-000185.</p>
+<ul>
+<li><strong>JM-TB-001 (Cidadao registra).</strong> Acessa o formulario -&gt; escolhe tipo/urgencia -&gt; descreve -&gt; "Usar minha localizacao" (geolocalizacao do navegador, com fallback de lat/lon editavel) -&gt; opcionalmente um <code>photo_url</code> -&gt; "Registrar" -&gt; toast de confirmacao e redirecionamento para o mapa, ja com o novo marcador.</li>
+<li><strong>JM-TB-002 (Agente encaminha).</strong> Abre o workspace -&gt; filtra -&gt; (opcional) usa busca semantica/chat -&gt; seleciona relatos -&gt; "Cesta de relatos" -&gt; preenche instituicao + solucao proposta -&gt; confirma -&gt; os relatos passam a <code>encaminhado</code> e o encaminhamento aparece no painel do agente.</li>
+<li><strong>JM-TB-003 (Explorar/analisar).</strong> O workspace e um grid com filtro a esquerda e <strong>visoes intercambiaveis</strong> ao centro: Mapa, Tabela, Palavras-chave, Similares, Chat e Cesta. Os defaults variam por papel: o cidadao ve Mapa + Tabela (transparencia); o agente/admin ve as visoes analiticas. A IA aparece como <strong>mais uma lente</strong>, sempre citando de onde tirou a resposta.</li>
+</ul>
+<p><strong>Gesto de design.</strong> O humano esta no comando. A IA assiste, nunca decide - principio que se materializa nas features a seguir (ver secao 4) e na arquitetura de portas (ver secao 5).</p>
+<hr />
+<h2 id="4-features-do-sistema">4. Features do Sistema</h2>
+<p>O que esta, de fato, no ar. Cada feature abaixo corresponde a endpoints concretos verificaveis em <code>src/fala_gavea/presentation/api/routers/</code>.</p>
+<p><strong>Cidadao / transparencia</strong></p>
+<ul>
+<li>Registro de relato georreferenciado (tipo, urgencia, texto, lat/lon, <code>photo_url</code>) via <code>POST /reports</code>.</li>
+<li><strong>Relato anonimo:</strong> coordenadas arredondadas (3 casas decimais, para reduzir reidentificacao) + token de reivindicacao unico; consulta posterior via <code>GET /reports/mine?anonymous_token=</code>.</li>
+<li>Mapa publico clusterizado (react-leaflet-cluster) e exportacao GeoJSON (RFC 7946) via <code>GET /reports/geojson</code>.</li>
+<li><strong>Transparencia do encaminhamento sem login:</strong> <code>GET /forwardings/public</code>, acompanhamento de um encaminhamento, listagem dos encaminhamentos de um relato; alem de "Meus relatos" e "Meus encaminhamentos" para o usuario autenticado.</li>
+<li><strong>Feedback civico:</strong> votos (up/down) e comentarios em relatos e encaminhamentos.</li>
+</ul>
+<p><strong>Agente / curadoria</strong></p>
+<ul>
+<li>Workspace em grid: filtro encenado (rascunho + "Aplicar"), chips de filtro ativo, e presets de filtro salvos (entidade <code>SavedFilter</code>).</li>
+<li><strong>Encaminhamento como agregacao:</strong> N relatos -&gt; 1 instituicao, com solucao proposta e ciclo de status (<code>aguardando_solucao</code> -&gt; <code>solucao_em_andamento</code> -&gt; <code>finalizado</code>). A relacao N-para-1 e modelada pela entidade de juncao <code>ForwardingReport</code>.</li>
+<li>Endpoint unificado de consulta <code>POST /reports/query</code>: filtros multivalor + ranqueamento semantico + paginacao.</li>
+</ul>
+<p><strong>Camada de IA (assistencia)</strong></p>
+<ul>
+<li><strong>Busca semantica</strong> de relatos (<code>GET /reports/search</code>) e <strong>relatos similares</strong> (<code>GET /reports/{id}/similar</code> e, por conjunto, <code>POST /reports/similar-to-set</code>).</li>
+<li><strong>NL -&gt; filtro</strong> (<code>POST /nl/filter</code>): o agente descreve a intencao em linguagem natural e o sistema <em>propoe</em> um filtro - mas <strong>nunca auto-aplica</strong>; o usuario precisa clicar "Aplicar sugestao ao rascunho". As dimensoes traduziveis sao deliberadamente limitadas a tipo de relato, urgencia, status, janela temporal (<code>since</code>/<code>until</code>) e texto/busca; nao ha dimensao geografica/bairro no parser (uma restricao consciente, ver nota de escopo abaixo).</li>
+<li><strong>Chat RAG</strong> (<code>POST /nl/chat</code>): pergunta em linguagem natural sobre os relatos; a resposta <strong>cita os IDs</strong> dos relatos usados como contexto (<code>cited_report_ids</code>), tornando cada afirmacao rastreavel.</li>
+<li><strong>Palavras-chave</strong> por TF-IDF + K-means (<code>GET /reports/keywords</code>) sobre o subconjunto filtrado - extracao lexica barata, sem modelo de embedding.</li>
+<li><strong>Helper da plataforma</strong> (<code>POST /nl/help</code>): um <em>segundo</em> chat RAG, sobre a propria documentacao do projeto (como a plataforma funciona), com filtro de visibilidade por papel (citizen/agent veem conteudo publico; admin recebe tambem conteudo interno e um enquadramento "meta").</li>
+<li><strong>Marcador de proveniencia de IA</strong> (<code>AiBadge</code>) visivel em toda a interface onde a IA atua - uma escolha de comunicabilidade, que sinaliza ao usuario a fronteira entre conteudo humano e gerado.</li>
+</ul>
+<p><strong>Admin</strong></p>
+<ul>
+<li>CRUD de tipos de problema (taxonomia dinamica, nao hardcoded; com soft-delete).</li>
+<li>Bootstrap de admin via variaveis de ambiente; importacao em lote de relatos/topicos via CSV; wipe do banco (SQLite + ChromaDB).</li>
+</ul>
+<h3 id="escopo-honesto-o-que-nao-foi-entregue-hipotese-de-design-trabalho-futuro">Escopo honesto: o que NAO foi entregue (hipotese de design / trabalho futuro)</h3>
+<p>Para uma banca de AI Systems Design, a distincao mais importante e tambem a mais facil de obscurecer. As capacidades a seguir foram <strong>pesquisadas e planejadas, mas nao implementadas</strong>, e nao devem ser lidas como entregues:</p>
+<ul>
+<li><strong>Sugestao de categoria por IA.</strong> Nao existe categorizacao automatica em lugar algum: o <code>report_type</code> e escolhido manualmente pelo cidadao no momento do registro. A superficie de IA entregue e exclusivamente busca semantica, similares, palavras-chave TF-IDF, chat RAG e NL -&gt; filtro.</li>
+<li><strong>Edicao de categoria pelo agente.</strong> Nao ha <code>PATCH /reports/{id}</code>; o relato e imutavel apos a criacao, exceto pelo <code>status</code> (auto-ajustado para <code>encaminhado</code> no momento do encaminhamento). Logo, nao ha correcoes de categoria acontecendo.</li>
+<li><strong>Evento de curadoria.</strong> Nao existe entidade, tabela ou registro de "evento de curadoria". O inventario de entidades e: <code>user, report, report_type, forwarding, forwarding_report, comment, vote, saved_filter, anonymous_report_token</code>.</li>
+<li><strong>Loop de aprendizado por few-shot.</strong> Nao ha corpus de correcoes nem mecanismo que realimente correcoes humanas em chamadas futuras do LLM. <code>BERTopic</code> esta instalado, porem <strong>dormente</strong> (nunca instanciado), reservado a uma exploracao futura.</li>
+</ul>
+<p>Esse conjunto - sugestao de categoria -&gt; correcao do agente -&gt; evento de curadoria -&gt; few-shot que realimenta a IA - constitui a <strong>hipotese de design</strong> central do projeto (pesquisada em research-000170/000172, planejada em plan-000174). Apresenta-la como entregue seria impreciso; apresenta-la como direcao futura testavel e a postura correta.</p>
+<hr />
+<h2 id="5-arquitetura-do-software">5. Arquitetura do Software</h2>
+<p>Arquitetura limpa em quatro camadas, com as dependencias apontando para dentro (regra da dependencia):</p>
+<pre><code>presentation/    FastAPI routers, dependencies.py (get_current_user, require_role), schemas Pydantic
+        |
+        v
+application/      use cases - logica de negocio pura, sem DB nem HTTP
+        |
+        v
+domain/           entidades (dataclasses puras) + interfaces de repositorio/portas (ABCs)
+        ^
+        |
+infrastructure/   repos SQLAlchemy, ChromaDB, LLM (Ollama/Anthropic), embeddings
+</code></pre>
+<p>Dois principios de fronteira merecem destaque, pois sao as decisoes que tornam o sistema testavel e seguro:</p>
+<ul>
+<li><strong>Toda IA e busca semantica passa por <code>infrastructure/</code></strong> (ChromaSearchClient, cliente Ollama/Anthropic). Nenhum use case ou router toca ChromaDB ou o LLM diretamente. As portas de dominio - <code>ISemanticSearchPort</code>, <code>IReportIndexer</code>, <code>ILLMClient</code>, <code>IDocSearchPort</code> - tornam a IA <em>plugavel</em> (trocar o provedor de LLM e mudanca de uma linha/uma variavel de ambiente) e <em>testavel</em> (use cases sao exercitados com dublês das portas, sem subir modelo). Esta e a operacionalizacao concreta do principio "IA como componente substituivel atras de contrato explicito".</li>
+<li><strong>Autenticacao centralizada.</strong> Nenhum router le o JWT diretamente; tudo passa por <code>dependencies.py</code>. A atribuicao de autoria vem sempre do token (<code>author_id = current_user.id</code>), nunca do corpo da requisicao - o que previne falsificacao de autoria por construcao, e nao por validacao defensiva espalhada.</li>
+</ul>
+<p><strong>Exemplo de fluxo (reproduzivel).</strong> <code>POST /reports</code> -&gt; use case <code>CreateReport</code> -&gt; <code>report_repo.save()</code> -&gt; hook opcional <code>indexer.index(report)</code>. Decisao de robustez: uma falha de indexacao semantica registra um WARNING e <strong>nao</strong> aborta o relato - a persistencia (fonte da verdade) e desacoplada da indexacao (derivada), de modo que a indisponibilidade da IA nunca impede o cidadao de registrar.</p>
+<hr />
+<h2 id="6-stack-tecnologico-sustentando-as-features">6. Stack Tecnologico Sustentando as Features</h2>
+<p>Cada peca da stack existe para sustentar uma feature concreta. A tabela mapeia tecnologia -&gt; feature, de modo que um avaliador possa reconstruir a justificativa de cada escolha.</p>
+<table>
+<thead>
+<tr>
+<th>Camada</th>
+<th>Tecnologia</th>
+<th>Feature que sustenta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Persistencia (DB)</strong></td>
+<td>SQLite + SQLAlchemy (ORM sincrono)</td>
+<td>Relatos, encaminhamentos, votos, comentarios, filtros salvos, usuarios. <strong>O SQL e a fonte da verdade dos filtros</strong>; integridade referencial via PRAGMA de foreign keys.</td>
+</tr>
+<tr>
+<td><strong>Busca vetorial (Chroma)</strong></td>
+<td>ChromaDB + sentence-transformers (<code>intfloat/multilingual-e5-small</code>)</td>
+<td>Busca semantica, similares e o <strong>ranqueamento</strong> do <code>POST /reports/query</code>. Padrao-chave: <strong>o ChromaDB so ranqueia; o SQL filtra</strong> (<code>rank(query, ids) -&gt; scores</code>). Duas colecoes: relatos e self-docs (helper da plataforma).</td>
+</tr>
+<tr>
+<td><strong>Clusterizacao lexica</strong></td>
+<td>scikit-learn (TF-IDF + K-means)</td>
+<td>Palavras-chave do subconjunto filtrado (<code>GET /reports/keywords</code>) - sem modelo de embedding, barato e interpretavel.</td>
+</tr>
+<tr>
+<td><strong>LLM</strong></td>
+<td>Ollama (local, <code>qwen3:8b</code> por padrao) <strong>ou</strong> Anthropic (configuravel por variavel de ambiente)</td>
+<td>Chat RAG sobre relatos, NL -&gt; filtro, helper da plataforma. <strong>Privacidade:</strong> com Ollama, o texto dos relatos permanece local; apenas com <code>provider=anthropic</code> trechos sao enviados a uma API externa.</td>
+</tr>
+<tr>
+<td><strong>Auth</strong></td>
+<td>JWT Bearer (PyJWT, HS256, expiracao de 24h)</td>
+<td>Papeis citizen/agent/admin; acesso por recurso resistente a BOLA - recurso de terceiro retorna 404 em vez de 403, evitando vazamento de existencia.</td>
+</tr>
+<tr>
+<td><strong>Frontend</strong></td>
+<td>React 18 + Vite + TypeScript + Tailwind + react-leaflet (Zustand + react-query)</td>
+<td>Workspace em grid, mapa, visoes intercambiaveis; buildado para <code>static/</code> e servido pelo proprio FastAPI (StaticFiles).</td>
+</tr>
+<tr>
+<td><strong>Degradacao graciosa</strong></td>
+<td>(transversal)</td>
+<td>Sem Ollama/Chroma configurados, os endpoints de IA retornam <strong>503</strong> e o restante do sistema segue de pe - a IA e aditiva, nao um ponto unico de falha.</td>
+</tr>
+<tr>
+<td><strong>Deploy</strong></td>
+<td>Dockerfile multi-stage (node build -&gt; python:3.13-slim), Railway, endpoint <code>/health</code></td>
+<td>Tudo configuravel por variavel de ambiente; <code>/data</code> e volume persistente.</td>
+</tr>
+<tr>
+<td><strong>Testes</strong></td>
+<td>pytest (backend) + vitest (frontend)</td>
+<td>Verificacao automatizada das duas pontas da stack.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="fecho-a-tese-tecnica-do-projeto">Fecho: a tese tecnica do projeto</h3>
+<p>A escolha de stack reflete a tese do projeto: <strong>IA local, barata e auditavel</strong> (Ollama, e5-small, TF-IDF) como assistente da curadoria humana. Tres propriedades resumem a contribuicao tecnica, e cada uma e verificavel no codigo:</p>
+<ol>
+<li><strong>Rastreabilidade.</strong> Cada resposta gerada cita sua fonte (<code>cited_report_ids</code> no chat RAG; <code>doc_type</code> nas citacoes do helper).</li>
+<li><strong>Nao-imposicao.</strong> Nada e auto-aplicado: o NL -&gt; filtro propoe, o humano aceita.</li>
+<li><strong>Substituibilidade.</strong> A arquitetura limpa mantem a IA atras de portas plugaveis, com degradacao graciosa quando indisponivel.</li>
+</ol>
+<p>O humano permanece no comando da curadoria. O que ficou de fora - sugestao de categoria por IA, evento de curadoria e o loop de few-shot (secao 4) - e a direcao de pesquisa natural a partir desta base entregue, e nao parte do que foi construido.</p>
+
+</body>
+</html>

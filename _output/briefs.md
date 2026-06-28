@@ -1,5 +1,7 @@
 # Briefs Log
 
+DONE | 2026-06-28 13:15 UTC | STARTED | 2026-06-28 13:12 UTC | communicate | audiência acadêmica (professores INF2921) — material a partir de research-000186, separando entregue vs idealizado
+
 DONE | 2026-06-28 12:47 UTC | STARTED | 2026-06-28 12:44 UTC | research | eu quero comunicar para os professores o que foi implementado no fala-gavea. seria interessante um discurso do problema -> casos de uso -> jornadas -> features do sistema. Arquitetura do software -> stack tecnológico suportantdo as features (db, chroma, llm)
 
 DONE | 2026-06-28 12:41 UTC | STARTED | 2026-06-28 12:37 UTC | research | o quanto que o que está implementado difere deste texto da Fase 5 (canal comunitário com busca inteligente)
