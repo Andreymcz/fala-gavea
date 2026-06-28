@@ -1,5 +1,7 @@
 # Briefs Log
 
+DONE | 2026-06-28 23:54 UTC | STARTED | 2026-06-28 23:02 UTC | research | tem como linkar o relato selecionado do mapa com a tabela ?
+
 DONE | 2026-06-28 22:47 UTC | STARTED | 2026-06-28 22:24 UTC | implement | plan-000189 Clusterizar coordenadas dos relatos em POIs reais da Gávea | PLAN | 000189
 
 STARTED | 2026-06-28 22:20 UTC | plan | ajustes no seed: clusterizar relatos em POIs reais da Gávea (Rocinha-Gávea, Parque da Cidade, PUC) para sair do Jardim Botânico/Lagoa
