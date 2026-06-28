@@ -112,12 +112,16 @@ domain/           entidades (dataclasses puras) + interfaces de repositorio/port
 infrastructure/   repos SQLAlchemy, ChromaDB, LLM (Ollama/Anthropic), embeddings
 ```
 
+**Por que arquitetura limpa.** A decisao parte de um compromisso central: separar as regras de negocio das tecnologias que as servem. O core da aplicacao concentra-se nos casos de uso e nas entidades do dominio; toda funcionalidade externa (banco de dados, busca vetorial, LLM, embeddings) e acessada por meio de uma *porta* - uma interface de software declarada no dominio e implementada na infraestrutura. A injecao de dependencias ocorre em tempo de execucao (`dependencies.py`), o que torna o sistema configuravel: a mesma base de codigo se adapta a diferentes requisitos de hardware e as tecnologias disponiveis, bastando trocar a implementacao injetada atras de cada porta. Essa propriedade deixa de ser teorica na secao 6, quando as restricoes de producao nos obrigaram a reconfigurar a stack sem tocar no core.
+
 Dois principios de fronteira merecem destaque, pois sao as decisoes que tornam o sistema testavel e seguro:
 
 - **Toda IA e busca semantica passa por `infrastructure/`** (ChromaSearchClient, cliente Ollama/Anthropic). Nenhum use case ou router toca ChromaDB ou o LLM diretamente. As portas de dominio - `ISemanticSearchPort`, `IReportIndexer`, `ILLMClient`, `IDocSearchPort` - tornam a IA *plugavel* (trocar o provedor de LLM e mudanca de uma linha/uma variavel de ambiente) e *testavel* (use cases sao exercitados com dublês das portas, sem subir modelo). Esta e a operacionalizacao concreta do principio "IA como componente substituivel atras de contrato explicito".
 - **Autenticacao centralizada.** Nenhum router le o JWT diretamente; tudo passa por `dependencies.py`. A atribuicao de autoria vem sempre do token (`author_id = current_user.id`), nunca do corpo da requisicao - o que previne falsificacao de autoria por construcao, e nao por validacao defensiva espalhada.
 
 **Exemplo de fluxo (reproduzivel).** `POST /reports` -> use case `CreateReport` -> `report_repo.save()` -> hook opcional `indexer.index(report)`. Decisao de robustez: uma falha de indexacao semantica registra um WARNING e **nao** aborta o relato - a persistencia (fonte da verdade) e desacoplada da indexacao (derivada), de modo que a indisponibilidade da IA nunca impede o cidadao de registrar.
+
+**Camada de apresentacao REST.** A apresentacao do backend e uma API REST, e nao um acoplamento a uma unica interface grafica. Isso permite que uma variedade de interfaces de usuario seja construida sobre o mesmo nucleo de casos de uso: o SPA React entregue e apenas um cliente possivel; outros (aplicativo movel, integracoes institucionais, ferramentas de linha de comando) consumiriam exatamente os mesmos endpoints. Essa abertura aproxima o projeto da nocao de *Developer as User* (referencia ao livro do Prof. Renato, da disciplina): o desenvolvedor que integra ou estende o sistema e, ele proprio, um usuario - e o contrato REST e a mensagem de metacomunicacao que o sistema enderaca a esse usuario, e nao apenas ao usuario final da interface grafica.
 
 ---
 
@@ -136,6 +140,14 @@ Cada peca da stack existe para sustentar uma feature concreta. A tabela mapeia t
 | **Degradacao graciosa** | (transversal) | Sem Ollama/Chroma configurados, os endpoints de IA retornam **503** e o restante do sistema segue de pe - a IA e aditiva, nao um ponto unico de falha. |
 | **Deploy** | Dockerfile multi-stage (node build -> python:3.13-slim), Railway, endpoint `/health` | Tudo configuravel por variavel de ambiente; `/data` e volume persistente. |
 | **Testes** | pytest (backend) + vitest (frontend) | Verificacao automatizada das duas pontas da stack. |
+
+### Empacotamento e restricoes de producao (Docker + Railway)
+
+O sistema e empacotado num Dockerfile multi-stage (build do SPA React em node, runtime em `python:3.13-slim`) e implantado em producao na Railway. Essa etapa revelou uma licao de engenharia que vale registrar, porque expoe o valor pratico da arquitetura descrita na secao 5.
+
+**Restricao de memoria em runtime.** O ambiente de producao disponivel impunha um teto de memoria que tornava inviavel executar um LLM local: rodar o Ollama exigiria hardware (RAM/CPU) que a Railway, na configuracao usada, nao oferecia. Diante disso, decidimos desabilitar em producao as features de IA mais custosas. A arquitetura tornou essa decisao barata: como a IA vive atras de portas com injecao de dependencias e degradacao graciosa, basta nao configurar o provedor para que os endpoints correspondentes retornem 503 - sem nenhuma alteracao no core de casos de uso e entidades. Foi exatamente a configurabilidade da secao 5 pagando dividendos sob restricao real: a separacao entre regra de negocio e tecnologia deixou de ser um argumento de design e virou a alavanca que permitiu adaptar o sistema ao hardware disponivel.
+
+**Troca de BERTopic por TF-IDF.** Houve ainda uma decisao de qualidade e custo: a modelagem de topicos com BERTopic nao estava entregando topicos uteis, pois dependeria de um fine-tuning que nao executamos. Substituimos a extracao de topicos por palavras-chave via TF-IDF + K-means (scikit-learn), que e mais leve, dispensa modelo de embedding dedicado e produz clusters interpretaveis. O BERTopic permanece instalado, porem dormente, reservado a um trabalho futuro de fine-tuning. Alem do ganho de qualidade, a troca alivia a pressao de memoria, alinhando-se a restricao de producao acima.
 
 ### Fecho: a tese tecnica do projeto
 
