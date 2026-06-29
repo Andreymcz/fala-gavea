@@ -111,6 +111,41 @@ def nl_help(
     )
 
 
+def _to_workspace_filters(body: dict) -> tuple[dict, list[str]]:
+    """Adapt the parser's generic shape to the SPA's draft-filter shape.
+
+    The parser emits multi-value facets (``report_type_ids``/``urgencies``/
+    ``statuses``) plus ``q``/``text``, but the workspace store models a single
+    value per facet (``type_id``/``urgency``/``status``/``semanticQuery``). We
+    collapse each list to its first item and warn when extra values are dropped
+    so the user knows only part of the request was applied.
+    """
+    out: dict = {}
+    warnings: list[str] = []
+
+    def take_first(src_key: str, dst_key: str, label: str) -> None:
+        val = body.get(src_key)
+        items = val if isinstance(val, list) else [val] if val else []
+        if not items:
+            return
+        out[dst_key] = items[0]
+        if len(items) > 1:
+            warnings.append(f"{label}: apenas o primeiro valor foi aplicado ({items[0]}).")
+
+    take_first("report_type_ids", "type_id", "Tipo de relato")
+    take_first("urgencies", "urgency", "Urgência")
+    take_first("statuses", "status", "Status")
+    if body.get("since"):
+        out["since"] = body["since"]
+    if body.get("until"):
+        out["until"] = body["until"]
+    # Both semantic (q) and textual (text) search collapse to the single field.
+    semantic = body.get("q") or body.get("text")
+    if semantic:
+        out["semanticQuery"] = semantic
+    return out, warnings
+
+
 @router.post("/filter", response_model=NLFilterResponse)
 @limiter.limit("20/minute")
 def nl_filter(
@@ -138,4 +173,5 @@ def nl_filter(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
             detail="Não foi possível interpretar o filtro.",
         )
-    return NLFilterResponse(body=result.body, warnings=result.warnings)
+    mapped, collapse_warnings = _to_workspace_filters(result.body)
+    return NLFilterResponse(body=mapped, warnings=result.warnings + collapse_warnings)

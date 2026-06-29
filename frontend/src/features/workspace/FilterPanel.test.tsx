@@ -264,7 +264,7 @@ describe('FilterPanel', () => {
   // --- Section 4: NL assistant tests ---
 
   it('Section 4 submit button triggers postNLFilter', async () => {
-    mockPostNLFilter.mockResolvedValueOnce({ body: { urgencies: ['alta'] }, warnings: [] })
+    mockPostNLFilter.mockResolvedValueOnce({ body: { urgency: 'alta' }, warnings: [] })
     const { getByPlaceholderText } = render(<FilterPanel />)
     const textarea = getByPlaceholderText(/Descreva o filtro/i)
     fireEvent.change(textarea, { target: { value: 'postes apagados' } })
@@ -276,21 +276,21 @@ describe('FilterPanel', () => {
 
   it('suggestion preview zone appears after successful response', async () => {
     // Pre-set suggestion in store to simulate a successful response
-    mockNlSuggestion = { urgencies: ['alta'] }
+    mockNlSuggestion = { urgency: 'alta' }
     const { getByRole } = render(<FilterPanel />)
     expect(getByRole('button', { name: /Aplicar sugestão ao rascunho/i })).toBeTruthy()
     expect(getByRole('button', { name: /Descartar/i })).toBeTruthy()
   })
 
   it('"Aplicar sugestão ao rascunho" calls applyNLSuggestion', () => {
-    mockNlSuggestion = { urgencies: ['alta'] }
+    mockNlSuggestion = { urgency: 'alta' }
     const { getByRole } = render(<FilterPanel />)
     fireEvent.click(getByRole('button', { name: /Aplicar sugestão ao rascunho/i }))
     expect(applyNLSuggestion).toHaveBeenCalledWith(mockNlSuggestion)
   })
 
   it('"Descartar" clears suggestion', () => {
-    mockNlSuggestion = { urgencies: ['alta'] }
+    mockNlSuggestion = { urgency: 'alta' }
     const { getByRole } = render(<FilterPanel />)
     fireEvent.click(getByRole('button', { name: /Descartar/i }))
     expect(setNLSuggestion).toHaveBeenCalledWith(null, [])

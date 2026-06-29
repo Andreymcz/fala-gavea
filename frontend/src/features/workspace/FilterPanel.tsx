@@ -221,7 +221,10 @@ export function FilterPanel() {
     if (suggestion.since) chips.push(`De: ${suggestion.since}`)
     if (suggestion.until) chips.push(`Até: ${suggestion.until}`)
     if (suggestion.semanticQuery) chips.push(`Busca: "${suggestion.semanticQuery}"`)
-    if (suggestion.type_id) chips.push(`Tipo: ${suggestion.type_id}`)
+    if (suggestion.type_id) {
+      const typeName = reportTypes.find((rt) => rt.id === suggestion.type_id)?.name
+      chips.push(`Tipo: ${typeName ?? suggestion.type_id}`)
+    }
     return chips
   }
 
@@ -568,6 +571,7 @@ export function FilterPanel() {
               <Button
                 size="sm"
                 className="flex-1 h-6 text-xs"
+                aria-label="Aplicar sugestão ao rascunho"
                 onClick={() => {
                   applyNLSuggestion(nlSuggestion)
                   setNLSuggestion(null, [])
