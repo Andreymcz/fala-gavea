@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useWorkspaceStore } from '@/store/workspaceStore'
 import { useReportTypes } from '@/hooks/useReportTypes'
@@ -82,6 +82,41 @@ export function FilterPanel() {
   const [nlText, setNlText] = useState('')
   const [nlLoading, setNlLoading] = useState(false)
   const [nlError, setNlError] = useState<string | null>(null)
+
+  // Resizable NL assistant footer (drag the handle on its top border).
+  const ASSISTANT_MIN_H = 110
+  const ASSISTANT_MAX_H = 520
+  const [assistantHeight, setAssistantHeight] = useState(190)
+  const [resizing, setResizing] = useState(false)
+  const dragRef = useRef<{ startY: number; startH: number }>({ startY: 0, startH: 0 })
+
+  useEffect(() => {
+    if (!resizing) return
+    function onMove(e: MouseEvent) {
+      // drag up => taller assistant
+      const delta = dragRef.current.startY - e.clientY
+      const next = Math.min(
+        ASSISTANT_MAX_H,
+        Math.max(ASSISTANT_MIN_H, dragRef.current.startH + delta),
+      )
+      setAssistantHeight(next)
+    }
+    function onUp() {
+      setResizing(false)
+    }
+    window.addEventListener('mousemove', onMove)
+    window.addEventListener('mouseup', onUp)
+    return () => {
+      window.removeEventListener('mousemove', onMove)
+      window.removeEventListener('mouseup', onUp)
+    }
+  }, [resizing])
+
+  function handleResizeStart(e: React.MouseEvent) {
+    e.preventDefault()
+    dragRef.current = { startY: e.clientY, startH: assistantHeight }
+    setResizing(true)
+  }
 
   // Preset bar display name
   const presetLabel = loadedPresetName
@@ -464,16 +499,32 @@ export function FilterPanel() {
         </Button>
       </div>
 
-      {/* Section 4 — NL assistant footer */}
-      <div className="border-t py-2 px-3 flex flex-col gap-1.5">
+      {/* Section 4 — NL assistant footer (resizable) */}
+      <div
+        className="border-t flex flex-col flex-none"
+        style={{ height: assistantHeight }}
+      >
+        {/* Drag handle — resize the assistant up/down */}
+        <div
+          role="separator"
+          aria-orientation="horizontal"
+          aria-label="Redimensionar assistente de filtros"
+          onMouseDown={handleResizeStart}
+          className={`group h-2 shrink-0 cursor-row-resize flex items-center justify-center ${
+            resizing ? 'bg-blue-100' : 'hover:bg-gray-100'
+          }`}
+          title="Arraste para redimensionar"
+        >
+          <span className="h-0.5 w-8 rounded-full bg-gray-300 group-hover:bg-gray-400" />
+        </div>
+        <div className="flex-1 min-h-0 overflow-y-auto px-3 pb-3 flex flex-col gap-2">
         <div className="flex items-center gap-1.5">
           <p className="text-xs text-gray-500 font-medium">Assistente de filtros</p>
           <AiBadge size="xs" />
         </div>
-        <div className="flex gap-1">
+        <div className="flex gap-1 flex-1 min-h-[3rem]">
           <textarea
-            className="flex-1 text-xs border border-gray-200 rounded px-2 py-1 resize-none focus:outline-none focus:ring-1 focus:ring-blue-400 disabled:opacity-50"
-            rows={2}
+            className="flex-1 h-full text-xs border border-gray-200 rounded px-2 py-1 resize-none focus:outline-none focus:ring-1 focus:ring-blue-400 disabled:opacity-50"
             placeholder="Descreva o filtro em linguagem natural..."
             value={nlText}
             onChange={(e) => setNlText(e.target.value)}
@@ -523,7 +574,7 @@ export function FilterPanel() {
                   setNlText('')
                 }}
               >
-                Aplicar sugestão ao rascunho
+                Aplicar
               </Button>
               <Button
                 size="sm"
@@ -536,6 +587,7 @@ export function FilterPanel() {
             </div>
           </div>
         )}
+        </div>
       </div>
     </div>
   )
