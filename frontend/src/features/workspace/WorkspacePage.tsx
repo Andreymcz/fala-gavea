@@ -59,8 +59,9 @@ export function WorkspacePage() {
         {/* Main area */}
         <div className="flex flex-col flex-1 overflow-hidden">
           <ViewToggleBar />
-          {/* View grid */}
-          <div className="flex flex-1 overflow-auto gap-2 p-2">
+          {/* View grid — overflow-hidden so each view scrolls its own content
+              (the table has its own internal scroll); keeps the map fixed in place */}
+          <div className="flex flex-1 overflow-hidden gap-2 p-2">
             {activeViews.length === 0 && (
               <div className="flex items-center justify-center flex-1 text-gray-400 text-sm">
                 Selecione uma visão acima.
