@@ -86,7 +86,7 @@ export function FilterPanel() {
   // Resizable NL assistant footer (drag the handle on its top border).
   const ASSISTANT_MIN_H = 110
   const ASSISTANT_MAX_H = 520
-  const [assistantHeight, setAssistantHeight] = useState(190)
+  const [assistantHeight, setAssistantHeight] = useState(240)
   const [resizing, setResizing] = useState(false)
   const dragRef = useRef<{ startY: number; startH: number }>({ startY: 0, startH: 0 })
 
@@ -525,7 +525,7 @@ export function FilterPanel() {
           <p className="text-xs text-gray-500 font-medium">Assistente de filtros</p>
           <AiBadge size="xs" />
         </div>
-        <div className="flex gap-1 flex-1 min-h-[3rem]">
+        <div className="flex gap-1 shrink-0 h-16">
           <textarea
             className="flex-1 h-full text-xs border border-gray-200 rounded px-2 py-1 resize-none focus:outline-none focus:ring-1 focus:ring-blue-400 disabled:opacity-50"
             placeholder="Descreva o filtro em linguagem natural..."
@@ -554,7 +554,7 @@ export function FilterPanel() {
           <p className="text-xs text-red-600">{nlError}</p>
         )}
         {nlSuggestion && (
-          <div className="flex flex-col gap-1 mt-0.5">
+          <div className="flex flex-col gap-1.5 mt-2 pt-2 border-t border-gray-100">
             <div className="flex flex-wrap gap-1">
               {getSuggestionChips(nlSuggestion).map((chip) => (
                 <span key={chip} className="text-xs bg-blue-50 text-blue-700 border border-blue-200 rounded px-1.5 py-0.5">
