@@ -78,7 +78,7 @@ export function CestaView() {
   const isEmpty = selectedArray.length === 0
 
   return (
-    <div className="flex flex-col gap-3 p-4 overflow-auto">
+    <div className="flex flex-col gap-3 p-4 overflow-auto h-full min-h-0">
       <div className="flex items-center justify-between gap-2">
         <h3 className="text-sm font-semibold text-gray-700">
           Cesta de relatos ({selectedArray.length})

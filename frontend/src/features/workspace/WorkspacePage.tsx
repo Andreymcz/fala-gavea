@@ -121,7 +121,7 @@ export function WorkspacePage() {
               }
               if (viewId === 'cesta') {
                 return (
-                  <div key={viewId} className="flex-1 min-h-[300px] min-w-[280px]">
+                  <div key={viewId} className="flex-1 h-full min-h-[300px] min-w-[280px]">
                     <Suspense
                       fallback={
                         <div className="flex-1 min-h-[300px] bg-gray-100 animate-pulse rounded" />
