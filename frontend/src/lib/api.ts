@@ -228,6 +228,69 @@ export const api = {
     );
   },
 
+  async seedRelatosStream(
+    file: File,
+    onProgress: (p: { processed: number; total: number; inserted: number; skipped: number }) => void,
+  ): Promise<{ inserted: number; skipped: number; errors: unknown[] }> {
+    const token = getToken();
+    const headers: Record<string, string> = {};
+    if (token) headers["Authorization"] = `Bearer ${token}`;
+    const formData = new FormData();
+    formData.append("file", file);
+    const res = await fetch(`${BASE_URL}/admin/seed/relatos/stream`, {
+      method: "POST",
+      headers,
+      body: formData,
+    });
+    if (!res.ok || !res.body) {
+      const data = await res.json().catch(() => ({ detail: res.statusText }));
+      throw new ApiError(res.status, data.detail || res.statusText);
+    }
+
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+    let result = { inserted: 0, skipped: 0, errors: [] as unknown[] };
+    let streamDone = false;
+    while (!streamDone) {
+      const { value, done } = await reader.read();
+      streamDone = done;
+      buffer += decoder.decode(value ?? new Uint8Array(), { stream: !streamDone });
+      let nl: number;
+      while ((nl = buffer.indexOf("\n")) >= 0) {
+        const line = buffer.slice(0, nl).trim();
+        buffer = buffer.slice(nl + 1);
+        if (!line) continue;
+        const evt = JSON.parse(line) as {
+          type: "progress" | "done" | "error";
+          processed?: number;
+          total?: number;
+          inserted?: number;
+          skipped?: number;
+          errors?: unknown[];
+          detail?: string;
+        };
+        if (evt.type === "progress") {
+          onProgress({
+            processed: evt.processed ?? 0,
+            total: evt.total ?? 0,
+            inserted: evt.inserted ?? 0,
+            skipped: evt.skipped ?? 0,
+          });
+        } else if (evt.type === "done") {
+          result = {
+            inserted: evt.inserted ?? 0,
+            skipped: evt.skipped ?? 0,
+            errors: evt.errors ?? [],
+          };
+        } else if (evt.type === "error") {
+          throw new ApiError(500, evt.detail || "Erro ao processar o arquivo.");
+        }
+      }
+    }
+    return result;
+  },
+
   createSavedFilter(data: SavedFilterCreate): Promise<SavedFilter> {
     return request<SavedFilter>("POST", "/saved-filters", { body: data });
   },

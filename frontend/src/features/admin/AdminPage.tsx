@@ -23,6 +23,10 @@ export function AdminPage() {
   const relatosInputRef = useRef<HTMLInputElement>(null);
   const [relatosFile, setRelatosFile] = useState<File | null>(null);
   const [seedingRelatos, setSeedingRelatos] = useState(false);
+  const [relatosProgress, setRelatosProgress] = useState<{
+    processed: number;
+    total: number;
+  } | null>(null);
 
   const [wipeScope, setWipeScope] = useState<WipeScope | null>(null);
   const [wiping, setWiping] = useState(false);
@@ -55,8 +59,11 @@ export function AdminPage() {
       return;
     }
     setSeedingRelatos(true);
+    setRelatosProgress({ processed: 0, total: 0 });
     api
-      .seedRelatos(relatosFile)
+      .seedRelatosStream(relatosFile, (p) =>
+        setRelatosProgress({ processed: p.processed, total: p.total }),
+      )
       .then((res) => {
         toast(`${res.inserted} relatos inseridos, ${res.skipped} ignorados.`, "success");
         setRelatosFile(null);
@@ -66,8 +73,16 @@ export function AdminPage() {
         const msg = err instanceof ApiError ? err.detail : "Erro ao processar o arquivo.";
         toast(`Falha ao inserir relatos: ${msg}`, "error");
       })
-      .finally(() => setSeedingRelatos(false));
+      .finally(() => {
+        setSeedingRelatos(false);
+        setRelatosProgress(null);
+      });
   }
+
+  const relatosPct =
+    relatosProgress && relatosProgress.total > 0
+      ? Math.round((relatosProgress.processed / relatosProgress.total) * 100)
+      : 0;
 
   function handleWipeConfirm() {
     if (wipeScope === null) return;
@@ -163,6 +178,27 @@ export function AdminPage() {
                 onChange={(e) => setRelatosFile(e.target.files?.[0] ?? null)}
               />
             </div>
+            {seedingRelatos && relatosProgress && (
+              <div className="space-y-1" aria-live="polite">
+                <div
+                  className="h-2 w-full overflow-hidden rounded bg-gray-200"
+                  role="progressbar"
+                  aria-valuenow={relatosPct}
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                >
+                  <div
+                    className="h-full rounded bg-blue-600 transition-all duration-150"
+                    style={{ width: `${relatosPct}%` }}
+                  />
+                </div>
+                <p className="text-xs text-gray-500">
+                  {relatosProgress.total > 0
+                    ? `${relatosProgress.processed} / ${relatosProgress.total} linhas (${relatosPct}%)`
+                    : "Preparando..."}
+                </p>
+              </div>
+            )}
             <div>
               <Button type="submit" disabled={seedingRelatos || !relatosFile}>
                 {seedingRelatos ? "Enviando..." : "Enviar CSV"}

@@ -3,7 +3,7 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { AdminPage } from "./AdminPage";
 
 const seedTopicos = vi.fn();
-const seedRelatos = vi.fn();
+const seedRelatosStream = vi.fn();
 const wipeDatabase = vi.fn();
 
 vi.mock("@/lib/api", async () => {
@@ -12,7 +12,7 @@ vi.mock("@/lib/api", async () => {
     ...actual,
     api: {
       seedTopicos: (...args: unknown[]) => seedTopicos(...args),
-      seedRelatos: (...args: unknown[]) => seedRelatos(...args),
+      seedRelatosStream: (...args: unknown[]) => seedRelatosStream(...args),
       wipeDatabase: (...args: unknown[]) => wipeDatabase(...args),
     },
   };
@@ -21,7 +21,7 @@ vi.mock("@/lib/api", async () => {
 describe("AdminPage", () => {
   beforeEach(() => {
     seedTopicos.mockReset();
-    seedRelatos.mockReset();
+    seedRelatosStream.mockReset();
     wipeDatabase.mockReset();
   });
 
@@ -48,8 +48,13 @@ describe("AdminPage", () => {
     });
   });
 
-  it("uploads a CSV and calls seedRelatos", async () => {
-    seedRelatos.mockResolvedValue({ inserted: 5, skipped: 0, errors: [] });
+  it("uploads a CSV and streams seedRelatos progress", async () => {
+    seedRelatosStream.mockImplementation(
+      (_file: File, onProgress: (p: { processed: number; total: number }) => void) => {
+        onProgress({ processed: 1, total: 1 });
+        return Promise.resolve({ inserted: 5, skipped: 0, errors: [] });
+      },
+    );
     render(<AdminPage />);
 
     const file = new File(
@@ -64,7 +69,7 @@ describe("AdminPage", () => {
     fireEvent.click(screen.getAllByRole("button", { name: /enviar csv/i })[1]);
 
     await waitFor(() => {
-      expect(seedRelatos).toHaveBeenCalledWith(file);
+      expect(seedRelatosStream).toHaveBeenCalledWith(file, expect.any(Function));
     });
     expect(seedTopicos).not.toHaveBeenCalled();
   });

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import logging
 import random
+from collections.abc import Iterator
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 
@@ -30,6 +31,20 @@ class BulkResult:
     errors: list[dict] = field(default_factory=list)
 
 
+@dataclass
+class BulkProgress:
+    """Incremental progress emitted while bulk-creating reports.
+
+    ``processed`` counts rows already handled (inserted or skipped); the running
+    ``inserted``/``skipped`` totals let a UI show a live breakdown.
+    """
+
+    processed: int
+    total: int
+    inserted: int
+    skipped: int
+
+
 class BulkCreateReports:
     def execute(
         self,
@@ -40,7 +55,39 @@ class BulkCreateReports:
         password_service: PasswordService,
         indexer: IReportIndexer | None = None,
     ) -> BulkResult:
+        """Synchronous wrapper: drain ``execute_iter`` and return the final result."""
+        gen = self.execute_iter(
+            rows,
+            report_type_repo,
+            report_repo,
+            user_repo,
+            password_service,
+            indexer,
+        )
+        try:
+            while True:
+                next(gen)
+        except StopIteration as stop:
+            return stop.value  # type: ignore[no-any-return]
+
+    def execute_iter(
+        self,
+        rows: list[dict],
+        report_type_repo: IReportTypeRepository,
+        report_repo: IReportRepository,
+        user_repo: IUserRepository,
+        password_service: PasswordService,
+        indexer: IReportIndexer | None = None,
+    ) -> Iterator[BulkProgress]:
+        """Generator variant that yields ``BulkProgress`` and returns ``BulkResult``.
+
+        Progress is emitted roughly every 1% of rows (and once at the end) so a
+        streaming caller can drive a progress bar without flooding the wire. The
+        final ``BulkResult`` is surfaced via ``StopIteration.value``.
+        """
         CHUNK_SIZE = 500
+        total = len(rows)
+        progress_every = max(1, total // 100)
         inserted = 0
         skipped = 0
         errors: list[dict] = []
@@ -48,6 +95,8 @@ class BulkCreateReports:
         pending_index: list[Report] = []
 
         for i, row in enumerate(rows):
+            if i % progress_every == 0:
+                yield BulkProgress(processed=i, total=total, inserted=inserted, skipped=skipped)
             user_id = str(row.get("user_id", "")).strip()
             if not user_id:
                 skipped += 1
@@ -135,4 +184,5 @@ class BulkCreateReports:
                     exc,
                 )
 
+        yield BulkProgress(processed=total, total=total, inserted=inserted, skipped=skipped)
         return BulkResult(inserted=inserted, skipped=skipped, errors=errors)
