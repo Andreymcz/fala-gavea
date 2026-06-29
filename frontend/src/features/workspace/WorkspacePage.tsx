@@ -11,7 +11,6 @@ const TopicsView = lazy(() => import('./views/TopicsView').then((m) => ({ defaul
 const SimilarsView = lazy(() =>
   import('./views/SimilarsView').then((m) => ({ default: m.SimilarsView })),
 )
-const ChatView = lazy(() => import('./views/ChatView').then((m) => ({ default: m.ChatView })))
 const CestaView = lazy(() => import('./views/CestaView').then((m) => ({ default: m.CestaView })))
 
 export function WorkspacePage() {
@@ -116,19 +115,6 @@ export function WorkspacePage() {
                       }
                     >
                       <SimilarsView />
-                    </Suspense>
-                  </div>
-                )
-              }
-              if (viewId === 'chat') {
-                return (
-                  <div key={viewId} className="flex-1 min-h-[300px] min-w-[280px]">
-                    <Suspense
-                      fallback={
-                        <div className="flex-1 min-h-[300px] bg-gray-100 animate-pulse rounded" />
-                      }
-                    >
-                      <ChatView />
                     </Suspense>
                   </div>
                 )

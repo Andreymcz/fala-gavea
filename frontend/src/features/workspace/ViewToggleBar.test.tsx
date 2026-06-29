@@ -34,10 +34,9 @@ describe('ViewToggleBar', () => {
     expect(screen.queryByRole('button', { name: /cesta/i })).toBeNull()
   })
 
-  it('marks the Chat view with the AiBadge instead of a literal "(IA)"', () => {
+  it('does not show the Chat toggle (view hidden pending refinement)', () => {
     mockUseAuth.mockReturnValue({ user: { role: 'agent' } })
     render(<ViewToggleBar />)
-    expect(screen.getByLabelText('Conteúdo gerado por IA')).toBeInTheDocument()
-    expect(screen.queryByText(/\(IA\)/)).toBeNull()
+    expect(screen.queryByRole('button', { name: /chat/i })).toBeNull()
   })
 })

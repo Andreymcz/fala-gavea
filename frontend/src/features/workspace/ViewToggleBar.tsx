@@ -17,7 +17,8 @@ const VIEW_META: ViewMeta[] = [
   { id: 'cesta', label: 'Cesta', description: 'Revise os relatos selecionados e crie um encaminhamento', agentOnly: true },
   { id: 'keywords', label: 'Palavras-chave', description: 'Palavras-chave extraídas do subconjunto filtrado (TF-IDF)', agentOnly: true },
   { id: 'similars', label: 'Similares', description: 'Relatos parecidos com um relato-semente' },
-  { id: 'chat', label: 'Chat', description: 'Pergunte sobre os relatos em linguagem natural', agentOnly: true, ai: true },
+  // 'chat' view temporarily removed from the UI — needs more refinement before
+  // we reintroduce it. ChatView/useChat and the backend stay in place.
 ]
 
 export function ViewToggleBar() {

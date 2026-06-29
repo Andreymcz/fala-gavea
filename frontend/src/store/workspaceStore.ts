@@ -1,7 +1,9 @@
 import { create } from 'zustand'
 import type { WorkspaceFilters, ReportFilters, UserRole } from '@/lib/types'
 
-export type ViewId = 'map' | 'table' | 'keywords' | 'similars' | 'chat' | 'cesta'
+// 'chat' is intentionally omitted — the Chat view is hidden from the UI for now
+// (pending refinement). ChatView/useChat remain in the codebase.
+export type ViewId = 'map' | 'table' | 'keywords' | 'similars' | 'cesta'
 
 const FILTER_KEYS: (keyof WorkspaceFilters)[] = [
   'urgency', 'status', 'type_id', 'author_id', 'since', 'until', 'bbox', 'semanticQuery',
