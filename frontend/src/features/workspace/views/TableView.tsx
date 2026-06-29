@@ -262,7 +262,7 @@ export function TableView() {
   }
 
   return (
-    <div className="flex-1 flex flex-col overflow-hidden">
+    <div className="flex-1 flex flex-col overflow-hidden min-h-0">
       {/* Controls row */}
       <div className="flex items-center justify-between px-3 py-1 border-b border-gray-100">
         <span className="text-xs text-gray-500">
@@ -278,7 +278,7 @@ export function TableView() {
       </div>
 
       {/* Table */}
-      <div className="flex-1 overflow-auto">
+      <div className="flex-1 overflow-auto min-h-0">
         <Table>
           <TableHeader>
             <TableRow>
