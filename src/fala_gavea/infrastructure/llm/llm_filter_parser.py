@@ -1,7 +1,11 @@
 from __future__ import annotations
 import json
 import logging
-from fala_gavea.domain.repositories.filter_ports import IFilterParser, ParseError
+from fala_gavea.domain.repositories.filter_ports import (
+    FilterParseContext,
+    IFilterParser,
+    ParseError,
+)
 from fala_gavea.domain.repositories.semantic_ports import ILLMClient
 
 _log = logging.getLogger(__name__)
@@ -20,13 +24,38 @@ Retorne SOMENTE um objeto JSON válido com zero ou mais dos campos abaixo (omita
 Não inclua explicações. Retorne apenas JSON."""
 
 
+def _build_system_prompt(context: FilterParseContext | None) -> str:
+    """Append runtime grounding (report-type catalog + today's date) to the prompt."""
+    if context is None:
+        return _SYSTEM_PROMPT
+    sections = [_SYSTEM_PROMPT]
+    if context.today is not None:
+        sections.append(
+            f"\nA data de hoje é {context.today.isoformat()}. "
+            "Resolva expressões relativas em relação a ela: por exemplo, "
+            f'"últimos 30 dias" significa since = {context.today.isoformat()} menos 30 dias '
+            f"e until = {context.today.isoformat()}. Use sempre datas no formato YYYY-MM-DD."
+        )
+    if context.report_types:
+        catalog = "\n".join(f'  - "{rt_id}" = {name}' for rt_id, name in context.report_types)
+        sections.append(
+            "\nTipos de relato disponíveis (use SOMENTE estes IDs em report_type_ids, "
+            "nunca o nome nem um ID inventado):\n"
+            f"{catalog}\n"
+            "Faça a correspondência pelo significado do texto. Se nenhum tipo se "
+            "encaixar, omita report_type_ids."
+        )
+    return "\n".join(sections)
+
+
 class LLMFilterParser(IFilterParser):
     def __init__(self, llm_client: ILLMClient) -> None:
         self._llm = llm_client
 
-    def parse(self, text: str) -> dict:
+    def parse(self, text: str, context: FilterParseContext | None = None) -> dict:
         _log.debug("LLMFilterParser.parse input=%r", text)
-        raw = self._llm.complete_with_timeout(_SYSTEM_PROMPT, [{"role": "user", "content": text}], timeout_s=30.0)
+        system_prompt = _build_system_prompt(context)
+        raw = self._llm.complete_with_timeout(system_prompt, [{"role": "user", "content": text}], timeout_s=30.0)
         _log.debug("LLMFilterParser raw response=%r", raw)
         result, warnings = self._try_parse(raw)
         if result is not None:
@@ -38,7 +67,7 @@ class LLMFilterParser(IFilterParser):
             f"O JSON anterior estava malformado: {raw!r}\n"
             "Retorne apenas o JSON válido, sem nenhum texto extra."
         )
-        raw2 = self._llm.complete_with_timeout(_SYSTEM_PROMPT, [
+        raw2 = self._llm.complete_with_timeout(system_prompt, [
             {"role": "user", "content": text},
             {"role": "assistant", "content": raw},
             {"role": "user", "content": repair_prompt},

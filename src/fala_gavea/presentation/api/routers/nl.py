@@ -22,6 +22,7 @@ from fala_gavea.presentation.api.dependencies import (
     get_filter_parser,
     get_llm_client,
     get_report_repo,
+    get_report_type_repo,
     get_semantic_search_port,
     require_any_role,
 )
@@ -117,8 +118,9 @@ def nl_filter(
     body: NLFilterRequest,
     _current_user: User = Depends(require_any_role("agent", "admin", "citizen")),
     filter_parser=Depends(get_filter_parser),
+    report_type_repo=Depends(get_report_type_repo),
 ) -> NLFilterResponse:
-    use_case = ParseNLFilter(filter_parser)
+    use_case = ParseNLFilter(filter_parser, report_type_repo)
     try:
         result = use_case.execute(body.text)
     except httpx.TimeoutException:
