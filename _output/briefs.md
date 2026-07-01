@@ -1,5 +1,7 @@
 # Briefs Log
 
+DONE | 2026-07-01 15:06 UTC | STARTED | 2026-07-01 15:01 UTC | research | conteudo sensivel nos artefatos SEJA deste repositorio (refs a conversas privadas de whatsapp, nomes que identifiquem pessoas: Andrey, Mauro, Natali, Julia, Sheila, Herbert)
+
 DONE | 2026-07-01 14:18 UTC | STARTED | 2026-07-01 14:15 UTC | communicate | escrever seção do relatório final (\subsubsection fala,Gávea!) com overview e métricas do desenvolvimento, do início ao estado atual
 
 DONE | 2026-06-29 11:45 UTC | STARTED | 2026-06-29 11:35 UTC | communicate | implementation / feature timeline for this project, from first commit to now, based on DONE plans and their ordering, backed by researches and reflections — a document for the course professors
